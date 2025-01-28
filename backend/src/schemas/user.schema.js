@@ -1,12 +1,6 @@
 import { z } from 'zod'
 
 export const userSchema = z.object({
-  username: z.string({
-    invalid_type_error: 'Username must be a string',
-    required_error: 'Username is required',
-  }).min(4).max(15)
-    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers and underscores'),
-
   email: z.string({
     invalid_type_error: 'Email must be a string',
     required_error: 'Email is required',
@@ -21,9 +15,9 @@ export const userSchema = z.object({
 })
 
 export const loginSchema = z.object({
-  credential: z.string({
-    invalid_type_error: 'Username or email must be a string',
-    required_error: 'Username or email is required',
+  email: z.string({
+    invalid_type_error: 'Email must be a string',
+    required_error: 'Email is required',
   }),
 
   password: z.string({
