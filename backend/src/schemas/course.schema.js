@@ -1,11 +1,6 @@
 import { z } from 'zod'
 
 export const courseSchema = z.object({
-  user_id: z.string({
-    invalid_type_error: 'User ID must be a string',
-    required_error: 'User ID is required',
-  }).uuid('User ID must be a valid UUID'),
-
   course_name: z.string({
     invalid_type_error: 'Course name must be a string',
     required_error: 'Course name is required',
