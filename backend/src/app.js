@@ -3,14 +3,14 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import { createApiRouter } from './routes/apiRoutes.js'
 
-export const createApp = ({userModel}) => {
+export const createApp = ({ userModel, courseModel }) => {
     dotenv.config()
     const app = express()
 
     app.use(cors())
     app.use(express.json())
 
-    app.use('/api/v1', createApiRouter({userModel}))
+    app.use('/api/v1', createApiRouter({ userModel, courseModel }))
 
     app.get("/", (req, res) => {
         res.send("Welcome to the Horarius API!")
