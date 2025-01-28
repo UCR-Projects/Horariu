@@ -7,8 +7,8 @@ export const createUsersRouter = ({ userModel }) => {
     const userController = new UserController({ userModel })
 
     usersRouter.post('/register', userController.register)
-    usersRouter.post('/register', userController.login)
-    usersRouter.post('/google-auth', userController.googleAuth)
+    usersRouter.post('/login', userController.login)
+    // usersRouter.post('/google-auth', userController.googleAuth)
 
     return usersRouter
 }
