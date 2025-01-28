@@ -6,8 +6,12 @@ export const createCoursesRouter = ({ courseModel }) => {
 
     const coursesRouter = Router()
     const courseController = new CourseController({ courseModel })
+    coursesRouter.use(authenticateUser)
 
-    coursesRouter.post('/', authenticateUser, courseController.registerCourse)
+    coursesRouter.post('/', courseController.registerCourse)
+    coursesRouter.get('/', courseController.getCourses)
+    
+
 
     return coursesRouter
 }
