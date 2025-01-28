@@ -1,4 +1,4 @@
-import { validateCourse } from "../schemas/course.schema.js"
+import { validateCourse, validateGetCourse } from "../schemas/course.schema.js"
 
 export class CourseController {
     constructor({ courseModel }) {
@@ -24,6 +24,26 @@ export class CourseController {
             return res.status(201).json({ message: 'Course registered successfully', newCourse })
         } catch (error) {
             console.error('[registerCourse]:', error.message)
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }
+
+    getCourses = async (req, res) => {
+        try {
+            const result = await validateGetCourse(req.user)
+            if (!result.success) {
+                return res.status(422).json({ errors: JSON.parse(result.error.message) })
+            }
+
+            const { user_id } = result.data
+            const courses = await this.courseModel.getCourses({ user_id: user_id })
+
+            if (!courses) {
+                return res.status(404).json({ message: 'User courses not found' })
+            }
+            return res.json({ courses })
+        } catch (error) {
+            console.error('[getCourses]:', error.message)
             return res.status(500).json({ message: 'Internal server error' })
         }
     }
