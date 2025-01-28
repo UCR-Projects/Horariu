@@ -1,4 +1,4 @@
-import { validateCourse, validateGetCourse } from "../schemas/course.schema.js"
+import { validateCourse, validateGetCourses } from "../schemas/course.schema.js"
 
 export class CourseController {
     constructor({ courseModel }) {
@@ -30,7 +30,7 @@ export class CourseController {
 
     getCourses = async (req, res) => {
         try {
-            const result = await validateGetCourse(req.user)
+            const result = await validateGetCourses(req.user)
             if (!result.success) {
                 return res.status(422).json({ errors: JSON.parse(result.error.message) })
             }
