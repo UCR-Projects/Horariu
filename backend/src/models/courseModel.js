@@ -24,5 +24,19 @@ export class CourseModel {
         throw error
       }
     }
+
+    async getCourses({ user_id }) {
+        const [courses] = await this.db.query(
+            `SELECT course_name, day, start_time, end_time, course_code, classroom, building
+             FROM user_courses
+             WHERE user_id = ?`,
+            [user_id]
+        )
+
+        if (courses.length === 0) {
+          return null
+        }
+        return courses
+    }
   }
   
