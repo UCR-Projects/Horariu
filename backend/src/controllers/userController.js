@@ -12,9 +12,6 @@ export class UserController {
             if (!result.success) {
                 return res.status(422).json({ errors: JSON.parse(result.error.message) })
             }
-            if (await this.userModel.usernameExists(result.data)) {
-                return res.status(409).json({ message: 'Username already exists' })
-              }
             if (await this.userModel.emailExists(result.data)) {
             return res.status(409).json({ message: 'Email already exists' })
             }
