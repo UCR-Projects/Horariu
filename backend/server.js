@@ -1,12 +1,13 @@
-import dotenv from 'dotenv'
-import { createApp } from './src/app.js'
+import { createApp, startApp } from './src/app.js'
+import { pool } from './src/config/database.js'
+import { UserModel } from './src/models/userModel.js'
 
-dotenv.config()
+const userModel = new UserModel(pool)
 
-const PORT = process.env.PORT || 5000
+const app = createApp({ userModel })
 
-const app = createApp()
-
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`)
-})
+try {
+  await startApp(app)
+} catch (error) {
+  console.error('Error starting the server', error)
+}
