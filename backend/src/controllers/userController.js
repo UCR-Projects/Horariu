@@ -13,13 +13,13 @@ export class UserController {
                 return res.status(422).json({ errors: JSON.parse(result.error.message) })
             }
             if (await this.userModel.emailExists(result.data)) {
-            return res.status(409).json({ message: 'Email already exists' })
+                return res.status(409).json({ message: 'Email already exists' })
             }
             const newUser = await this.userModel.create(result.data)
             const token = signToken(newUser)
             return res.status(201).json({ message: 'User created successfully', token })
         } catch (error) {
-            console.error('[register]:', error.message)
+            console.error('[registerUser]:', error.message)
             return res.status(500).json({ message: 'Internal server error' })
         }
     }
@@ -37,7 +37,7 @@ export class UserController {
             const token = signToken(user)
             return res.status(201).json({ message: 'Login successful', token })
         } catch (error) {
-            console.error('[login]:', error.message)
+            console.error('[loginUser]:', error.message)
             return res.status(500).json({ message: 'Internal server error' })
         }
     }
