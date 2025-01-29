@@ -33,3 +33,9 @@ export async function validateUser(user) {
 export async function validateLogin(login) {
   return loginSchema.safeParseAsync(login)
 }
+
+export async function validateUserId(user) {
+  return z.object({
+    user_id: z.string()
+  }).safeParseAsync(user)
+}

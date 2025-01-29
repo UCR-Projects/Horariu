@@ -40,13 +40,12 @@ export const courseSchema = z.object({
   }).max(50, 'Building cannot exceed 50 characters').optional(),
 })
 
-
-export async function validateGetCourses(data) {
-  return z.object({
-    user_id: z.string()
-  }).safeParseAsync(data)
-}
+export const updateCourseSchema = courseSchema.partial()
 
 export async function validateCourse(course) {
   return courseSchema.safeParseAsync(course)
+}
+
+export async function validateUpdateCourse(course) {
+  return updateCourseSchema.safeParseAsync(course)
 }
