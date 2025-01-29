@@ -77,5 +77,22 @@ export class CourseModel {
 			throw error
 		}
     }
-  }
+
+    async deleteCourse(identifiers) {
+        const { user_id, course_name, day, start_time } = identifiers
+    
+        try {
+            const [result] = await this.db.query(
+                `DELETE FROM user_courses
+                 WHERE user_id = ? AND course_name = ? AND day = ? AND start_time = ?`,
+                [user_id, course_name, day, start_time]
+            )
+    
+            return result.affectedRows > 0
+        } catch (error) {
+            console.error("[deleteCourse]: Error deleting course", error)
+            throw error
+        }
+    }
+}
   
