@@ -40,6 +40,15 @@ export const courseSchema = z.object({
   }).max(50, 'Building cannot exceed 50 characters').optional(),
 })
 
+export const courseParamsSchema = z.object({
+  course_name: z.string().min(1, "Course name cannot be empty"),
+  day: z.enum(["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]),
+  start_time: z.string().regex(
+      /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/,
+      "Start time must be in the format HH:mm:ss"
+  )
+})
+
 export const updateCourseSchema = courseSchema.partial()
 
 export async function validateCourse(course) {
@@ -48,4 +57,8 @@ export async function validateCourse(course) {
 
 export async function validateUpdateCourse(course) {
   return updateCourseSchema.safeParseAsync(course)
+}
+
+export async function validateCourseParams(params) {
+  return courseParamsSchema.safeParseAsync(params)
 }
