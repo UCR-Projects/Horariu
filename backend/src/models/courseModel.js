@@ -47,5 +47,35 @@ export class CourseModel {
         )
         return course[0] || null
     }
+
+	async updateCourse(identifiers, updates) {
+		const { user_id, course_name, day, start_time } = identifiers
+
+		if (Object.keys(updates).length === 0) {
+			throw new Error("No fields provided for update")
+		}
+
+		const fields = Object.keys(updates)
+        .map((key) => `${key} = ?`)
+        .join(", ")
+	
+    	const values = Object.values(updates)
+
+		try {
+			const [result] = await this.db.query(
+				`UPDATE user_courses
+				 SET ${fields}
+				 WHERE user_id = ? AND course_name = ? AND day = ? AND start_time = ?`,
+				[...values, user_id, course_name, day, start_time]
+			)
+			if (result.affectedRows === 0) {
+				return null
+			}
+			return { course_name, day, start_time, ...updates }
+		} catch (error) {
+			console.error(`[updateCourse]: Error updating course`, error)
+			throw error
+		}
+    }
   }
   
