@@ -32,11 +32,20 @@ export class CourseModel {
              WHERE user_id = ?`,
             [user_id]
         )
-
         if (courses.length === 0) {
           return null
         }
         return courses
+    }
+
+	async getCourse({ user_id, course_name, day, start_time }) {
+        const [course] = await this.db.query(
+            `SELECT course_name, day, start_time, end_time, course_code, classroom, building
+             FROM user_courses
+             WHERE user_id = ? AND course_name = ? AND day = ? AND start_time = ?`,
+            [user_id, course_name, day, start_time]
+        )
+        return course[0] || null
     }
   }
   
