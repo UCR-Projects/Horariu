@@ -10,6 +10,8 @@ export const createCoursesRouter = ({ courseModel }) => {
 
     coursesRouter.post('/', courseController.registerCourse)
     coursesRouter.get('/', courseController.getCourses)
+    coursesRouter.get('/:course_name/:day/:start_time', courseController.getCourse)
+
     
 
 
