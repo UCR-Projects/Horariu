@@ -1,4 +1,5 @@
-import { validateCourse, validateGetCourses } from "../schemas/course.schema.js"
+import { validateCourse, validateUpdateCourse } from "../schemas/course.schema.js"
+import { validateUserId } from "../schemas/user.schema.js"
 
 export class CourseController {
     constructor({ courseModel }) {
@@ -7,14 +8,14 @@ export class CourseController {
 
     registerCourse = async (req, res) => {
         try {
-            const result = await validateCourse(req.body)
-            if (!result.success) {
-                return res.status(422).json({ errors: JSON.parse(result.error.message) })
+            const courseValid = await validateCourse(req.body)
+            if (!courseValid.success) {
+                return res.status(422).json({ errors: JSON.parse(courseValid.error.message) })
             }
             if (!req.user || !req.user.user_id) {
                 return res.status(401).json({ message: 'User ID is missing from authentication' })
             }
-            const courseData = { ...result.data, user_id: req.user.user_id }
+            const courseData = { ...courseValid.data, user_id: req.user.user_id }
             const newCourse = await this.courseModel.addCourse(courseData)
 
             if (newCourse.error) {
@@ -30,12 +31,12 @@ export class CourseController {
 
     getCourses = async (req, res) => {
         try {
-            const result = await validateGetCourses(req.user)
-            if (!result.success) {
-                return res.status(422).json({ errors: JSON.parse(result.error.message) })
+            const userValid = await validateUserId(req.user)
+            if (!userValid.success) {
+                return res.status(422).json({ errors: JSON.parse(userValid.error.message) })
             }
 
-            const { user_id } = result.data
+            const { user_id } = userValid.data
             const courses = await this.courseModel.getCourses({ user_id: user_id })
 
             if (!courses) {
@@ -50,12 +51,16 @@ export class CourseController {
 
     getCourse = async (req, res) => {
         try {
-            const result = await validateGetCourses(req.user)
-            if (!result.success) {
-                return res.status(422).json({ errors: JSON.parse(result.error.message) })
-            }
+
             const { course_name, day, start_time } = req.params
-            const { user_id } = result.data
+            if (!course_name || !day || !start_time) {
+                return res.status(400).json({ message: "Missing required parameters" })
+            }
+            const userValid = await validateUserId(req.user)
+            if (!userValid.success) {
+                return res.status(422).json({ errors: JSON.parse(userValid.error.message) })
+            }
+            const { user_id } = userValid.data
             const course = await this.courseModel.getCourse({ user_id: user_id, course_name: course_name, day: day, start_time: start_time })
             if (!course) {
                 return res.status(404).json({ message: 'User course not found' })
@@ -63,6 +68,47 @@ export class CourseController {
             return res.json( course )
         } catch (error) {
             console.error('[getCourse]:', error.message)
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }
+
+    updateCourse = async (req, res) => {
+        try {
+            const { course_name, day, start_time } = req.params
+            if (!course_name || !day || !start_time) {
+                return res.status(400).json({ message: "Missing required parameters" })
+            }
+            const userValid = await validateUserId(req.user)
+            if (!userValid.success) {
+                return res.status(401).json({ message: "Unauthorized user" })
+            }
+            const updateValid = await validateUpdateCourse(req.body)
+            if (!updateValid.success) {
+                return res.status(422).json({ errors: JSON.parse(updateValid.error.message) })
+            }
+            const { user_id } = userValid.data
+            const updateData = updateValid.data
+
+            const updatedCourse = await this.courseModel.updateCourse({ user_id, course_name, day, start_time }, updateData)
+            if (!updatedCourse) {
+                return res.status(404).json({ message: 'User course not found' })
+            }
+
+            const updatedFieldsMessage = Object.keys(updateData)
+                .map((field) => `${field} updated successfully`)
+                .join(", ")
+
+            return res.json({
+                message: updatedFieldsMessage,
+                data: {
+                    course_name,
+                    day,
+                    start_time,
+                    ...updateData
+                }
+            })
+        } catch (error) {
+            console.error('[updateCourse]:', error.message)
             return res.status(500).json({ message: 'Internal server error' })
         }
     }
