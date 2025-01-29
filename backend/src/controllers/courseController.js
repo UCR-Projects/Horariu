@@ -47,4 +47,23 @@ export class CourseController {
             return res.status(500).json({ message: 'Internal server error' })
         }
     }
+
+    getCourse = async (req, res) => {
+        try {
+            const result = await validateGetCourses(req.user)
+            if (!result.success) {
+                return res.status(422).json({ errors: JSON.parse(result.error.message) })
+            }
+            const { course_name, day, start_time } = req.params
+            const { user_id } = result.data
+            const course = await this.courseModel.getCourse({ user_id: user_id, course_name: course_name, day: day, start_time: start_time })
+            if (!course) {
+                return res.status(404).json({ message: 'User course not found' })
+            }
+            return res.json( course )
+        } catch (error) {
+            console.error('[getCourse]:', error.message)
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }
 }
