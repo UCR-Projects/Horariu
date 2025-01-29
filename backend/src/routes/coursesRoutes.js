@@ -12,6 +12,7 @@ export const createCoursesRouter = ({ courseModel }) => {
     coursesRouter.get('/', courseController.getCourses)
     coursesRouter.get('/:course_name/:day/:start_time', courseController.getCourse)
     coursesRouter.patch("/:course_name/:day/:start_time", courseController.updateCourse)
+    coursesRouter.delete("/:course_name/:day/:start_time", courseController.deleteCourse)
     
     return coursesRouter
 }
