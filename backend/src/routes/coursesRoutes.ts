@@ -1,8 +1,13 @@
 import { Router } from 'express'
-import { CourseController } from '../controllers/courseController.js'
-import { authenticateUser } from '../middlewares/auth.js'
+import { CourseController } from '../controllers/courseController'
+import { authenticateUser } from '../middlewares/auth'
+import { CourseModel } from '../models/courseModel'
 
-export const createCoursesRouter = ({ courseModel }) => {
+interface CoursesRouterParams{
+    courseModel: CourseModel
+}
+
+export const createCoursesRouter = ({ courseModel }: CoursesRouterParams): Router => {
 
     const coursesRouter = Router()
     const courseController = new CourseController({ courseModel })
