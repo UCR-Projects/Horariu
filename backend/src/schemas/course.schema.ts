@@ -51,14 +51,14 @@ export const courseParamsSchema = z.object({
 
 export const updateCourseSchema = courseSchema.partial()
 
-export async function validateCourse(course) {
+export async function validateCourse(course: unknown) {
   return courseSchema.safeParseAsync(course)
 }
 
-export async function validateUpdateCourse(course) {
+export async function validateUpdateCourse(course: unknown) {
   return updateCourseSchema.safeParseAsync(course)
 }
 
-export async function validateCourseParams(params) {
+export async function validateCourseParams(params: unknown) {
   return courseParamsSchema.safeParseAsync(params)
 }
