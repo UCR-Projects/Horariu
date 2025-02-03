@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
-      - uses: actions/checkout@v4 # Clones the repository with just latest commit 
+      - uses: actions/checkout@v4 # Clones the repository with just latest commit
         with:
           fetch-depth: 0
 
@@ -55,9 +55,6 @@ jobs:
         run: npm ci --no-audit --no-fund
         working-directory: backend
 
-      - name: Build code
-        run: npm run build
-        working-directory: backend
         
 # TODO: Tests
 # TODO: Deploy in some service
