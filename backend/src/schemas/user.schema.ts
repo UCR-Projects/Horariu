@@ -3,12 +3,12 @@ import { z } from 'zod'
 export const userSchema = z.object({
   email: z.string({
     invalid_type_error: 'Email must be a string',
-    required_error: 'Email is required',
+    required_error: 'Email is required'
   }).email('Invalid email format'),
 
   password: z.string({
     invalid_type_error: 'Password must be a string',
-    required_error: 'Password is required',
+    required_error: 'Password is required'
   }).min(8).max(20)
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[0-9]/, 'Password must contain at least one number')
@@ -17,27 +17,27 @@ export const userSchema = z.object({
 export const loginSchema = z.object({
   email: z.string({
     invalid_type_error: 'Email must be a string',
-    required_error: 'Email is required',
+    required_error: 'Email is required'
   }),
 
   password: z.string({
     invalid_type_error: 'Password must be a string',
-    required_error: 'Password is required',
+    required_error: 'Password is required'
   })
 })
 
 export const userIdSchema = z.object({
-  user_id: z.string(),
+  user_id: z.string()
 })
 
-export async function validateUser(user: unknown) {
+export async function validateUser (user: unknown) {
   return userSchema.safeParseAsync(user)
 }
 
-export async function validateLogin(login: unknown) {
+export async function validateLogin (login: unknown) {
   return loginSchema.safeParseAsync(login)
 }
 
-export async function validateUserId(user: unknown) {
+export async function validateUserId (user: unknown) {
   return userIdSchema.safeParseAsync(user)
 }

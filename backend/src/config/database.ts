@@ -13,12 +13,11 @@ interface DatabaseConfig extends PoolOptions {
 }
 
 const getDatabaseConfig = (): DatabaseConfig => {
-
-  const requiredEnvVars = ["DB_HOST", "DB_USER", "DB_PASSWORD", "DB_NAME", "DB_PORT"];
-  const missingVars = requiredEnvVars.filter((key) => !process.env[key]);
+  const requiredEnvVars = ['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME', 'DB_PORT']
+  const missingVars = requiredEnvVars.filter((key) => !process.env[key])
 
   if (missingVars.length > 0) {
-    throw new Error(`Environment variables missing for the database configuration: ${missingVars.join(", ")}`)
+    throw new Error(`Environment variables missing for the database configuration: ${missingVars.join(', ')}`)
   }
 
   return {

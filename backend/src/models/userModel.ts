@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { Pool, RowDataPacket } from "mysql2/promise"
+import { Pool, RowDataPacket } from 'mysql2/promise'
 
 interface UserCredentials {
   email: string
@@ -23,16 +23,16 @@ interface UserRecord extends RowDataPacket {
 export class UserModel {
   private db: Pool
 
-  constructor(db: Pool) {
+  constructor (db: Pool) {
     this.db = db
   }
 
-  async create({ email, password }: UserCredentials): Promise<{ id: string; email: string }> {
+  async create ({ email, password }: UserCredentials): Promise<{ id: string; email: string }> {
     try {
       let hashedPass = null
 
       if (password) {
-        hashedPass = await bcrypt.hash(password, parseInt(process.env.SALT_ROUNDS || "10", 10))
+        hashedPass = await bcrypt.hash(password, parseInt(process.env.SALT_ROUNDS || '10', 10))
       }
 
       await this.db.query('START TRANSACTION')
@@ -41,19 +41,18 @@ export class UserModel {
         [email, hashedPass]
       )
 
-      const [userIdQuery] = await this.db.query<UserIdRecord[]>( 'SELECT id FROM users WHERE email = ?', [email])
+      const [userIdQuery] = await this.db.query<UserIdRecord[]>('SELECT id FROM users WHERE email = ?', [email])
 
       await this.db.query('COMMIT')
 
       return { id: userIdQuery[0].id, email }
-
     } catch (error) {
       await this.db.query('ROLLBACK')
       throw error
     }
   }
 
-  async emailExists({ email }: { email: string }): Promise<boolean> {
+  async emailExists ({ email }: { email: string }): Promise<boolean> {
     const [emailQuery] = await this.db.query<CountRecord[]>(
       'SELECT COUNT(*) as count FROM users WHERE email = ?',
       [email]
@@ -61,7 +60,7 @@ export class UserModel {
     return emailQuery.length > 0 && emailQuery[0].count > 0
   }
 
-  async verifyCredentials({ email, password }: UserCredentials): Promise<{ id: string; email: string } | null> {
+  async verifyCredentials ({ email, password }: UserCredentials): Promise<{ id: string; email: string } | null> {
     const [userQuery] = await this.db.query<UserRecord[]>(
       'SELECT id, email, password FROM users WHERE email = ?',
       [email]
