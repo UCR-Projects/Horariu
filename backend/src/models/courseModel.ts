@@ -66,10 +66,12 @@ export class CourseModel {
               end_time: courseData.end_time
             }
       }
-    } catch (error: any) {
+    } catch (error) {
       await this.db.query('ROLLBACK')
-      if (error.code === 'ER_DUP_ENTRY') {
-        return { error: `You already have "${courseData.course_name}" scheduled on ${courseData.day} at ${courseData.start_time}.` }
+      if (typeof error === 'object' && error !== null && 'code' in error && typeof (error as { code: unknown }).code === 'string') {
+        if (error.code === 'ER_DUP_ENTRY') {
+          return { error: `You already have "${courseData.course_name}" scheduled on ${courseData.day} at ${courseData.start_time}.` }
+        }
       }
       throw error
     }

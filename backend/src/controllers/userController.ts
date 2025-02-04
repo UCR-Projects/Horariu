@@ -14,46 +14,50 @@ export class UserController {
     this.userModel = userModel
   }
 
-  register = async (req: Request, res: Response): Promise<any> => {
+  register = async (req: Request, res: Response): Promise<void> => {
     try {
       const result = await validateUser(req.body)
       if (!result.success) {
-        return res.status(422).json({ errors: JSON.parse(result.error.message) })
+        res.status(422).json({ errors: JSON.parse(result.error.message) })
+        return
       }
 
       const emailExists = await this.userModel.emailExists(result.data)
       if (emailExists) {
-        return res.status(409).json({ message: 'Email already exists' })
+        res.status(409).json({ message: 'Email already exists' })
+        return
       }
 
       const newUser = await this.userModel.create(result.data)
       const token = signToken(newUser)
 
-      return res.status(201).json({ message: 'User created successfully', token })
+      res.status(201).json({ message: 'User created successfully', token })
     } catch (error) {
       console.error('[registerUser]:', (error as Error).message)
-      return res.status(500).json({ message: 'Internal server error' })
+      res.status(500).json({ message: 'Internal server error' })
     }
   }
 
-  login = async (req: Request, res: Response): Promise<any> => {
+  login = async (req: Request, res: Response): Promise<void> => {
     try {
       const result = await validateLogin(req.body)
       if (!result.success) {
-        return res.status(422).json({ errors: JSON.parse(result.error.message) })
+        res.status(422).json({ errors: JSON.parse(result.error.message) })
+        return
       }
       const user = await this.userModel.verifyCredentials(result.data)
 
       if (!user) {
-        return res.status(401).json({ message: 'Invalid credentials' })
+        res.status(401).json({ message: 'Invalid credentials' })
+        return
       }
 
       const token = signToken(user)
 
-      return res.status(201).json({ message: 'Login successful', token })
+      res.status(201).json({ message: 'Login successful', token })
     } catch (error) {
       console.error('[loginUser]:', (error as Error).message)
-      return res.status(500).json({ message: 'Internal server error' })
+      res.status(500).json({ message: 'Internal server error' })
     }
   }
 }
