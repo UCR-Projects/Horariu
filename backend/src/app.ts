@@ -1,5 +1,6 @@
 import express, { Express } from 'express'
 import cors from 'cors'
+import morgan from 'morgan'
 import { createApiRouter } from './routes/apiRoutes'
 import { UserModel } from './models/userModel'
 import { CourseModel } from './models/courseModel'
@@ -12,6 +13,8 @@ interface AppModels {
 
 export const createApp = ({ userModel, courseModel }: AppModels): Express => {
   const app = express()
+
+  app.use(morgan('combined'))
 
   app.use(cors())
   app.use(express.json())
