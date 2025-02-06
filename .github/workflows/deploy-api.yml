@@ -1,15 +1,19 @@
-name: Deployment Pipeline
+name: Deploy API
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'backend/**'
   pull_request:
     branches:
       - main
     types:
       - opened
       - synchronize
+    paths:
+      - 'backend/**'
 
 concurrency:
   group: ci-${{ github.ref }} # This will make sure that only one workflow runs at a time
