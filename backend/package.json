@@ -12,10 +12,10 @@
     "watch": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts",
 
     "migrate:generate": "npx drizzle-kit generate --config=src/drizzle.config.ts",
-    "migrate:push": "npx drizzle-kit push --config=src/drizzle.config.ts",
-    "migrate:up": "npx drizzle-kit up --config=src/drizzle.config.ts",
-    "migrate:studio": "npx drizzle-kit studio --config=src/drizzle.config.ts",
-    "migrate:introspect": "npx drizzle-kit introspect --config=src/drizzle.config.ts"
+    "migrate:migrate": "npx drizzle-kit migrate --config=src/drizzle.config.ts",
+    "migrate:check": "npx drizzle-kit check --config=src/drizzle.config.ts",
+    "migrate:export": "npx drizzle-kit export --config=src/drizzle.config.ts",
+    "migrate:studio": "npx drizzle-kit studio --config=src/drizzle.config.ts"
   },
   "keywords": [],
   "author": "",
