@@ -26,18 +26,10 @@ export const loginSchema = z.object({
   })
 })
 
-export const userIdSchema = z.object({
-  user_id: z.string()
-})
-
 export async function validateUser (user: unknown) {
   return userSchema.safeParseAsync(user)
 }
 
 export async function validateLogin (login: unknown) {
   return loginSchema.safeParseAsync(login)
-}
-
-export async function validateUserId (user: unknown) {
-  return userIdSchema.safeParseAsync(user)
 }
