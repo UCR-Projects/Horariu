@@ -1,0 +1,2 @@
+ALTER TABLE "courses" DROP CONSTRAINT "courses_userId_courseName_day_startTime_endTime_pk";--> statement-breakpoint
+ALTER TABLE "courses" ADD CONSTRAINT "courses_userId_courseName_day_startTime_groupNumber_pk" PRIMARY KEY("userId","courseName","day","startTime","groupNumber");
