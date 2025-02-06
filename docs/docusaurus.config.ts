@@ -20,6 +20,8 @@ const config: Config = {
   organizationName: 'gqbo', // Usually your GitHub org/user name.
   projectName: 'Horariu', // Usually your repo name.
 
+  trailingSlash: false,
+
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
