@@ -1,17 +1,13 @@
 import express, { Express } from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
-import { createApiRouter } from './routes/apiRoutes'
-import { UserModel } from './models/userModel'
-import { CourseModel } from './models/courseModel'
+import apiRouter from './routes/apiRoutes'
+import dotenv from 'dotenv'
 import { Server } from 'http'
 
-interface AppModels {
-    userModel: UserModel
-    courseModel: CourseModel
-}
+dotenv.config()
 
-export const createApp = ({ userModel, courseModel }: AppModels): Express => {
+export const createApp = (): Express => {
   const app = express()
 
   app.use(morgan('combined'))
@@ -19,7 +15,7 @@ export const createApp = ({ userModel, courseModel }: AppModels): Express => {
   app.use(cors())
   app.use(express.json())
 
-  app.use('/api/v1', createApiRouter({ userModel, courseModel }))
+  app.use('/api/v1', apiRouter)
 
   app.get('/', (req, res) => {
     res.send('Welcome to the Horarius API!')
@@ -28,7 +24,7 @@ export const createApp = ({ userModel, courseModel }: AppModels): Express => {
   return app
 }
 
-export const startApp = (app: Express, port: number = 3000): Server => {
+export const startApp = (app: Express, port: number = Number(process.env.PORT)): Server => {
   const server = app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`)
   })

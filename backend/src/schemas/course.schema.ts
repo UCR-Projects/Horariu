@@ -1,7 +1,14 @@
 import { z } from 'zod'
 
+export const courseDetailsSchema = z.object({
+  professor: z.string().optional(),
+  courseCode: z.string().max(20, 'Course code cannot exceed 20 characters').optional(),
+  classroom: z.string().max(50, 'Classroom cannot exceed 50 characters').optional(),
+  building: z.string().max(50, 'Building cannot exceed 50 characters').optional()
+}).strict()
+
 export const courseSchema = z.object({
-  course_name: z.string({
+  courseName: z.string({
     invalid_type_error: 'Course name must be a string',
     required_error: 'Course name is required'
   }).min(1, 'Course name cannot be empty').max(255, 'Course name cannot exceed 255 characters'),
@@ -11,7 +18,7 @@ export const courseSchema = z.object({
     required_error: 'Day is required'
   }),
 
-  start_time: z.string({
+  startTime: z.string({
     invalid_type_error: 'Start time must be a string',
     required_error: 'Start time is required'
   }).regex(
@@ -19,7 +26,7 @@ export const courseSchema = z.object({
     'Start time must be in the format HH:mm:ss'
   ),
 
-  end_time: z.string({
+  endTime: z.string({
     invalid_type_error: 'End time must be a string',
     required_error: 'End time is required'
   }).regex(
@@ -27,25 +34,23 @@ export const courseSchema = z.object({
     'End time must be in the format HH:mm:ss'
   ),
 
-  course_code: z.string({
-    invalid_type_error: 'Course code must be a string'
-  }).max(20, 'Course code cannot exceed 20 characters').optional(),
+  groupNumber: z.number({
+    invalid_type_error: 'Group number must be a number'
+  }).min(1, 'Group number must be at least 1'),
 
-  classroom: z.string({
-    invalid_type_error: 'Classroom must be a string'
-  }).max(50, 'Classroom cannot exceed 50 characters').optional(),
-
-  building: z.string({
-    invalid_type_error: 'Building must be a string'
-  }).max(50, 'Building cannot exceed 50 characters').optional()
+  courseDetails: courseDetailsSchema.optional()
 })
 
 export const courseParamsSchema = z.object({
-  course_name: z.string().min(1, 'Course name cannot be empty'),
+  courseName: z.string().min(1, 'Course name cannot be empty'),
   day: z.enum(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']),
-  start_time: z.string().regex(
+  startTime: z.string().regex(
     /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/,
     'Start time must be in the format HH:mm:ss'
+  ),
+  groupNumber: z.preprocess(
+    (val) => Number(val),
+    z.number().int().min(1, 'Group number must be at least 1')
   )
 })
 
@@ -61,4 +66,10 @@ export async function validateUpdateCourse (course: unknown) {
 
 export async function validateCourseParams (params: unknown) {
   return courseParamsSchema.safeParseAsync(params)
+}
+
+export async function validateCourseDetails (details: unknown) {
+  if (typeof details !== 'object' || details === null) return {}
+  const parsed = await courseDetailsSchema.safeParseAsync(details)
+  return parsed.success ? parsed.data : {}
 }

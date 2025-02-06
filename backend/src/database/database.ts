@@ -1,10 +1,11 @@
-import mysql, { PoolOptions, Pool } from 'mysql2/promise'
+import { drizzle } from 'drizzle-orm/node-postgres'
+import { Pool } from 'pg'
 import dotenv from 'dotenv'
 
 const envFile = process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
 dotenv.config({ path: envFile })
 
-interface DatabaseConfig extends PoolOptions {
+interface DatabaseConfig {
   host: string;
   user: string;
   password: string;
@@ -25,11 +26,10 @@ const getDatabaseConfig = (): DatabaseConfig => {
     user: process.env.DB_USER as string,
     password: process.env.DB_PASSWORD as string,
     database: process.env.DB_NAME as string,
-    port: Number(process.env.DB_PORT),
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+    port: Number(process.env.DB_PORT)
   }
 }
 
-export const pool: Pool = mysql.createPool(getDatabaseConfig())
+const pool = new Pool(getDatabaseConfig())
+
+export const db = drizzle(pool)

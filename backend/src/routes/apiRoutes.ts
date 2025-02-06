@@ -1,17 +1,10 @@
 import { Router } from 'express'
-import { createUsersRouter } from './usersRoutes'
-import { createCoursesRouter } from './coursesRoutes'
-import { UserModel } from '../models/userModel'
-import { CourseModel } from '../models/courseModel'
+import usersRouter from './usersRoutes'
+import coursesRouter from './coursesRoutes'
 
-interface ApiRouterParams {
-    userModel: UserModel
-    courseModel: CourseModel
-}
+const apiRouter = Router()
 
-export const createApiRouter = ({ userModel, courseModel }: ApiRouterParams): Router => {
-  const apiRouter = Router()
-  apiRouter.use('/users', createUsersRouter({ userModel }))
-  apiRouter.use('/courses', createCoursesRouter({ courseModel }))
-  return apiRouter
-}
+apiRouter.use('/users', usersRouter)
+apiRouter.use('/courses', coursesRouter)
+
+export default apiRouter
