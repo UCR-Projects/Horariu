@@ -1,106 +1,55 @@
 import { Request, Response } from 'express'
-import { validateCourse, validateUpdateCourse, validateCourseParams } from '../schemas/course.schema'
-import { validateUserId } from '../schemas/user.schema'
-import { CourseModel } from '../models/courseModel'
-
-interface CourseControllerParams {
-  courseModel: CourseModel
-}
-
-interface CourseParams {
-  course_name: string;
-  day: 'Lunes' | 'Martes' | 'Miércoles' | 'Jueves' | 'Viernes' | 'Sábado' | 'Domingo';
-  start_time: string;
-}
-
+import { CourseService } from '../services/CourseService'
 export class CourseController {
-  private courseModel: CourseModel
-
-  constructor ({ courseModel }: CourseControllerParams) {
-    this.courseModel = courseModel
-  }
-
-  private async _validateUser (req: Request, res: Response): Promise<{ user_id: string } | null> {
-    const userValid = await validateUserId(req.user)
-    if (!userValid.success) {
-      res.status(401).json({ errors: userValid.error.message })
-      return null
-    }
-    return userValid.data
-  }
-
-  private async _validateParams (req: Request, res: Response): Promise< CourseParams | null> {
-    const courseValid = await validateCourseParams(req.params)
-    if (!courseValid.success) {
-      res.status(401).json({ errors: courseValid.error.message })
-      return null
-    }
-    return courseValid.data
-  }
-
   registerCourse = async (req: Request, res: Response): Promise<void> => {
     try {
-      const courseValid = await validateCourse(req.body)
-      if (!courseValid.success) {
-        res.status(422).json({ errors: JSON.parse(courseValid.error.message) })
+      const userId = req.user?.userId
+      if (!userId) {
+        res.status(401).json({ message: 'Unauthorized' })
         return
       }
 
-      const user = await this._validateUser(req, res)
-      if (!user) return
-
-      const courseData = { ...courseValid.data, user_id: user.user_id }
-      const newCourse = await this.courseModel.addCourse(courseData)
-
-      if ('error' in newCourse) {
-        res.status(409).json({ message: newCourse.error })
-        return
-      }
-
+      const newCourse = await CourseService.registerCourse(userId, req.body)
       res.status(201).json({ message: 'Course registered successfully', newCourse })
     } catch (error) {
-      console.error('[registerCourse]:', (error as Error).message)
+      console.error('[registerCourse]:', error)
+
+      if (error instanceof Error) {
+        if (error.message.includes('already exists')) {
+          res.status(409).json({ message: error.message })
+          return
+        }
+        res.status(422).json({ message: error.message })
+        return
+      }
       res.status(500).json({ message: 'Internal server error' })
     }
   }
 
   getCourses = async (req: Request, res: Response): Promise<void> => {
     try {
-      const user = await this._validateUser(req, res)
-      if (!user) return
-
-      const courses = await this.courseModel.getCourses({ user_id: user.user_id })
-
-      if (!courses || courses.length === 0) {
-        res.status(200).json({
-          message: 'No courses found for this user',
-          courses: []
-        })
+      const userId = req.user?.userId
+      if (!userId) {
+        res.status(401).json({ message: 'Unauthorized' })
         return
       }
-      res.status(200).json({
-        message: 'Courses retrieved successfully',
-        courses
-      })
+      const courses = await CourseService.getCourses(userId)
+      res.status(200).json({ message: 'Courses retrieved successfully', courses })
     } catch (error) {
-      console.error('[getCourses]:', (error as Error).message)
+      console.error('[getCourses]:', error)
       res.status(500).json({ message: 'Internal server error' })
     }
   }
 
   getCourse = async (req: Request, res: Response): Promise<void> => {
     try {
-      const params = await this._validateParams(req, res)
-      if (!params) return
-
-      const user = await this._validateUser(req, res)
-      if (!user) return
-
-      const course = await this.courseModel.getCourse({ user_id: user.user_id, ...params })
-      if (!course) {
-        res.status(404).json({ message: 'User course not found' })
+      const userId = req.user?.userId
+      if (!userId) {
+        res.status(401).json({ message: 'Unauthorized' })
         return
       }
+
+      const course = await CourseService.getCourse(userId, req.params)
       res.status(200).json({ message: 'Course retrieved successfully', course })
     } catch (error) {
       console.error('[getCourse]:', (error as Error).message)
@@ -110,32 +59,14 @@ export class CourseController {
 
   updateCourse = async (req: Request, res: Response): Promise<void> => {
     try {
-      const params = await this._validateParams(req, res)
-      if (!params) return
-
-      const user = await this._validateUser(req, res)
-      if (!user) return
-
-      const updateValid = await validateUpdateCourse(req.body)
-      if (!updateValid.success) {
-        res.status(422).json({ errors: JSON.parse(updateValid.error.message) })
+      const userId = req.user?.userId
+      if (!userId) {
+        res.status(401).json({ message: 'Unauthorized' })
         return
       }
 
-      const updatedCourse = await this.courseModel.updateCourse({ user_id: user.user_id, ...params }, updateValid.data)
-      if (!updatedCourse) {
-        res.status(404).json({ message: 'User course not found' })
-        return
-      }
-
-      const updatedFieldsMessage = Object.keys(updateValid.data)
-        .map((field) => `${field} updated successfully`)
-        .join(', ')
-
-      res.status(200).json({
-        message: updatedFieldsMessage,
-        data: { ...params, ...updateValid.data }
-      })
+      const updatedCourse = await CourseService.updateCourse(userId, req.params, req.body)
+      res.status(200).json({ message: 'Course updated successfully', updatedCourse })
     } catch (error) {
       console.error('[updateCourse]:', (error as Error).message)
       res.status(500).json({ message: 'Internal server error' })
@@ -144,21 +75,14 @@ export class CourseController {
 
   deleteCourse = async (req: Request, res: Response): Promise<void> => {
     try {
-      const params = await this._validateParams(req, res)
-      if (!params) return
-
-      const user = await this._validateUser(req, res)
-      if (!user) return
-
-      const deletedCourse = await this.courseModel.deleteCourse({ user_id: user.user_id, ...params })
-      if (!deletedCourse) {
-        res.status(404).json({ message: 'Course not found or already deleted' })
+      const userId = req.user?.userId
+      if (!userId) {
+        res.status(401).json({ message: 'Unauthorized' })
+        return
       }
 
-      res.status(200).json({
-        message: 'Course deleted successfully',
-        deleted_course: params
-      })
+      const deletedCourse = await CourseService.deleteCourse(userId, req.params)
+      res.status(200).json({ message: 'Course deleted successfully', deletedCourse })
     } catch (error) {
       console.error('[deleteCourse]:', (error as Error).message)
       res.status(500).json({ message: 'Internal server error' })
