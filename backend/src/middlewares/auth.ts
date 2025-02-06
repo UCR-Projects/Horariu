@@ -16,7 +16,7 @@ export const authenticateUser = (req: Request, res: Response, next: NextFunction
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload & { user_id: string; email: string }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload & { userId: string; email: string }
     req.user = decoded
     next()
   } catch (error) {
