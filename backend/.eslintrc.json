@@ -8,7 +8,7 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "camelcase": "off", // Desactiva la regla camelcase de standard
+    "camelcase": "off",
     "@typescript-eslint/naming-convention": [
       "error",
       {

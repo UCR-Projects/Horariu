@@ -3,7 +3,7 @@
       "target": "ES6",
       "module": "CommonJS",
       "rootDir": "./src",
-      "types": ["node", "express"], 
+      "types": ["node", "express", "jest"], 
       "typeRoots": ["./src/@types", "./node_modules/@types"], 
       "outDir": "./dist",
       "esModuleInterop": true,
