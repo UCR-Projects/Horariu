@@ -14,6 +14,7 @@ on:
       - synchronize
     paths:
       - 'backend/**'
+      - '.github/workflows/deploy-api.yml'
 
 concurrency:
   group: ci-${{ github.ref }} # This will make sure that only one workflow runs at a time
