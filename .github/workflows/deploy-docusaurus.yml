@@ -6,17 +6,23 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci --no-audit --no-fund
         working-directory: docs
 
       - name: Build Docusaurus

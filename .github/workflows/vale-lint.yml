@@ -10,21 +10,26 @@ on:
       - '*'
   workflow_dispatch: # Allow manual triggering from the Actions tab.
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   prose:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      # Step 1: Check out the repository code.
-      - name: Checkout Code
-        uses: actions/checkout@v3 
 
-      # Step 2: Set up Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
         with:
-          node-version: 16 # Use Node.js 16 or higher
+          fetch-depth: 0
 
-      # Step 3: Run Vale lint checks.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
       - name: Vale Lint
         uses: errata-ai/vale-action@reviewdog
         with:
