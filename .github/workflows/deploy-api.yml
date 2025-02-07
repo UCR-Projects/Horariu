@@ -96,7 +96,5 @@ jobs:
         run: npm test
         working-directory: backend
 
-        
-# TODO: Tests
+    
 # TODO: Deploy in some service
-# TODO: Add needs to the jobs
