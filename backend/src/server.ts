@@ -1,12 +1,13 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 import { UserController } from './controllers/userController'
+import { CourseController } from './controllers/courseController'
+import { verifyToken } from './middlewares/auth'
+import { AuthenticatedEvent } from './interfaces/IAuthenticatedEvent'
 
 const userController = new UserController()
+const courseController = new CourseController()
 
-export const handler: APIGatewayProxyHandler = async (event): Promise<APIGatewayProxyResult> => {
-  console.log('🔑 DB_HOST:', process.env.DB_HOST)
-  console.log('🔑 DB_USER:', process.env.DB_USER)
-
+export const handler: APIGatewayProxyHandler = async (event: AuthenticatedEvent): Promise<APIGatewayProxyResult> => {
   try {
     const { httpMethod, path, body } = event
 
@@ -20,9 +21,35 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
       }
     }
 
+    if (httpMethod === 'POST' && path === '/login') {
+      const result = await userController.login(parsedBody)
+      return {
+        statusCode: 201,
+        body: JSON.stringify(result)
+      }
+    }
+
+    if (httpMethod === 'POST' && path === '/courses') {
+      const user = verifyToken(event.headers?.Authorization)
+      const result = await courseController.registerCourse(user.userId, parsedBody)
+      return {
+        statusCode: 200,
+        body: JSON.stringify(result)
+      }
+    }
+
+    if (httpMethod === 'GET' && path === '/courses') {
+      const user = verifyToken(event.headers?.Authorization)
+      const result = await courseController.getCourses(user.userId)
+      return {
+        statusCode: 200,
+        body: JSON.stringify(result)
+      }
+    }
+
     return {
       statusCode: 404,
-      body: JSON.stringify({ message: 'Path not found', pathRecibido: path })
+      body: JSON.stringify({ message: 'Path not found', pathReceived: path })
     }
   } catch (error) {
     console.error('Error on Lambda:', error)
