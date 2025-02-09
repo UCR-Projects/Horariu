@@ -1,0 +1,24 @@
+{
+  "name": "horariu",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">   <h1 align=\"center\">     Horariu   </h1> </div>",
+  "scripts": {
+    "prepare": "husky",
+    "backend:code-check": "cd backend && npm run lint && npm run build && npm run test"
+  },
+  "lint-staged": {
+    "backend/**/*": [
+      "npm run backend:code-check"
+    ],
+    "frontend/**/*": [
+      "echo 'frontend quality check' "
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "9.1.7",
+    "lint-staged": "15.4.3"
+  }
+}
