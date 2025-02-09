@@ -14,6 +14,8 @@ export const userSchema = z.object({
     .regex(/[0-9]/, 'Password must contain at least one number')
 })
 
+export type UserRegisterInput = z.infer<typeof userSchema>
+
 export const loginSchema = z.object({
   email: z.string({
     invalid_type_error: 'Email must be a string',
