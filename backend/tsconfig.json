@@ -4,7 +4,6 @@
       "module": "CommonJS",
       "rootDir": "./src",
       "types": ["node", "express", "jest"], 
-      "typeRoots": ["./src/@types", "./node_modules/@types"], 
       "outDir": "./dist",
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
@@ -12,6 +11,6 @@
       "skipLibCheck": true,
       "sourceMap": true
     },
-    "include": ["src", "src/@types", "src/drizzle.config.ts"]
+    "include": ["src", "src/drizzle.config.ts"]
   }
   
