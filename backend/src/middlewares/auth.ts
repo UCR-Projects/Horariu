@@ -1,31 +1,35 @@
-import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 
-export const authenticateUser = (req: Request, res: Response, next: NextFunction): void => {
-  const authHeader = req.headers.authorization
+export interface AuthenticatedUser {
+  userId: string;
+  email: string;
+}
 
+const checkAuthHeader = (authHeader: string | undefined): string => {
   if (!authHeader) {
-    res.status(401).json({ message: 'Unauthorized' })
-    return
+    throw new Error('[UNAUTHORIZED]: No token provided')
   }
 
   const token = authHeader.split(' ')[1]
   if (!token) {
-    res.status(401).json({ message: 'Invalid token format' })
-    return
+    throw new Error('[UNAUTHORIZED]: Invalid token format')
   }
+  return token
+}
+
+export const verifyToken = (authHeader: string | undefined): AuthenticatedUser => {
+  const token = checkAuthHeader(authHeader)
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload & { userId: string; email: string }
-    req.user = decoded
-    next()
+    return decoded
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      res.status(401).json({ message: 'Token expired' })
+      throw new Error('[UNAUTHORIZED]: Token expired, please login again')
     } else if (error instanceof jwt.JsonWebTokenError) {
-      res.status(401).json({ message: 'Invalid token' })
+      throw new Error('[UNAUTHORIZED]: Invalid token')
     } else {
-      res.status(500).json({ message: 'Internal server error' })
+      throw new Error('Internal server error')
     }
   }
 }
