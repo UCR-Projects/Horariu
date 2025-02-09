@@ -9,7 +9,6 @@
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "test": "jest",
-    "prepare": "infisical run -- npm run build",
     "watch": "infisical run -- nodemon --exec ts-node -r tsconfig-paths/register src/server.ts",
     "migrate:generate": "npx drizzle-kit generate --config=src/drizzle.config.ts",
     "migrate:migrate": "npx drizzle-kit migrate --config=src/drizzle.config.ts",
