@@ -5,15 +5,15 @@
 </div>
 
 <p align="center">
-  <a href="https://github.com/gqbo/Horariu/actions/workflows/pipeline.yml">
-    <img src="https://github.com/gqbo/Horariu/actions/workflows/pipeline.yml/badge.svg" alt="Deployment Pipeline" />
+  <a href="https://github.com/gqbo/Horariu/actions/workflows/deploy-api.yml">
+    <img src="https://github.com/gqbo/Horariu/actions/workflows/deploy-api.yml/badge.svg" alt="Deploy API" />
   </a>
   <a href="https://github.com/gqbo/Horariu/actions/workflows/deploy-docusaurus.yml">
     <img src="https://github.com/gqbo/Horariu/actions/workflows/deploy-docusaurus.yml/badge.svg" alt="Deploy Docusaurus" />
   </a>
 </p>
 
-##  Introduction
+## Introduction
 
 Horariu is a university schedule generator that creates all possible timetable combinations for a given semester, allowing students to explore different options and choose their preferred schedule. This helps in planning efficiently before course registration.
 
@@ -35,4 +35,3 @@ Horariu uses [Docusaurus](https://docusaurus.io/) for documentation, making it e
 - **Documentation:** Docusaurus
 
 ## 🤝 Contributing
-
