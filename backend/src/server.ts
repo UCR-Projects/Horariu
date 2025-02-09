@@ -2,12 +2,12 @@ import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 import { UserController } from './controllers/userController'
 import { CourseController } from './controllers/courseController'
 import { verifyToken } from './middlewares/auth'
-import { AuthenticatedEvent } from './interfaces/IAuthenticatedEvent'
+import { APIGatewayProxyEvent } from 'aws-lambda'
 
 const userController = new UserController()
 const courseController = new CourseController()
 
-export const handler: APIGatewayProxyHandler = async (event: AuthenticatedEvent): Promise<APIGatewayProxyResult> => {
+export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
     const { httpMethod, path, body } = event
 
