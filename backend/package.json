@@ -15,7 +15,8 @@
     "migrate:migrate": "npx drizzle-kit migrate --config=src/drizzle.config.ts",
     "migrate:check": "npx drizzle-kit check --config=src/drizzle.config.ts",
     "migrate:export": "npx drizzle-kit export --config=src/drizzle.config.ts",
-    "migrate:studio": "npx drizzle-kit studio --config=src/drizzle.config.ts"
+    "migrate:studio": "npx drizzle-kit studio --config=src/drizzle.config.ts",
+    "sam:invoke:register": "infisical run -- sam local invoke HorariuApiFunction -e events/event-register.json"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +35,7 @@
     "zod": "3.24.1"
   },
   "devDependencies": {
+    "@types/aws-lambda": "8.10.147",
     "@types/bcrypt": "5.0.2",
     "@types/cors": "2.8.17",
     "@types/express": "5.0.0",
