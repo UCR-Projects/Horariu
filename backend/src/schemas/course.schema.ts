@@ -12,7 +12,7 @@ export const courseSchema = z.object({
     invalid_type_error: 'Course name must be a string',
     required_error: 'Course name is required'
   }).min(1, 'Course name cannot be empty').max(255, 'Course name cannot exceed 255 characters'),
-
+  // TODO: Change to en
   day: z.enum(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'], {
     invalid_type_error: 'Day must be one of: Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo',
     required_error: 'Day is required'
