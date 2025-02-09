@@ -1,13 +1,13 @@
 import { CourseService } from '../services/CourseService'
 
 export class CourseController {
-  registerCourse = async (userId: string, body: unknown) => {
+  registerCourse = async (userId: string, course: unknown) => {
     try {
       if (!userId) {
         throw new Error('[UNAUTHORIZED]: User not found')
       }
 
-      const newCourse = await CourseService.registerCourse(userId, body)
+      const newCourse = await CourseService.registerCourse(userId, course)
       return {
         statusCode: 201,
         body: JSON.stringify({ message: 'Courses registered successfully', newCourse })
