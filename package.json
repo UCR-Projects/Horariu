@@ -4,7 +4,7 @@
   "description": "<div align=\"center\">   <h1 align=\"center\">     Horariu   </h1> </div>",
   "scripts": {
     "prepare": "husky",
-    "backend:code-check": "cd backend && npm run lint && npm run build && npm run test"
+    "backend:code-check": "cd backend && npm run build && npm run test && npm run lint"
   },
   "lint-staged": {
     "backend/**/*": [
