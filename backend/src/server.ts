@@ -1,8 +1,7 @@
-import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
+import { APIGatewayProxyHandler, APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda'
 import { UserController } from './controllers/userController'
 import { CourseController } from './controllers/courseController'
 import { verifyToken } from './middlewares/auth'
-import { APIGatewayProxyEvent } from 'aws-lambda'
 
 const userController = new UserController()
 const courseController = new CourseController()
@@ -41,6 +40,54 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     if (httpMethod === 'GET' && path === '/courses') {
       const user = verifyToken(event.headers?.Authorization)
       const result = await courseController.getCourses(user.userId)
+      return {
+        statusCode: 200,
+        body: JSON.stringify(result)
+      }
+    }
+
+    if (httpMethod === 'GET' && path.startsWith('/courses/')) {
+      const user = verifyToken(event.headers?.Authorization)
+      const pathParameters = event.pathParameters || {}
+      if (Object.keys(pathParameters).length === 0 || Object.values(pathParameters).some(value => !value)) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ message: 'Missing required path parameters' })
+        }
+      }
+      const result = await courseController.getCourse(user.userId, pathParameters)
+      return {
+        statusCode: 200,
+        body: JSON.stringify(result)
+      }
+    }
+
+    if (httpMethod === 'PATCH' && path.startsWith('/courses/')) {
+      const user = verifyToken(event.headers?.Authorization)
+      const pathParameters = event.pathParameters || {}
+      if (Object.keys(pathParameters).length === 0 || Object.values(pathParameters).some(value => !value)) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ message: 'Missing required path parameters' })
+        }
+      }
+      const result = await courseController.updateCourse(user.userId, pathParameters, parsedBody)
+      return {
+        statusCode: 200,
+        body: JSON.stringify(result)
+      }
+    }
+
+    if (httpMethod === 'DELETE' && path.startsWith('/courses/')) {
+      const user = verifyToken(event.headers?.Authorization)
+      const pathParameters = event.pathParameters || {}
+      if (Object.keys(pathParameters).length === 0 || Object.values(pathParameters).some(value => !value)) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ message: 'Missing required path parameters' })
+        }
+      }
+      const result = await courseController.deleteCourse(user.userId, pathParameters)
       return {
         statusCode: 200,
         body: JSON.stringify(result)
