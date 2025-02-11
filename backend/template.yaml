@@ -5,24 +5,41 @@ Transform:
 - AWS::Serverless-2016-10-31
 
 Resources:
-
   HorariuApiFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: dist/server.handler
       Runtime: nodejs18.x
-      Architectures:
-      - x86_64
       MemorySize: 512
       Timeout: 100
       Description: Horariu API to handle all the requests
       # Check if we need policies to run the function in AWS
       Events:
-        Api:
+        RegisterUser:
           Type: Api
           Properties:
-            Path: /{proxy+}
-            Method: ANY
+            Path: /register
+            Method: POST
+        LoginUser:
+          Type: Api
+          Properties:
+            Path: /login
+            Method: POST
+        CreateCourse:
+          Type: Api
+          Properties:
+            Path: /courses
+            Method: POST
+        GetCourses:
+          Type: Api
+          Properties:
+            Path: /courses
+            Method: GET
+        GetCourse:
+          Type: Api
+          Properties:
+            Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
+            Method: GET
 
 Globals:
   Function:
