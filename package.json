@@ -4,14 +4,15 @@
   "description": "<div align=\"center\">   <h1 align=\"center\">     Horariu   </h1> </div>",
   "scripts": {
     "prepare": "husky",
-    "backend:code-check": "cd backend && npm run build && npm run test && npm run lint"
+    "backend:code-check": "cd backend && npm run build && npm run test && npm run lint",
+    "frontend:code-check": "cd frontend && npm run build && npm run lint"
   },
   "lint-staged": {
     "backend/**/*": [
       "npm run backend:code-check"
     ],
     "frontend/**/*": [
-      "echo 'frontend quality check' "
+      "npm run frontend:code-check"
     ]
   },
   "keywords": [],
