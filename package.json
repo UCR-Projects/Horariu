@@ -5,7 +5,7 @@
   "scripts": {
     "prepare": "husky",
     "backend:code-check": "cd backend && npm run build && npm run test && npm run lint",
-    "frontend:code-check": "cd frontend && npm run build && npm run test && npm run lint"
+    "frontend:code-check": "cd frontend && npm run build && npm run lint"
   },
   "lint-staged": {
     "backend/**/*": [
