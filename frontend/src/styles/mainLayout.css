@@ -1,12 +1,39 @@
+/* Movil default */
 .main-layout {
   display: grid;
   grid-template-areas: 
-    "aside header header"
-    "aside main main"
-    "aside main main"
+    "header"
+    "aside"
+    "main"
   ;
-  grid-template-columns: 350px 1fr;
-  grid-template-rows: 75px 1fr 75px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 75px 75px 1fr;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .main-layout {
+    display: grid;
+    grid-template-areas: 
+      "aside header"
+      "aside main"
+    ;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 75px 1fr;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .main-layout {
+    display: grid;
+    grid-template-areas: 
+      "aside header"
+      "aside main"
+    ;
+    grid-template-columns: 350px 1fr;
+    grid-template-rows: 75px 1fr;
+  }
 }
 
 .layout-header {
