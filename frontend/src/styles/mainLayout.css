@@ -1,0 +1,26 @@
+.main-layout {
+  display: grid;
+  grid-template-areas: 
+    "aside header header"
+    "aside main main"
+    "aside main main"
+  ;
+  grid-template-columns: 350px 1fr;
+  grid-template-rows: 75px 1fr 75px;
+}
+
+.layout-header {
+  grid-area: header;
+}
+
+.layout-aside {
+  grid-area: aside;
+}
+
+.layout-main {
+  grid-area: main;
+}
+
+.layout-footer {
+  grid-area: footer;
+}
