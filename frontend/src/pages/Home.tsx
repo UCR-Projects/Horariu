@@ -1,8 +1,6 @@
 const Home = () => {
   return (
-    <>
-      <h1 className="text-6xl font-bold p-5">HI IM Home Page</h1>
-    </>
+    <h1 className="text-2xl font-bold text-center p-2">Home</h1>
   )
 }
 
