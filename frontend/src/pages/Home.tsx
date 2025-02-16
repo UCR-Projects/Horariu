@@ -1,7 +1,7 @@
-export default function Home() {
+const Home = () => {
   return (
-    <>
-      <h1>HII IM Home Page</h1>
-    </>
+    <h1 className="text-2xl font-bold text-center p-2">Home</h1>
   )
 }
+
+export default Home
