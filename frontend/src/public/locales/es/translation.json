@@ -1,0 +1,12 @@
+{
+  "days": {
+    "monday": "(L) Lunes",
+    "tuesday": "(K) Martes",
+    "wednesday": "(M) Miércoles",
+    "thursday": "(J) Jueves",
+    "friday": "(V) Viernes",
+    "saturday": "(S) Sábado",
+    "sunday": "(D) Domingo"
+  },
+  "hours": "Horas"
+}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Day, TimeRange } from '../types'
+import { useTranslation } from 'react-i18next'
 
 const generateTimeRanges = ():TimeRange[]  => {
   const ranges: TimeRange[] = []
@@ -16,7 +17,9 @@ const generateTimeRanges = ():TimeRange[]  => {
 }
 
 const Schedule = () => {
-  const days: Day[] = ['(L) Lunes', '(K) Martes', '(M) Miércoles', '(J) Jueves', '(V) Viernes', '(S) Sábado', '(D) Domingo']
+  const { t } = useTranslation()
+  const days: Day[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+
   const hours: TimeRange[] = generateTimeRanges()
 
   const [selectedCells, setSelectedCells] = useState<Map<string, { hour: TimeRange; day: Day }>>(new Map())
@@ -47,10 +50,10 @@ const Schedule = () => {
           <table className='w-full border-collapse transition-colors duration-100'>
             <thead>
               <tr>
-                <th className="border dark:border-gray-300 w-16 md:w-24">Hora</th>
+                <th className="border dark:border-gray-300 w-16 md:w-24">{t('hours')}</th>
 
-                {days.map((day, index) => (
-                  <th key={index} className="p-2 border dark:border-gray-300 w-20 md:w-32">{day}</th> 
+                {days.map((day) => (
+                  <th key={day} className="p-2 border dark:border-gray-300 w-20 md:w-32">{t(`days.${day}`)}</th> 
                 ))}
               </tr>
             </thead>

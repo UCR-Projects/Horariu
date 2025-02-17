@@ -1,5 +1,5 @@
 export type TimeRange = string
-export type Day = '(L) Lunes' | '(K) Martes' | '(M) Miércoles' | '(J) Jueves' | '(V) Viernes' | '(S) Sábado' | '(D) Domingo'
+export type Day = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
 
 interface ScheduleCell {
   hour: TimeRange
