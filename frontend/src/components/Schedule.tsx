@@ -33,7 +33,7 @@ const Schedule = () => {
     }
     
     setSelectedCells(newSelected)
-    console.log(selectedCells)
+    console.log(selectedCells) //! DELETE
   }
 
   const isCellSelected = (hour: TimeRange, day: Day) => {
@@ -44,20 +44,20 @@ const Schedule = () => {
     <div className='w-full max-w-6xl mx-auto p-4'>
       <div className='overflow-x-auto md:overflow-visible'>
         <div className='min-w-[600px] md:min-w-0'>
-          <table className='w-full border-collapse'>
+          <table className='w-full border-collapse transition-colors duration-100'>
             <thead>
               <tr>
-                <th className="border border-gray-300 w-16 md:w-24">Hora</th>
+                <th className="border dark:border-gray-300 w-16 md:w-24">Hora</th>
 
                 {days.map((day, index) => (
-                  <th key={index} className="p-2 border border-gray-300 w-20 md:w-32">{day}</th> 
+                  <th key={index} className="p-2 border dark:border-gray-300 w-20 md:w-32">{day}</th> 
                 ))}
               </tr>
             </thead>
             <tbody>
               {hours.map(hour => (
                 <tr key={hour}>
-                  <td className="p-1 border border-gray-300 text-center w-16 md:w-32">
+                  <td className="p-1 border dark:border-gray-300 text-center w-16 md:w-32">
                     {hour}
                   </td>
 
@@ -65,7 +65,7 @@ const Schedule = () => {
                     <td 
                       key={`${day}-${hour}`} 
                       onClick={() => handleCellClick(hour, day)}
-                      className={`border border-gray-300 cursor-pointer transition-colors w-20 md:w-32
+                      className={`border dark:border-gray-300 cursor-pointer transition-colors w-20 md:w-32
                       ${isCellSelected(hour, day) 
                       ? 'bg-cyan-900 hover:bg-cyan-950' 
                       : 'hover:bg-gray-600'}`}
