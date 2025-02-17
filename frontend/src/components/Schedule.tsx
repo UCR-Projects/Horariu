@@ -1,74 +1,83 @@
-//import { useState } from 'react'
+import { useState } from 'react'
+import { Day, TimeRange } from '../types'
 
-
-const generateTimeRanges = () => {
-  const ranges = []
+const generateTimeRanges = ():TimeRange[]  => {
+  const ranges: TimeRange[] = []
   let hour = 7
-  let minute = 0
 
-  while (hour < 23 || (hour === 22 && minute <= 50)) {
-    const startTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
-    minute += 50
-    if (minute >= 60) {
-      hour += 1
-      minute -= 60
-    }
-    const endTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
+  while (hour < 23) {
+    // set start time with format HH:MM eg. 07:00
+    const startTime = `${String(hour).padStart(2, '0')}:00`
+    const endTime = `${String(hour).padStart(2, '0')}:50`
     ranges.push(`${startTime} - ${endTime}`)
+    ++hour
   }
   return ranges
 }
 
-
 const Schedule = () => {
-  const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
-  const hours = generateTimeRanges()
+  const days: Day[] = ['(L) Lunes', '(K) Martes', '(M) Miércoles', '(J) Jueves', '(V) Viernes', '(S) Sábado', '(D) Domingo']
+  const hours: TimeRange[] = generateTimeRanges()
 
-  // const [selectedCells, setSelectedCells] = useState(new Map())
+  const [selectedCells, setSelectedCells] = useState<Map<string, { hour: TimeRange; day: Day }>>(new Map())
 
 
-
-  // const handleCellClick = (hour, day) => {
-  //   const key = `${hour}-${day}`
-  //   const newSelected = new Map(selectedCells)
+  const handleCellClick = (hour: TimeRange, day: Day) => {
+    const key = `${hour}-${day}`
+    const newSelected = new Map(selectedCells)
     
-  //   if (selectedCells.has(key)) {
-  //     newSelected.delete(key)
-  //   } else {
-  //     newSelected.set(key, { hour, day })
-  //   }
+    if (isCellSelected(hour, day)) {
+      newSelected.delete(key)
+    } else {
+      newSelected.set(key, { hour, day })
+    }
     
-  //   setSelectedCells(newSelected)
-  // }
+    setSelectedCells(newSelected)
+    console.log(selectedCells)
+  }
 
-  // const isCellSelected = (hour, day) => {
-  //   return selectedCells.has(`${hour}-${day}`)
-  // }
-
-
+  const isCellSelected = (hour: TimeRange, day: Day) => {
+    return selectedCells.has(`${hour}-${day}`)
+  }
 
   return (
-    <div>
-      <table className=''>
-        <thead>
-          <tr>
-            <th className="p-1 border border-gray-300">Hora</th>
+    <div className='w-full max-w-6xl mx-auto p-4'>
+      <div className='overflow-x-auto md:overflow-visible'>
+        <div className='min-w-[600px] md:min-w-0'>
+          <table className='w-full border-collapse'>
+            <thead>
+              <tr>
+                <th className="border border-gray-300 w-16 md:w-24">Hora</th>
 
-            {days.map((day, index) => (
-              <th key={index} className="p-2 border border-gray-300">{day}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {hours.map(hour => (
-            <tr key={hour}>
-              <td className="p-1 border border-gray-300 text-center">
-                {hour}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                {days.map((day, index) => (
+                  <th key={index} className="p-2 border border-gray-300 w-20 md:w-32">{day}</th> 
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {hours.map(hour => (
+                <tr key={hour}>
+                  <td className="p-1 border border-gray-300 text-center w-16 md:w-32">
+                    {hour}
+                  </td>
+
+                  {days.map(day => (
+                    <td 
+                      key={`${day}-${hour}`} 
+                      onClick={() => handleCellClick(hour, day)}
+                      className={`border border-gray-300 cursor-pointer transition-colors w-20 md:w-32
+                      ${isCellSelected(hour, day) 
+                      ? 'bg-cyan-900 hover:bg-cyan-950' 
+                      : 'hover:bg-gray-600'}`}
+                    >
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   )
 }
