@@ -1,6 +1,6 @@
-import { useState } from 'react'
 import { Day, TimeRange } from '../types'
 import { useTranslation } from 'react-i18next'
+import useSchedule from '../stores/useScheduleStore'
 
 const generateTimeRanges = ():TimeRange[]  => {
   const ranges: TimeRange[] = []
@@ -19,25 +19,9 @@ const generateTimeRanges = ():TimeRange[]  => {
 const Schedule = () => {
   const { t } = useTranslation()
   const days: Day[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-
   const hours: TimeRange[] = generateTimeRanges()
-
-  const [selectedCells, setSelectedCells] = useState<Map<string, { hour: TimeRange; day: Day }>>(new Map())
-
-
-  const handleCellClick = (hour: TimeRange, day: Day) => {
-    const key = `${hour}-${day}`
-    const newSelected = new Map(selectedCells)
-    
-    if (isCellSelected(hour, day)) {
-      newSelected.delete(key)
-    } else {
-      newSelected.set(key, { hour, day })
-    }
-    
-    setSelectedCells(newSelected)
-    console.log(selectedCells) //! DELETE
-  }
+  
+  const { toggleCell, selectedCells } = useSchedule()
 
   const isCellSelected = (hour: TimeRange, day: Day) => {
     return selectedCells.has(`${hour}-${day}`)
@@ -67,7 +51,7 @@ const Schedule = () => {
                   {days.map(day => (
                     <td 
                       key={`${day}-${hour}`} 
-                      onClick={() => handleCellClick(hour, day)}
+                      onClick={() => toggleCell(hour, day)}
                       className={`border dark:border-gray-300 cursor-pointer transition-colors w-20 md:w-32
                       ${isCellSelected(hour, day) 
                       ? 'bg-cyan-900 hover:bg-cyan-950' 
