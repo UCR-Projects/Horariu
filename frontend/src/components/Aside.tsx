@@ -1,4 +1,4 @@
-import useScheduleStore from '../stores/useScheduleStore'
+import { useScheduleStore } from '../stores/useScheduleStore'
 
 const Aside = () => {
   const { selectedCells, clearCells } = useScheduleStore()

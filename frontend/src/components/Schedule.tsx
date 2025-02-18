@@ -1,6 +1,6 @@
 import { Day, TimeRange } from '../types'
 import { useTranslation } from 'react-i18next'
-import useSchedule from '../stores/useScheduleStore'
+import { useScheduleStore } from '../stores/useScheduleStore'
 
 const generateTimeRanges = ():TimeRange[]  => {
   const ranges: TimeRange[] = []
@@ -21,7 +21,7 @@ const Schedule = () => {
   const days: Day[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
   const hours: TimeRange[] = generateTimeRanges()
   
-  const { toggleCell, selectedCells } = useSchedule()
+  const { toggleCell, selectedCells } = useScheduleStore()
 
   const isCellSelected = (hour: TimeRange, day: Day) => {
     return selectedCells.has(`${hour}-${day}`)
