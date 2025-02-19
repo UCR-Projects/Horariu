@@ -8,6 +8,9 @@
   <a href="https://github.com/gqbo/Horariu/actions/workflows/deploy-api.yml">
     <img src="https://github.com/gqbo/Horariu/actions/workflows/deploy-api.yml/badge.svg" alt="Deploy API" />
   </a>
+  <a href="https://github.com/UCR-Projects/Horariu/actions/workflows/deploy-client.yml">
+    <img src="https://github.com/UCR-Projects/Horariu/actions/workflows/deploy-client.yml/badge.svg" alt="Deploy Client" />
+  </a>
   <a href="https://github.com/gqbo/Horariu/actions/workflows/deploy-docusaurus.yml">
     <img src="https://github.com/gqbo/Horariu/actions/workflows/deploy-docusaurus.yml/badge.svg" alt="Deploy Docusaurus" />
   </a>
