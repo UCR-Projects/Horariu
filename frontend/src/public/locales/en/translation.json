@@ -1,0 +1,12 @@
+{
+  "days": {
+    "monday": "(M) Monday",
+    "tuesday": "(T) Tuesday",
+    "wednesday": "(W) Wednesday",
+    "thursday": "(Th) Thursday",
+    "friday": "(F) Friday",
+    "saturday": "(S) Saturday",
+    "sunday": "(S) Sunday"
+  },
+  "hours": "Hours"
+}
