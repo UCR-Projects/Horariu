@@ -1,13 +1,22 @@
 export type TimeRange = string
 export type Day = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
 
-interface ScheduleCell {
-  hour: TimeRange
-  day: Day
+
+export interface Schedule {
+  [day: Day]: {
+    start?: string;
+    end?: string;
+  };
+}
+export interface Group {
+  name: string;
+  schedule: Schedule;
 }
 
-interface Course  {
+export interface Course  {
   name: string;
   color: string;
-  groups: string[]; //TODO: Change to Group type
+  groups: Group[];
 }
+
+

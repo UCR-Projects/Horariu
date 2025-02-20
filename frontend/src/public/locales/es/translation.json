@@ -8,5 +8,10 @@
     "saturday": "(S) Sábado",
     "sunday": "(D) Domingo"
   },
-  "hours": "Horas"
+  "hours": "Horas",
+  "addGroup": "Agregar Grupo",
+  "addCourse": "Agregar Curso",
+  "group": "Grupo",
+  "close": "Cerrar",
+  "courseName": "Nombre del Curso"
 }
