@@ -1,12 +1,12 @@
 {
   "days": {
-    "monday": "(L) Lunes",
-    "tuesday": "(K) Martes",
-    "wednesday": "(M) Miércoles",
-    "thursday": "(J) Jueves",
-    "friday": "(V) Viernes",
-    "saturday": "(S) Sábado",
-    "sunday": "(D) Domingo"
+    "Monday": "(L) Lunes",
+    "Tuesday": "(K) Martes",
+    "Wednesday": "(M) Miércoles",
+    "Thursday": "(J) Jueves",
+    "Friday": "(V) Viernes",
+    "Saturday": "(S) Sábado",
+    "Sunday": "(D) Domingo"
   },
   "hours": "Horas",
   "addGroup": "Agregar Grupo",

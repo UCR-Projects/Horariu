@@ -6,7 +6,9 @@ const mapToObject = (map: Map<string, { hour: TimeRange; day: Day }>) => {
   return Object.fromEntries(map.entries())
 }
 
-const objectToMap = (obj: Record<string, { hour: TimeRange; day: Day }> | undefined) => {
+const objectToMap = (
+  obj: Record<string, { hour: TimeRange; day: Day }> | undefined
+) => {
   if (!obj) return new Map()
   return new Map(Object.entries(obj))
 }
@@ -21,20 +23,20 @@ export const useScheduleStore = create<ScheduleState>()(
   persist(
     (set, get) => ({
       selectedCells: new Map(),
-      
+
       toggleCell: (hour: TimeRange, day: Day) => {
         const key = `${hour}-${day}`
         const currentCells = new Map(get().selectedCells)
-        
+
         if (currentCells.has(key)) {
           currentCells.delete(key)
         } else {
           currentCells.set(key, { hour, day })
         }
-        
+
         set({ selectedCells: currentCells })
       },
-      
+
       clearCells: () => {
         set({ selectedCells: new Map() })
       },
@@ -46,13 +48,18 @@ export const useScheduleStore = create<ScheduleState>()(
       // Convert the Map to an object before serializing
       // because JSON.stringify does not support Maps
       partialize: (state) => ({
-        selectedCells: mapToObject(state.selectedCells)
+        selectedCells: mapToObject(state.selectedCells),
       }),
 
       // Convert the object back to a Map after deserializing
       onRehydrateStorage: () => (state) => {
         if (state) {
-          state.selectedCells = objectToMap(state.selectedCells as unknown as Record<string, { hour: TimeRange; day: Day }>)
+          state.selectedCells = objectToMap(
+            state.selectedCells as unknown as Record<
+              string,
+              { hour: TimeRange; day: Day }
+            >
+          )
         }
       },
     }
