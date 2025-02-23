@@ -1,12 +1,33 @@
 {
   "days": {
-    "L": "(M) Monday",
-    "K": "(T) Tuesday",
-    "M": "(W) Wednesday",
-    "J": "(Th) Thursday",
-    "V": "(F) Friday",
-    "S": "(S) Saturday",
-    "D": "(S) Sunday"
+    "L": {
+      "name": "Monday",
+      "short": "Mo"
+    },
+    "M": {
+      "name": "Tuesday",
+      "short": "Tu"
+    },
+    "K": {
+      "name": "Wednesday",
+      "short": "We"
+    },
+    "J": {
+      "name": "Thursday",
+      "short": "Th"
+    },
+    "V": {
+      "name": "Friday",
+      "short": "Fr"
+    },
+    "S": {
+      "name": "Saturday",
+      "short": "Sa"
+    },
+    "D": {
+      "name": "Sunday",
+      "short": "Su"
+    }
   },
   "hours": "Hours",
   "addGroup": "Add Group",

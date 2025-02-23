@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import useCourseStore from '../stores/useCourseStore'
 import { useTranslation } from 'react-i18next'
-import WeekDaySelector from './WeekDaySelector'
-import { Schedule } from '../types'
+import useCourseStore from '../stores/useCourseStore'
+import GroupTimetableEditor from './GroupTimetableEditor'
 
 const Panel = () => {
   const { t } = useTranslation()
@@ -12,7 +11,6 @@ const Panel = () => {
     selectedCourse,
     selectedGroup,
     currentColor,
-    selectedDays,
     setSelectedCourse,
     setSelectedGroup,
     setCurrentColor,
@@ -20,62 +18,7 @@ const Panel = () => {
     deleteCourse,
     addGroup,
     deleteGroup,
-    toggleDay,
-    updateSchedule,
   } = useCourseStore()
-
-  const renderScheduleInputs = (groupName: string) => {
-    if (!selectedGroup || selectedGroup.name !== groupName) return null
-
-    return (
-      <div className='w-full pt-2'>
-        <WeekDaySelector onDayToggle={toggleDay} selectedDays={selectedDays} />
-
-        {selectedDays.map((day) => {
-          const schedule = (
-            selectedCourse?.groups.find((g) => g.name === groupName)
-              ?.schedule as Schedule
-          )[day] || { start: '07:00', end: '08:50' }
-
-          return (
-            <div key={day} className='flex items-center my-2'>
-              <span className='w-24 text-left'>
-                {day === 'L'
-                  ? 'Lunes'
-                  : day === 'K'
-                    ? 'Martes'
-                    : day === 'M'
-                      ? 'Miércoles'
-                      : day === 'J'
-                        ? 'Jueves'
-                        : day === 'V'
-                          ? 'Viernes'
-                          : day === 'S'
-                            ? 'Sábado'
-                            : 'Domingo'}
-              </span>
-              <input
-                type='time'
-                defaultValue={schedule.start}
-                className='mx-2 p-2 bg-gray-700 rounded'
-                onChange={(e) =>
-                  updateSchedule(groupName, day, e.target.value, schedule.end)
-                }
-              />
-              <input
-                type='time'
-                defaultValue={schedule.end}
-                className='mx-2 p-2 bg-gray-700 rounded'
-                onChange={(e) =>
-                  updateSchedule(groupName, day, schedule.start, e.target.value)
-                }
-              />
-            </div>
-          )
-        })}
-      </div>
-    )
-  }
 
   const getCoursesState = () => {
     const { courses } = useCourseStore.getState()
@@ -164,7 +107,7 @@ const Panel = () => {
                     ×
                   </button>
                 </div>
-                {renderScheduleInputs(group.name)}
+                <GroupTimetableEditor groupName={group.name} />
               </div>
             ))}
           </div>

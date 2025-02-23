@@ -43,7 +43,7 @@ const Schedule = () => {
                     key={day}
                     className='p-2 border dark:border-gray-300 w-20 md:w-32'
                   >
-                    {t(`days.${day}`)}
+                    ({t(`days.${day}.short`)}) {t(`days.${day}.name`)}
                   </th>
                 ))}
               </tr>
