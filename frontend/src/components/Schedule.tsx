@@ -18,15 +18,7 @@ const generateTimeRanges = (): TimeRange[] => {
 
 const Schedule = () => {
   const { t } = useTranslation()
-  const days: Day[] = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ]
+  const days: Day[] = ['L', 'K', 'M', 'J', 'V', 'S', 'D']
   const hours: TimeRange[] = generateTimeRanges()
 
   const { toggleCell, selectedCells } = useScheduleStore()

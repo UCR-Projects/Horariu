@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { Course, Group } from '../types'
+import { Course, Group, Day } from '../types'
 
 interface CourseState {
   courses: Course[]
   selectedCourse: Course | null
   currentColor: string
   selectedGroup: Group | null
-  selectedDays: string[]
+  selectedDays: Day[]
 
   setSelectedCourse: (course: Course | null) => void
   setCurrentColor: (color: string) => void
@@ -19,10 +19,10 @@ interface CourseState {
   addGroup: (courseName: string) => void
   deleteGroup: (courseName: string, groupName: string) => void
 
-  toggleDay: (day: string) => void
+  toggleDay: (day: Day) => void
   updateSchedule: (
     groupName: string,
-    day: string,
+    day: Day,
     start: string,
     end: string
   ) => void
@@ -42,7 +42,21 @@ const useCourseStore = create<CourseState>()(
 
       setCurrentColor: (color) => set({ currentColor: color }),
 
-      setSelectedGroup: (group) => set({ selectedGroup: group }),
+      setSelectedGroup: (group) =>
+        set(() => {
+          if (!group) return { selectedGroup: null, selectedDays: [] as Day[] }
+
+          // Get days that have schedules for this group and cast them to Day[]
+          const scheduledDays = Object.keys(group.schedule || {}).filter(
+            (day): day is Day =>
+              ['L', 'K', 'M', 'J', 'V', 'S', 'D'].includes(day)
+          )
+
+          return {
+            selectedGroup: group,
+            selectedDays: scheduledDays,
+          }
+        }),
 
       addCourse: (name) =>
         set((state) => {
@@ -130,13 +144,58 @@ const useCourseStore = create<CourseState>()(
         }),
 
       toggleDay: (day) =>
-        set((state) => ({
-          selectedDays: state.selectedDays.includes(day)
-            ? state.selectedDays.filter((d) => d !== day)
-            : [...state.selectedDays, day],
-        })),
+        set((state) => {
+          if (!state.selectedGroup || !state.selectedCourse) return state
 
-      updateSchedule: (groupName, day, start, end) =>
+          const newSelectedDays = state.selectedDays.includes(day)
+            ? state.selectedDays.filter((d) => d !== day)
+            : [...state.selectedDays, day]
+
+          if (!state.selectedDays.includes(day)) {
+            // Day is being added - no need to remove schedule
+            return { selectedDays: newSelectedDays }
+          }
+
+          // Day is being removed - remove its schedule
+          const groupName = state.selectedGroup.name
+          const course = state.selectedCourse
+          const group = course.groups.find((g) => g.name === groupName)
+
+          if (!group) return { selectedDays: newSelectedDays }
+
+          const updatedGroup = {
+            ...group,
+            schedule: { ...group.schedule },
+          }
+
+          delete updatedGroup.schedule[day]
+
+          const updatedGroups = course.groups.map((g) =>
+            g.name === groupName ? updatedGroup : g
+          )
+
+          const updatedCourse = {
+            ...course,
+            groups: updatedGroups,
+          }
+
+          const newCourses = state.courses.map((c) =>
+            c.name === course.name ? updatedCourse : c
+          )
+
+          return {
+            courses: newCourses,
+            selectedCourse: updatedCourse,
+            selectedDays: newSelectedDays,
+          }
+        }),
+
+      updateSchedule: (
+        groupName: string,
+        day: Day,
+        start: string,
+        end: string
+      ) =>
         set((state) => {
           if (!state.selectedCourse) return state
 
@@ -148,10 +207,7 @@ const useCourseStore = create<CourseState>()(
             ...group,
             schedule: {
               ...group.schedule,
-              [day]: {
-                start,
-                end,
-              },
+              [day]: { start, end },
             },
           }
 
@@ -164,10 +220,10 @@ const useCourseStore = create<CourseState>()(
             groups: updatedGroups,
           }
 
-          const newCourses = [
-            ...state.courses.filter((course) => course.name !== course.name),
-            updatedCourse,
-          ]
+          const newCourses = state.courses.map((c) =>
+            c.name === course.name ? updatedCourse : c
+          )
+
           return {
             courses: newCourses,
             selectedCourse: updatedCourse,

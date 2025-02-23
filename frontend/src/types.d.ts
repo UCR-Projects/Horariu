@@ -1,19 +1,13 @@
 export type TimeRange = string
-export type Day =
-  | 'Monday'
-  | 'Tuesday'
-  | 'Wednesday'
-  | 'Thursday'
-  | 'Friday'
-  | 'Saturday'
-  | 'Sunday'
+export type Day = 'L' | 'K' | 'M' | 'J' | 'V' | 'S' | 'D'
 
 export interface Schedule {
-  [day: Day]: {
-    start?: string
-    end?: string
+  [key: string]: {
+    start: string
+    end: string
   }
 }
+
 export interface Group {
   name: string
   schedule: Schedule

@@ -1,10 +1,10 @@
+import { Day } from '../types'
 interface WeekDayProps {
-  onDayToggle: (day: string) => void
-  selectedDays: string[]
+  onDayToggle: (day: Day) => void
+  selectedDays: Day[]
 }
-
 const WeekDaySelector = ({ onDayToggle, selectedDays }: WeekDayProps) => {
-  const weekDays = [
+  const weekDays: { key: Day; label: string }[] = [
     { key: 'L', label: 'L' },
     { key: 'K', label: 'K' },
     { key: 'M', label: 'M' },
