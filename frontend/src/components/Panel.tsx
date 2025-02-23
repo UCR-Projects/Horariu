@@ -1,21 +1,87 @@
 import { useState } from 'react'
 import useCourseStore from '../stores/useCourseStore'
 import { useTranslation } from 'react-i18next'
+import WeekDaySelector from './WeekDaySelector'
+import { Schedule } from '../types'
 
 const Panel = () => {
   const { t } = useTranslation()
   const [courseName, setCourseName] = useState('')
   const {
     courses,
+    selectedCourse,
+    selectedGroup,
     currentColor,
+    selectedDays,
+    setSelectedCourse,
+    setSelectedGroup,
     setCurrentColor,
     addCourse,
     deleteCourse,
-    selectedCourse,
-    setSelectedCourse,
     addGroup,
     deleteGroup,
+    toggleDay,
+    updateSchedule,
   } = useCourseStore()
+
+  const renderScheduleInputs = (groupName: string) => {
+    if (!selectedGroup || selectedGroup.name !== groupName) return null
+
+    return (
+      <div className='w-full pt-2'>
+        <WeekDaySelector onDayToggle={toggleDay} selectedDays={selectedDays} />
+
+        {selectedDays.map((day) => {
+          const schedule = (
+            selectedCourse?.groups.find((g) => g.name === groupName)
+              ?.schedule as Schedule
+          )[day] || { start: '07:00', end: '08:50' }
+
+          return (
+            <div key={day} className='flex items-center my-2'>
+              <span className='w-24 text-left'>
+                {day === 'L'
+                  ? 'Lunes'
+                  : day === 'K'
+                    ? 'Martes'
+                    : day === 'M'
+                      ? 'Miércoles'
+                      : day === 'J'
+                        ? 'Jueves'
+                        : day === 'V'
+                          ? 'Viernes'
+                          : day === 'S'
+                            ? 'Sábado'
+                            : 'Domingo'}
+              </span>
+              <input
+                type='time'
+                defaultValue={schedule.start}
+                className='mx-2 p-2 bg-gray-700 rounded'
+                onChange={(e) =>
+                  updateSchedule(groupName, day, e.target.value, schedule.end)
+                }
+              />
+              <input
+                type='time'
+                defaultValue={schedule.end}
+                className='mx-2 p-2 bg-gray-700 rounded'
+                onChange={(e) =>
+                  updateSchedule(groupName, day, schedule.start, e.target.value)
+                }
+              />
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  const getCoursesState = () => {
+    const { courses } = useCourseStore.getState()
+
+    console.log(courses)
+  }
 
   const handleAddCourse = () => {
     if (courseName.trim()) {
@@ -76,17 +142,29 @@ const Panel = () => {
             {selectedCourse.groups.map((group) => (
               <div
                 key={group.name}
-                className='flex items-center bg-blue-600 rounded px-3 py-1'
+                className={`flex flex-col w-full bg-gray-700 rounded overflow-hidden transition-all}
+                  ${selectedGroup?.name === group.name ? 'bg-gray-600' : ''}  
+                `}
               >
-                <span className='text-sm'>
-                  {t('group')} {group.name}
-                </span>
-                <button
-                  className='ml-2 text-gray-300 hover:text-white'
-                  onClick={() => deleteGroup(selectedCourse.name, group.name)}
+                <div
+                  className='flex items-center justify-between px-3 py-2 cursor-pointer'
+                  onClick={() =>
+                    setSelectedGroup(
+                      selectedGroup?.name === group.name ? null : group
+                    )
+                  }
                 >
-                  ×
-                </button>
+                  <span className='text-sm'>
+                    {t('group')} {group.name}
+                  </span>
+                  <button
+                    className='ml-2 text-gray-300 hover:text-white'
+                    onClick={() => deleteGroup(selectedCourse.name, group.name)}
+                  >
+                    ×
+                  </button>
+                </div>
+                {renderScheduleInputs(group.name)}
               </div>
             ))}
           </div>
@@ -137,6 +215,13 @@ const Panel = () => {
           </div>
         ))}
       </div>
+
+      <button
+        className='bg-red-600 hover:bg-red-500 text-white py-2 rounded'
+        onClick={getCoursesState}
+      >
+        Get Courses
+      </button>
     </div>
   )
 }
