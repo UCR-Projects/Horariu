@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+   api-horariu
+Transform:
+- AWS::Serverless-2016-10-31
+
+Parameters:
+  DBHost:
+    Type: String
+  DBUser:
+    Type: String
+  DBPassword:
+    Type: String
+  DBName:
+    Type: String
+  DBPort:
+    Type: String
+  NodeEnv:
+    Type: String
+  JwtSecret:
+    Type: String
+
+
+Resources:
+  HorariuApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dist/server.handler
+      Runtime: nodejs18.x
+      MemorySize: 512
+      Timeout: 100
+      Description: Horariu API to handle all the requests
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - ssm:GetParameter
+              Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/horariu/*"
+      Environment:
+        Variables:
+          DB_HOST: !Ref DBHost
+          DB_USER: !Ref DBUser
+          DB_PASSWORD: !Ref DBPassword
+          DB_NAME: !Ref DBName
+          DB_PORT: !Ref DBPort
+          NODE_ENV: !Ref NodeEnv
+          JWT_SECRET: !Ref JwtSecret
+      Events:
+        RegisterUser:
+          Type: Api
+          Properties:
+            Path: /register
+            Method: POST
+        LoginUser:
+          Type: Api
+          Properties:
+            Path: /login
+            Method: POST
+        CreateCourse:
+          Type: Api
+          Properties:
+            Path: /courses
+            Method: POST
+        GetCourses:
+          Type: Api
+          Properties:
+            Path: /courses
+            Method: GET
+        GetCourse:
+          Type: Api
+          Properties:
+            Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
+            Method: GET

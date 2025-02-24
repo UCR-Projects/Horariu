@@ -1,0 +1,13 @@
+{
+  "httpMethod": "DELETE",
+  "path": "/courses/Programación%20Avanzada/Lunes/07:00:00/999",
+  "headers": {
+    "Authorization": "Bearer xxxxx"
+  },
+  "pathParameters": {
+    "courseName": "Programación Avanzada",
+    "day": "Lunes",
+    "startTime": "07:00:00",
+    "groupNumber": "999"
+  }
+}
