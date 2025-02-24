@@ -16,7 +16,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       const result = await userController.register(parsedBody)
       return {
         statusCode: 201,
-        body: JSON.stringify(result)
+        body: result.body
       }
     }
 
@@ -24,7 +24,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       const result = await userController.login(parsedBody)
       return {
         statusCode: 201,
-        body: JSON.stringify(result)
+        body: result.body
       }
     }
 
@@ -33,7 +33,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       const result = await courseController.registerCourse(user.userId, parsedBody)
       return {
         statusCode: 200,
-        body: JSON.stringify(result)
+        body: result.body
       }
     }
 
@@ -42,7 +42,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       const result = await courseController.getCourses(user.userId)
       return {
         statusCode: 200,
-        body: JSON.stringify(result)
+        body: result.body
       }
     }
 
@@ -52,13 +52,13 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       if (Object.keys(pathParameters).length === 0 || Object.values(pathParameters).some(value => !value)) {
         return {
           statusCode: 400,
-          body: JSON.stringify({ message: 'Missing required path parameters' })
+          body: 'Missing required path parameters'
         }
       }
       const result = await courseController.getCourse(user.userId, pathParameters)
       return {
         statusCode: 200,
-        body: JSON.stringify(result)
+        body: result.body
       }
     }
 
@@ -74,7 +74,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       const result = await courseController.updateCourse(user.userId, pathParameters, parsedBody)
       return {
         statusCode: 200,
-        body: JSON.stringify(result)
+        body: result.body
       }
     }
 
@@ -84,13 +84,13 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       if (Object.keys(pathParameters).length === 0 || Object.values(pathParameters).some(value => !value)) {
         return {
           statusCode: 400,
-          body: JSON.stringify({ message: 'Missing required path parameters' })
+          body: 'Missing required path parameters'
         }
       }
       const result = await courseController.deleteCourse(user.userId, pathParameters)
       return {
         statusCode: 200,
-        body: JSON.stringify(result)
+        body: result.body
       }
     }
 
@@ -102,7 +102,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     console.error('Error on Lambda:', error)
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Internal server error' })
+      body: 'Internal server error'
     }
   }
 }
