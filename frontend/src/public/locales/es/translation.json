@@ -4,13 +4,13 @@
       "name": "Lunes",
       "short": "L"
     },
-    "M": {
-      "name": "Martes",
-      "short": "M"
-    },
     "K": {
-      "name": "Miércoles",
+      "name": "Martes",
       "short": "K"
+    },
+    "M": {
+      "name": "Miércoles",
+      "short": "M"
     },
     "J": {
       "name": "Jueves",

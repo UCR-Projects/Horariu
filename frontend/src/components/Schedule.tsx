@@ -1,25 +1,10 @@
 import { Day, TimeRange } from '../types'
 import { useTranslation } from 'react-i18next'
 import { useScheduleStore } from '../stores/useScheduleStore'
-
-const generateTimeRanges = (): TimeRange[] => {
-  const ranges: TimeRange[] = []
-  let hour = 7
-
-  while (hour < 23) {
-    // set start time with format HH:MM eg. 07:00
-    const startTime = `${String(hour).padStart(2, '0')}:00`
-    const endTime = `${String(hour).padStart(2, '0')}:50`
-    ranges.push(`${startTime} - ${endTime}`)
-    ++hour
-  }
-  return ranges
-}
+import { TIME_RANGES, DAYS } from '../utils/constants'
 
 const Schedule = () => {
   const { t } = useTranslation()
-  const days: Day[] = ['L', 'K', 'M', 'J', 'V', 'S', 'D']
-  const hours: TimeRange[] = generateTimeRanges()
 
   const { toggleCell, selectedCells } = useScheduleStore()
 
@@ -38,7 +23,7 @@ const Schedule = () => {
                   {t('hours')}
                 </th>
 
-                {days.map((day) => (
+                {DAYS.map((day) => (
                   <th
                     key={day}
                     className='p-2 border dark:border-gray-300 w-20 md:w-32'
@@ -49,13 +34,13 @@ const Schedule = () => {
               </tr>
             </thead>
             <tbody>
-              {hours.map((hour) => (
+              {TIME_RANGES.map((hour) => (
                 <tr key={hour}>
                   <td className='p-1 border dark:border-gray-300 text-center w-16 md:w-32'>
                     {hour}
                   </td>
 
-                  {days.map((day) => (
+                  {DAYS.map((day) => (
                     <td
                       key={`${day}-${hour}`}
                       onClick={() => toggleCell(hour, day)}
