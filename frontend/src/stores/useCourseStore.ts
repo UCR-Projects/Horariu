@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { Course, Group, Day } from '../types'
+import { COLORS } from '../utils/constants'
 
 interface CourseState {
   courses: Course[]
@@ -33,7 +34,7 @@ const useCourseStore = create<CourseState>()(
     (set) => ({
       courses: [],
       selectedCourse: null,
-      currentColor: '',
+      currentColor: COLORS[0].value,
       selectedGroup: null,
       selectedDays: [],
 

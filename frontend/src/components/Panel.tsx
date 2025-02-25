@@ -19,12 +19,6 @@ const Panel = () => {
     deleteGroup,
   } = useCourseStore()
 
-  const getCoursesState = () => {
-    const { courses } = useCourseStore.getState()
-
-    console.log(courses)
-  }
-
   const handleAddCourse = () => {
     if (courseName.trim()) {
       addCourse(courseName)
@@ -149,12 +143,6 @@ const Panel = () => {
             </div>
           </div>
         ))}
-        <button
-          className='bg-red-600 hover:bg-red-500 text-white py-2 rounded'
-          onClick={getCoursesState}
-        >
-          Get Courses
-        </button>
       </div>
     </div>
   )
