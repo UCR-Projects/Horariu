@@ -18,3 +18,9 @@ export interface Course {
   color: string
   groups: Group[]
 }
+
+export interface TailwindColor {
+  name: string
+  class: string
+  value: string
+}

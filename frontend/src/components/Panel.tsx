@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import useCourseStore from '../stores/useCourseStore'
 import GroupTimetableEditor from './GroupTimetableEditor'
+import ColorSelector from './ColorSelector'
 
 const Panel = () => {
   const { t } = useTranslation()
@@ -10,10 +11,8 @@ const Panel = () => {
     courses,
     selectedCourse,
     selectedGroup,
-    currentColor,
     setSelectedCourse,
     setSelectedGroup,
-    setCurrentColor,
     addCourse,
     deleteCourse,
     addGroup,
@@ -34,33 +33,30 @@ const Panel = () => {
   }
 
   return (
-    <div>
+    <div className='w-full max-w-md text-zinc-300 p-2 flex flex-col'>
       <div className='mb-4'>
         <input
+          className='bg-zinc-900 px-4 py-2 rounded hover:bg-zinc-800 mb-2'
           type='text'
           placeholder={t('courseName')}
           value={courseName}
           onChange={(e) => setCourseName(e.target.value)}
         />
 
-        <div className=''>
-          <span> Color </span>
-          <input
-            type='color'
-            value={currentColor}
-            onChange={(e) => setCurrentColor(e.target.value)}
-          />
+        <div className='flex space-x-2'>
+          <div className='flex-1'>
+            <ColorSelector />
+          </div>
+          {selectedCourse && (
+            <button
+              type='button'
+              className='bg-zinc-900 hover:bg-zinc-800 text-zinc-400 px-4 py-1 rounded cursor-pointer flex-1'
+              onClick={() => addGroup(selectedCourse.name)}
+            >
+              + {t('addGroup')}
+            </button>
+          )}
         </div>
-
-        {selectedCourse && (
-          <button
-            type='button'
-            className='bg-gray-700 text-white px-4 py-1 rounded'
-            onClick={() => addGroup(selectedCourse.name)}
-          >
-            {t('addGroup')}
-          </button>
-        )}
       </div>
 
       <button
@@ -75,8 +71,7 @@ const Panel = () => {
         <div className='mb-4 p-3 bg-gray-800 rounded'>
           <div className='flex items-center mb-3'>
             <div
-              className='w-4 h-4 rounded-full mr-2'
-              style={{ backgroundColor: selectedCourse.color }}
+              className={`w-4 h-4 rounded-full mr-2 ${selectedCourse.color}`}
             />
             <h3 className='font-medium'>{selectedCourse.name}</h3>
           </div>
@@ -134,10 +129,7 @@ const Panel = () => {
           >
             <div className='flex items-center justify-between'>
               <div className='flex items-center'>
-                <div
-                  className='w-6 h-6 rounded-full mr-3'
-                  style={{ backgroundColor: course.color }}
-                />
+                <div className={`w-6 h-6 rounded-full mr-2 ${course.color}`} />
                 <span className='font-medium'>{course.name}</span>
               </div>
               <div className='flex'>
@@ -157,14 +149,13 @@ const Panel = () => {
             </div>
           </div>
         ))}
+        <button
+          className='bg-red-600 hover:bg-red-500 text-white py-2 rounded'
+          onClick={getCoursesState}
+        >
+          Get Courses
+        </button>
       </div>
-
-      <button
-        className='bg-red-600 hover:bg-red-500 text-white py-2 rounded'
-        onClick={getCoursesState}
-      >
-        Get Courses
-      </button>
     </div>
   )
 }

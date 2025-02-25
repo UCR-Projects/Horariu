@@ -33,7 +33,7 @@ const useCourseStore = create<CourseState>()(
     (set) => ({
       courses: [],
       selectedCourse: null,
-      currentColor: '#000000',
+      currentColor: '',
       selectedGroup: null,
       selectedDays: [],
 
