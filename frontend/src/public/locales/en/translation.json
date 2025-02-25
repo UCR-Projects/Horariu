@@ -34,5 +34,6 @@
   "addCourse": "Add Course",
   "group": "Group",
   "close": "Close",
-  "courseName": "Course Name"
+  "courseName": "Course Name",
+  "createNewCourse": "Create New Course"
 }

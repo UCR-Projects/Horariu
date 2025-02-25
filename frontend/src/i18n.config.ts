@@ -12,7 +12,7 @@ i18n.use(initReactI18next).init({
       translation: translationES,
     },
   },
-  lng: navigator.language || 'es', // Navigator language or Spanish
+  lng: 'es', // Navigator language or Spanish
   fallbackLng: 'es', // Fallback language is Spanish
   interpolation: {
     escapeValue: false,
