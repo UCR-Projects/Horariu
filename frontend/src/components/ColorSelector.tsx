@@ -1,10 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
-import useCourseStore from '../stores/useCourseStore'
 import { TailwindColor } from '../types'
 import { COLORS } from '../utils/constants'
 
-const ColorSelector = () => {
-  const { currentColor, setCurrentColor } = useCourseStore()
+interface ColorSelectorProps {
+  currentColor?: string
+  setCurrentColor: (color: string) => void
+}
+
+const ColorSelector = ({
+  currentColor = COLORS[0].value,
+  setCurrentColor,
+}: ColorSelectorProps) => {
   const [isOpened, setIsOpened] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -34,7 +40,7 @@ const ColorSelector = () => {
   return (
     <div className='relative' ref={dropdownRef}>
       <button
-        className='bg-zinc-900 hover:bg-zinc-800 text-gray-400 px-6 py-1 rounded flex items-center justify-between w-full'
+        className='bg-zinc-800 hover:bg-zinc-700 px-8 py-1 rounded flex items-center justify-between w-full gap-x-1'
         onClick={() => setIsOpened(!isOpened)}
       >
         <span>Color</span>
