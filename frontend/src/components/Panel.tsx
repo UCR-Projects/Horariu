@@ -6,6 +6,7 @@ import TimeRangeSelector from './TimeRangeSelector'
 import WeekDaySelector from './WeekDaySelector'
 import { Day, Group, Course } from '../types'
 import CourseList from './CourseList'
+import { XIcon } from '../assets/icons/Icons'
 
 const Panel = () => {
   const { t } = useTranslation()
@@ -214,15 +215,17 @@ const Panel = () => {
                     <span>
                       {t('group')} {group.name}
                     </span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handleDeleteNewGroup(group.name)
-                      }}
-                      className='text-zinc-400 hover:text-zinc-200'
-                    >
-                      ×
-                    </button>
+                    {selectedNewGroup?.name !== group.name && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleDeleteNewGroup(group.name)
+                        }}
+                        className='text-zinc-400 hover:text-zinc-200'
+                      >
+                        <XIcon />
+                      </button>
+                    )}
                   </div>
 
                   {selectedNewGroup?.name === group.name && (
