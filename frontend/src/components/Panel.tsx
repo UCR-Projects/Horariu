@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import useCourseStore from '../stores/useCourseStore'
 import ColorSelector from './ColorSelector'
 import TimeRangeSelector from './TimeRangeSelector'
 import WeekDaySelector from './WeekDaySelector'
-import { Day, Group } from '../types'
+import { Day, Group, Course } from '../types'
+import CourseList from './CourseList'
 
 const Panel = () => {
   const { t } = useTranslation()
@@ -20,7 +21,29 @@ const Panel = () => {
     setSelectedCourse,
     addCourse,
     deleteCourse,
+    isEditMode,
+    courseBeingEdited,
+    setEditMode,
+    updateCourse,
   } = useCourseStore()
+
+  useEffect(() => {
+    if (isEditMode && courseBeingEdited) {
+      setCourseName(courseBeingEdited.name)
+      setCourseColor(courseBeingEdited.color)
+      setNewGroups([...courseBeingEdited.groups])
+      setSelectedNewGroup(null)
+    }
+  }, [isEditMode, courseBeingEdited])
+
+  useEffect(() => {
+    if (!isEditMode) {
+      setCourseName('')
+      setCourseColor('bg-blue-500')
+      setNewGroups([])
+      setSelectedNewGroup(null)
+    }
+  }, [isEditMode])
 
   const handleAddNewGroup = () => {
     const newGroup = {
@@ -110,14 +133,36 @@ const Panel = () => {
     setSelectedNewGroup(null)
   }
 
+  const handleSaveCourseEdit = () => {
+    if (!courseName.trim() || !courseBeingEdited) return
+
+    const updatedCourse = {
+      name: courseName,
+      color: courseColor,
+      groups: newGroups,
+    }
+
+    updateCourse(courseBeingEdited.name, updatedCourse)
+  }
+
+  const handleStartEditing = (course: Course) => {
+    setEditMode(true, course)
+    setSelectedCourse(course)
+  }
+
+  const handleCancelEditing = () => {
+    setSelectedCourse(null)
+    setEditMode(false)
+  }
+
   return (
     <div className='w-full max-w-md text-zinc-300 p-2 flex flex-col'>
       <div className='mb-4 p-4 bg-zinc-900 rounded-lg'>
         <h2 className='text-lg text-center font-medium mb-3'>
-          {t('createNewCourse')}
+          {isEditMode ? t('editCourse') : t('createNewCourse')}
         </h2>
 
-        <div className='mb-4'>
+        <div className='mb-2'>
           <input
             className='bg-zinc-800 px-4 py-2 rounded hover:bg-zinc-700 mb-2 w-full'
             type='text'
@@ -129,19 +174,20 @@ const Panel = () => {
 
         <div className='mb-4'>
           <div className='flex space-x-2 mb-2'>
-            <div className='flex-1'>
+            {/* Make both buttons have equal width by using a grid or flex with equal sizing */}
+            <div className='grid grid-cols-2 gap-2 w-full'>
               <ColorSelector
                 currentColor={courseColor}
                 setCurrentColor={setCourseColor}
               />
+              <button
+                type='button'
+                className='bg-zinc-800 hover:bg-zinc-700 px-3 py-1 rounded-md flex items-center justify-center'
+                onClick={handleAddNewGroup}
+              >
+                + {t('addGroup')}
+              </button>
             </div>
-            <button
-              type='button'
-              className='bg-zinc-800 hover:bg-zinc-700 px-3 py-1 rounded-md'
-              onClick={handleAddNewGroup}
-            >
-              + {t('addGroup')}
-            </button>
           </div>
 
           {newGroups.length === 0 ? (
@@ -215,57 +261,45 @@ const Panel = () => {
           )}
         </div>
 
-        <button
-          type='button'
-          className='border-zinc-300 border-1 hover:bg-zinc-800 text-white py-2 rounded w-full'
-          onClick={handleAddCourse}
-          disabled={!courseName.trim() || newGroups.length === 0}
-        >
-          {t('addCourse')}
-        </button>
+        {isEditMode ? (
+          <div className='flex space-x-2'>
+            <button
+              type='button'
+              className='bg-zinc-600 hover:bg-zinc-700py-2 rounded flex-1'
+              onClick={handleCancelEditing}
+            >
+              {t('cancel')}
+            </button>
+            <button
+              type='button'
+              className='bg-green-600 hover:bg-green-700 text-white py-2 rounded flex-1'
+              onClick={handleSaveCourseEdit}
+              disabled={!courseName.trim() || newGroups.length === 0}
+            >
+              {t('saveChanges')}
+            </button>
+          </div>
+        ) : (
+          <button
+            type='button'
+            className='border-zinc-300 border-1 hover:bg-zinc-800 text-white py-2 rounded w-full'
+            onClick={handleAddCourse}
+            disabled={!courseName.trim() || newGroups.length === 0}
+          >
+            {t('addCourse')}
+          </button>
+        )}
       </div>
 
-      {/* Courses List */}
       <div className='mt-2 flex-1 overflow-y-auto'>
-        <h2 className='text-lg font-medium'>{t('Courses')}</h2>
-        {courses.length === 0 ? (
-          <p className='text-sm text-zinc-500'>{t('noCourses')}</p>
-        ) : (
-          courses.map((course) => (
-            <div
-              key={course.name}
-              className={`mb-3 p-3 rounded cursor-pointer ${
-                selectedCourse?.name === course.name
-                  ? 'bg-gray-700'
-                  : 'bg-gray-900 hover:bg-gray-800'
-              }`}
-              onClick={() => setSelectedCourse(course)}
-            >
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center'>
-                  <div
-                    className={`w-6 h-6 rounded-full mr-2 ${course.color}`}
-                  />
-                  <span className='font-medium'>{course.name}</span>
-                </div>
-                <div className='flex'>
-                  <button
-                    className='text-gray-400 hover:text-white mx-1'
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      deleteCourse(course.name)
-                    }}
-                  >
-                    🗑️
-                  </button>
-                </div>
-              </div>
-              <div className='text-sm text-gray-400 mt-1'>
-                {t('group')}s: {course.groups.length}
-              </div>
-            </div>
-          ))
-        )}
+        <h2 className='text-lg font-medium'>{t('courses')}</h2>
+        <CourseList
+          courses={courses}
+          selectedCourse={selectedCourse}
+          onSelectCourse={setSelectedCourse}
+          onEditCourse={handleStartEditing}
+          onDeleteCourse={deleteCourse}
+        />
       </div>
     </div>
   )

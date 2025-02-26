@@ -35,5 +35,10 @@
   "group": "Group",
   "close": "Close",
   "courseName": "Course Name",
-  "createNewCourse": "Create New Course"
+  "createNewCourse": "Create New Course",
+  "editCourse": "Edit Course",
+  "saveChanges": "Save Changes",
+  "cancel": "Cancel",
+  "courses": "Courses"
+
 }

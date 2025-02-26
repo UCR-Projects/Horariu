@@ -9,6 +9,8 @@ interface CourseState {
   currentColor: string
   selectedGroup: Group | null
   selectedDays: Day[]
+  isEditMode: boolean
+  courseBeingEdited: Course | null
 
   setSelectedCourse: (course: Course | null) => void
   setCurrentColor: (color: string) => void
@@ -27,6 +29,9 @@ interface CourseState {
     start: string,
     end: string
   ) => void
+
+  setEditMode: (isEditing: boolean, course?: Course | null) => void
+  updateCourse: (originalName: string, updatedCourse: Course) => void
 }
 
 const useCourseStore = create<CourseState>()(
@@ -37,6 +42,8 @@ const useCourseStore = create<CourseState>()(
       currentColor: COLORS[0].value,
       selectedGroup: null,
       selectedDays: [],
+      isEditMode: false,
+      courseBeingEdited: null,
 
       setSelectedCourse: (course) =>
         set({ selectedCourse: course, selectedGroup: null, selectedDays: [] }),
@@ -73,7 +80,6 @@ const useCourseStore = create<CourseState>()(
 
             return {
               courses: [...state.courses, newCourse],
-              selectedCourse: newCourse,
             }
           } else {
             if (state.courses.some((c) => c.name === courseData.name)) {
@@ -82,7 +88,6 @@ const useCourseStore = create<CourseState>()(
 
             return {
               courses: [...state.courses, courseData],
-              selectedCourse: courseData,
             }
           }
         }),
@@ -241,6 +246,36 @@ const useCourseStore = create<CourseState>()(
             courses: newCourses,
             selectedCourse: updatedCourse,
           }
+        }),
+      updateCourse: (originalName, updatedCourse) =>
+        set((state) => {
+          // Verificar si el nombre se está cambiando y ya existe
+          if (
+            originalName !== updatedCourse.name &&
+            state.courses.some((c) => c.name === updatedCourse.name)
+          ) {
+            // Si el nombre nuevo ya existe, no hacer nada
+            // En una implementación real podrías mostrar un error
+            return state
+          }
+
+          const newCourses = state.courses.map((course) =>
+            course.name === originalName ? updatedCourse : course
+          )
+
+          return {
+            courses: newCourses,
+            selectedCourse: updatedCourse,
+            isEditMode: false,
+            courseBeingEdited: null,
+          }
+        }),
+      setEditMode: (isEditing, course = null) =>
+        set({
+          isEditMode: isEditing,
+          courseBeingEdited: course,
+          selectedGroup: isEditing ? null : null,
+          selectedDays: [],
         }),
     }),
     {

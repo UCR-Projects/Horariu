@@ -40,12 +40,12 @@ const ColorSelector = ({
   return (
     <div className='relative' ref={dropdownRef}>
       <button
-        className='bg-zinc-800 hover:bg-zinc-700 px-8 py-1 rounded flex items-center justify-between w-full gap-x-1'
+        className='bg-zinc-800 hover:bg-zinc-700 py-1 rounded-md flex items-center justify-center w-full gap-x-4'
         onClick={() => setIsOpened(!isOpened)}
       >
         <span>Color</span>
         <div
-          className={`w-8 h-8 rounded-full shadow-md ${currentColor || currentColorObj.class}`}
+          className={`w-6 h-6 rounded-full shadow-md ${currentColor || currentColorObj.class}`}
         />
       </button>
 
@@ -76,5 +76,4 @@ const ColorSelector = ({
     </div>
   )
 }
-
 export default ColorSelector

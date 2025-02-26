@@ -35,5 +35,9 @@
   "group": "Grupo",
   "close": "Cerrar",
   "courseName": "Nombre del Curso",
-  "createNewCourse": "Crear Nuevo Curso"
+  "createNewCourse": "Crear Nuevo Curso",
+  "editCourse": "Editar Curso",
+  "saveChanges": "Guardar Cambios",
+  "cancel": "Cancelar",
+  "courses": "Cursos"
 }
