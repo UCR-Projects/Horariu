@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Course } from '../types'
+import { EditIcon, TrashIcon } from '../assets/icons/Icons'
 
 interface CourseListProps {
   courses: Course[]
@@ -35,7 +36,9 @@ const CourseList: React.FC<CourseListProps> = ({
           <div className='flex items-center justify-between'>
             <div className='flex items-center'>
               <div className={`w-6 h-6 rounded-full mr-2 ${course.color}`} />
-              <span className='font-medium'>{course.name}</span>
+              <span className='font-medium truncate max-w-[200px]'>
+                {course.name}
+              </span>
             </div>
             <div className='flex'>
               <button
@@ -46,7 +49,7 @@ const CourseList: React.FC<CourseListProps> = ({
                   onSelectCourse(course)
                 }}
               >
-                ✏️
+                <EditIcon />
               </button>
               <button
                 className='text-zinc-400 hover:text-white mx-1 cursor-pointer'
@@ -55,7 +58,7 @@ const CourseList: React.FC<CourseListProps> = ({
                   onDeleteCourse(course.name)
                 }}
               >
-                🗑️
+                <TrashIcon />
               </button>
             </div>
           </div>

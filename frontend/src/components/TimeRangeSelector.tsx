@@ -66,8 +66,8 @@ const TimeRangeSelector = ({
         <select
           value={selectedStart}
           onChange={handleStartChange}
-          className='w-24 p-2 bg-gray-800 text-white rounded appearance-none 
-            cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500'
+          className='w-24 p-2 bg-zinc-800 text-white rounded appearance-none 
+            cursor-pointer focus:outline-none focus:ring-1 focus:ring-zinc-500'
         >
           <option value='----'>----</option>
           {START_TIMES.map((time) => (
@@ -85,8 +85,8 @@ const TimeRangeSelector = ({
         <select
           value={selectedEnd}
           onChange={handleEndChange}
-          className='w-24 p-2 bg-gray-800 text-white rounded appearance-none
-            cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500'
+          className='w-24 p-2 bg-zinc-800 text-white rounded appearance-none
+            cursor-pointer focus:outline-none focus:ring-2 focus:ring-zinc-500 disabled:opacity-70'
           disabled={selectedStart === '----'}
         >
           {endTimesOptions.map((time) => (

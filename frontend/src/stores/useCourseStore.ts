@@ -249,13 +249,10 @@ const useCourseStore = create<CourseState>()(
         }),
       updateCourse: (originalName, updatedCourse) =>
         set((state) => {
-          // Verificar si el nombre se está cambiando y ya existe
           if (
             originalName !== updatedCourse.name &&
             state.courses.some((c) => c.name === updatedCourse.name)
           ) {
-            // Si el nombre nuevo ya existe, no hacer nada
-            // En una implementación real podrías mostrar un error
             return state
           }
 
@@ -265,7 +262,6 @@ const useCourseStore = create<CourseState>()(
 
           return {
             courses: newCourses,
-            selectedCourse: updatedCourse,
             isEditMode: false,
             courseBeingEdited: null,
           }

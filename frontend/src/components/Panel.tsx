@@ -143,6 +143,7 @@ const Panel = () => {
     }
 
     updateCourse(courseBeingEdited.name, updatedCourse)
+    setSelectedCourse(null)
   }
 
   const handleStartEditing = (course: Course) => {
@@ -174,7 +175,6 @@ const Panel = () => {
 
         <div className='mb-4'>
           <div className='flex space-x-2 mb-2'>
-            {/* Make both buttons have equal width by using a grid or flex with equal sizing */}
             <div className='grid grid-cols-2 gap-2 w-full'>
               <ColorSelector
                 currentColor={courseColor}
@@ -265,7 +265,7 @@ const Panel = () => {
           <div className='flex space-x-2'>
             <button
               type='button'
-              className='bg-zinc-600 hover:bg-zinc-700py-2 rounded flex-1'
+              className='bg-zinc-700 hover:bg-zinc-600 py-2 rounded flex-1'
               onClick={handleCancelEditing}
             >
               {t('cancel')}
