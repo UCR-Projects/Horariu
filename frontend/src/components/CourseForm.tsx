@@ -15,7 +15,7 @@ const CourseForm = ({ onCancel }: CourseFormProps) => {
   const {
     formData,
     selectedGroup,
-    isValid,
+    errors,
     setSelectedGroup,
     updateFormField,
     addGroup,
@@ -23,11 +23,18 @@ const CourseForm = ({ onCancel }: CourseFormProps) => {
     toggleGroupDay,
     updateGroupSchedule,
     handleSubmit,
+    validateForm,
   } = useCourseForm()
 
   const handleCancel = () => {
     if (onCancel) onCancel()
     setEditMode(false)
+  }
+
+  const onSubmit = () => {
+    if (validateForm()) {
+      handleSubmit()
+    }
   }
 
   return (
@@ -38,12 +45,17 @@ const CourseForm = ({ onCancel }: CourseFormProps) => {
 
       <div className='mb-2'>
         <input
-          className='bg-zinc-800 px-4 py-2 rounded hover:bg-zinc-700 mb-2 w-full'
+          className={`bg-zinc-800 px-4 py-2 rounded hover:bg-zinc-700 mb-1 w-full ${
+            errors.name ? 'border border-red-500' : ''
+          }`}
           type='text'
           placeholder={t('courseName')}
           value={formData.name}
           onChange={(e) => updateFormField('name', e.target.value)}
         />
+        {errors.name && (
+          <p className='text-red-500 text-xs mt-1'>{errors.name}</p>
+        )}
       </div>
 
       <div className='mb-4'>
@@ -63,6 +75,10 @@ const CourseForm = ({ onCancel }: CourseFormProps) => {
           </div>
         </div>
 
+        {errors.groups && (
+          <p className='text-red-500 text-xs mb-2'>{errors.groups}</p>
+        )}
+
         <GroupFormSection
           groups={formData.groups}
           selectedGroup={selectedGroup}
@@ -70,6 +86,7 @@ const CourseForm = ({ onCancel }: CourseFormProps) => {
           onDeleteGroup={deleteGroup}
           onToggleDay={toggleGroupDay}
           onUpdateSchedule={updateGroupSchedule}
+          errors={errors.groupSchedules}
         />
       </div>
 
@@ -84,9 +101,8 @@ const CourseForm = ({ onCancel }: CourseFormProps) => {
           </button>
           <button
             type='button'
-            className='bg-green-600 hover:bg-green-700 text-white py-2 rounded flex-1'
-            onClick={handleSubmit}
-            disabled={!isValid}
+            className='bg-green-600 hover:bg-green-700 text-white py-2 rounded flex-1 disabled:opacity-50 disabled:cursor-not-allowed'
+            onClick={onSubmit}
           >
             {t('saveChanges')}
           </button>
@@ -94,9 +110,8 @@ const CourseForm = ({ onCancel }: CourseFormProps) => {
       ) : (
         <button
           type='button'
-          className='border-zinc-300 border-1 hover:bg-zinc-800 text-white py-2 rounded w-full'
-          onClick={handleSubmit}
-          disabled={!isValid}
+          className='border-zinc-300 border-1 hover:bg-zinc-800 text-white py-2 rounded w-full disabled:opacity-50 disabled:cursor-not-allowed'
+          onClick={onSubmit}
         >
           {t('addCourse')}
         </button>

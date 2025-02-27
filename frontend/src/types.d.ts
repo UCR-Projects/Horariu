@@ -24,3 +24,9 @@ export interface TailwindColor {
   class: string
   value: string
 }
+
+export interface ValidationErrors {
+  name?: string
+  groups?: string
+  groupSchedules?: { [groupName: string]: string }
+}

@@ -39,5 +39,17 @@
   "editCourse": "Editar Curso",
   "saveChanges": "Guardar Cambios",
   "cancel": "Cancelar",
-  "courses": "Cursos"
+  "courses": "Cursos",
+
+  "validation": {
+    "course": {
+      "nameRequired": "El nombre del curso es requerido",
+      "nameNotUnique": "Ya existe un curso con este nombre",
+      "noGroups": "Debe agregar al menos un grupo"
+    },
+    "group": {
+      "noDaysSelected": "Debe seleccionar al menos un día y un horario",
+      "invalidTimes": "Todos los días seleccionados deben tener horarios válidos"
+    }
+  }
 }

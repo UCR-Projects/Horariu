@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Group, Day } from '../types'
+import { Group, Day, ValidationErrors } from '../types'
 import useCourseStore from '../stores/useCourseStore'
+import {
+  validateCourseForm,
+  validateGroupSchedule,
+  validateGroups,
+} from '../utils/validation/courseValidation'
 
 export const useCourseForm = (
   initialState = {
@@ -11,7 +16,8 @@ export const useCourseForm = (
 ) => {
   const [formData, setFormData] = useState(initialState)
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null)
-  const { addCourse, updateCourse, courseBeingEdited, isEditMode } =
+  const [errors, setErrors] = useState<ValidationErrors>({})
+  const { addCourse, updateCourse, courseBeingEdited, isEditMode, courses } =
     useCourseStore()
 
   // Reset form when edit mode changes
@@ -23,6 +29,7 @@ export const useCourseForm = (
         groups: [...courseBeingEdited.groups],
       })
       setSelectedGroup(null)
+      setErrors({})
     } else if (!isEditMode) {
       resetForm()
     }
@@ -35,6 +42,7 @@ export const useCourseForm = (
       groups: [],
     })
     setSelectedGroup(null)
+    setErrors({})
   }
 
   const updateFormField = <K extends keyof typeof formData>(
@@ -42,6 +50,11 @@ export const useCourseForm = (
     value: (typeof formData)[K]
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+
+    // Clear specific error when field is updated
+    if (errors[field as keyof ValidationErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }))
+    }
   }
 
   // Group management
@@ -54,6 +67,11 @@ export const useCourseForm = (
     const updatedGroups = [...formData.groups, newGroup]
     updateFormField('groups', updatedGroups)
     setSelectedGroup(newGroup)
+
+    // Clear groups error if it exists
+    if (errors.groups) {
+      setErrors((prev) => ({ ...prev, groups: undefined }))
+    }
   }
 
   const deleteGroup = (groupName: string) => {
@@ -64,6 +82,13 @@ export const useCourseForm = (
 
     if (selectedGroup?.name === groupName) {
       setSelectedGroup(null)
+    }
+
+    // Clear specific group schedule errors
+    if (errors.groupSchedules && errors.groupSchedules[groupName]) {
+      const updatedGroupSchedules = { ...errors.groupSchedules }
+      delete updatedGroupSchedules[groupName]
+      setErrors((prev) => ({ ...prev, groupSchedules: updatedGroupSchedules }))
     }
   }
 
@@ -76,6 +101,27 @@ export const useCourseForm = (
 
     if (selectedGroup?.name === updatedGroup.name) {
       setSelectedGroup(updatedGroup)
+    }
+
+    // Clear specific group schedule error if schedule was updated
+    if (
+      errors.groupSchedules &&
+      errors.groupSchedules[updatedGroup.name] &&
+      Object.keys(updatedGroup.schedule).length > 0
+    ) {
+      // Validate if the schedule is now valid
+      const isValid = validateGroupSchedule(updatedGroup)
+
+      if (isValid) {
+        const updatedGroupSchedules = { ...errors.groupSchedules }
+        delete updatedGroupSchedules[updatedGroup.name]
+        setErrors((prev) => ({
+          ...prev,
+          groupSchedules: Object.keys(updatedGroupSchedules).length
+            ? updatedGroupSchedules
+            : undefined,
+        }))
+      }
     }
   }
 
@@ -121,6 +167,18 @@ export const useCourseForm = (
     updateGroup(updatedGroup)
   }
 
+  // Form validation
+  const validateForm = (): boolean => {
+    const newErrors = validateCourseForm(
+      formData,
+      courses,
+      courseBeingEdited?.name
+    )
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
   // Form submission
   const handleSubmit = () => {
     if (!validateForm()) return
@@ -139,15 +197,11 @@ export const useCourseForm = (
     }
   }
 
-  // Form validation
-  const validateForm = () => {
-    return formData.name.trim() !== '' && formData.groups.length > 0
-  }
-
   return {
     formData,
     selectedGroup,
-    isValid: validateForm(),
+    errors,
+    isValid: formData.name.trim() !== '' && formData.groups.length > 0,
     setSelectedGroup,
     updateFormField,
     addGroup,
@@ -156,5 +210,7 @@ export const useCourseForm = (
     updateGroupSchedule,
     handleSubmit,
     resetForm,
+    validateForm,
+    validateGroups: () => validateGroups(formData.groups),
   }
 }

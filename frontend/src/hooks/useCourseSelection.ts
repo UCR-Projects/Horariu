@@ -21,6 +21,9 @@ export const useCourseSelection = () => {
 
   const handleDeleteCourse = (name: string) => {
     deleteCourse(name)
+    if (selectedCourse?.name === name) {
+      setEditMode(false)
+    }
   }
 
   return {

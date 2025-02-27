@@ -21,7 +21,7 @@ const CourseList: React.FC<CourseListProps> = ({
   const { t } = useTranslation()
 
   if (courses.length === 0) {
-    return <p className='text-sm text-zinc-500'>No hay cursos</p>
+    return <p className='text-sm text-zinc-500'>No se han creado cursos</p>
   }
 
   return (

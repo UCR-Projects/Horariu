@@ -16,6 +16,7 @@ interface GroupFormSectionProps {
     start: string,
     end: string
   ) => void
+  errors?: { [groupName: string]: string }
 }
 
 const GroupFormSection = ({
@@ -25,12 +26,9 @@ const GroupFormSection = ({
   onDeleteGroup,
   onToggleDay,
   onUpdateSchedule,
+  errors = {},
 }: GroupFormSectionProps) => {
   const { t } = useTranslation()
-
-  if (groups.length === 0) {
-    return <p className='text-sm text-zinc-500 my-2'>{t('noGroupsAdded')}</p>
-  }
 
   return (
     <div className='space-y-2'>
@@ -39,7 +37,7 @@ const GroupFormSection = ({
           key={group.name}
           className={`bg-zinc-800 rounded-md overflow-hidden hover:bg-zinc-800 ${
             selectedGroup?.name === group.name ? 'ring-1 ring-zinc-400' : ''
-          }`}
+          } ${errors[group.name] ? 'border border-red-500' : ''}`}
         >
           <div
             className='flex justify-between items-center p-2 cursor-pointer'
@@ -68,6 +66,11 @@ const GroupFormSection = ({
           {selectedGroup?.name === group.name && (
             <div className='p-2 bg-zinc-700'>
               <WeekDaySelector group={group} toggleDay={onToggleDay} />
+              {errors[group.name] && (
+                <p className='text-red-500 text-xs mb-2 px-2'>
+                  {errors[group.name]}
+                </p>
+              )}
 
               {Object.keys(group.schedule || {}).map((day) => (
                 <div key={day} className='flex items-center my-2 px-2'>
