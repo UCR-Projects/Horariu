@@ -6,9 +6,10 @@ const Home = () => {
 
   return (
     <div>
-      <h1 className='text-2xl font-bold text-center p-2'>Home</h1>
       <pre>{JSON.stringify(courses, null, 2)}</pre>
+      sadasdasdas
       <Schedule />
+      sad sad sad as d sad
     </div>
   )
 }
