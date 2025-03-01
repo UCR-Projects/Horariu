@@ -11,7 +11,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <hr className='border-t border-neutral-300 dark:border-neutral-700 w-full mx-0 px-0' />
     </div>
   )
 }

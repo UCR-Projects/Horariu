@@ -1,30 +1,25 @@
-import { useState } from 'react'
 import Header from '../components/Header'
-import Aside from '../components/Aside'
 import { Outlet } from 'react-router'
-import '../styles/mainLayout.css'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/AppSidebar'
 
 const MainLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
-
   return (
-    <div
-      className={`main-layout bg-neutral-100 dark:bg-neutral-800 ${
-        isSidebarOpen ? '' : 'sidebar-collapsed'
-      }`}
-    >
-      <header className='layout-header flex items-center dark:bg-neutral-800'>
-        <Header />
-      </header>
-
-      <Aside
-        isSidebarOpen={isSidebarOpen}
-        setIsSidebarOpen={setIsSidebarOpen}
-      />
-
-      <main className='layout-main dark:bg-neutral-800 p-2'>
-        <Outlet />
-      </main>
+    <div className='flex h-screen dark:bg-neutral-800'>
+      <SidebarProvider>
+        <AppSidebar />
+        <div className='flex-1 flex flex-col overflow-hidden'>
+          <header className='p-4 border-b dark:border-neutral-700'>
+            <div className='flex items-center justify-between'>
+              <SidebarTrigger />
+              <Header />
+            </div>
+          </header>
+          <main className='flex-1 bg-neutral-100 dark:bg-neutral-800 p-4 overflow-y-auto'>
+            <Outlet />
+          </main>
+        </div>
+      </SidebarProvider>
     </div>
   )
 }
