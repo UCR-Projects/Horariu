@@ -1,23 +1,28 @@
+import { useState } from 'react'
 import Header from '../components/Header'
 import Aside from '../components/Aside'
 import { Outlet } from 'react-router'
 import '../styles/mainLayout.css'
 
 const MainLayout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+
   return (
-    <div className='main-layout h-screen transition-colors duration-200 background foreground bg-neutral-100'>
-      <header className='layout-header overflow-y-auto transition-colors duration-200 dark:bg-neutral-800'>
+    <div
+      className={`main-layout bg-neutral-100 dark:bg-neutral-800 ${
+        isSidebarOpen ? '' : 'sidebar-collapsed'
+      }`}
+    >
+      <header className='layout-header flex items-center dark:bg-neutral-800'>
         <Header />
       </header>
 
-      <aside
-        className='layout-aside overflow-y-auto
-          transition-colors duration-200 dark:bg-neutral-900 p-2 bg-neutral-300/50'
-      >
-        <Aside />
-      </aside>
+      <Aside
+        isSidebarOpen={isSidebarOpen}
+        setIsSidebarOpen={setIsSidebarOpen}
+      />
 
-      <main className='layout-main overflow-y-auto transition-colors duration-200 dark:bg-neutral-800 p-2'>
+      <main className='layout-main dark:bg-neutral-800 p-2'>
         <Outlet />
       </main>
     </div>
