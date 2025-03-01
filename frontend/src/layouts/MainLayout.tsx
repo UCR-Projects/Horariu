@@ -5,16 +5,19 @@ import '../styles/mainLayout.css'
 
 const MainLayout = () => {
   return (
-    <div className='main-layout h-screen p-2 gap-2 bg-stone-100 dark:bg-zinc-900 transition-colors duration-200'>
-      <header className='layout-header dark:bg-zinc-950 dark:text-sky-50 bg-stone-300 overflow-y-auto rounded transition-colors duration-200'>
+    <div className='main-layout h-screen transition-colors duration-200 background foreground bg-neutral-100'>
+      <header className='layout-header overflow-y-auto transition-colors duration-200 dark:bg-neutral-800'>
         <Header />
       </header>
 
-      <aside className='layout-aside dark:bg-zinc-950 dark:text-sky-50 bg-stone-300 overflow-y-auto rounded transition-colors duration-200'>
+      <aside
+        className='layout-aside overflow-y-auto
+          transition-colors duration-200 dark:bg-neutral-900 p-2 bg-neutral-300/50'
+      >
         <Aside />
       </aside>
 
-      <main className='layout-main dark:bg-zinc-950 dark:text-sky-50 bg-stone-300 overflow-y-auto rounded transition-colors duration-200'>
+      <main className='layout-main overflow-y-auto transition-colors duration-200 dark:bg-neutral-800 p-2'>
         <Outlet />
       </main>
     </div>
