@@ -34,5 +34,24 @@
   "addCourse": "Agregar Curso",
   "group": "Grupo",
   "close": "Cerrar",
-  "courseName": "Nombre del Curso"
+  "courseName": "Nombre del Curso",
+
+  "validation": {
+    "course": {
+      "name": {
+        "required": "El nombre del curso es requerido",
+        "min": "El nombre del curso debe tener al menos 2 caracteres",
+        "max": "El nombre del curso debe tener como máximo 50 caracteres",
+        "unique": "Ya existe un curso con este nombre"
+      }
+    },
+    "group": {
+      "name": {
+        "required": "El nombre del grupo es requerido",
+        "min": "El nombre del grupo debe tener al menos 2 caracteres",
+        "max": "El nombre del grupo debe tener como máximo 10 caracteres",
+        "unique": "El nombre del grupo ya existe para este curso"
+      }
+    }
+  }
 }

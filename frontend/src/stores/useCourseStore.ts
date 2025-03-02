@@ -14,7 +14,7 @@ interface CourseState {
   setCurrentColor: (color: string) => void
   setSelectedGroup: (group: Group | null) => void
 
-  addCourse: (name: string) => void
+  addCourse: (courseData: Course | string) => void
   deleteCourse: (name: string) => void
 
   addGroup: (courseName: string) => void
@@ -59,22 +59,31 @@ const useCourseStore = create<CourseState>()(
           }
         }),
 
-      addCourse: (name) =>
+      addCourse: (courseData) =>
         set((state) => {
-          if (!name.trim()) return state
+          if (typeof courseData === 'string') {
+            const name = courseData
+            if (!name.trim()) return state
 
-          const newCourse: Course = {
-            name,
-            color: state.currentColor,
-            groups: [],
-          }
+            const newCourse: Course = {
+              name,
+              color: state.currentColor,
+              groups: [],
+            }
 
-          return {
-            courses: [...state.courses, newCourse],
-            selectedCourse: newCourse,
+            return {
+              courses: [...state.courses, newCourse],
+            }
+          } else {
+            if (state.courses.some((c) => c.name === courseData.name)) {
+              return state
+            }
+
+            return {
+              courses: [...state.courses, courseData],
+            }
           }
         }),
-
       deleteCourse: (name) =>
         set((state) => ({
           courses: state.courses.filter((course) => course.name !== name),
