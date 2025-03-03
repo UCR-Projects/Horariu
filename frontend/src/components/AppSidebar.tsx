@@ -5,7 +5,7 @@ import {
   SidebarGroup,
 } from '@/components/ui/sidebar'
 
-import CourseFormDialog from '@/components/formtest'
+import CourseFormDialog from '@/components/CourseForm'
 
 export const AppSidebar = () => {
   return (

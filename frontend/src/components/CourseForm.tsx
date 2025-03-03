@@ -4,7 +4,8 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { courseSchema, groupSchema } from '@/validation/schemas/course.schema'
-
+import TimeRangeSelector from './TimeRangeSelector'
+import WeekDaySelector from './WeekDaySelector'
 import {
   Form,
   FormControl,
@@ -24,14 +25,33 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { DAYS } from '@/utils/constants'
 import ColorPicker from './ColorPicker'
+import { Day } from '@/types'
+
+interface ScheduleGroupForm {
+  day: Day
+  active: boolean
+  startTime: string
+  endTime: string
+}
 
 export default function CourseFormDialog() {
   const [selectedColor, setSelectedColor] = useState('bg-red-500')
   const [isMainDialogOpen, setIsMainDialogOpen] = useState(false)
   const [groupDialogOpen, setGroupDialogOpen] = useState(false)
-  const [groups, setGroups] = useState<string[]>([])
+  const [groups, setGroups] = useState<
+    { name: string; schedule: ScheduleGroupForm[] }[]
+  >([])
   const [groupError, setGroupError] = useState(false)
+  const [schedules, setSchedules] = useState<ScheduleGroupForm[]>(
+    DAYS.map((day) => ({
+      day: day,
+      active: false,
+      startTime: '----',
+      endTime: '----',
+    }))
+  )
 
   const form = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
@@ -44,18 +64,52 @@ export default function CourseFormDialog() {
     resolver: zodResolver(groupSchema),
     defaultValues: {
       groupName: '',
+      schedule: schedules,
     },
   })
 
+  const handleDayToggle = (day: Day, active: boolean) => {
+    setSchedules(
+      schedules.map((schedule) =>
+        schedule.day === day
+          ? { ...schedule, active, startTime: '----', endTime: '----' }
+          : schedule
+      )
+    )
+  }
+
+  const handleTimeChange = (day: Day, startTime: string, endTime: string) => {
+    setSchedules(
+      schedules.map((schedule) =>
+        schedule.day === day ? { ...schedule, startTime, endTime } : schedule
+      )
+    )
+  }
+
   const handleSaveGroup = (values: z.infer<typeof groupSchema>) => {
-    setGroups([...groups, values.groupName])
+    const newGroup = {
+      name: values.groupName,
+      schedule: schedules.filter((s) => s.active),
+    }
+
+    setGroups([...groups, newGroup])
     setGroupError(false)
     groupForm.reset()
+
+    // Reset schedules
+    setSchedules(
+      DAYS.map((day) => ({
+        day: day,
+        active: false,
+        startTime: '----',
+        endTime: '----',
+      }))
+    )
+
     setGroupDialogOpen(false)
   }
 
   function onSubmit(values: z.infer<typeof courseSchema>) {
-    // Validate that at least one group has been added
     if (groups.length === 0) {
       setGroupError(true)
       return
@@ -72,6 +126,8 @@ export default function CourseFormDialog() {
     setSelectedColor('bg-red-500')
     setGroupError(false)
   }
+
+  const activeDays = schedules.filter((s) => s.active)
 
   return (
     <>
@@ -105,6 +161,7 @@ export default function CourseFormDialog() {
               />
 
               <ColorPicker onChange={setSelectedColor} />
+
               {/* Group Section */}
               <div className='space-y-2'>
                 <div className='flex items-center justify-between'>
@@ -125,7 +182,16 @@ export default function CourseFormDialog() {
                     <ul>
                       {groups.map((group, index) => (
                         <li key={index} className='py-1'>
-                          {group}
+                          <div className='font-medium'>{group.name}</div>
+                          {group.schedule.length > 0 && (
+                            <div className='ml-2 text-sm text-gray-500'>
+                              {group.schedule.map((s, i) => (
+                                <div key={i}>
+                                  {s.day}: {s.startTime} - {s.endTime}
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </li>
                       ))}
                     </ul>
@@ -182,6 +248,37 @@ export default function CourseFormDialog() {
                   </FormItem>
                 )}
               />
+
+              <div className='space-y-4'>
+                <FormLabel>Schedule</FormLabel>
+
+                <WeekDaySelector
+                  schedules={schedules}
+                  onToggleDay={handleDayToggle}
+                />
+
+                {/* Time selectors for ALL active days */}
+                {activeDays.length > 0 ? (
+                  <div className='border-t pt-3 mt-4'>
+                    <div className='p-2 rounded'>
+                      {activeDays.map((schedule) => (
+                        <TimeRangeSelector
+                          key={schedule.day}
+                          day={schedule.day}
+                          startTime={schedule.startTime}
+                          endTime={schedule.endTime}
+                          onChange={handleTimeChange}
+                          disabled={!schedule.active}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className='text-sm text-gray-500 italic text-center border-t pt-3'>
+                    Select a day to add times
+                  </div>
+                )}
+              </div>
 
               <DialogFooter>
                 <Button type='submit'>Save Group</Button>
