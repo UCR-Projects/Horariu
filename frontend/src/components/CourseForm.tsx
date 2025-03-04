@@ -40,12 +40,11 @@ interface ScheduleGroupForm {
 export default function CourseFormDialog() {
   const { t } = useTranslation()
   const [selectedColor, setSelectedColor] = useState('bg-red-500')
-  const [isMainDialogOpen, setIsMainDialogOpen] = useState(false)
-  const [groupDialogOpen, setGroupDialogOpen] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [activeStep, setActiveStep] = useState<'course' | 'group'>('course')
   const [groups, setGroups] = useState<
     { name: string; schedule: ScheduleGroupForm[] }[]
   >([])
-  const [groupError, setGroupError] = useState(false)
   const [schedules, setSchedules] = useState<ScheduleGroupForm[]>(
     DAYS.map((day) => ({
       day: day,
@@ -55,7 +54,7 @@ export default function CourseFormDialog() {
     }))
   )
 
-  const form = useForm<z.infer<typeof courseSchema>>({
+  const courseForm = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
       courseName: '',
@@ -88,7 +87,7 @@ export default function CourseFormDialog() {
     )
   }
 
-  const handleSaveGroup = (values: z.infer<typeof groupSchema>) => {
+  const handleAddGroup = (values: z.infer<typeof groupSchema>) => {
     const groupNameExists = groups.some(
       (group) => group.name === values.groupName
     )
@@ -126,7 +125,6 @@ export default function CourseFormDialog() {
     }
 
     setGroups([...groups, newGroup])
-    setGroupError(false)
     groupForm.reset()
 
     // Reset schedules
@@ -139,12 +137,11 @@ export default function CourseFormDialog() {
       }))
     )
 
-    setGroupDialogOpen(false)
+    setActiveStep('course')
   }
 
-  function onSubmit(values: z.infer<typeof courseSchema>) {
+  function onSubmitCourse(values: z.infer<typeof courseSchema>) {
     if (groups.length === 0) {
-      setGroupError(true)
       return
     }
 
@@ -153,189 +150,211 @@ export default function CourseFormDialog() {
       color: selectedColor,
       groups: groups,
     })
-    form.reset()
+
+    courseForm.reset()
     setGroups([])
-    setIsMainDialogOpen(false)
+    setIsDialogOpen(false)
     setSelectedColor('bg-red-500')
-    setGroupError(false)
   }
 
   const activeDays = schedules.filter((s) => s.active)
 
   return (
-    <>
-      <Dialog open={isMainDialogOpen} onOpenChange={setIsMainDialogOpen}>
-        <DialogTrigger asChild>
-          <Button onClick={() => setIsMainDialogOpen(true)}>Add Course</Button>
-        </DialogTrigger>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogTrigger asChild>
+        <Button>{t('addCourse')}</Button>
+      </DialogTrigger>
 
-        <DialogContent className='sm:max-w-[425px]'>
-          <DialogHeader>
-            <DialogTitle>{t('newCourse')}</DialogTitle>
-            <DialogDescription>{t('courseFormDescription')}</DialogDescription>
-          </DialogHeader>
+      <DialogContent className='sm:max-w-[425px]'>
+        {activeStep === 'course' && (
+          <>
+            <DialogHeader>
+              <DialogTitle className='text-lg'>{t('newCourse')}</DialogTitle>
+              <DialogDescription className='text-sm'>
+                {t('courseFormDescription')}
+              </DialogDescription>
+            </DialogHeader>
 
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-              <FormField
-                control={form.control}
-                name='courseName'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('courseName')}</FormLabel>
-                    <FormControl>
-                      <Input placeholder={t('courseName')} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <ColorPicker onChange={setSelectedColor} />
-
-              {/* Group Section */}
-              <div className='space-y-2'>
-                <div className='flex items-center justify-between'>
-                  <FormLabel
-                    className={`${groupError ? 'text-red-500' : 'text-foreground'}`}
-                  >
-                    {t('group')}s
-                  </FormLabel>
-                  <Button
-                    type='button'
-                    variant='outline'
-                    size='sm'
-                    onClick={() => setGroupDialogOpen(true)}
-                  >
-                    {t('addGroup')}
-                  </Button>
-                </div>
-
-                {/* Added Groups list*/}
-                {groups.length > 0 ? (
-                  <div className='border rounded-md p-2'>
-                    <ul>
-                      {groups.map((group, index) => (
-                        <li key={index} className='py-1'>
-                          <div className='font-medium'>{group.name}</div>
-                          {group.schedule.length > 0 && (
-                            <div className='ml-2 text-sm text-neutral-500'>
-                              {group.schedule.map((s, i) => (
-                                <div key={i}>
-                                  {s.day}: {s.startTime} - {s.endTime}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : (
-                  <div className='text-sm text-neutral-500 italic'>
-                    {t('noGroupsYet')}
-                  </div>
-                )}
-
-                {/* Group validation error */}
-                {groupError && (
-                  <div className='text-sm text-red-500'>
-                    {validMsgs.course.groupRequired}
-                  </div>
-                )}
-              </div>
-
-              <DialogFooter>
-                <Button type='submit'>{t('addCourse')}</Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
-
-      {/* Group Dialog */}
-      <Dialog open={groupDialogOpen} onOpenChange={setGroupDialogOpen}>
-        <DialogContent className='sm:max-w-[425px]'>
-          <DialogHeader>
-            <DialogTitle>{t('newGroup')}</DialogTitle>
-            <DialogDescription>{t('groupFormDescription')}</DialogDescription>
-          </DialogHeader>
-
-          <Form {...groupForm}>
-            <form
-              onSubmit={groupForm.handleSubmit(handleSaveGroup)}
-              className='space-y-6'
-            >
-              <FormField
-                control={groupForm.control}
-                name='groupName'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Group Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Group Name' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className='space-y-4'>
-                <FormLabel
-                  className={`${groupForm.formState.errors.schedule ? 'text-red-500' : 'text-foreground'}`}
-                >
-                  {t('schedule')}
-                </FormLabel>
-
-                <WeekDaySelector
-                  schedules={schedules}
-                  onToggleDay={handleDayToggle}
+            <Form {...courseForm}>
+              <form
+                onSubmit={courseForm.handleSubmit(onSubmitCourse)}
+                className='space-y-4 overflow-y-auto max-h-[70vh]'
+              >
+                <FormField
+                  control={courseForm.control}
+                  name='courseName'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='text-sm'>
+                        {t('courseName')}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={t('courseName')}
+                          {...field}
+                          className='text-sm py-2'
+                        />
+                      </FormControl>
+                      <FormMessage className='text-xs' />
+                    </FormItem>
+                  )}
                 />
 
-                {/* Time selectors for ALL active days */}
-                {activeDays.length > 0 ? (
-                  <div className='border-t pt-3 mt-4'>
-                    <div className='p-2 rounded'>
-                      <div className='flex items-center mb-2'>
-                        <div className='w-24'></div>
-                        <div className='w-24 text-xs text-neutral-500 font-medium text-center italic'>
-                          {t('from')}:
-                        </div>
-                        <div className='w-24 text-xs text-neutral-500 font-medium text-center italic'>
-                          {t('to')}:
-                        </div>
-                      </div>
-                      {activeDays.map((schedule) => (
-                        <TimeRangeSelector
-                          key={schedule.day}
-                          day={schedule.day}
-                          startTime={schedule.startTime}
-                          endTime={schedule.endTime}
-                          onChange={handleTimeChange}
-                          disabled={!schedule.active}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div className='text-sm text-neutral-500 italic text-center border-t pt-3'>
-                    {t('noActiveDays')}
-                  </div>
-                )}
-                {groupForm.formState.errors.schedule && (
-                  <div className='text-red-500 text-sm'>
-                    {groupForm.formState.errors.schedule.message}
-                  </div>
-                )}
-              </div>
+                <ColorPicker onChange={setSelectedColor} />
 
-              <DialogFooter>
-                <Button type='submit'>Save Group</Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
-    </>
+                <div className='space-y-2'>
+                  <div className='flex items-center justify-between'>
+                    <FormLabel className='text-sm'>{t('groups')}</FormLabel>
+                    <Button
+                      type='button'
+                      variant='outline'
+                      size='sm'
+                      className='text-xs px-2 py-1'
+                      onClick={() => setActiveStep('group')}
+                    >
+                      {t('addGroup')}
+                    </Button>
+                  </div>
+
+                  {groups.length > 0 ? (
+                    <div className='border rounded-md p-2 max-h-32 overflow-y-auto'>
+                      <ul className='space-y-1'>
+                        {groups.map((group, index) => (
+                          <li key={index} className='py-1'>
+                            <div className='font-medium text-sm'>
+                              {group.name}
+                            </div>
+                            {group.schedule.length > 0 && (
+                              <div className='ml-2 text-xs text-neutral-500'>
+                                {group.schedule.map((s, i) => (
+                                  <div key={i} className='truncate'>
+                                    {s.day}: {s.startTime} - {s.endTime}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <div className='text-xs text-neutral-500 italic'>
+                      {t('noGroupsYet')}
+                    </div>
+                  )}
+                </div>
+
+                <DialogFooter className='pt-4'>
+                  <Button
+                    type='submit'
+                    className='w-full text-sm py-2'
+                    disabled={groups.length === 0}
+                  >
+                    {t('addCourse')}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </Form>
+          </>
+        )}
+
+        {activeStep === 'group' && (
+          <>
+            <DialogHeader>
+              <DialogTitle className='text-lg'>{t('newGroup')}</DialogTitle>
+              <DialogDescription className='text-sm'>
+                {t('groupFormDescription')}
+              </DialogDescription>
+            </DialogHeader>
+
+            <Form {...groupForm}>
+              <form
+                onSubmit={groupForm.handleSubmit(handleAddGroup)}
+                className='space-y-4 overflow-y-auto max-h-[65vh]'
+              >
+                <FormField
+                  control={groupForm.control}
+                  name='groupName'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('groupName')}</FormLabel>
+                      <FormControl>
+                        <Input placeholder={t('groupName')} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className='space-y-2'>
+                  <FormLabel
+                    className={`${groupForm.formState.errors.schedule ? 'text-red-500' : 'text-foreground'}`}
+                  >
+                    {t('schedule')}
+                  </FormLabel>
+
+                  <WeekDaySelector
+                    schedules={schedules}
+                    onToggleDay={handleDayToggle}
+                  />
+
+                  {activeDays.length > 0 ? (
+                    <div className='border-t pt-2 mt-2'>
+                      <div className='p-2 rounded'>
+                        <div className='flex items-center mb-2'>
+                          <div className='w-24'></div>
+                          <div className='w-24 text-xs text-neutral-500 font-medium text-center italic'>
+                            {t('from')}:
+                          </div>
+                          <div className='w-24 text-xs text-neutral-500 font-medium text-center italic'>
+                            {t('to')}:
+                          </div>
+                        </div>
+                        {activeDays.map((schedule) => (
+                          <TimeRangeSelector
+                            key={schedule.day}
+                            day={schedule.day}
+                            startTime={schedule.startTime}
+                            endTime={schedule.endTime}
+                            onChange={handleTimeChange}
+                            disabled={!schedule.active}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className='text-xs text-neutral-500 italic text-center border-t pt-3'>
+                      {t('noActiveDays')}
+                    </div>
+                  )}
+
+                  {groupForm.formState.errors.schedule && (
+                    <div className='text-red-500 text-sm'>
+                      {groupForm.formState.errors.schedule.message}
+                    </div>
+                  )}
+                </div>
+
+                <DialogFooter>
+                  <div className='space-x-2'>
+                    <Button
+                      type='button'
+                      variant='outline'
+                      size='lg'
+                      onClick={() => setActiveStep('course')}
+                    >
+                      {t('cancel')}
+                    </Button>
+                    <Button variant='default' type='submit'>
+                      Save Group
+                    </Button>
+                  </div>
+                </DialogFooter>
+              </form>
+            </Form>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
   )
 }

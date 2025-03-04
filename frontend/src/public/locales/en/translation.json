@@ -44,6 +44,7 @@
   "noActiveDays": "Select a day to add times",
   "from": "From",
   "to": "To",
+  "cancel": "Cancel",
 
 
   "validation": {
