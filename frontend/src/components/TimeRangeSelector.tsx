@@ -35,6 +35,17 @@ const TimeRangeSelector = ({
 
   const validEndTimes = getValidEndTimes(startTime)
 
+  // Check if the current endTime is valid for the selected startTime
+  const isEndTimeValid = (start: string, end: string) => {
+    if (end === '----') return true
+    if (start === '----') return false
+
+    const startIndex = START_TIMES.indexOf(start)
+    const endIndex = END_TIMES.indexOf(end)
+
+    return endIndex >= startIndex
+  }
+
   return (
     <div className='flex items-center gap-2 mb-3'>
       <div className='w-24 font-medium'>{t(`days.${day}.name`)}</div>
@@ -42,7 +53,8 @@ const TimeRangeSelector = ({
         disabled={disabled}
         value={startTime}
         onValueChange={(value) => {
-          onChange(day, value, value === '----' ? '----' : endTime)
+          const newEndTime = isEndTimeValid(value, endTime) ? endTime : '----'
+          onChange(day, value, value === '----' ? '----' : newEndTime)
         }}
       >
         <SelectTrigger className='w-24'>

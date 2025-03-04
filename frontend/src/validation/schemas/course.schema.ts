@@ -1,6 +1,8 @@
 import { z } from 'zod'
 import useCourseStore from '@/stores/useCourseStore'
 import { validMsgs } from '@/validation/validationMessages'
+import { DAYS } from '@/utils/constants'
+import { Day } from '@/types'
 
 const isCourseNameUnique = (courseName: string) => {
   const courses = useCourseStore.getState().courses
@@ -25,7 +27,7 @@ export const groupSchema = z.object({
     .max(10, { message: validMsgs.group.name.max }),
   schedule: z.array(
     z.object({
-      day: z.string(),
+      day: z.enum(DAYS as [Day, ...Day[]]),
       active: z.boolean(),
       startTime: z.string(),
       endTime: z.string(),

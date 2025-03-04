@@ -25,7 +25,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Alert, AlertDescription } from '@/components/ui/alert'
 import { DAYS } from '@/utils/constants'
 import ColorPicker from './ColorPicker'
 import { Day } from '@/types'
@@ -197,7 +196,11 @@ export default function CourseFormDialog() {
               {/* Group Section */}
               <div className='space-y-2'>
                 <div className='flex items-center justify-between'>
-                  <FormLabel>Groups</FormLabel>
+                  <FormLabel
+                    className={`${groupError ? 'text-red-500' : 'text-foreground'}`}
+                  >
+                    Groups
+                  </FormLabel>
                   <Button
                     type='button'
                     variant='outline'
@@ -236,11 +239,9 @@ export default function CourseFormDialog() {
 
                 {/* Group validation error */}
                 {groupError && (
-                  <Alert variant='destructive' className='mt-2'>
-                    <AlertDescription className='text-sm'>
-                      At least one group must be added
-                    </AlertDescription>
-                  </Alert>
+                  <div className='text-sm text-red-500'>
+                    At least one group must be added
+                  </div>
                 )}
               </div>
 
@@ -265,7 +266,7 @@ export default function CourseFormDialog() {
           <Form {...groupForm}>
             <form
               onSubmit={groupForm.handleSubmit(handleSaveGroup)}
-              className='space-y-4'
+              className='space-y-6'
             >
               <FormField
                 control={groupForm.control}
@@ -282,7 +283,11 @@ export default function CourseFormDialog() {
               />
 
               <div className='space-y-4'>
-                <FormLabel>Schedule</FormLabel>
+                <FormLabel
+                  className={`${groupForm.formState.errors.schedule ? 'text-red-500' : 'text-foreground'}`}
+                >
+                  Schedule
+                </FormLabel>
 
                 <WeekDaySelector
                   schedules={schedules}
@@ -293,6 +298,15 @@ export default function CourseFormDialog() {
                 {activeDays.length > 0 ? (
                   <div className='border-t pt-3 mt-4'>
                     <div className='p-2 rounded'>
+                      <div className='flex items-center mb-2'>
+                        <div className='w-24'></div>
+                        <div className='w-24 text-xs text-gray-500 font-medium text-center italic'>
+                          From
+                        </div>
+                        <div className='w-24 text-xs text-gray-500 font-medium text-center italic'>
+                          To
+                        </div>
+                      </div>
                       {activeDays.map((schedule) => (
                         <TimeRangeSelector
                           key={schedule.day}
@@ -311,11 +325,9 @@ export default function CourseFormDialog() {
                   </div>
                 )}
                 {groupForm.formState.errors.schedule && (
-                  <Alert variant='destructive'>
-                    <AlertDescription>
-                      {groupForm.formState.errors.schedule.message}
-                    </AlertDescription>
-                  </Alert>
+                  <div className='text-red-500 text-sm'>
+                    {groupForm.formState.errors.schedule.message}
+                  </div>
                 )}
               </div>
 
