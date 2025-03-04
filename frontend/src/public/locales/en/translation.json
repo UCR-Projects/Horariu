@@ -35,6 +35,16 @@
   "group": "Group",
   "close": "Close",
   "courseName": "Course Name",
+  "newCourse": "Create Course",
+  "courseFormDescription": "Enter the course information to include it in your plan",
+  "noGroupsYet": "No groups added yet",
+  "newGroup": "Create Group",
+  "groupFormDescription": "Enter the group information to include it in the course",
+  "schedule": "Schedule",
+  "noActiveDays": "Select a day to add times",
+  "from": "From",
+  "to": "To",
+
 
   "validation": {
     "course": {
@@ -43,7 +53,8 @@
         "min": "Course name must be at least 2 characters",
         "max": "Course name must be at most 50 characters",
         "unique": "A course with this name already exists"
-      }
+      },
+      "groupRequired": "At least one group must be added"
     },
     "group": {
       "name": {
@@ -51,6 +62,10 @@
         "min": "Group name must be at least 2 characters",
         "max": "Group name must be at most 10 characters",
         "unique": "Group name already exists for this course"
+      },
+      "schedule": {
+        "required": "At least one day must be selected",
+        "timeRange": "All selected days must have a valid schedule"
       }
     }
   }

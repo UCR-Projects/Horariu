@@ -35,6 +35,15 @@
   "group": "Grupo",
   "close": "Cerrar",
   "courseName": "Nombre del Curso",
+  "newCourse": "Crear Curso",
+  "courseFormDescription": "Ingresa la información del curso para incluirlo en tu horario",
+  "noGroupsYet": "No se han agregado grupos",
+  "newGroup": "Crear Grupo",
+  "groupFormDescription": "Ingresa la información del grupo para incluirlo en el curso",
+  "schedule": "Horario",
+  "noActiveDays": "Selecciona un día para agregar horarios",
+  "from": "Desde",
+  "to": "Hasta",
 
   "validation": {
     "course": {
@@ -42,7 +51,8 @@
         "required": "El nombre del curso es requerido",
         "min": "El nombre del curso debe tener al menos 2 caracteres",
         "max": "El nombre del curso debe tener como máximo 50 caracteres",
-        "unique": "Ya existe un curso con este nombre"
+        "unique": "Ya existe un curso con este nombre",
+        "groupRequired": "Debe agregar al menos un grupo al curso"
       }
     },
     "group": {
@@ -51,6 +61,10 @@
         "min": "El nombre del grupo debe tener al menos 2 caracteres",
         "max": "El nombre del grupo debe tener como máximo 10 caracteres",
         "unique": "El nombre del grupo ya existe para este curso"
+      },
+      "schedule": {
+        "required": "Debe seleccionar al menos un día",
+        "timeRange": "Todos los días seleccionados deben tener un horario válido"
       }
     }
   }

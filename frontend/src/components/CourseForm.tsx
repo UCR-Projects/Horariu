@@ -28,6 +28,7 @@ import {
 import { DAYS } from '@/utils/constants'
 import ColorPicker from './ColorPicker'
 import { Day } from '@/types'
+import { useTranslation } from 'react-i18next'
 
 interface ScheduleGroupForm {
   day: Day
@@ -37,6 +38,7 @@ interface ScheduleGroupForm {
 }
 
 export default function CourseFormDialog() {
+  const { t } = useTranslation()
   const [selectedColor, setSelectedColor] = useState('bg-red-500')
   const [isMainDialogOpen, setIsMainDialogOpen] = useState(false)
   const [groupDialogOpen, setGroupDialogOpen] = useState(false)
@@ -102,7 +104,7 @@ export default function CourseFormDialog() {
     if (!hasActiveDays) {
       groupForm.setError('schedule', {
         type: 'manual',
-        message: 'Al menos un día debe estar seleccionado',
+        message: validMsgs.group.schedule.required,
       })
       return
     }
@@ -113,7 +115,7 @@ export default function CourseFormDialog() {
     if (hasInvalidTimes) {
       groupForm.setError('schedule', {
         type: 'manual',
-        message: 'Todos los días seleccionados deben tener un horario válido',
+        message: validMsgs.group.schedule.timeRange,
       })
       return
     }
@@ -169,10 +171,8 @@ export default function CourseFormDialog() {
 
         <DialogContent className='sm:max-w-[425px]'>
           <DialogHeader>
-            <DialogTitle>Add Course</DialogTitle>
-            <DialogDescription>
-              Add a new course to your schedule.
-            </DialogDescription>
+            <DialogTitle>{t('newCourse')}</DialogTitle>
+            <DialogDescription>{t('courseFormDescription')}</DialogDescription>
           </DialogHeader>
 
           <Form {...form}>
@@ -182,9 +182,9 @@ export default function CourseFormDialog() {
                 name='courseName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Course Name</FormLabel>
+                    <FormLabel>{t('courseName')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='Course Name' {...field} />
+                      <Input placeholder={t('courseName')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -199,7 +199,7 @@ export default function CourseFormDialog() {
                   <FormLabel
                     className={`${groupError ? 'text-red-500' : 'text-foreground'}`}
                   >
-                    Groups
+                    {t('group')}s
                   </FormLabel>
                   <Button
                     type='button'
@@ -207,7 +207,7 @@ export default function CourseFormDialog() {
                     size='sm'
                     onClick={() => setGroupDialogOpen(true)}
                   >
-                    Add Group
+                    {t('addGroup')}
                   </Button>
                 </div>
 
@@ -219,7 +219,7 @@ export default function CourseFormDialog() {
                         <li key={index} className='py-1'>
                           <div className='font-medium'>{group.name}</div>
                           {group.schedule.length > 0 && (
-                            <div className='ml-2 text-sm text-gray-500'>
+                            <div className='ml-2 text-sm text-neutral-500'>
                               {group.schedule.map((s, i) => (
                                 <div key={i}>
                                   {s.day}: {s.startTime} - {s.endTime}
@@ -232,21 +232,21 @@ export default function CourseFormDialog() {
                     </ul>
                   </div>
                 ) : (
-                  <div className='text-sm text-gray-500 italic'>
-                    No groups added yet
+                  <div className='text-sm text-neutral-500 italic'>
+                    {t('noGroupsYet')}
                   </div>
                 )}
 
                 {/* Group validation error */}
                 {groupError && (
                   <div className='text-sm text-red-500'>
-                    At least one group must be added
+                    {validMsgs.course.groupRequired}
                   </div>
                 )}
               </div>
 
               <DialogFooter>
-                <Button type='submit'>Save Course</Button>
+                <Button type='submit'>{t('addCourse')}</Button>
               </DialogFooter>
             </form>
           </Form>
@@ -257,10 +257,8 @@ export default function CourseFormDialog() {
       <Dialog open={groupDialogOpen} onOpenChange={setGroupDialogOpen}>
         <DialogContent className='sm:max-w-[425px]'>
           <DialogHeader>
-            <DialogTitle>Add Group</DialogTitle>
-            <DialogDescription>
-              Add a new group to this course
-            </DialogDescription>
+            <DialogTitle>{t('newGroup')}</DialogTitle>
+            <DialogDescription>{t('groupFormDescription')}</DialogDescription>
           </DialogHeader>
 
           <Form {...groupForm}>
@@ -286,7 +284,7 @@ export default function CourseFormDialog() {
                 <FormLabel
                   className={`${groupForm.formState.errors.schedule ? 'text-red-500' : 'text-foreground'}`}
                 >
-                  Schedule
+                  {t('schedule')}
                 </FormLabel>
 
                 <WeekDaySelector
@@ -300,11 +298,11 @@ export default function CourseFormDialog() {
                     <div className='p-2 rounded'>
                       <div className='flex items-center mb-2'>
                         <div className='w-24'></div>
-                        <div className='w-24 text-xs text-gray-500 font-medium text-center italic'>
-                          From
+                        <div className='w-24 text-xs text-neutral-500 font-medium text-center italic'>
+                          {t('from')}:
                         </div>
-                        <div className='w-24 text-xs text-gray-500 font-medium text-center italic'>
-                          To
+                        <div className='w-24 text-xs text-neutral-500 font-medium text-center italic'>
+                          {t('to')}:
                         </div>
                       </div>
                       {activeDays.map((schedule) => (
@@ -320,8 +318,8 @@ export default function CourseFormDialog() {
                     </div>
                   </div>
                 ) : (
-                  <div className='text-sm text-gray-500 italic text-center border-t pt-3'>
-                    Select a day to add times
+                  <div className='text-sm text-neutral-500 italic text-center border-t pt-3'>
+                    {t('noActiveDays')}
                   </div>
                 )}
                 {groupForm.formState.errors.schedule && (
