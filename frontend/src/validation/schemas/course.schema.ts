@@ -17,8 +17,6 @@ export const courseSchema = z.object({
     .refine(isCourseNameUnique, { message: validMsgs.course.name.unique }),
 })
 
-//TODO Add Unique Group Name Validation
-//TODO Add Valid Time Range Validation
 export const groupSchema = z.object({
   groupName: z
     .string()

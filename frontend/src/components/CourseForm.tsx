@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { courseSchema, groupSchema } from '@/validation/schemas/course.schema'
 import TimeRangeSelector from './TimeRangeSelector'
 import WeekDaySelector from './WeekDaySelector'
+import { validMsgs } from '@/validation/validationMessages'
 import {
   Form,
   FormControl,
@@ -87,6 +88,37 @@ export default function CourseFormDialog() {
   }
 
   const handleSaveGroup = (values: z.infer<typeof groupSchema>) => {
+    const groupNameExists = groups.some(
+      (group) => group.name === values.groupName
+    )
+
+    if (groupNameExists) {
+      groupForm.setError('groupName', {
+        message: validMsgs.group.name.unique,
+      })
+      return
+    }
+
+    const hasActiveDays = schedules.some((s) => s.active)
+    if (!hasActiveDays) {
+      groupForm.setError('schedule', {
+        type: 'manual',
+        message: 'Al menos un día debe estar seleccionado',
+      })
+      return
+    }
+
+    const hasInvalidTimes = schedules.some(
+      (s) => s.active && (s.startTime === '----' || s.endTime === '----')
+    )
+    if (hasInvalidTimes) {
+      groupForm.setError('schedule', {
+        type: 'manual',
+        message: 'Todos los días seleccionados deben tener un horario válido',
+      })
+      return
+    }
+
     const newGroup = {
       name: values.groupName,
       schedule: schedules.filter((s) => s.active),
@@ -277,6 +309,13 @@ export default function CourseFormDialog() {
                   <div className='text-sm text-gray-500 italic text-center border-t pt-3'>
                     Select a day to add times
                   </div>
+                )}
+                {groupForm.formState.errors.schedule && (
+                  <Alert variant='destructive'>
+                    <AlertDescription>
+                      {groupForm.formState.errors.schedule.message}
+                    </AlertDescription>
+                  </Alert>
                 )}
               </div>
 
