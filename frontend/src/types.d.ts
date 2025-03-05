@@ -15,7 +15,7 @@ export interface Group {
 
 export interface Course {
   name: string
-  color: string
+  color: TailwindColor
   groups: Group[]
 }
 

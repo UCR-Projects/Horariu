@@ -7,6 +7,7 @@ import { courseSchema, groupSchema } from '@/validation/schemas/course.schema'
 import TimeRangeSelector from './TimeRangeSelector'
 import WeekDaySelector from './WeekDaySelector'
 import { validMsgs } from '@/validation/validationMessages'
+import { Trash2, Edit2 } from 'lucide-react'
 import {
   Form,
   FormControl,
@@ -25,11 +26,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+
 import { DAYS } from '@/utils/constants'
 import ColorPicker from './ColorPicker'
-import { Day, Group, Schedule } from '@/types'
+import { Day, Group, Schedule, TailwindColor } from '@/types'
 import { useTranslation } from 'react-i18next'
 import useCourseStore from '@/stores/useCourseStore'
+import { COLORS } from '@/utils/constants'
 
 interface ScheduleGroupForm {
   day: Day
@@ -41,7 +50,7 @@ interface ScheduleGroupForm {
 export default function CourseFormDialog() {
   const { t } = useTranslation()
   const { addCourse } = useCourseStore()
-  const [selectedColor, setSelectedColor] = useState('bg-red-500')
+  const [selectedColor, setSelectedColor] = useState<TailwindColor>(COLORS[4])
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [activeStep, setActiveStep] = useState<'course' | 'group'>('course')
   const [groups, setGroups] = useState<
@@ -55,6 +64,11 @@ export default function CourseFormDialog() {
       endTime: '----',
     }))
   )
+
+  const [editingGroup, setEditingGroup] = useState<{
+    index: number
+    group: { name: string; schedule: ScheduleGroupForm[] }
+  } | null>(null)
 
   const courseForm = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
@@ -91,7 +105,7 @@ export default function CourseFormDialog() {
 
   const handleAddGroup = (values: z.infer<typeof groupSchema>) => {
     const groupNameExists = groups.some(
-      (group) => group.name === values.groupName
+      (group, i) => i !== editingGroup?.index && group.name === values.groupName
     )
 
     if (groupNameExists) {
@@ -115,6 +129,8 @@ export default function CourseFormDialog() {
     )
     if (hasInvalidTimes) {
       groupForm.setError('schedule', {
+        // Reset schedules
+
         type: 'manual',
         message: validMsgs.group.schedule.timeRange,
       })
@@ -126,10 +142,17 @@ export default function CourseFormDialog() {
       schedule: schedules.filter((s) => s.active),
     }
 
-    setGroups([...groups, newGroup])
+    if (editingGroup !== null) {
+      const updatedGroups = [...groups]
+      updatedGroups[editingGroup.index] = newGroup
+      setGroups(updatedGroups)
+      setEditingGroup(null)
+    } else {
+      setGroups([...groups, newGroup])
+    }
+
     groupForm.reset()
 
-    // Reset schedules
     setSchedules(
       DAYS.map((day) => ({
         day: day,
@@ -140,6 +163,28 @@ export default function CourseFormDialog() {
     )
 
     setActiveStep('course')
+  }
+
+  const handleEditGroup = (index: number) => {
+    const groupToEdit = groups[index]
+
+    const editSchedules = DAYS.map((day) => {
+      const scheduleForDay = groupToEdit.schedule.find((s) => s.day === day)
+      return scheduleForDay
+        ? { ...scheduleForDay, active: true }
+        : { day, active: false, startTime: '----', endTime: '----' }
+    })
+
+    setSchedules(editSchedules)
+    groupForm.setValue('groupName', groupToEdit.name)
+
+    setEditingGroup({ index, group: groupToEdit })
+    setActiveStep('group')
+  }
+
+  const handleDeleteGroup = (index: number) => {
+    const updatedGroups = groups.filter((_, i) => i !== index)
+    setGroups(updatedGroups)
   }
 
   function onSubmitCourse(values: z.infer<typeof courseSchema>) {
@@ -167,7 +212,7 @@ export default function CourseFormDialog() {
     courseForm.reset()
     setGroups([])
     setIsDialogOpen(false)
-    setSelectedColor('bg-red-500')
+    setSelectedColor(COLORS[4])
   }
 
   const activeDays = schedules.filter((s) => s.active)
@@ -213,7 +258,14 @@ export default function CourseFormDialog() {
                   )}
                 />
 
-                <ColorPicker onChange={setSelectedColor} />
+                <ColorPicker
+                  colorValue={selectedColor}
+                  onColorChange={(newValue) =>
+                    setSelectedColor(
+                      COLORS.find((c) => c.value === newValue) || selectedColor
+                    )
+                  }
+                />
 
                 <div className='space-y-2'>
                   <div className='flex items-center justify-between'>
@@ -230,26 +282,64 @@ export default function CourseFormDialog() {
                   </div>
 
                   {groups.length > 0 ? (
-                    <div className='border rounded-md p-2 max-h-32 overflow-y-auto'>
-                      <ul className='space-y-1'>
-                        {groups.map((group, index) => (
-                          <li key={index} className='py-1'>
-                            <div className='font-medium text-sm'>
-                              {group.name}
-                            </div>
-                            {group.schedule.length > 0 && (
-                              <div className='ml-2 text-xs text-neutral-500'>
-                                {group.schedule.map((s, i) => (
-                                  <div key={i} className='truncate'>
-                                    {s.day}: {s.startTime} - {s.endTime}
-                                  </div>
-                                ))}
+                    <Accordion
+                      type='single'
+                      collapsible
+                      className='border rounded-md'
+                    >
+                      {groups.map((group, index) => (
+                        <AccordionItem
+                          key={index}
+                          value={`group-${index}`}
+                          className='border-b last:border-b-0'
+                        >
+                          <AccordionTrigger className='px-3 py-2 transition-colors group'>
+                            <div className='flex items-center justify-between w-full'>
+                              <span className='text-sm font-medium text-sky-600'>
+                                {group.name}
+                              </span>
+                              <div className='flex items-center space-x-2'>
+                                <Button
+                                  variant='ghost'
+                                  size='icon'
+                                  className='h-7 w-7 dark:hover:bg-neutral-900/80'
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    handleEditGroup(index)
+                                  }}
+                                >
+                                  <Edit2 className='h-4 w-4 text-neutral-600' />
+                                </Button>
+                                <Button
+                                  variant='ghost'
+                                  size='icon'
+                                  className='h-7 w-7 dark:hover:bg-neutral-900/80'
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    handleDeleteGroup(index)
+                                  }}
+                                >
+                                  <Trash2 className='h-4 w-4 text-neutral-600' />
+                                </Button>
                               </div>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent className='px-3 py-2 text-sm'>
+                            {group.schedule.map((s, i) => (
+                              <div
+                                key={i}
+                                className='flex justify-between text-neutral-600 py-1 border-b last:border-b-0'
+                              >
+                                <span>{s.day}</span>
+                                <span>
+                                  {s.startTime} - {s.endTime}
+                                </span>
+                              </div>
+                            ))}
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
                   ) : (
                     <div className='text-xs text-neutral-500 italic'>
                       {t('noGroupsYet')}
@@ -274,7 +364,9 @@ export default function CourseFormDialog() {
         {activeStep === 'group' && (
           <>
             <DialogHeader>
-              <DialogTitle className='text-lg'>{t('newGroup')}</DialogTitle>
+              <DialogTitle className='text-lg'>
+                {editingGroup ? t('editGroup') : t('newGroup')}
+              </DialogTitle>
               <DialogDescription className='text-sm'>
                 {t('groupFormDescription')}
               </DialogDescription>
@@ -354,12 +446,24 @@ export default function CourseFormDialog() {
                       type='button'
                       variant='outline'
                       size='lg'
-                      onClick={() => setActiveStep('course')}
+                      onClick={() => {
+                        setActiveStep('course')
+                        setEditingGroup(null)
+                        groupForm.reset()
+                        setSchedules(
+                          DAYS.map((day) => ({
+                            day: day,
+                            active: false,
+                            startTime: '----',
+                            endTime: '----',
+                          }))
+                        )
+                      }}
                     >
                       {t('cancel')}
                     </Button>
                     <Button variant='default' type='submit'>
-                      Save Group
+                      {editingGroup ? t('updateGroup') : t('saveGroup')}
                     </Button>
                   </div>
                 </DialogFooter>
