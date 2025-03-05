@@ -27,8 +27,9 @@ import {
 } from '@/components/ui/dialog'
 import { DAYS } from '@/utils/constants'
 import ColorPicker from './ColorPicker'
-import { Day } from '@/types'
+import { Day, Group, Schedule } from '@/types'
 import { useTranslation } from 'react-i18next'
+import useCourseStore from '@/stores/useCourseStore'
 
 interface ScheduleGroupForm {
   day: Day
@@ -39,6 +40,7 @@ interface ScheduleGroupForm {
 
 export default function CourseFormDialog() {
   const { t } = useTranslation()
+  const { addCourse } = useCourseStore()
   const [selectedColor, setSelectedColor] = useState('bg-red-500')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [activeStep, setActiveStep] = useState<'course' | 'group'>('course')
@@ -145,10 +147,21 @@ export default function CourseFormDialog() {
       return
     }
 
-    console.log({
-      ...values,
+    const formattedGroups: Group[] = groups.map((group) => ({
+      name: group.name,
+      schedule: group.schedule.reduce((acc, curr) => {
+        acc[curr.day] = {
+          start: curr.startTime,
+          end: curr.endTime,
+        }
+        return acc
+      }, {} as Schedule),
+    }))
+
+    addCourse({
+      name: values.courseName,
       color: selectedColor,
-      groups: groups,
+      groups: formattedGroups,
     })
 
     courseForm.reset()

@@ -148,31 +148,34 @@
 
 /*Scroll bar theme*/
 
-.dark {
-  ::-webkit-scrollbar {
-    width: 12px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: bg-background;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-ring);
-    border-radius: 4px;}
-}
+@media (min-width: 769px) {
+  .dark {
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
 
-.light {
-  ::-webkit-scrollbar {
-    width: 12px;
+    ::-webkit-scrollbar-track {
+      background: bg-background;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-ring);
+    }
   }
-  
-  ::-webkit-scrollbar-track {
-    background: bg-background;
+
+  .light {
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: bg-background;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: oklch(0.8 0 0);
+    }
   }
-  
-  ::-webkit-scrollbar-thumb {
-    background: oklch(0.8 0 0);
-    border-radius: 4px;}
-  
 }
