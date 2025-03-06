@@ -1,10 +1,16 @@
 import { UserService } from '../services/UserService'
-import { UserCredentials } from '../schemas/user.schema'
+import { validateUser, validateLogin } from '../schemas/user.schema'
 
 export class UserController {
-  register = async (user: UserCredentials) => {
+  register = async (user: unknown) => {
     try {
-      const { token } = await UserService.register(user)
+      const validatedUser = await validateUser(user)
+
+      if (!validatedUser.success) {
+        throw new Error(JSON.stringify(validatedUser.error.format()))
+      }
+
+      const { token } = await UserService.register(validatedUser.data)
 
       return {
         statusCode: 201,
@@ -19,9 +25,14 @@ export class UserController {
     }
   }
 
-  login = async (user: UserCredentials) => {
+  login = async (user: unknown) => {
     try {
-      const { token } = await UserService.login(user)
+      const validatedUser = await validateLogin(user)
+
+      if (!validatedUser.success) {
+        throw new Error(JSON.stringify(validatedUser.error.format()))
+      }
+      const { token } = await UserService.login(validatedUser.data)
       return {
         statusCode: 201,
         body: JSON.stringify({ message: 'Login successful', token })
