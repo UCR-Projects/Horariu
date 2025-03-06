@@ -13,7 +13,7 @@ import { TailwindColor } from '@/types'
 
 interface ColorPickerProps {
   onColorChange?: (color: string) => void
-  colorValue: TailwindColor
+  colorValue: string
 }
 
 const ColorPicker: React.FC<ColorPickerProps> = ({
@@ -21,6 +21,9 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   colorValue,
 }) => {
   const [open, setOpen] = useState(false)
+
+  const selectedColor =
+    COLORS.find((color) => color.value === colorValue) || COLORS[4]
 
   const handleSelectColor = (color: TailwindColor) => {
     if (onColorChange) {
@@ -40,9 +43,12 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           >
             <div className='flex items-center gap-2'>
               <div
-                className={cn('h-5 w-5 rounded-full border', colorValue.class)}
+                className={cn(
+                  'h-5 w-5 rounded-full border',
+                  selectedColor.class
+                )}
               />
-              <span>{colorValue.name}</span>
+              <span>{selectedColor.name}</span>
             </div>
           </Button>
         </PopoverTrigger>
@@ -62,7 +68,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                     'cursor-pointer flex items-center justify-center'
                   )}
                 >
-                  {colorValue.name === color.name && (
+                  {selectedColor.name === color.name && (
                     <Check className='h-4 w-4 text-white' />
                   )}
                 </div>

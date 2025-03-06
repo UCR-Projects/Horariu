@@ -1,32 +1,20 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { Course, Group, Day, TailwindColor } from '../types'
-import { COLORS } from '../utils/constants'
+import { Course } from '../types'
+import { DEFAULT_COLOR } from '../utils/constants'
 
 interface CourseState {
   courses: Course[]
   selectedCourse: Course | null
-  currentColor: TailwindColor
-  selectedGroup: Group | null
-  selectedDays: Day[]
+  currentColor: string
 
   setSelectedCourse: (course: Course | null) => void
-  setCurrentColor: (color: TailwindColor) => void
-  setSelectedGroup: (group: Group | null) => void
+  setCurrentColor: (color: string) => void
 
-  addCourse: (courseData: Course | string) => void
+  addCourse: (courseData: Course) => void
   deleteCourse: (name: string) => void
 
-  addGroup: (courseName: string) => void
-  deleteGroup: (courseName: string, groupName: string) => void
-
-  toggleDay: (day: Day) => void
-  updateSchedule: (
-    groupName: string,
-    day: Day,
-    start: string,
-    end: string
-  ) => void
+  updateCourse: (oldCourseName: string, course: Course) => void
 }
 
 const useCourseStore = create<CourseState>()(
@@ -34,54 +22,20 @@ const useCourseStore = create<CourseState>()(
     (set) => ({
       courses: [],
       selectedCourse: null,
-      currentColor: COLORS[0],
-      selectedGroup: null,
-      selectedDays: [],
+      currentColor: DEFAULT_COLOR,
 
-      setSelectedCourse: (course) =>
-        set({ selectedCourse: course, selectedGroup: null, selectedDays: [] }),
+      setSelectedCourse: (course) => set({ selectedCourse: course }),
 
       setCurrentColor: (color) => set({ currentColor: color }),
 
-      setSelectedGroup: (group) =>
-        set(() => {
-          if (!group) return { selectedGroup: null, selectedDays: [] as Day[] }
-
-          // Get days that have schedules for this group and cast them to Day[]
-          const scheduledDays = Object.keys(group.schedule || {}).filter(
-            (day): day is Day =>
-              ['L', 'K', 'M', 'J', 'V', 'S', 'D'].includes(day)
-          )
-
-          return {
-            selectedGroup: group,
-            selectedDays: scheduledDays,
-          }
-        }),
-
       addCourse: (courseData) =>
         set((state) => {
-          if (typeof courseData === 'string') {
-            const name = courseData
-            if (!name.trim()) return state
+          if (state.courses.some((c) => c.name === courseData.name)) {
+            return state
+          }
 
-            const newCourse: Course = {
-              name,
-              color: state.currentColor,
-              groups: [],
-            }
-
-            return {
-              courses: [...state.courses, newCourse],
-            }
-          } else {
-            if (state.courses.some((c) => c.name === courseData.name)) {
-              return state
-            }
-
-            return {
-              courses: [...state.courses, courseData],
-            }
+          return {
+            courses: [...state.courses, courseData],
           }
         }),
       deleteCourse: (name) =>
@@ -91,152 +45,18 @@ const useCourseStore = create<CourseState>()(
             state.selectedCourse?.name === name ? null : state.selectedCourse,
         })),
 
-      addGroup: (courseName) =>
+      updateCourse: (oldCourseName, updatedCourse) =>
         set((state) => {
-          const course = state.courses.find(
-            (course) => course.name === courseName
+          const filteredCourses = state.courses.filter(
+            (course) => course.name !== oldCourseName
           )
-          if (!course) return state
-
-          const newGroup: Group = {
-            name: `${String(course.groups.length + 1).padStart(2, '0')}`,
-            schedule: {},
-          }
-
-          const updatedCourse = {
-            ...course,
-            groups: [...course.groups, newGroup],
-          }
-
-          const newCourses = [
-            ...state.courses.filter((course) => course.name !== courseName),
-            updatedCourse,
-          ]
 
           return {
-            courses: newCourses,
+            courses: [...filteredCourses, updatedCourse],
             selectedCourse:
-              state.selectedCourse?.name === courseName
+              state.selectedCourse?.name === oldCourseName
                 ? updatedCourse
                 : state.selectedCourse,
-          }
-        }),
-
-      deleteGroup: (courseName, groupName) =>
-        set((state) => {
-          const course = state.courses.find(
-            (course) => course.name === courseName
-          )
-
-          if (!course) return state
-
-          const updatedGroups = course.groups.filter(
-            (group) => group.name !== groupName
-          )
-
-          const updatedCourse = {
-            ...course,
-            groups: updatedGroups,
-          }
-
-          const newCourses = [
-            ...state.courses.filter((course) => course.name !== courseName),
-            updatedCourse,
-          ]
-
-          return {
-            courses: newCourses,
-            selectedCourse:
-              state.selectedCourse?.name === courseName
-                ? updatedCourse
-                : state.selectedCourse,
-          }
-        }),
-
-      toggleDay: (day) =>
-        set((state) => {
-          if (!state.selectedGroup || !state.selectedCourse) return state
-
-          const newSelectedDays = state.selectedDays.includes(day)
-            ? state.selectedDays.filter((d) => d !== day)
-            : [...state.selectedDays, day]
-
-          if (!state.selectedDays.includes(day)) {
-            // Day is being added - no need to remove schedule
-            return { selectedDays: newSelectedDays }
-          }
-
-          // Day is being removed - remove its schedule
-          const groupName = state.selectedGroup.name
-          const course = state.selectedCourse
-          const group = course.groups.find((g) => g.name === groupName)
-
-          if (!group) return { selectedDays: newSelectedDays }
-
-          const updatedGroup = {
-            ...group,
-            schedule: { ...group.schedule },
-          }
-
-          delete updatedGroup.schedule[day]
-
-          const updatedGroups = course.groups.map((g) =>
-            g.name === groupName ? updatedGroup : g
-          )
-
-          const updatedCourse = {
-            ...course,
-            groups: updatedGroups,
-          }
-
-          const newCourses = state.courses.map((c) =>
-            c.name === course.name ? updatedCourse : c
-          )
-
-          return {
-            courses: newCourses,
-            selectedCourse: updatedCourse,
-            selectedDays: newSelectedDays,
-          }
-        }),
-
-      updateSchedule: (
-        groupName: string,
-        day: Day,
-        start: string,
-        end: string
-      ) =>
-        set((state) => {
-          if (!state.selectedCourse) return state
-
-          const course = state.selectedCourse
-          const group = course.groups.find((group) => group.name === groupName)
-          if (!group) return state
-
-          const updatedGroup = {
-            ...group,
-            schedule: {
-              ...group.schedule,
-              [day]: { start, end },
-            },
-          }
-
-          const updatedGroups = course.groups.map((group) =>
-            group.name === groupName ? updatedGroup : group
-          )
-
-          const updatedCourse = {
-            ...course,
-            groups: updatedGroups,
-          }
-
-          const newCourses = state.courses.map((c) =>
-            c.name === course.name ? updatedCourse : c
-          )
-
-          return {
-            courses: newCourses,
-            selectedCourse: updatedCourse,
           }
         }),
     }),

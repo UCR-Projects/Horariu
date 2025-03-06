@@ -68,4 +68,6 @@ const COLORS: TailwindColor[] = [
   { name: 'Rose', class: 'bg-rose-500', value: 'bg-rose-500' },
 ]
 
-export { START_TIMES, END_TIMES, TIME_RANGES, DAYS, COLORS }
+const DEFAULT_COLOR = COLORS[4].value
+
+export { START_TIMES, END_TIMES, TIME_RANGES, DAYS, COLORS, DEFAULT_COLOR }

@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { courseSchema, groupSchema } from '@/validation/schemas/course.schema'
 import TimeRangeSelector from './TimeRangeSelector'
 import WeekDaySelector from './WeekDaySelector'
@@ -35,10 +35,10 @@ import {
 
 import { DAYS } from '@/utils/constants'
 import ColorPicker from './ColorPicker'
-import { Day, Group, Schedule, TailwindColor } from '@/types'
+import { Day, Group, Schedule, Course } from '@/types'
 import { useTranslation } from 'react-i18next'
 import useCourseStore from '@/stores/useCourseStore'
-import { COLORS } from '@/utils/constants'
+import { DEFAULT_COLOR } from '@/utils/constants'
 
 interface ScheduleGroupForm {
   day: Day
@@ -47,23 +47,79 @@ interface ScheduleGroupForm {
   endTime: string
 }
 
-export default function CourseFormDialog() {
+interface CourseFormDialogProps {
+  existingCourse?: Course
+}
+
+export default function CourseFormDialog({
+  existingCourse,
+}: CourseFormDialogProps) {
+  const isEditingCourse = !!existingCourse
   const { t } = useTranslation()
-  const { addCourse } = useCourseStore()
-  const [selectedColor, setSelectedColor] = useState<TailwindColor>(COLORS[4])
+  const { addCourse, updateCourse } = useCourseStore()
+  const [selectedColor, setSelectedColor] = useState<string>(
+    existingCourse?.color || DEFAULT_COLOR
+  )
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [activeStep, setActiveStep] = useState<'course' | 'group'>('course')
   const [groups, setGroups] = useState<
     { name: string; schedule: ScheduleGroupForm[] }[]
-  >([])
+  >(
+    existingCourse?.groups.map((group) => ({
+      name: group.name,
+      schedule: DAYS.filter((day) => group.schedule[day]).map((day) => ({
+        day,
+        active: true,
+        startTime: group.schedule[day].start,
+        endTime: group.schedule[day].end,
+      })),
+    })) || []
+  )
+
   const [schedules, setSchedules] = useState<ScheduleGroupForm[]>(
     DAYS.map((day) => ({
       day: day,
-      active: false,
-      startTime: '----',
-      endTime: '----',
+      active: !!existingCourse?.groups.some((group) => group.schedule[day]),
+      startTime:
+        existingCourse?.groups.find((group) => group.schedule[day])?.schedule[
+          day
+        ]?.start || '----',
+      endTime:
+        existingCourse?.groups.find((group) => group.schedule[day])?.schedule[
+          day
+        ]?.end || '----',
     }))
   )
+
+  useEffect(() => {
+    if (existingCourse) {
+      setSelectedColor(existingCourse.color || DEFAULT_COLOR)
+      setGroups(
+        existingCourse.groups.map((group) => ({
+          name: group.name,
+          schedule: DAYS.filter((day) => group.schedule[day]).map((day) => ({
+            day,
+            active: true,
+            startTime: group.schedule[day].start,
+            endTime: group.schedule[day].end,
+          })),
+        }))
+      )
+
+      setSchedules(
+        DAYS.map((day) => ({
+          day: day,
+          active: !!existingCourse.groups.some((group) => group.schedule[day]),
+          startTime:
+            existingCourse.groups.find((group) => group.schedule[day])
+              ?.schedule[day]?.start || '----',
+          endTime:
+            existingCourse.groups.find((group) => group.schedule[day])
+              ?.schedule[day]?.end || '----',
+        }))
+      )
+    }
+  }, [existingCourse, isDialogOpen])
 
   const [editingGroup, setEditingGroup] = useState<{
     index: number
@@ -73,7 +129,7 @@ export default function CourseFormDialog() {
   const courseForm = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
-      courseName: '',
+      courseName: existingCourse?.name || '',
     },
   })
 
@@ -195,24 +251,34 @@ export default function CourseFormDialog() {
     const formattedGroups: Group[] = groups.map((group) => ({
       name: group.name,
       schedule: group.schedule.reduce((acc, curr) => {
-        acc[curr.day] = {
-          start: curr.startTime,
-          end: curr.endTime,
+        if (curr.active) {
+          acc[curr.day] = {
+            start: curr.startTime,
+            end: curr.endTime,
+          }
         }
         return acc
       }, {} as Schedule),
     }))
 
-    addCourse({
-      name: values.courseName,
-      color: selectedColor,
-      groups: formattedGroups,
-    })
+    if (!isEditingCourse) {
+      addCourse({
+        name: values.courseName,
+        color: selectedColor,
+        groups: formattedGroups,
+      })
+    } else {
+      updateCourse(existingCourse.name, {
+        name: values.courseName,
+        color: selectedColor,
+        groups: formattedGroups,
+      })
+    }
 
     courseForm.reset()
     setGroups([])
     setIsDialogOpen(false)
-    setSelectedColor(COLORS[4])
+    setSelectedColor(DEFAULT_COLOR)
   }
 
   const activeDays = schedules.filter((s) => s.active)
@@ -220,14 +286,26 @@ export default function CourseFormDialog() {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button>{t('addCourse')}</Button>
+        {isEditingCourse ? (
+          <Button
+            variant='ghost'
+            size='icon'
+            className='h-7 w-7 dark:hover:bg-neutral-900/80'
+          >
+            <Edit2 className='h-4 w-4 text-neutral-600' />
+          </Button>
+        ) : (
+          <Button>{t('addCourse')}</Button>
+        )}
       </DialogTrigger>
 
       <DialogContent className='sm:max-w-[425px]'>
         {activeStep === 'course' && (
           <>
             <DialogHeader>
-              <DialogTitle className='text-lg'>{t('newCourse')}</DialogTitle>
+              <DialogTitle className='text-lg'>
+                {isEditingCourse ? t('editCourse') : t('newCourse')}
+              </DialogTitle>
               <DialogDescription className='text-sm'>
                 {t('courseFormDescription')}
               </DialogDescription>
@@ -260,11 +338,7 @@ export default function CourseFormDialog() {
 
                 <ColorPicker
                   colorValue={selectedColor}
-                  onColorChange={(newValue) =>
-                    setSelectedColor(
-                      COLORS.find((c) => c.value === newValue) || selectedColor
-                    )
-                  }
+                  onColorChange={(newValue) => setSelectedColor(newValue)}
                 />
 
                 <div className='space-y-2'>
@@ -299,28 +373,24 @@ export default function CourseFormDialog() {
                                 {group.name}
                               </span>
                               <div className='flex items-center space-x-2'>
-                                <Button
-                                  variant='ghost'
-                                  size='icon'
-                                  className='h-7 w-7 dark:hover:bg-neutral-900/80'
+                                <span
+                                  className='inline-flex items-center justify-center h-7 w-7 rounded-md dark:hover:bg-neutral-800'
                                   onClick={(e) => {
                                     e.stopPropagation()
                                     handleEditGroup(index)
                                   }}
                                 >
                                   <Edit2 className='h-4 w-4 text-neutral-600' />
-                                </Button>
-                                <Button
-                                  variant='ghost'
-                                  size='icon'
-                                  className='h-7 w-7 dark:hover:bg-neutral-900/80'
+                                </span>
+                                <span
+                                  className='inline-flex items-center justify-center h-7 w-7 rounded-md dark:hover:bg-neutral-800'
                                   onClick={(e) => {
                                     e.stopPropagation()
                                     handleDeleteGroup(index)
                                   }}
                                 >
                                   <Trash2 className='h-4 w-4 text-neutral-600' />
-                                </Button>
+                                </span>
                               </div>
                             </div>
                           </AccordionTrigger>

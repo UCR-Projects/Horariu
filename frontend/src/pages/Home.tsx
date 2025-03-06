@@ -7,9 +7,7 @@ const Home = () => {
   return (
     <>
       <pre>{JSON.stringify(courses, null, 2)}</pre>
-      sadasdasdas
       <Schedule />
-      sad sad sad as d sad
     </>
   )
 }
