@@ -41,6 +41,8 @@ export const courseSchema = z.object({
   courseDetails: courseDetailsSchema.optional()
 })
 
+export type CourseInfo = z.infer<typeof courseSchema>
+
 export const courseParamsSchema = z.object({
   courseName: z.string().min(1, 'Course name cannot be empty'),
   day: z.enum(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']),
@@ -54,7 +56,11 @@ export const courseParamsSchema = z.object({
   )
 })
 
+export type CourseParamsInfo = z.infer<typeof courseParamsSchema>
+
 export const updateCourseSchema = courseSchema.partial()
+
+export type CourseUpdateInfo = z.infer<typeof updateCourseSchema>
 
 export async function validateCourse (course: unknown) {
   return courseSchema.safeParseAsync(course)
