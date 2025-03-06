@@ -1,4 +1,5 @@
 import { CourseService } from '../services/CourseService'
+import { validateCourse, validateUpdateCourse, validateCourseParams } from '../schemas/course.schema'
 
 export class CourseController {
   registerCourse = async (userId: string, course: unknown) => {
@@ -7,7 +8,12 @@ export class CourseController {
         throw new Error('[UNAUTHORIZED]: User not found')
       }
 
-      const newCourse = await CourseService.registerCourse(userId, course)
+      const courseValid = await validateCourse(course)
+      if (!courseValid.success) {
+        throw new Error('Validation failed')
+      }
+
+      const newCourse = await CourseService.registerCourse(userId, courseValid.data)
       return {
         statusCode: 201,
         body: JSON.stringify({ message: 'Courses registered successfully', newCourse })
@@ -42,13 +48,18 @@ export class CourseController {
 
   getCourse = async (userId: string, params: unknown) => {
     try {
+      const paramsValid = await validateCourseParams(params)
+      if (!paramsValid.success) {
+        throw new Error('Validation failed')
+      }
+
       if (!userId) {
         throw new Error('[UNAUTHORIZED]: User not found')
       }
-      const course = await CourseService.getCourse(userId, params)
+      const course = await CourseService.getCourse(userId, paramsValid.data)
       return {
         statusCode: 201,
-        body: JSON.stringify({ message: 'Courses retrieved successfully', course })
+        body: JSON.stringify({ message: 'Course retrieved successfully', course })
       }
     } catch (error) {
       console.error('[getCourse]:', (error as Error).message)
@@ -59,12 +70,23 @@ export class CourseController {
     }
   }
 
-  updateCourse = async (userId: string, params: unknown, body: unknown) => {
+  updateCourse = async (userId: string, params: unknown, updates: unknown) => {
     try {
       if (!userId) {
         throw new Error('[UNAUTHORIZED]: User not found')
       }
-      const updatedCourse = await CourseService.updateCourse(userId, params, body)
+
+      const paramsValid = await validateCourseParams(params)
+      if (!paramsValid.success) {
+        throw new Error('Validation failed')
+      }
+
+      const updateValid = await validateUpdateCourse(updates)
+      if (!updateValid.success) {
+        throw new Error('Validation failed')
+      }
+
+      const updatedCourse = await CourseService.updateCourse(userId, paramsValid.data, updateValid.data)
       return {
         statusCode: 201,
         body: JSON.stringify({ message: 'Course updated successfully', updatedCourse })
@@ -83,7 +105,13 @@ export class CourseController {
       if (!userId) {
         throw new Error('[UNAUTHORIZED]: User not found')
       }
-      const deletedCourse = await CourseService.deleteCourse(userId, params)
+
+      const paramsValid = await validateCourseParams(params)
+      if (!paramsValid.success) {
+        throw new Error('Validation failed')
+      }
+
+      const deletedCourse = await CourseService.deleteCourse(userId, paramsValid.data)
       return {
         statusCode: 201,
         body: JSON.stringify({ message: 'Course deleted successfully', deletedCourse })
