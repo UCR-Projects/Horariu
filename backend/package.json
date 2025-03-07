@@ -17,6 +17,7 @@
     "migrate:studio": "npx drizzle-kit studio --config=src/drizzle.config.ts",
     "sam:invoke:register": "infisical run -- sam local invoke HorariuApiFunction -e events/event-register.json",
     "sam:invoke:login": "infisical run -- sam local invoke HorariuApiFunction -e events/event-login.json",
+    "sam:invoke:generateSchedules": "infisical run -- sam local invoke HorariuApiFunction -e events/event-generate-schedules.json",
     "sam:invoke:registerCourse": "infisical run -- sam local invoke HorariuApiFunction -e events/event-register-course.json",
     "sam:invoke:getCourses": "infisical run -- sam local invoke HorariuApiFunction -e events/event-get-courses.json",
     "sam:invoke:getCourse": "infisical run -- sam local invoke HorariuApiFunction -e events/event-get-course.json",
@@ -25,6 +26,7 @@
 
     "sam:invoke:register:debug": "infisical run -- sam local invoke --debug-port 5858 HorariuApiFunction -e events/event-register.json",
     "sam:invoke:login:debug": "infisical run -- sam local invoke --debug-port 5858 HorariuApiFunction -e events/event-login.json",
+    "sam:invoke:generateSchedules:debug": "infisical run -- sam local invoke HorariuApiFunction --debug-port 5858 -e events/event-generate-schedules.json",
     "sam:invoke:registerCourse:debug": "infisical run -- sam local invoke --debug-port 5858 HorariuApiFunction -e events/event-register-course.json",
     "sam:invoke:getCourses:debug": "infisical run -- sam local invoke --debug-port 5858 HorariuApiFunction -e events/event-get-courses.json",
     "sam:invoke:getCourse:debug": "infisical run -- sam local invoke --debug-port 5858 HorariuApiFunction -e events/event-get-course.json",
