@@ -28,6 +28,14 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       }
     }
 
+    if (httpMethod === 'POST' && path === '/courses/generate') {
+      const result = await courseController.generateSchedules(parsedBody)
+      return {
+        statusCode: 200,
+        body: result.body
+      }
+    }
+
     if (httpMethod === 'POST' && path === '/courses') {
       const user = verifyToken(event.headers?.Authorization)
       const result = await courseController.registerCourse(user.userId, parsedBody)
