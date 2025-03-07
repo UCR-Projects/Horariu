@@ -1,7 +1,14 @@
 import { CourseRepository } from '../repositories/courseRepository'
 import { CourseInfo, CourseParamsInfo, CourseUpdateInfo } from '../schemas/course.schema'
+import { GenerateScheduleInfo } from '../schemas/schedule.schema'
+import { generateAllSchedules } from '../utils/scheduleUtils'
 
 export const CourseService = {
+
+  async generateSchedules (courses: GenerateScheduleInfo) {
+    const generatedSchedules = generateAllSchedules(courses)
+    return generatedSchedules
+  },
 
   async registerCourse (userId: string, course: CourseInfo) {
     const newCourse = await CourseRepository.addCourse({ ...course, userId })
