@@ -126,8 +126,8 @@ export default function CourseFormDialog({
     group: { name: string; schedule: ScheduleGroupForm[] }
   } | null>(null)
 
-  const courseForm = useForm<z.infer<typeof courseSchema>>({
-    resolver: zodResolver(courseSchema),
+  const courseForm = useForm<z.infer<ReturnType<typeof courseSchema>>>({
+    resolver: zodResolver(courseSchema(existingCourse?.name)),
     defaultValues: {
       courseName: existingCourse?.name || '',
     },
@@ -243,7 +243,7 @@ export default function CourseFormDialog({
     setGroups(updatedGroups)
   }
 
-  function onSubmitCourse(values: z.infer<typeof courseSchema>) {
+  function onSubmitCourse(values: z.infer<ReturnType<typeof courseSchema>>) {
     if (groups.length === 0) {
       return
     }
