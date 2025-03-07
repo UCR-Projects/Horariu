@@ -3,9 +3,6 @@ import { UserController } from './controllers/userController'
 import { CourseController } from './controllers/courseController'
 import { verifyToken } from './middlewares/auth'
 
-const userController = new UserController()
-const courseController = new CourseController()
-
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
     const { httpMethod, path, body } = event
@@ -13,7 +10,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     const parsedBody = typeof body === 'string' ? JSON.parse(body) : body
 
     if (httpMethod === 'POST' && path === '/register') {
-      const result = await userController.register(parsedBody)
+      const result = await UserController.register(parsedBody)
       return {
         statusCode: 201,
         body: result.body
@@ -21,7 +18,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     }
 
     if (httpMethod === 'POST' && path === '/login') {
-      const result = await userController.login(parsedBody)
+      const result = await UserController.login(parsedBody)
       return {
         statusCode: 201,
         body: result.body
@@ -29,7 +26,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     }
 
     if (httpMethod === 'POST' && path === '/courses/generate') {
-      const result = await courseController.generateSchedules(parsedBody)
+      const result = await CourseController.generateSchedules(parsedBody)
       return {
         statusCode: 200,
         body: result.body
@@ -38,7 +35,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
     if (httpMethod === 'POST' && path === '/courses') {
       const user = verifyToken(event.headers?.Authorization)
-      const result = await courseController.registerCourse(user.userId, parsedBody)
+      const result = await CourseController.registerCourse(user.userId, parsedBody)
       return {
         statusCode: 200,
         body: result.body
@@ -47,7 +44,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
     if (httpMethod === 'GET' && path === '/courses') {
       const user = verifyToken(event.headers?.Authorization)
-      const result = await courseController.getCourses(user.userId)
+      const result = await CourseController.getCourses(user.userId)
       return {
         statusCode: 200,
         body: result.body
@@ -63,7 +60,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
           body: 'Missing required path parameters'
         }
       }
-      const result = await courseController.getCourse(user.userId, pathParameters)
+      const result = await CourseController.getCourse(user.userId, pathParameters)
       return {
         statusCode: 200,
         body: result.body
@@ -79,7 +76,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
           body: JSON.stringify({ message: 'Missing required path parameters' })
         }
       }
-      const result = await courseController.updateCourse(user.userId, pathParameters, parsedBody)
+      const result = await CourseController.updateCourse(user.userId, pathParameters, parsedBody)
       return {
         statusCode: 200,
         body: result.body
@@ -95,7 +92,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
           body: 'Missing required path parameters'
         }
       }
-      const result = await courseController.deleteCourse(user.userId, pathParameters)
+      const result = await CourseController.deleteCourse(user.userId, pathParameters)
       return {
         statusCode: 200,
         body: result.body
