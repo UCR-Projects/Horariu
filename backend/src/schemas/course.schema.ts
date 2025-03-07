@@ -12,9 +12,8 @@ export const courseSchema = z.object({
     invalid_type_error: 'Course name must be a string',
     required_error: 'Course name is required'
   }).min(1, 'Course name cannot be empty').max(255, 'Course name cannot exceed 255 characters'),
-  // TODO: Change to en
-  day: z.enum(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'], {
-    invalid_type_error: 'Day must be one of: Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo',
+  day: z.enum(['L', 'K', 'M', 'J', 'V', 'S', 'D'], {
+    invalid_type_error: 'Day must be one of: L, K, M, J, V, S, D',
     required_error: 'Day is required'
   }),
 
@@ -41,11 +40,9 @@ export const courseSchema = z.object({
   courseDetails: courseDetailsSchema.optional()
 })
 
-export type CourseInfo = z.infer<typeof courseSchema>
-
 export const courseParamsSchema = z.object({
   courseName: z.string().min(1, 'Course name cannot be empty'),
-  day: z.enum(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']),
+  day: z.enum(['L', 'K', 'M', 'J', 'V', 'S', 'D']),
   startTime: z.string().regex(
     /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/,
     'Start time must be in the format HH:mm:ss'
@@ -56,9 +53,11 @@ export const courseParamsSchema = z.object({
   )
 })
 
-export type CourseParamsInfo = z.infer<typeof courseParamsSchema>
-
 export const updateCourseSchema = courseSchema.partial()
+
+export type CourseInfo = z.infer<typeof courseSchema>
+
+export type CourseParamsInfo = z.infer<typeof courseParamsSchema>
 
 export type CourseUpdateInfo = z.infer<typeof updateCourseSchema>
 
