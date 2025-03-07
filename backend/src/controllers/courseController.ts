@@ -1,7 +1,29 @@
 import { CourseService } from '../services/CourseService'
 import { validateCourse, validateUpdateCourse, validateCourseParams } from '../schemas/course.schema'
+import { validateCourses } from '../schemas/schedule.schema'
 
 export class CourseController {
+  generateSchedules = async (courses: unknown) => {
+    try {
+      const validatedCourses = await validateCourses(courses)
+      if (!validatedCourses.success) {
+        throw new Error(JSON.stringify(validatedCourses.error.errors))
+      }
+
+      const schedules = await CourseService.generateSchedules(validatedCourses.data)
+      return {
+        statusCode: 201,
+        body: JSON.stringify({ message: 'Schedules generated successfully', schedules })
+      }
+    } catch (error) {
+      console.error('[generateSchedule]:', (error as Error).message)
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Internal server error' })
+      }
+    }
+  }
+
   registerCourse = async (userId: string, course: unknown) => {
     try {
       if (!userId) {
