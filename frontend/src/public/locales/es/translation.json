@@ -36,15 +36,21 @@
   "close": "Cerrar",
   "courseName": "Nombre del Curso",
   "newCourse": "Crear Curso",
-  "courseFormDescription": "Ingresa la información del curso para incluirlo en tu horario",
+  "courseFormDes": "Ingresa la información del curso para incluirlo en tu horario",
   "noGroupsYet": "No se han agregado grupos",
   "newGroup": "Crear Grupo",
-  "groupFormDescription": "Ingresa la información del grupo para incluirlo en el curso",
+  "groupFormDes": "Ingresa la información del grupo para incluirlo en el curso",
+  "editGroupFormDes": "Edita la información del grupo",
   "schedule": "Horario",
   "noActiveDays": "Selecciona un día para agregar horarios",
   "from": "Desde",
   "to": "Hasta",
   "cancel": "Cancelar",
+  "editCourse": "Editar Curso",
+  "editCourseDes": "Edita la información del curso",
+  "save": "Guardar",
+  "editGroup": "Editar Grupo",
+  "groupName": "Nombre del Grupo",
 
 
   "validation": {

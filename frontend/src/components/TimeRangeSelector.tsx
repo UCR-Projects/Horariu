@@ -5,9 +5,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Day } from '../types'
-import { START_TIMES, END_TIMES } from '../utils/constants'
+import { Day } from '@/types'
+import { START_TIMES, END_TIMES } from '@/utils/constants'
 import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
 
 interface TimeRangeSelectorProps {
   day: Day
@@ -46,9 +47,19 @@ const TimeRangeSelector = ({
     return endIndex >= startIndex
   }
 
+  // Validate the initial endTime value when component mounts
+  // or when startTime changes
+  useEffect(() => {
+    if (startTime !== '----' && endTime !== '----') {
+      if (!isEndTimeValid(startTime, endTime)) {
+        onChange(day, startTime, '----')
+      }
+    }
+  }, [startTime, endTime, day, onChange])
+
   return (
     <div className='flex items-center gap-2 mb-3'>
-      <div className='w-24 font-medium'>{t(`days.${day}.name`)}</div>
+      <div className='w-24 '>{t(`days.${day}.name`)}</div>
       <Select
         disabled={disabled}
         value={startTime}
@@ -57,13 +68,13 @@ const TimeRangeSelector = ({
           onChange(day, value, value === '----' ? '----' : newEndTime)
         }}
       >
-        <SelectTrigger className='w-24'>
-          <SelectValue placeholder='----' />
+        <SelectTrigger className='w-24 cursor-pointer'>
+          <SelectValue placeholder='----'>{startTime}</SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value='----'>----</SelectItem>
           {START_TIMES.map((time) => (
-            <SelectItem key={time} value={time}>
+            <SelectItem className='cursor-pointer' key={time} value={time}>
               {time}
             </SelectItem>
           ))}
@@ -77,12 +88,12 @@ const TimeRangeSelector = ({
           onChange(day, startTime, value)
         }}
       >
-        <SelectTrigger className='w-24'>
-          <SelectValue placeholder='----' />
+        <SelectTrigger className='w-24 cursor-pointer'>
+          <SelectValue placeholder='----'>{endTime}</SelectValue>
         </SelectTrigger>
         <SelectContent>
           {validEndTimes.map((time) => (
-            <SelectItem key={time} value={time}>
+            <SelectItem className='cursor-pointer' key={time} value={time}>
               {time}
             </SelectItem>
           ))}

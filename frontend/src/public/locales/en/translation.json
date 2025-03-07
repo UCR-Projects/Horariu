@@ -36,15 +36,21 @@
   "close": "Close",
   "courseName": "Course Name",
   "newCourse": "Create Course",
-  "courseFormDescription": "Enter the course information to include it in your plan",
+  "courseFormDes": "Enter the course information to include it in your plan",
   "noGroupsYet": "No groups added yet",
   "newGroup": "Create Group",
-  "groupFormDescription": "Enter the group information to include it in the course",
+  "groupFormDes": "Enter the group information to include it in the course",
+  "editGroupFormDes": "Edit the group information",
   "schedule": "Schedule",
   "noActiveDays": "Select a day to add times",
   "from": "From",
   "to": "To",
   "cancel": "Cancel",
+  "editCourse": "Edit Course",
+  "editCourseDes": "Edit the course information",
+  "save": "Save",
+  "editGroup": "Edit Group",
+  "groupName": "Group Name",
 
 
   "validation": {
