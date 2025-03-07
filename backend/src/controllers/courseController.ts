@@ -2,8 +2,8 @@ import { CourseService } from '../services/CourseService'
 import { validateCourse, validateUpdateCourse, validateCourseParams } from '../schemas/course.schema'
 import { validateCourses } from '../schemas/schedule.schema'
 
-export class CourseController {
-  generateSchedules = async (courses: unknown) => {
+export const CourseController = {
+  async generateSchedules (courses: unknown) {
     try {
       const validatedCourses = await validateCourses(courses)
       if (!validatedCourses.success) {
@@ -22,9 +22,9 @@ export class CourseController {
         body: JSON.stringify({ message: 'Internal server error' })
       }
     }
-  }
+  },
 
-  registerCourse = async (userId: string, course: unknown) => {
+  async registerCourse (userId: string, course: unknown) {
     try {
       if (!userId) {
         throw new Error('[UNAUTHORIZED]: User not found')
@@ -47,9 +47,9 @@ export class CourseController {
         body: JSON.stringify({ message: 'Internal server error' })
       }
     }
-  }
+  },
 
-  getCourses = async (userId: string) => {
+  async getCourses (userId: string) {
     try {
       if (!userId) {
         throw new Error('[UNAUTHORIZED]: User not found')
@@ -66,9 +66,9 @@ export class CourseController {
         body: JSON.stringify({ message: 'Internal server error' })
       }
     }
-  }
+  },
 
-  getCourse = async (userId: string, params: unknown) => {
+  async getCourse (userId: string, params: unknown) {
     try {
       const paramsValid = await validateCourseParams(params)
       if (!paramsValid.success) {
@@ -90,9 +90,9 @@ export class CourseController {
         body: JSON.stringify({ message: 'Internal server error' })
       }
     }
-  }
+  },
 
-  updateCourse = async (userId: string, params: unknown, updates: unknown) => {
+  async updateCourse (userId: string, params: unknown, updates: unknown) {
     try {
       if (!userId) {
         throw new Error('[UNAUTHORIZED]: User not found')
@@ -120,9 +120,9 @@ export class CourseController {
         body: JSON.stringify({ message: 'Internal server error' })
       }
     }
-  }
+  },
 
-  deleteCourse = async (userId: string, params: unknown) => {
+  async deleteCourse (userId: string, params: unknown) {
     try {
       if (!userId) {
         throw new Error('[UNAUTHORIZED]: User not found')
