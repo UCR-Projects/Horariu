@@ -1,8 +1,8 @@
 import { UserService } from '../services/UserService'
 import { validateUser, validateLogin } from '../schemas/user.schema'
 
-export class UserController {
-  register = async (user: unknown) => {
+export const UserController = {
+  async register (user: unknown) {
     try {
       const validatedUser = await validateUser(user)
 
@@ -23,9 +23,9 @@ export class UserController {
         body: JSON.stringify({ message: 'Internal server error' })
       }
     }
-  }
+  },
 
-  login = async (user: unknown) => {
+  async login (user: unknown) {
     try {
       const validatedUser = await validateLogin(user)
 
