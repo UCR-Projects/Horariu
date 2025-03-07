@@ -5,6 +5,9 @@ Transform:
 - AWS::Serverless-2016-10-31
 
 Parameters:
+  StageName:
+    Type: String
+    Default: Dev
   DBHost:
     Type: String
   DBUser:
@@ -22,6 +25,11 @@ Parameters:
 
 
 Resources:
+  HorariuApi:
+      Type: AWS::Serverless::Api
+      Properties:
+        StageName: !Ref StageName
+    
   HorariuApiFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -50,25 +58,36 @@ Resources:
         RegisterUser:
           Type: Api
           Properties:
+            RestApiId: !Ref HorariuApi
             Path: /register
             Method: POST
         LoginUser:
           Type: Api
           Properties:
+            RestApiId: !Ref HorariuApi
             Path: /login
             Method: POST
         CreateCourse:
           Type: Api
           Properties:
+            RestApiId: !Ref HorariuApi
             Path: /courses
             Method: POST
         GetCourses:
           Type: Api
           Properties:
+            RestApiId: !Ref HorariuApi
             Path: /courses
             Method: GET
         GetCourse:
           Type: Api
           Properties:
+            RestApiId: !Ref HorariuApi
             Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
             Method: GET
+        GenerateSchedules:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HorariuApi
+            Path: /courses/generate
+            Method: POST
