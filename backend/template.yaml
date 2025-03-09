@@ -29,6 +29,11 @@ Resources:
       Type: AWS::Serverless::Api
       Properties:
         StageName: !Ref StageName
+        Cors:
+          AllowCredentials: true
+          AllowMethods: "'OPTIONS,GET,POST,PATCH,DELETE'"
+          AllowHeaders: "'Content-Type,Authorization'"
+          AllowOrigin: "'http://localhost:5173'"
     
   HorariuApiFunction:
     Type: AWS::Serverless::Function
@@ -67,6 +72,12 @@ Resources:
             RestApiId: !Ref HorariuApi
             Path: /login
             Method: POST
+        GenerateSchedules:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HorariuApi
+            Path: /courses/generate
+            Method: POST
         CreateCourse:
           Type: Api
           Properties:
@@ -85,9 +96,15 @@ Resources:
             RestApiId: !Ref HorariuApi
             Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
             Method: GET
-        GenerateSchedules:
+        UpdateCourse:
           Type: Api
           Properties:
             RestApiId: !Ref HorariuApi
-            Path: /courses/generate
-            Method: POST
+            Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
+            Method: PATCH
+        DeleteCourse:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HorariuApi
+            Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
+            Method: DELETE
