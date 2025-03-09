@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/sidebar'
 import { Trash2 } from 'lucide-react'
 
-import CourseFormDialog from '@/components/CourseForm'
+import CourseForm from '@/components/courseForm/CourseForm'
 import useCourseStore from '@/stores/useCourseStore'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
@@ -22,7 +22,7 @@ export const AppSidebar = () => {
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup title={t('courseList')}>
-            <CourseFormDialog />
+            <CourseForm />
 
             {courses.map((course) => (
               <div
@@ -39,7 +39,7 @@ export const AppSidebar = () => {
                   {course.name}
                 </div>
                 <div className='flex items-center space-x-2'>
-                  <CourseFormDialog existingCourse={course} />
+                  <CourseForm existingCourse={course} />
                   <Button
                     variant='ghost'
                     size='icon'
