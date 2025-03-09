@@ -442,16 +442,13 @@ export default function CourseFormDialog({
                       <Button
                         type='button'
                         variant='outline'
-                        className='w-full sm:w-auto mt-2 sm:mt-0 cursor-pointer'
+                        className='cursor-pointer'
                         onClick={() => setIsDialogOpen(false)}
                       >
                         {t('cancel')}
                       </Button>
                     )}
-                    <Button
-                      type='submit'
-                      className='w-full sm:w-auto cursor-pointer'
-                    >
+                    <Button type='submit' className='cursor-pointer'>
                       {isEditingCourse ? t('save') : t('addCourse')}
                     </Button>
                   </div>
