@@ -1,6 +1,6 @@
 import ThemeToggle from '@/components/ThemeToggle'
 
-const Header = () => {
+export function Header() {
   return (
     <div className='w-full flex flex-col'>
       <div className='p-2'>
@@ -14,5 +14,3 @@ const Header = () => {
     </div>
   )
 }
-
-export default Header

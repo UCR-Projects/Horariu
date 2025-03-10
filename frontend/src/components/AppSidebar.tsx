@@ -3,46 +3,42 @@ import {
   SidebarContent,
   SidebarHeader,
   SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarTrigger,
 } from '@/components/ui/sidebar'
-import { Trash2 } from 'lucide-react'
 
-import CourseForm from '@/components/courseForm/CourseForm'
-import useCourseStore from '@/stores/useCourseStore'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
+import CourseList from '@/components/CourseList'
+import CourseForm from './courseForm/CourseForm'
 
-export const AppSidebar = () => {
+export function AppSidebar() {
   const { t } = useTranslation()
-  const { courses, deleteCourse } = useCourseStore()
+
   return (
-    <div className=''>
-      <Sidebar>
-        <SidebarHeader className='text-2xl font-bold'>
+    <div className='relative'>
+      <Sidebar collapsible='icon'>
+        <div className='flex items-center justify-end p-2'>
+          <SidebarTrigger
+            className='border p-2 rounded-md shadow-sm size-9
+              dark:bg-neutral-800 dark:border-neutral-800 dark:hover:bg-neutral-800
+              border-neutral-300/60 bg-neutral-100 hover:bg-neutral-200/50'
+          />
+        </div>
+        <SidebarHeader className='text-2xl font-bold px-4 py-2 group-data-[collapsible=icon]:hidden'>
           {t('courses')}
         </SidebarHeader>
         <SidebarContent>
-          <SidebarGroup title={t('courseList')}>
+          <div className='p-4 group-data-[collapsible=icon]:hidden'>
             <CourseForm />
-
-            {courses.map((course) => (
-              <div
-                key={course.name}
-                className='flex items-center justify-between p-2 dark:hover:bg-neutral-800 rounded-md transition-colors'
-              >
-                <div className='flex-grow cursor-pointer'>{course.name}</div>
-                <div className='flex items-center space-x-2'>
-                  <CourseForm existingCourse={course} />
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='h-7 w-7 dark:hover:bg-neutral-900/80'
-                    onClick={() => deleteCourse(course.name)}
-                  >
-                    <Trash2 className='h-4 w-4 text-neutral-600' />
-                  </Button>
-                </div>
-              </div>
-            ))}
+          </div>
+          <SidebarGroup className=' pt-10 overflow-y-auto'>
+            <SidebarGroupLabel className='px-4 group-data-[collapsible=icon]:hidden'>
+              {t('Lista de cursos')}
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <CourseList />
+            </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
