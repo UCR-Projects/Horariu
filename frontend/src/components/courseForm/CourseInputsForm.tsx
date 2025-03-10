@@ -53,10 +53,16 @@ export function CourseInputsForm({
   const { t } = useTranslation()
   const isMobile = useIsMobile()
 
-  const content = (
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    form.handleSubmit(onSubmit)(e)
+  }
+
+  const formContent = (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        id='courseForm'
+        onSubmit={handleFormSubmit}
         className='space-y-4 overflow-y-auto max-h-[70vh]'
       >
         <FormField
@@ -118,7 +124,7 @@ export function CourseInputsForm({
     </Form>
   )
 
-  const contentFooter = (
+  const footerButtons = (
     <div className='flex justify-between space-x-3'>
       {isEditingCourse && (
         <Button
@@ -130,7 +136,7 @@ export function CourseInputsForm({
           {t('cancel')}
         </Button>
       )}
-      <Button type='submit' className='cursor-pointer'>
+      <Button type='submit' form='courseForm' className='cursor-pointer'>
         {isEditingCourse ? t('save') : t('addCourse')}
       </Button>
     </div>
@@ -148,9 +154,9 @@ export function CourseInputsForm({
               {isEditingCourse ? t('editCourseDes') : t('courseFormDes')}
             </DrawerDescription>
           </DrawerHeader>
-          {content}
+          {formContent}
 
-          <DrawerFooter>{contentFooter}</DrawerFooter>
+          <DrawerFooter>{footerButtons}</DrawerFooter>
         </>
       ) : (
         <>
@@ -163,8 +169,8 @@ export function CourseInputsForm({
             </DialogDescription>
           </DialogHeader>
           <div className='space-y-2'>
-            {content}
-            <DialogFooter>{contentFooter}</DialogFooter>
+            {formContent}
+            <DialogFooter>{footerButtons}</DialogFooter>
           </div>
         </>
       )}

@@ -29,15 +29,7 @@ export const AppSidebar = () => {
                 key={course.name}
                 className='flex items-center justify-between p-2 dark:hover:bg-neutral-800 rounded-md transition-colors'
               >
-                <div
-                  className='flex-grow cursor-pointer'
-                  style={{
-                    color: course.color || 'inherit',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {course.name}
-                </div>
+                <div className='flex-grow cursor-pointer'>{course.name}</div>
                 <div className='flex items-center space-x-2'>
                   <CourseForm existingCourse={course} />
                   <Button

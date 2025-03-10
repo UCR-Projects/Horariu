@@ -65,13 +65,20 @@ export function GroupInputsForm({
     form.setValue('schedules', updatedSchedules, { shouldValidate: true })
   }
 
+  // Agregar manejador explícito para el envío del formulario
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    form.handleSubmit(onSubmit)(e)
+  }
+
   // Get the active days from the group form
   const activeDays = form.watch('schedules')?.filter((s) => s.active) || []
 
-  const content = (
+  const formContent = (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        id='groupForm'
+        onSubmit={handleFormSubmit}
         className='space-y-4 overflow-y-auto max-h-[70vh]'
       >
         <FormField
@@ -156,8 +163,8 @@ export function GroupInputsForm({
     </Form>
   )
 
-  const contentFooter = (
-    <div className='flex justify-between space-x-3'>
+  const footerButtons = (
+    <div className='flex justify-between space-x-3 mt-4'>
       <Button
         type='button'
         variant='outline'
@@ -166,7 +173,7 @@ export function GroupInputsForm({
       >
         {t('cancel')}
       </Button>
-      <Button className='cursor-pointer' type='submit'>
+      <Button type='submit' form='groupForm' className='cursor-pointer'>
         {t('save')}
       </Button>
     </div>
@@ -184,8 +191,8 @@ export function GroupInputsForm({
               {isEditing ? t('editGroupFormDes') : t('groupFormDes')}
             </DrawerDescription>
           </DrawerHeader>
-          {content}
-          <DrawerFooter>{contentFooter}</DrawerFooter>
+          {formContent}
+          <DrawerFooter>{footerButtons}</DrawerFooter>
         </>
       ) : (
         <>
@@ -197,8 +204,8 @@ export function GroupInputsForm({
               {isEditing ? t('editGroupFormDes') : t('groupFormDes')}
             </DialogDescription>
           </DialogHeader>
-          {content}
-          <DialogFooter>{contentFooter}</DialogFooter>
+          {formContent}
+          <DialogFooter>{footerButtons}</DialogFooter>
         </>
       )}
     </>

@@ -2,6 +2,7 @@ import Schedule from '@/components/Schedule'
 import useCourseStore from '@/stores/useCourseStore'
 import { useGenerateSchedule } from '@/hooks/useGenerateSchedule'
 import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 
 const Home = () => {
   const { generateSchedule, isLoading, error, scheduleData, isSuccess } =
@@ -12,7 +13,14 @@ const Home = () => {
     <>
       <div>
         <Button onClick={() => generateSchedule()} disabled={isLoading}>
-          {isLoading ? 'Generando...' : 'Generar Horario'}
+          {isLoading ? (
+            <>
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+              Generando...
+            </>
+          ) : (
+            'Generar Horario'
+          )}
         </Button>
 
         {error && <p className='error'>Error: {error.message}</p>}
