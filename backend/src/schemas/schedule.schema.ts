@@ -5,17 +5,22 @@ export const timeSlotSchema = z.object({
   end: z.string().regex(/^([0-1][0-9]|2[0-3]):([0-5][0-9])$/, 'End time must be in HH:mm format')
 })
 
-const scheduleSchema = z.record(
-  z.string().length(1),
-  timeSlotSchema
-)
+export const scheduleSchema = z
+  .object({})
+  .catchall(timeSlotSchema)
+  .refine(schedule => Object.keys(schedule).length > 0, {
+    message: 'At least one schedule entry is required'
+  })
+  .refine(schedule => Object.keys(schedule).every(day => ['L', 'K', 'M', 'J', 'V', 'S', 'D'].includes(day)), {
+    message: 'Invalid day key found. Allowed values: L, K, M, J, V, S, D'
+  })
 
-const groupSchema = z.object({
+export const groupSchema = z.object({
   name: z.string().min(1, 'Group name cannot be empty'),
   schedule: scheduleSchema
 })
 
-const courseSchema = z.object({
+export const courseSchema = z.object({
   name: z.string().min(1, 'Course name cannot be empty'),
   color: z.string().min(1, 'Color cannot be empty'),
   groups: z.array(groupSchema).min(1, 'Each course must have at least one group')
