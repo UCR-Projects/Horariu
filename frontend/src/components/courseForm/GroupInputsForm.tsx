@@ -54,7 +54,7 @@ export function GroupInputsForm({
         ? { ...schedule, active, startTime: '----', endTime: '----' }
         : schedule
     )
-    form.setValue('schedules', updatedSchedules, { shouldValidate: true })
+    form.setValue('schedules', updatedSchedules)
   }
 
   const handleTimeChange = (day: Day, startTime: string, endTime: string) => {
@@ -62,10 +62,9 @@ export function GroupInputsForm({
     const updatedSchedules = currentSchedules.map((schedule) =>
       schedule.day === day ? { ...schedule, startTime, endTime } : schedule
     )
-    form.setValue('schedules', updatedSchedules, { shouldValidate: true })
+    form.setValue('schedules', updatedSchedules)
   }
 
-  // Agregar manejador explícito para el envío del formulario
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     form.handleSubmit(onSubmit)(e)
