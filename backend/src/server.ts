@@ -1,7 +1,6 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda'
 import { UserController } from './controllers/userController'
 import { CourseController } from './controllers/courseController'
-import { verifyToken } from './middlewares/auth'
 
 const getCorsHeaders = (origin: string, methods: string) => ({
   /* eslint-disable @typescript-eslint/naming-convention */
@@ -56,8 +55,11 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     }
 
     if (httpMethod === 'POST' && path === '/courses') {
-      const user = verifyToken(event.headers?.Authorization)
-      const result = await CourseController.registerCourse(user.userId, parsedBody)
+      if (!event.requestContext.authorizer || !event.requestContext.authorizer.principalId) {
+        throw new Error('[UNAUTHORIZED]: Missing authorization context')
+      }
+      const userId = event.requestContext.authorizer.principalId
+      const result = await CourseController.registerCourse(userId, parsedBody)
       return {
         statusCode: 200,
         headers: getCorsHeaders(origin, 'OPTIONS, POST'),
@@ -66,8 +68,11 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     }
 
     if (httpMethod === 'GET' && path === '/courses') {
-      const user = verifyToken(event.headers?.Authorization)
-      const result = await CourseController.getCourses(user.userId)
+      if (!event.requestContext.authorizer || !event.requestContext.authorizer.principalId) {
+        throw new Error('[UNAUTHORIZED]: Missing authorization context')
+      }
+      const userId = event.requestContext.authorizer.principalId
+      const result = await CourseController.getCourses(userId)
       return {
         statusCode: 200,
         headers: getCorsHeaders(origin, 'OPTIONS, GET'),
@@ -76,7 +81,10 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     }
 
     if (httpMethod === 'GET' && path.startsWith('/courses/')) {
-      const user = verifyToken(event.headers?.Authorization)
+      if (!event.requestContext.authorizer || !event.requestContext.authorizer.principalId) {
+        throw new Error('[UNAUTHORIZED]: Missing authorization context')
+      }
+      const userId = event.requestContext.authorizer.principalId
       const pathParameters = event.pathParameters || {}
       if (Object.keys(pathParameters).length === 0 || Object.values(pathParameters).some(value => !value)) {
         return {
@@ -85,7 +93,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
           body: JSON.stringify({ message: 'Missing required path parameters' })
         }
       }
-      const result = await CourseController.getCourse(user.userId, pathParameters)
+      const result = await CourseController.getCourse(userId, pathParameters)
       return {
         statusCode: 200,
         headers: getCorsHeaders(origin, 'OPTIONS, GET'),
@@ -94,7 +102,10 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     }
 
     if (httpMethod === 'PATCH' && path.startsWith('/courses/')) {
-      const user = verifyToken(event.headers?.Authorization)
+      if (!event.requestContext.authorizer || !event.requestContext.authorizer.principalId) {
+        throw new Error('[UNAUTHORIZED]: Missing authorization context')
+      }
+      const userId = event.requestContext.authorizer.principalId
       const pathParameters = event.pathParameters || {}
       if (Object.keys(pathParameters).length === 0 || Object.values(pathParameters).some(value => !value)) {
         return {
@@ -103,7 +114,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
           body: JSON.stringify({ message: 'Missing required path parameters' })
         }
       }
-      const result = await CourseController.updateCourse(user.userId, pathParameters, parsedBody)
+      const result = await CourseController.updateCourse(userId, pathParameters, parsedBody)
       return {
         statusCode: 200,
         headers: getCorsHeaders(origin, 'OPTIONS, PATCH'),
@@ -112,7 +123,10 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     }
 
     if (httpMethod === 'DELETE' && path.startsWith('/courses/')) {
-      const user = verifyToken(event.headers?.Authorization)
+      if (!event.requestContext.authorizer || !event.requestContext.authorizer.principalId) {
+        throw new Error('[UNAUTHORIZED]: Missing authorization context')
+      }
+      const userId = event.requestContext.authorizer.principalId
       const pathParameters = event.pathParameters || {}
       if (Object.keys(pathParameters).length === 0 || Object.values(pathParameters).some(value => !value)) {
         return {
@@ -121,7 +135,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
           body: JSON.stringify({ message: 'Missing required path parameters' })
         }
       }
-      const result = await CourseController.deleteCourse(user.userId, pathParameters)
+      const result = await CourseController.deleteCourse(userId, pathParameters)
       return {
         statusCode: 200,
         headers: getCorsHeaders(origin, 'OPTIONS, DELETE'),
