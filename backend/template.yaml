@@ -25,6 +25,18 @@ Parameters:
 
 
 Resources:
+  TokenAuthorizer:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dist/middlewares/auth.handler
+      Runtime: nodejs18.x
+      Policies:
+        - AWSLambdaBasicExecutionRole
+      Environment:
+        Variables:
+          JWT_SECRET: !Ref JwtSecret
+
+
   HorariuApi:
       Type: AWS::Serverless::Api
       Properties:
@@ -34,6 +46,15 @@ Resources:
           AllowMethods: "'OPTIONS,GET,POST,PATCH,DELETE'"
           AllowHeaders: "'Content-Type,Authorization'"
           AllowOrigin: "'http://localhost:5173'"
+        Auth:
+          Authorizers:
+            TokenAuthorizer:
+              FunctionArn: !GetAtt TokenAuthorizer.Arn
+              Identity:
+                Headers:
+                  - Authorization
+              AuthorizerPayloadFormatVersion: 2.0
+              EnableSimpleResponses: true
     
   HorariuApiFunction:
     Type: AWS::Serverless::Function
@@ -84,27 +105,37 @@ Resources:
             RestApiId: !Ref HorariuApi
             Path: /courses
             Method: POST
+            Auth:
+              Authorizer: TokenAuthorizer
         GetCourses:
           Type: Api
           Properties:
             RestApiId: !Ref HorariuApi
             Path: /courses
             Method: GET
+            Auth:
+              Authorizer: TokenAuthorizer
         GetCourse:
           Type: Api
           Properties:
             RestApiId: !Ref HorariuApi
             Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
             Method: GET
+            Auth:
+              Authorizer: TokenAuthorizer
         UpdateCourse:
           Type: Api
           Properties:
             RestApiId: !Ref HorariuApi
             Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
             Method: PATCH
+            Auth:
+              Authorizer: TokenAuthorizer
         DeleteCourse:
           Type: Api
           Properties:
             RestApiId: !Ref HorariuApi
             Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
             Method: DELETE
+            Auth:
+              Authorizer: TokenAuthorizer
