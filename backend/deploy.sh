@@ -7,6 +7,12 @@ STAGE=${1:-Dev}  # Dev by default, but we can use Prod with the command: ./deplo
 STACK_NAME="horariu-${STAGE}"
 
 echo "----------------------------------------"
+echo "Building the project..."
+echo "----------------------------------------"
+
+npm run build
+
+echo "----------------------------------------"
 echo "Building the Lambda function with SAM..."
 echo "----------------------------------------"
 
