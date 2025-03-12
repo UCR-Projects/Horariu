@@ -1,0 +1,7 @@
+{
+  "httpMethod": "GET",
+  "path": "/courses",
+  "headers": {
+    "Authorization": "Bearer xx.xx.xx"
+  }
+}

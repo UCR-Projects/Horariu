@@ -1,91 +1,99 @@
-import { Request, Response } from 'express'
 import { CourseService } from '../services/CourseService'
+
 export class CourseController {
-  registerCourse = async (req: Request, res: Response): Promise<void> => {
+  registerCourse = async (userId: string, course: unknown) => {
     try {
-      const userId = req.user?.userId
       if (!userId) {
-        res.status(401).json({ message: 'Unauthorized' })
-        return
+        throw new Error('[UNAUTHORIZED]: User not found')
       }
 
-      const newCourse = await CourseService.registerCourse(userId, req.body)
-      res.status(201).json({ message: 'Course registered successfully', newCourse })
+      const newCourse = await CourseService.registerCourse(userId, course)
+      return {
+        statusCode: 201,
+        body: JSON.stringify({ message: 'Courses registered successfully', newCourse })
+      }
     } catch (error) {
-      console.error('[registerCourse]:', error)
-
-      if (error instanceof Error) {
-        if (error.message.includes('already exists')) {
-          res.status(409).json({ message: error.message })
-          return
-        }
-        res.status(422).json({ message: error.message })
-        return
+      console.error('[registerCourse]:', (error as Error).message)
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Internal server error' })
       }
-      res.status(500).json({ message: 'Internal server error' })
     }
   }
 
-  getCourses = async (req: Request, res: Response): Promise<void> => {
+  getCourses = async (userId: string) => {
     try {
-      const userId = req.user?.userId
       if (!userId) {
-        res.status(401).json({ message: 'Unauthorized' })
-        return
+        throw new Error('[UNAUTHORIZED]: User not found')
       }
       const courses = await CourseService.getCourses(userId)
-      res.status(200).json({ message: 'Courses retrieved successfully', courses })
+      return {
+        statusCode: 201,
+        body: JSON.stringify({ message: 'Courses found successfully', courses })
+      }
     } catch (error) {
-      console.error('[getCourses]:', error)
-      res.status(500).json({ message: 'Internal server error' })
+      console.error('[getCourses]:', (error as Error).message)
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Internal server error' })
+      }
     }
   }
 
-  getCourse = async (req: Request, res: Response): Promise<void> => {
+  getCourse = async (userId: string, params: unknown) => {
     try {
-      const userId = req.user?.userId
       if (!userId) {
-        res.status(401).json({ message: 'Unauthorized' })
-        return
+        throw new Error('[UNAUTHORIZED]: User not found')
       }
-
-      const course = await CourseService.getCourse(userId, req.params)
-      res.status(200).json({ message: 'Course retrieved successfully', course })
+      const course = await CourseService.getCourse(userId, params)
+      return {
+        statusCode: 201,
+        body: JSON.stringify({ message: 'Courses retrieved successfully', course })
+      }
     } catch (error) {
       console.error('[getCourse]:', (error as Error).message)
-      res.status(500).json({ message: 'Internal server error' })
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Internal server error' })
+      }
     }
   }
 
-  updateCourse = async (req: Request, res: Response): Promise<void> => {
+  updateCourse = async (userId: string, params: unknown, body: unknown) => {
     try {
-      const userId = req.user?.userId
       if (!userId) {
-        res.status(401).json({ message: 'Unauthorized' })
-        return
+        throw new Error('[UNAUTHORIZED]: User not found')
       }
-
-      const updatedCourse = await CourseService.updateCourse(userId, req.params, req.body)
-      res.status(200).json({ message: 'Course updated successfully', updatedCourse })
+      const updatedCourse = await CourseService.updateCourse(userId, params, body)
+      return {
+        statusCode: 201,
+        body: JSON.stringify({ message: 'Course updated successfully', updatedCourse })
+      }
     } catch (error) {
       console.error('[updateCourse]:', (error as Error).message)
-      res.status(500).json({ message: 'Internal server error' })
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Internal server error' })
+      }
     }
   }
 
-  deleteCourse = async (req: Request, res: Response): Promise<void> => {
+  deleteCourse = async (userId: string, params: unknown) => {
     try {
-      const userId = req.user?.userId
       if (!userId) {
-        res.status(401).json({ message: 'Unauthorized' })
-        return
+        throw new Error('[UNAUTHORIZED]: User not found')
       }
-
-      const deletedCourse = await CourseService.deleteCourse(userId, req.params)
-      res.status(200).json({ message: 'Course deleted successfully', deletedCourse })
+      const deletedCourse = await CourseService.deleteCourse(userId, params)
+      return {
+        statusCode: 201,
+        body: JSON.stringify({ message: 'Course deleted successfully', deletedCourse })
+      }
     } catch (error) {
       console.error('[deleteCourse]:', (error as Error).message)
-      res.status(500).json({ message: 'Internal server error' })
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Internal server error' })
+      }
     }
   }
 }

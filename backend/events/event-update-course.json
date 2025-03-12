@@ -1,0 +1,14 @@
+{
+  "httpMethod": "PATCH",
+  "path": "/courses/Programación%20Avanzada/Lunes/07:00:00/1",
+  "headers": {
+    "Authorization": "Bearer xxxx"
+  },
+  "pathParameters": {
+    "courseName": "Programación Avanzada",
+    "day": "Lunes",
+    "startTime": "07:00:00",
+    "groupNumber": "1"
+  },
+  "body": "{ \"groupNumber\": 999, \"courseDetails\": { \"professor\": \"Dr. Pedrito Gonzalez\", \"courseCode\": \"9999\", \"classroom\": \"Aula 300\" } }"
+}

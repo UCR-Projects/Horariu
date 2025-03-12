@@ -1,0 +1,8 @@
+{
+  "httpMethod": "POST",
+  "path": "/courses",
+  "headers": {
+    "Authorization": "Bearer xx.xx.xx"
+  },
+  "body": "{ \"courseName\": \"Programación I\", \"day\": \"Lunes\", \"startTime\": \"09:00:00\", \"endTime\": \"11:50:00\", \"groupNumber\": 2, \"courseDetails\": { \"professor\": \"Dr. Juan Pérez\", \"courseCode\": \"CS101\", \"classroom\": \"Aula 305\" } }"
+}

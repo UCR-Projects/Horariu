@@ -2,37 +2,7 @@ import { db } from '../database/database'
 import { courses } from '../database/schema/courses'
 import { eq, and } from 'drizzle-orm'
 import { validateCourseDetails } from '../schemas/course.schema'
-
-interface IAddCourseData {
-  userId: string,
-  courseName: string,
-  day: string,
-  startTime: string,
-  endTime: string,
-  groupNumber: number,
-  courseDetails?: { professor?: string, courseCode?: string; classroom?: string; building?: string }
-}
-
-interface ICourseData {
-  userId: string,
-  courseName: string,
-  day: string,
-  startTime: string,
-  endTime: string,
-  groupNumber: number,
-  courseDetails?: { professor?: string, courseCode?: string; classroom?: string; building?: string }
-  createdAt: Date,
-  updatedAt: Date | null,
-  deletedAt: Date | null,
-}
-
-interface ICourseIdentifiers {
-  userId: string
-  courseName: string
-  day: string
-  startTime: string
-  groupNumber: number
-}
+import { IAddCourseData, ICourseData, ICourseIdentifiers } from '../interfaces/ICourseData'
 
 export const CourseRepository = {
   async addCourse (courseData: IAddCourseData): Promise<ICourseData> {
