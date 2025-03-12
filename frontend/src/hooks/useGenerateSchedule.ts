@@ -4,12 +4,13 @@ import useCourseStore from '@/stores/useCourseStore'
 
 export const useGenerateSchedule = () => {
   const mutation = useMutation({
+    mutationKey: ['generateSchedule'],
     mutationFn: () => {
       const courseData = useCourseStore.getState().courses
       return generateScheduleService.generateSchedule(courseData)
     },
     onError: (error) => {
-      console.error('Error generando horario:', error)
+      console.error(error)
     },
   })
 

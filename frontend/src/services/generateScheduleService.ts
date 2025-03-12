@@ -7,8 +7,10 @@ export const generateScheduleService = {
       const response = await publicApi.post('/generate', coursesData)
       return response.data
     } catch (error) {
-      console.error('Error generating schedule:', error)
-      throw new Error('fetch: Error generating schedule')
+      if (import.meta.env.DEV) {
+        console.error('[fetch] Error generating schedule:', error)
+      }
+      throw new Error('Error generating schedule')
     }
   },
 }

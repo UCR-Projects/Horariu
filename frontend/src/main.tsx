@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client'
 import { routes } from './routes/routes'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from './components/ThemeProvider'
+import { Toaster } from '@/components/ui/sonner'
 import './i18n.config'
 
 const router = createBrowserRouter(routes)
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
       <RouterProvider router={router} />
+      <Toaster />
     </ThemeProvider>
     <ReactQueryDevtools />
   </QueryClientProvider>

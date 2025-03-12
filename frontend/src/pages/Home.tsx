@@ -1,14 +1,27 @@
 import Schedule from '@/components/Schedule'
-import useCourseStore from '@/stores/useCourseStore'
 import { useGenerateSchedule } from '@/hooks/useGenerateSchedule'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
+import { useEffect } from 'react'
 
 const Home = () => {
-  const { generateSchedule, isLoading, error, scheduleData, isSuccess } =
+  const { generateSchedule, isLoading, isSuccess, error } =
     useGenerateSchedule()
-  const { courses } = useCourseStore()
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Schedule generated successfully', {
+        className: 'bg-green-500 text-white border border-green-600',
+      })
+    }
+  }, [isSuccess])
+
+  useEffect(() => {
+    if (error) {
+      toast.error('Error generating schedule')
+    }
+  }, [error])
   return (
     <>
       <div>
@@ -16,22 +29,13 @@ const Home = () => {
           {isLoading ? (
             <>
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-              Generando...
+              Generating...
             </>
           ) : (
-            'Generar Horario'
+            'Generate Schedule'
           )}
         </Button>
-
-        {error && <p className='error'>Error: {error.message}</p>}
-
-        {isSuccess && (
-          <div>
-            <pre>{JSON.stringify(scheduleData, null, 2)}</pre>
-          </div>
-        )}
       </div>
-      <pre>{JSON.stringify(courses, null, 2)}</pre>
       <Schedule />
     </>
   )
