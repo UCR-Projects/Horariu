@@ -2,16 +2,17 @@ import { Day, TimeRange } from '@/types'
 import { useTranslation } from 'react-i18next'
 import { TIME_RANGES, DAYS } from '@/utils/constants'
 import useScheduleStore from '@/stores/useScheduleStore'
-import { useState } from 'react'
 
 const Schedule = () => {
   const { t } = useTranslation()
   const { scheduleData } = useScheduleStore()
 
-  const [selectedScheduleIndex, setSelectedScheduleIndex] = useState(0)
-  const currentSchedule = scheduleData?.schedules?.[selectedScheduleIndex] || []
-
-  const getCourseAtTimeSlot = (day: Day, timeRange: TimeRange) => {
+  const getCourseAtTimeSlot = (
+    day: Day,
+    timeRange: TimeRange,
+    scheduleIndex: number
+  ) => {
+    const currentSchedule = scheduleData?.schedules?.[scheduleIndex] || []
     if (!currentSchedule.length) return null
 
     // Get start and end time from the time range
@@ -26,25 +27,8 @@ const Schedule = () => {
     })
   }
 
-  return (
-    <div className='w-full max-w-8xl mx-auto p-2'>
-      {scheduleData?.schedules && scheduleData.schedules.length > 1 && (
-        <div className='mb-4'>
-          <label className='mr-2'>{t('scheduleOption')}:</label>
-          <select
-            value={selectedScheduleIndex}
-            onChange={(e) => setSelectedScheduleIndex(Number(e.target.value))}
-            className='p-1 border rounded'
-          >
-            {scheduleData.schedules.map((_, index: number) => (
-              <option key={index} value={index}>
-                {t('option')} {index + 1}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
+  const renderScheduleTable = (scheduleIndex: number) => {
+    return (
       <div className='overflow-x-auto md:overflow-visible'>
         <div className='min-w-[600px] md:min-w-0'>
           <table className='w-full border-collapse transition-colors duration-100'>
@@ -57,7 +41,7 @@ const Schedule = () => {
                 {DAYS.map((day) => (
                   <th
                     key={day}
-                    className='p-2 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32 h-14'
+                    className='p-2 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32 h-12'
                   >
                     ({t(`days.${day}.short`)}) {t(`days.${day}.name`)}
                   </th>
@@ -72,7 +56,9 @@ const Schedule = () => {
                   </td>
 
                   {DAYS.map((day) => {
-                    const course = getCourseAtTimeSlot(day, range)
+                    const course = scheduleData?.schedules
+                      ? getCourseAtTimeSlot(day, range, scheduleIndex)
+                      : null
 
                     return (
                       <td
@@ -98,6 +84,23 @@ const Schedule = () => {
           </table>
         </div>
       </div>
+    )
+  }
+
+  return (
+    <div className='w-full max-w-8xl mx-auto p-2'>
+      {scheduleData?.schedules && scheduleData.schedules.length > 0 ? (
+        scheduleData.schedules.map((_, scheduleIndex: number) => (
+          <div key={scheduleIndex} className='mb-12'>
+            <h2 className='font-bold mb-4'>
+              {t('option')} {scheduleIndex + 1}
+            </h2>
+            {renderScheduleTable(scheduleIndex)}
+          </div>
+        ))
+      ) : (
+        <div className='mb-12'>{renderScheduleTable(0)}</div>
+      )}
     </div>
   )
 }
