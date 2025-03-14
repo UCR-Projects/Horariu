@@ -51,6 +51,13 @@
   "save": "Guardar",
   "editGroup": "Editar Grupo",
   "groupName": "Nombre del Grupo",
+  "generateSchedules": "Generar Horarios",
+  "generating" : "Generando",
+  "possibleSchedule": "Opción Encontrada",
+  "possibleSchedules": "Opciones Encontradas",
+  "noSchedulesGenerated": "No se han generado",
+  "option": "Opción",
+  "options": "Opciones",
 
 
   "validation": {

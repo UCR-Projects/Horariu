@@ -51,6 +51,14 @@
   "save": "Save",
   "editGroup": "Edit Group",
   "groupName": "Group Name",
+  "generateSchedules": "Generate Schedules",
+  "generating" : "Generating",
+  "possibleSchedule": "Possible Schedule",
+  "possibleSchedules": "Possible Schedules",
+  "noSchedulesGenerated": "No schedules generated",
+  "option": "Option",
+  "options": "Options",
+
 
 
   "validation": {
