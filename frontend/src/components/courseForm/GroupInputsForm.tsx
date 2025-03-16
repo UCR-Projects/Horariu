@@ -91,6 +91,7 @@ export function GroupInputsForm({
                   placeholder={t('groupName')}
                   {...field}
                   className='text-sm py-2'
+                  maxLength={25}
                 />
               </FormControl>
               <FormMessage />

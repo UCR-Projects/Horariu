@@ -76,6 +76,7 @@ export function CourseInputsForm({
                   placeholder={t('courseName')}
                   {...field}
                   className='text-sm py-2'
+                  maxLength={30}
                 />
               </FormControl>
               <FormMessage />

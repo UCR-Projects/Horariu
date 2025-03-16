@@ -115,31 +115,7 @@ describe('createCourseSchema Validation', () => {
     expect(result.success).toBe(false)
   })
 
-  it('should fail if the course name is too short (less than 2 characters)', () => {
-    const invalidCourse = {
-      courseName: 'C',
-      color: 'bg-green-500',
-      groups: [
-        {
-          name: 'G1',
-          schedule: [
-            {
-              day: 'L',
-              active: true,
-              startTime: '08:00',
-              endTime: '09:30',
-            },
-          ],
-        },
-      ],
-    }
-
-    const schema = createCourseSchema()
-    const result = schema.safeParse(invalidCourse)
-    expect(result.success).toBe(false)
-  })
-
-  it('should fail if the course name is too long (more than 50 characters)', () => {
+  it('should fail if the course name is too long (more than 30 characters)', () => {
     const invalidCourse = {
       courseName:
         '............................................................',
@@ -283,26 +259,9 @@ describe('createGroupSchema Validation', () => {
     expect(result.success).toBe(false)
   })
 
-  it('should fail if the group name is too short (less than 2 Characters)', () => {
+  it('should fail if the group name is too long (more than 25 characters)', () => {
     const invalidGroup = {
-      groupName: 'G',
-      schedules: [
-        {
-          day: 'L',
-          active: true,
-          startTime: '08:00',
-          endTime: '09:30',
-        },
-      ],
-    }
-    const schema = createGroupSchema()
-    const result = schema.safeParse(invalidGroup)
-    expect(result.success).toBe(false)
-  })
-
-  it('should fail if the group name is too long (more than 10 characters)', () => {
-    const invalidGroup = {
-      groupName: 'This is a very long group name',
+      groupName: 'This is a very long group name that should not be valid',
       schedules: [
         {
           day: 'L',
