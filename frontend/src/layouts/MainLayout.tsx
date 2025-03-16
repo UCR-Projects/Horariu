@@ -5,7 +5,7 @@ import { AppSidebar } from '@/components/AppSidebar'
 
 const MainLayout = () => {
   return (
-    <div className='flex h-screen dark:bg-neutral-800 bg-neutral-100'>
+    <div className='flex h-screen dark:bg-neutral-800 bg-neutral-100 overflow-hidden'>
       <SidebarProvider>
         <div className='relative'>
           <AppSidebar />
@@ -16,7 +16,7 @@ const MainLayout = () => {
               <Header />
             </div>
           </header>
-          <main className='flex-1 dark:bg-neutral-800 p-4 overflow-y-auto'>
+          <main className='flex-1 dark:bg-neutral-800 p-4 overflow-auto'>
             <Outlet />
           </main>
         </div>

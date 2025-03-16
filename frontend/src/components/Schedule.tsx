@@ -88,10 +88,10 @@ const Schedule = () => {
   }
 
   return (
-    <div className='w-full max-w-8xl mx-auto p-2'>
+    <div className='w-full max-w-8xl mx-auto p-2 pb-0'>
       {scheduleData?.schedules && scheduleData.schedules.length > 0 ? (
         scheduleData.schedules.map((_, scheduleIndex: number) => (
-          <div key={scheduleIndex} className='mb-12'>
+          <div key={scheduleIndex} className='mb-8'>
             <h2 className='font-bold mb-4'>
               {t('option')} {scheduleIndex + 1}
             </h2>
@@ -99,7 +99,7 @@ const Schedule = () => {
           </div>
         ))
       ) : (
-        <div className='mb-12'>{renderScheduleTable(0)}</div>
+        <div>{renderScheduleTable(0)}</div>
       )}
     </div>
   )

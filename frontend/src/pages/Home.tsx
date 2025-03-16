@@ -29,52 +29,53 @@ const Home = () => {
   }, [error])
 
   const schedulesCount = scheduleData?.schedules?.length || 0
+  const showBadge = isLoading || schedulesCount > 0
 
   return (
     <>
-      <div className='mb-2'>
-        <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-2'>
-          <Button
-            onClick={() => generateSchedule()}
-            disabled={isLoading}
-            className='px-4 py-2 font-medium'
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className='mr-2 h-5 w-5 animate-spin' />
-                {t('generating')}...
-              </>
-            ) : (
-              <>
-                <Calendar className='mr-2 h-5 w-5' />
-                {t('generateSchedules')}
-              </>
-            )}
-          </Button>
+      <div>
+        <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-2 p-2'>
+          <div className='w-full md:w-auto'>
+            <Button
+              onClick={() => generateSchedule()}
+              disabled={isLoading}
+              className='w-full md:w-auto px-4 py-2 font-medium'
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className='mr-2 h-5 w-5 animate-spin' />
+                  {t('generating')}...
+                </>
+              ) : (
+                <>
+                  <Calendar className='mr-2 h-5 w-5' />
+                  {t('generateSchedules')}
+                </>
+              )}
+            </Button>
+          </div>
 
-          <Badge
-            variant='outline'
-            className='py-2 px-4 text-sm font-medium dark:border-neutral-700 rounded-full dark:bg-neutral-950/10'
-          >
-            {isLoading ? (
-              <span className='flex items-center'>
-                <Loader2 className='h-4 w-4 animate-spin' />
-              </span>
-            ) : (
-              <span className='flex items-center'>
-                {schedulesCount > 0 ? (
-                  <>
+          {showBadge && (
+            <div className='w-full md:w-auto'>
+              <Badge
+                variant='outline'
+                className='w-full md:w-auto py-2 px-4 text-sm font-medium dark:border-neutral-700 rounded-full dark:bg-neutral-950/10 flex justify-center'
+              >
+                {isLoading ? (
+                  <span className='flex items-center'>
+                    <Loader2 className='h-4 w-4 animate-spin' />
+                  </span>
+                ) : (
+                  <span className='flex items-center justify-center'>
                     <span className='font-semibold mr-1'>{schedulesCount}</span>
                     {schedulesCount === 1
                       ? t('possibleSchedule')
                       : t('possibleSchedules')}
-                  </>
-                ) : (
-                  t('noSchedulesGenerated')
+                  </span>
                 )}
-              </span>
-            )}
-          </Badge>
+              </Badge>
+            </div>
+          )}
         </div>
       </div>
 
