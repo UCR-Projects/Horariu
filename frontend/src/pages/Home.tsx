@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import { useEffect } from 'react'
 import useScheduleStore from '@/stores/useScheduleStore'
 import { useTranslation } from 'react-i18next'
+import LoadSampleDataButtons from '@/components/LoadSampleDataButtons'
 
 const Home = () => {
   const { t } = useTranslation()
@@ -34,8 +35,9 @@ const Home = () => {
   return (
     <>
       <div>
-        <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-2 p-2'>
+        <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-2 p-2 mb-4'>
           <div className='w-full md:w-auto'>
+            <LoadSampleDataButtons />
             <Button
               onClick={() => generateSchedule()}
               disabled={isLoading}

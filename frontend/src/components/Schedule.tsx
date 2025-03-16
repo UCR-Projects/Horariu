@@ -34,14 +34,14 @@ const Schedule = () => {
           <table className='w-full border-collapse transition-colors duration-100'>
             <thead>
               <tr>
-                <th className='border border-neutral-900 dark:border-neutral-300 w-16 md:w-24'>
+                <th className='border border-neutral-900 dark:border-neutral-300 w-16 md:w-24 h-12'>
                   {t('hours')}
                 </th>
 
                 {DAYS.map((day) => (
                   <th
                     key={day}
-                    className='p-2 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32 h-12'
+                    className='p-1 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32'
                   >
                     ({t(`days.${day}.short`)}) {t(`days.${day}.name`)}
                   </th>
@@ -51,7 +51,7 @@ const Schedule = () => {
             <tbody>
               {TIME_RANGES.map((range) => (
                 <tr key={range}>
-                  <td className='p-1 border border-neutral-900 dark:border-neutral-300 text-center w-16 md:w-32 h-11'>
+                  <td className='p-1 border border-neutral-900 dark:border-neutral-300 text-center w-16 md:w-24'>
                     {range}
                   </td>
 
@@ -63,16 +63,16 @@ const Schedule = () => {
                     return (
                       <td
                         key={`${day}-${range}`}
-                        className={`border border-neutral-900 dark:border-neutral-300 transition-colors w-20 md:w-32 ${
+                        className={`border border-neutral-900 dark:border-neutral-300 transition-colors w-20 md:w-24 ${
                           course ? course.color : ''
-                        }`}
+                        } h-10.5`}
                       >
                         {course && (
-                          <div className='p-1 text-xs md:text-sm text-center text-neutral-900'>
+                          <div className='p-0.5 text-xs md:text-sm text-center text-neutral-900'>
                             <div className='font-semibold'>
                               {course.courseName}
                             </div>
-                            <div>{course.group.name}</div>
+                            <div className='text-xs'>{course.group.name}</div>
                           </div>
                         )}
                       </td>
@@ -91,7 +91,7 @@ const Schedule = () => {
     <div className='w-full max-w-8xl mx-auto p-2 pb-0'>
       {scheduleData?.schedules && scheduleData.schedules.length > 0 ? (
         scheduleData.schedules.map((_, scheduleIndex: number) => (
-          <div key={scheduleIndex} className='mb-8'>
+          <div key={scheduleIndex} className='mb-12'>
             <h2 className='font-bold mb-4'>
               {t('option')} {scheduleIndex + 1}
             </h2>
