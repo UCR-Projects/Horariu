@@ -1,12 +1,79 @@
 {
   "days": {
-    "monday": "(M) Monday",
-    "tuesday": "(T) Tuesday",
-    "wednesday": "(W) Wednesday",
-    "thursday": "(Th) Thursday",
-    "friday": "(F) Friday",
-    "saturday": "(S) Saturday",
-    "sunday": "(S) Sunday"
+    "L": {
+      "name": "Monday",
+      "short": "Mo"
+    },
+    "K": {
+      "name": "Tuesday",
+      "short": "Tu"
+    },
+    "M": {
+      "name": "Wednesday",
+      "short": "We"
+    },
+    "J": {
+      "name": "Thursday",
+      "short": "Th"
+    },
+    "V": {
+      "name": "Friday",
+      "short": "Fr"
+    },
+    "S": {
+      "name": "Saturday",
+      "short": "Sa"
+    },
+    "D": {
+      "name": "Sunday",
+      "short": "Su"
+    }
   },
-  "hours": "Hours"
+  "hours": "Hours",
+  "addGroup": "Add Group",
+  "addCourse": "Add Course",
+  "group": "Group",
+  "close": "Close",
+  "courseName": "Course Name",
+  "newCourse": "Create Course",
+  "courseFormDes": "Enter the course information to include it in your plan",
+  "noGroupsYet": "No groups added yet",
+  "newGroup": "Create Group",
+  "groupFormDes": "Enter the group information to include it in the course",
+  "editGroupFormDes": "Edit the group information",
+  "schedule": "Schedule",
+  "noActiveDays": "Select a day to add times",
+  "from": "From",
+  "to": "To",
+  "cancel": "Cancel",
+  "editCourse": "Edit Course",
+  "editCourseDes": "Edit the course information",
+  "save": "Save",
+  "editGroup": "Edit Group",
+  "groupName": "Group Name",
+
+
+  "validation": {
+    "course": {
+      "name": {
+        "required": "Course name is required",
+        "min": "Course name must be at least 2 characters",
+        "max": "Course name must be at most 50 characters",
+        "unique": "A course with this name already exists"
+      },
+      "groupRequired": "At least one group must be added"
+    },
+    "group": {
+      "name": {
+        "required": "Group name is required",
+        "min": "Group name must be at least 2 characters",
+        "max": "Group name must be at most 10 characters",
+        "unique": "Group name already exists for this course"
+      },
+      "schedule": {
+        "required": "At least one day must be selected",
+        "timeRange": "All selected days must have a valid schedule"
+      }
+    }
+  }
 }

@@ -1,22 +1,24 @@
-import Header from '../components/Header'
-import Aside from '../components/Aside'
+import { Header } from '../components/Header'
 import { Outlet } from 'react-router'
-import '../styles/mainLayout.css'
+import { SidebarProvider } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/AppSidebar'
 
 const MainLayout = () => {
   return (
-    <div className="main-layout h-screen p-2 gap-2 bg-stone-100 dark:bg-zinc-700 transition-colors duration-200">
-      <header className="layout-header dark:bg-zinc-950 dark:text-sky-50 bg-stone-300 overflow-y-auto rounded transition-colors duration-200">
-        <Header />       
-      </header>
-
-      <aside className="layout-aside dark:bg-zinc-950 dark:text-sky-50 bg-stone-300 overflow-y-auto rounded transition-colors duration-200">
-        <Aside />
-      </aside>
-      
-      <main className="layout-main dark:bg-zinc-950 dark:text-sky-50 bg-stone-300 overflow-y-auto rounded transition-colors duration-200">
-        <Outlet />
-      </main>
+    <div className='flex h-screen dark:bg-neutral-800 bg-neutral-100'>
+      <SidebarProvider>
+        <AppSidebar />
+        <div className='flex-1 flex flex-col overflow-hidden'>
+          <header className='p-4 border-b dark:border-neutral-700'>
+            <div className='flex items-center justify-between'>
+              <Header />
+            </div>
+          </header>
+          <main className='flex-1 dark:bg-neutral-800 p-4 overflow-y-auto'>
+            <Outlet />
+          </main>
+        </div>
+      </SidebarProvider>
     </div>
   )
 }

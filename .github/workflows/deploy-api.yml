@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'backend/**'
+      - "backend/**"
   pull_request:
     branches:
       - main
@@ -13,27 +13,26 @@ on:
       - opened
       - synchronize
     paths:
-      - 'backend/**'
+      - "backend/**"
 
 concurrency:
   group: ci-api-deploy-${{ github.ref }} # This will make sure that only one workflow runs at a time
   cancel-in-progress: true
 
 jobs:
-
-  lint: 
+  lint:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4 # Clones the repository with just latest commit
         with:
           fetch-depth: 0
-      
+
       - name: Setup Node.js
-        uses: actions/setup-node@v4  # Sets up node environment
+        uses: actions/setup-node@v4 # Sets up node environment
         with:
-          node-version: 18
-          cache: 'npm'
+          node-version: 20
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
@@ -46,17 +45,16 @@ jobs:
   build:
     runs-on: ubuntu-22.04 # The runner to use
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4 # Clones the repository with just latest commit
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4  # Sets up node environment
+        uses: actions/setup-node@v4 # Sets up node environment
         with:
-          node-version: 18
-          cache: 'npm'
+          node-version: 20
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
@@ -70,18 +68,17 @@ jobs:
     needs: [build, lint]
     runs-on: ubuntu-22.04
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4 # Clones the repository with just latest commit
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4  # Sets up node environment
+        uses: actions/setup-node@v4 # Sets up node environment
         with:
-          node-version: 18
-          cache: 'npm'
-  
+          node-version: 20
+          cache: "npm"
+
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
         working-directory: backend
@@ -89,6 +86,4 @@ jobs:
       - name: Run tests
         run: npm test
         working-directory: backend
-
-    
 # TODO: Deploy in some service

@@ -1,13 +1,16 @@
-import ThemeButton from './ThemeButton'
+import ThemeToggle from '@/components/ThemeToggle'
 
-const Header = () => {
+export function Header() {
   return (
-    <div className= "flex justify-between items-center">
-      <h1 className="text-2xl font-bold p-4">Header</h1>
-      <ThemeButton />
+    <div className='w-full flex flex-col'>
+      <div className='p-2'>
+        <div className='flex justify-between items-center'>
+          <h1 className='text-2xl font-bold p-4'>Header</h1>
+          <div className='flex items-center gap-4 mr-4'>
+            <ThemeToggle />
+          </div>
+        </div>
+      </div>
     </div>
   )
-
 }
-
-export default Header
