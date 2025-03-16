@@ -1,67 +1,67 @@
 import { create } from 'zustand'
-import { Day, TimeRange } from '../types'
+import { Day } from '../types'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-const mapToObject = (map: Map<string, { hour: TimeRange; day: Day }>) => {
-  return Object.fromEntries(map.entries())
+interface CourseScheduleItem {
+  courseName: string
+  color: string
+  group: {
+    name: string
+    schedule: {
+      [key in Day]?: {
+        start: string
+        end: string
+      }
+    }
+  }
 }
 
-const objectToMap = (
-  obj: Record<string, { hour: TimeRange; day: Day }> | undefined
-) => {
-  if (!obj) return new Map()
-  return new Map(Object.entries(obj))
+export interface ScheduleData {
+  schedules: CourseScheduleItem[][]
 }
 
 interface ScheduleState {
-  selectedCells: Map<string, { hour: TimeRange; day: Day }>
-  toggleCell: (hour: TimeRange, day: Day) => void
-  clearCells: () => void
+  scheduleData: ScheduleData | null
+  setScheduleData: (data: ScheduleData) => void
+  clearScheduleData: () => void
+
+  isLoading: boolean
+  error: Error | null
+  isSuccess: boolean
+  setLoading: (loading: boolean) => void
+  setSuccess: (success: boolean) => void
+  setError: (error: Error | null) => void
+  reset: () => void
 }
 
-export const useScheduleStore = create<ScheduleState>()(
+const useScheduleStore = create<ScheduleState>()(
   persist(
-    (set, get) => ({
-      selectedCells: new Map(),
+    (set) => ({
+      scheduleData: null,
+      setScheduleData: (data) => set({ scheduleData: data, isSuccess: true }),
+      clearScheduleData: () => set({ scheduleData: null }),
 
-      toggleCell: (hour: TimeRange, day: Day) => {
-        const key = `${hour}-${day}`
-        const currentCells = new Map(get().selectedCells)
-
-        if (currentCells.has(key)) {
-          currentCells.delete(key)
-        } else {
-          currentCells.set(key, { hour, day })
-        }
-
-        set({ selectedCells: currentCells })
-      },
-
-      clearCells: () => {
-        set({ selectedCells: new Map() })
-      },
+      isLoading: false,
+      error: null,
+      isSuccess: false,
+      setLoading: (loading) => set({ isLoading: loading }),
+      setSuccess: (success) => set({ isSuccess: success }),
+      setError: (error) => set({ error }),
+      reset: () =>
+        set({
+          isLoading: false,
+          error: null,
+          isSuccess: false,
+        }),
     }),
     {
-      name: 'schedule-storage', // Local storage key
+      name: 'schedule-storage',
       storage: createJSONStorage(() => localStorage),
-
-      // Convert the Map to an object before serializing
-      // because JSON.stringify does not support Maps
       partialize: (state) => ({
-        selectedCells: mapToObject(state.selectedCells),
+        scheduleData: state.scheduleData,
       }),
-
-      // Convert the object back to a Map after deserializing
-      onRehydrateStorage: () => (state) => {
-        if (state) {
-          state.selectedCells = objectToMap(
-            state.selectedCells as unknown as Record<
-              string,
-              { hour: TimeRange; day: Day }
-            >
-          )
-        }
-      },
     }
   )
 )
+
+export default useScheduleStore

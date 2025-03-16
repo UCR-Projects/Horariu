@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { Course } from '../types'
 import { DEFAULT_COLOR } from '../utils/constants'
+import { getSampleSet, SampleCoursesSetType } from '../mocks/sampleCourses'
 
 interface CourseState {
   courses: Course[]
@@ -15,6 +16,10 @@ interface CourseState {
   deleteCourse: (name: string) => void
 
   updateCourse: (oldCourseName: string, course: Course) => void
+
+  clearAllCourses: () => void
+
+  loadSampleData: (datasetType: SampleCoursesSetType) => void
 }
 
 const useCourseStore = create<CourseState>()(
@@ -58,6 +63,18 @@ const useCourseStore = create<CourseState>()(
                 ? updatedCourse
                 : state.selectedCourse,
           }
+        }),
+
+      clearAllCourses: () =>
+        set({
+          courses: [],
+          selectedCourse: null,
+        }),
+
+      loadSampleData: (datasetType = 'single') =>
+        set({
+          courses: getSampleSet(datasetType),
+          selectedCourse: null,
         }),
     }),
     {

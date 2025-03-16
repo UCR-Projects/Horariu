@@ -19,8 +19,8 @@ export const createGroupSchema = (
     groupName: z
       .string()
       .nonempty({ message: validMsgs.group.name.required })
-      .min(2, { message: validMsgs.group.name.min })
-      .max(10, { message: validMsgs.group.name.max })
+      .min(1, { message: validMsgs.group.name.min })
+      .max(25, { message: validMsgs.group.name.max })
       .refine(
         (name) => {
           // if editing and the name didn't change, it's valid
@@ -53,8 +53,8 @@ export const createCourseSchema = (currentCourseName?: string) =>
     courseName: z
       .string()
       .nonempty({ message: validMsgs.course.name.required })
-      .min(2, { message: validMsgs.course.name.min })
-      .max(50, { message: validMsgs.course.name.max })
+      .min(1, { message: validMsgs.course.name.min })
+      .max(30, { message: validMsgs.course.name.max })
       .refine(
         (name) => {
           const courses = useCourseStore.getState().courses

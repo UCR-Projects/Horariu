@@ -51,6 +51,13 @@
   "save": "Guardar",
   "editGroup": "Editar Grupo",
   "groupName": "Nombre del Grupo",
+  "generateSchedules": "Generar Horarios",
+  "generating" : "Generando",
+  "possibleSchedule": "Opción Encontrada",
+  "possibleSchedules": "Opciones Encontradas",
+  "noSchedulesGenerated": "No se han generado horarios",
+  "option": "Opción",
+  "options": "Opciones",
 
 
   "validation": {
@@ -66,8 +73,8 @@
     "group": {
       "name": {
         "required": "El nombre del grupo es requerido",
-        "min": "El nombre del grupo debe tener al menos 2 caracteres",
-        "max": "El nombre del grupo debe tener como máximo 10 caracteres",
+        "min": "El nombre del grupo debe tener al menos un carácter",
+        "max": "El nombre del grupo debe tener como máximo 25 caracteres",
         "unique": "El nombre del grupo ya existe para este curso"
       },
       "schedule": {

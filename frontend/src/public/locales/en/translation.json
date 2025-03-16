@@ -51,14 +51,22 @@
   "save": "Save",
   "editGroup": "Edit Group",
   "groupName": "Group Name",
+  "generateSchedules": "Generate Schedules",
+  "generating" : "Generating",
+  "possibleSchedule": "Possible Schedule",
+  "possibleSchedules": "Possible Schedules",
+  "noSchedulesGenerated": "No schedules generated",
+  "option": "Option",
+  "options": "Options",
+
 
 
   "validation": {
     "course": {
       "name": {
         "required": "Course name is required",
-        "min": "Course name must be at least 2 characters",
-        "max": "Course name must be at most 50 characters",
+        "min": "Course name must be at least 1 character",
+        "max": "Course name must be at most 30 characters",
         "unique": "A course with this name already exists"
       },
       "groupRequired": "At least one group must be added"
@@ -66,8 +74,8 @@
     "group": {
       "name": {
         "required": "Group name is required",
-        "min": "Group name must be at least 2 characters",
-        "max": "Group name must be at most 10 characters",
+        "min": "Group name must be at least 1 character",
+        "max": "Group name must be at most 25 characters",
         "unique": "Group name already exists for this course"
       },
       "schedule": {
