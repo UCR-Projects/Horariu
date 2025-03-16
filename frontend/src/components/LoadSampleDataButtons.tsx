@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Database, Trash2, ChevronDown } from 'lucide-react'
 import useCourseStore from '@/stores/useCourseStore'
 import { SampleCoursesSetType } from '@/mocks/sampleCourses'
+import { datasets } from '@/mocks/sampleCourses'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,12 +15,6 @@ const LoadSampleDataButtons = () => {
   const { loadSampleData, clearAllCourses } = useCourseStore()
   const [selectedDataset, setSelectedDataset] =
     useState<SampleCoursesSetType>('single')
-  const datasets = [
-    { value: 'single', label: 'Unique Option' },
-    { value: 'multiple', label: 'Multiple Options' },
-    { value: 'heavy', label: 'Heavy Load (7 courses)' },
-    { value: 'conflict', label: 'Conflict Courses' },
-  ]
 
   const handleLoadData = () => {
     loadSampleData(selectedDataset)

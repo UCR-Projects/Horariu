@@ -255,6 +255,13 @@ export const sampleCoursesConflict: Course[] = [
 
 export type SampleCoursesSetType = 'single' | 'multiple' | 'heavy' | 'conflict'
 
+export const datasets = [
+  { value: 'single', label: 'Unique Option' },
+  { value: 'multiple', label: 'Multiple Options' },
+  { value: 'heavy', label: 'Heavy Load' },
+  { value: 'conflict', label: 'No solution' },
+]
+
 export const getSampleSet = (type: SampleCoursesSetType): Course[] => {
   switch (type) {
     case 'single':
