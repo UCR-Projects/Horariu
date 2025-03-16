@@ -86,4 +86,32 @@ jobs:
       - name: Run tests
         run: npm test
         working-directory: backend
-# TODO: Deploy in some service
+
+  deploy:
+    needs: [build, lint, test]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 # Clones the repository with just latest commit
+        with:
+          fetch-depth: 0
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: Install AWS SAM CLI
+        run: |
+          sudo apt update
+          sudo apt install -y awscli
+          pip install aws-sam-cli
+
+      - name: Make deploy script executable
+        run: chmod +x backend/deploy.sh
+
+      - name: Run Deploy Script
+        run: backend/deploy.sh
+
