@@ -2,7 +2,7 @@
   "httpMethod": "DELETE",
   "path": "/courses/Programación%20II/L/09:00:00/2",
   "headers": {
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJiYTU0YzRiMS05MzMxLTQ5Y2QtYTE5MC05OGIxNDliYWQ5NTIiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQxNzI1NzQyLCJleHAiOjE3NDE3MjkzNDJ9.utjJsfdfsIV6Vy4SJ4BZAwmdtfyy8DE5BBv2GH67X8E"
+    "Authorization": "Bearer x"
   },
   "pathParameters": {
     "courseName": "Programación II",

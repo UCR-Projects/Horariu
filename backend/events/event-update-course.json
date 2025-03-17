@@ -2,7 +2,7 @@
   "httpMethod": "PATCH",
   "path": "/courses/Programación%20Avanzada/L/07:00:00/1",
   "headers": {
-    "Authorization": "Bearer xxxx"
+    "Authorization": "Bearer x"
   },
   "pathParameters": {
     "courseName": "Programación Avanzada",
