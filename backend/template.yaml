@@ -5,6 +5,9 @@ Transform:
 - AWS::Serverless-2016-10-31
 
 Parameters:
+  StageName:
+    Type: String
+    Default: Dev
   DBHost:
     Type: String
   DBUser:
@@ -22,6 +25,37 @@ Parameters:
 
 
 Resources:
+  TokenAuthorizer:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dist/middlewares/auth.handler
+      Runtime: nodejs18.x
+      Policies:
+        - AWSLambdaBasicExecutionRole
+      Environment:
+        Variables:
+          JWT_SECRET: !Ref JwtSecret
+
+
+  HorariuApi:
+      Type: AWS::Serverless::Api
+      Properties:
+        StageName: !Ref StageName
+        Cors:
+          AllowCredentials: true
+          AllowMethods: "'OPTIONS,GET,POST,PATCH,DELETE'"
+          AllowHeaders: "'Content-Type,Authorization'"
+          AllowOrigin: "'https://horariu-client.vercel.app'"
+        Auth:
+          Authorizers:
+            TokenAuthorizer:
+              FunctionArn: !GetAtt TokenAuthorizer.Arn
+              Identity:
+                Headers:
+                  - Authorization
+              AuthorizerPayloadFormatVersion: 2.0
+              EnableSimpleResponses: true
+    
   HorariuApiFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -50,25 +84,58 @@ Resources:
         RegisterUser:
           Type: Api
           Properties:
+            RestApiId: !Ref HorariuApi
             Path: /register
             Method: POST
         LoginUser:
           Type: Api
           Properties:
+            RestApiId: !Ref HorariuApi
             Path: /login
+            Method: POST
+        GenerateSchedules:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HorariuApi
+            Path: /courses/generate
             Method: POST
         CreateCourse:
           Type: Api
           Properties:
+            RestApiId: !Ref HorariuApi
             Path: /courses
             Method: POST
+            Auth:
+              Authorizer: TokenAuthorizer
         GetCourses:
           Type: Api
           Properties:
+            RestApiId: !Ref HorariuApi
             Path: /courses
             Method: GET
+            Auth:
+              Authorizer: TokenAuthorizer
         GetCourse:
           Type: Api
           Properties:
+            RestApiId: !Ref HorariuApi
             Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
             Method: GET
+            Auth:
+              Authorizer: TokenAuthorizer
+        UpdateCourse:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HorariuApi
+            Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
+            Method: PATCH
+            Auth:
+              Authorizer: TokenAuthorizer
+        DeleteCourse:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HorariuApi
+            Path: /courses/{courseName}/{day}/{startTime}/{groupNumber}
+            Method: DELETE
+            Auth:
+              Authorizer: TokenAuthorizer

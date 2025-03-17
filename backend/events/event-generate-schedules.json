@@ -1,0 +1,8 @@
+{
+  "httpMethod": "POST",
+  "path": "/courses/generate",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "[{\"name\":\"Bases de Datos Avanzadas\",\"color\":\"bg-red-500\",\"groups\":[{\"name\":\"01\",\"schedule\":{\"K\":{\"start\":\"10:00\",\"end\":\"11:50\"},\"V\":{\"start\":\"09:00\",\"end\":\"11:50\"}}},{\"name\":\"02\",\"schedule\":{\"L\":{\"start\":\"18:00\",\"end\":\"20:50\"},\"J\":{\"start\":\"18:00\",\"end\":\"19:50\"}}}]},{\"name\":\"Calidad de Software\",\"color\":\"bg-cyan-500\",\"groups\":[{\"name\":\"01\",\"schedule\":{\"L\":{\"start\":\"16:00\",\"end\":\"17:50\"},\"J\":{\"start\":\"15:00\",\"end\":\"17:50\"}}},{\"name\":\"02\",\"schedule\":{\"L\":{\"start\":\"13:00\",\"end\":\"15:50\"},\"J\":{\"start\":\"13:00\",\"end\":\"14:50\"}}}]}]"
+}

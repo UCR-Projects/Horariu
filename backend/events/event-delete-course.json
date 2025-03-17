@@ -1,13 +1,18 @@
 {
   "httpMethod": "DELETE",
-  "path": "/courses/Programación%20Avanzada/Lunes/07:00:00/999",
+  "path": "/courses/Programación%20II/L/09:00:00/2",
   "headers": {
-    "Authorization": "Bearer xxxxx"
+    "Authorization": "Bearer x"
   },
   "pathParameters": {
-    "courseName": "Programación Avanzada",
-    "day": "Lunes",
-    "startTime": "07:00:00",
-    "groupNumber": "999"
+    "courseName": "Programación II",
+    "day": "L",
+    "startTime": "09:00:00",
+    "groupNumber": "2"
+  },
+  "requestContext": {
+    "authorizer": {
+      "principalId": "ba54c4b1-9331-49cd-a190-98b149bad952"
+    }
   }
 }

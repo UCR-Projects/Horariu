@@ -2,14 +2,10 @@ import { db } from '../database/database'
 import { users } from '../database/schema/users'
 import { eq, count } from 'drizzle-orm'
 import bcrypt from 'bcrypt'
-
-interface IUserCredentials {
-  email: string,
-  password: string
-}
+import { UserCredentials } from '../schemas/user.schema'
 
 export const UserRepository = {
-  async createUser ({ email, password }: IUserCredentials): Promise<{ id: string; email: string }> {
+  async createUser ({ email, password }: UserCredentials): Promise<{ id: string; email: string }> {
     const hashedPass = await bcrypt.hash(password, 10)
     const userCreated = await db.insert(users).values({ email, password: hashedPass }).returning()
     return { id: userCreated[0].id, email: userCreated[0].email }
@@ -23,7 +19,7 @@ export const UserRepository = {
     return result[0].value > 0
   },
 
-  async verifyCredentials ({ email, password }: IUserCredentials): Promise<{ id: string; email: string } | null> {
+  async verifyCredentials ({ email, password }: UserCredentials): Promise<{ id: string; email: string } | null> {
     const userCredentials = await db
       .select({ id: users.id, email: users.email, password: users.password })
       .from(users)

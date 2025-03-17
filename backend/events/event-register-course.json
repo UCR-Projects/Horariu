@@ -2,7 +2,12 @@
   "httpMethod": "POST",
   "path": "/courses",
   "headers": {
-    "Authorization": "Bearer xx.xx.xx"
+    "Authorization": "Bearer x"
   },
-  "body": "{ \"courseName\": \"Programación I\", \"day\": \"Lunes\", \"startTime\": \"09:00:00\", \"endTime\": \"11:50:00\", \"groupNumber\": 2, \"courseDetails\": { \"professor\": \"Dr. Juan Pérez\", \"courseCode\": \"CS101\", \"classroom\": \"Aula 305\" } }"
+  "body": "{ \"courseName\": \"Programación II\", \"day\": \"L\", \"startTime\": \"09:00:00\", \"endTime\": \"11:50:00\", \"groupNumber\": 2, \"courseDetails\": { \"professor\": \"Dr. Juan Pérez\", \"courseCode\": \"CS101\", \"classroom\": \"Aula 305\" } }",
+  "requestContext": {
+    "authorizer": {
+      "principalId": "ba54c4b1-9331-49cd-a190-98b149bad952"
+    }
+  }
 }
