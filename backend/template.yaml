@@ -45,7 +45,7 @@ Resources:
           AllowCredentials: true
           AllowMethods: "'OPTIONS,GET,POST,PATCH,DELETE'"
           AllowHeaders: "'Content-Type,Authorization'"
-          AllowOrigin: "'http://localhost:5173'"
+          AllowOrigin: "'https://horariu-client.vercel.app'"
         Auth:
           Authorizers:
             TokenAuthorizer:

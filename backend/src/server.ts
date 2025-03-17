@@ -2,20 +2,34 @@ import { APIGatewayProxyHandler, APIGatewayProxyResult, APIGatewayProxyEvent } f
 import { UserController } from './controllers/userController'
 import { CourseController } from './controllers/courseController'
 
-const getCorsHeaders = (origin: string, methods: string) => ({
-  /* eslint-disable @typescript-eslint/naming-convention */
-  'Access-Control-Allow-Origin': origin,
-  'Access-Control-Allow-Methods': methods,
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  'Access-Control-Allow-Credentials': 'true'
-  /* eslint-enable @typescript-eslint/naming-convention */
-})
+const allowedOrigins = ['http://localhost:5173', 'https://horariu-client.vercel.app']
+
+const getCorsHeaders = (origin: string | undefined, methods: string) => {
+  const allowedOrigin = origin && allowedOrigins.includes(origin) ? origin : ''
+
+  return {
+    /* eslint-disable @typescript-eslint/naming-convention */
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Methods': methods,
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Credentials': 'true'
+    /* eslint-enable @typescript-eslint/naming-convention */
+  }
+}
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
     const { httpMethod, path, body } = event
 
-    const origin = event.headers?.origin ?? 'http://localhost:5173'
+    const origin = event.headers?.origin || event.headers?.Origin
+
+    if (!origin || !allowedOrigins.includes(origin)) {
+      return {
+        statusCode: 403,
+        headers: getCorsHeaders(origin, ''),
+        body: JSON.stringify({ error: 'CORS policy: This origin is not allowed' })
+      }
+    }
 
     if (httpMethod === 'OPTIONS') {
       return {
