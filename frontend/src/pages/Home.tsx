@@ -1,4 +1,4 @@
-import Schedule from '@/components/Schedule'
+import Schedules from '@/components/Schedules'
 import { useGenerateSchedule } from '@/hooks/useGenerateSchedule'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -81,7 +81,7 @@ const Home = () => {
         </div>
       </div>
 
-      <Schedule />
+      <Schedules />
     </>
   )
 }

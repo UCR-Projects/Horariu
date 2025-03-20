@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
 import { generateScheduleService } from '@/services/generateScheduleService'
 import useCourseStore from '@/stores/useCourseStore'
-import useScheduleStore, { ScheduleData } from '@/stores/useScheduleStore'
+import useScheduleStore, { ScheduleDataType } from '@/stores/useScheduleStore'
 
 export const useGenerateSchedule = () => {
   const { setScheduleData, setLoading, setError, reset } = useScheduleStore()
 
-  const mutation = useMutation<ScheduleData, Error, void>({
+  const mutation = useMutation<ScheduleDataType, Error, void>({
     mutationKey: ['generateSchedule'],
     mutationFn: () => {
       const courseData = useCourseStore.getState().courses
