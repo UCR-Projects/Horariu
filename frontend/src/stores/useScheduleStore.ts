@@ -16,13 +16,13 @@ interface CourseScheduleItem {
   }
 }
 
-export interface ScheduleData {
+export interface ScheduleDataType {
   schedules: CourseScheduleItem[][]
 }
 
 interface ScheduleState {
-  scheduleData: ScheduleData | null
-  setScheduleData: (data: ScheduleData) => void
+  scheduleData: ScheduleDataType | null
+  setScheduleData: (data: ScheduleDataType) => void
   clearScheduleData: () => void
 
   isLoading: boolean

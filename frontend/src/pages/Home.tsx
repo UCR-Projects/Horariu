@@ -1,4 +1,4 @@
-import Schedule from '@/components/Schedule'
+import Schedules from '@/components/Schedules'
 import { useGenerateSchedule } from '@/hooks/useGenerateSchedule'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -35,7 +35,7 @@ const Home = () => {
   return (
     <>
       <div>
-        <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-2 p-2 mb-4'>
+        <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-2 p-2 mb-2'>
           <div className='w-full md:w-auto'>
             <LoadSampleDataButtons />
             <Button
@@ -81,7 +81,7 @@ const Home = () => {
         </div>
       </div>
 
-      <Schedule />
+      <Schedules />
     </>
   )
 }
