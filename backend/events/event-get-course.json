@@ -1,13 +1,18 @@
 {
   "httpMethod": "GET",
-  "path": "/courses/Programación%20Avanzada/Lunes/07:00:00/1",
+  "path": "/courses/Programación%20Avanzada/L/07:00:00/1",
   "headers": {
     "Authorization": "Bearer x"
   },
   "pathParameters": {
     "courseName": "Programación Avanzada",
-    "day": "Lunes",
+    "day": "L",
     "startTime": "07:00:00",
     "groupNumber": "1"
+  },
+  "requestContext": {
+    "authorizer": {
+      "principalId": "ba54c4b1-9331-49cd-a190-98b149bad952"
+    }
   }
 }

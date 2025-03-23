@@ -2,6 +2,11 @@
   "httpMethod": "GET",
   "path": "/courses",
   "headers": {
-    "Authorization": "Bearer xx.xx.xx"
+    "Authorization": "Bearer x"
+  },
+  "requestContext": {
+    "authorizer": {
+      "principalId": "ba54c4b1-9331-49cd-a190-98b149bad952"
+    }
   }
 }

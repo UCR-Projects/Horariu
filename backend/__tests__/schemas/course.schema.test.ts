@@ -4,7 +4,7 @@ describe('Course Schema Validation', () => {
   it('should validate a correct course', () => {
     const result = courseSchema.safeParse({
       courseName: 'Mathematics 101',
-      day: 'Lunes',
+      day: 'L',
       startTime: '08:00:00',
       endTime: '10:00:00',
       groupNumber: 1,
@@ -20,7 +20,7 @@ describe('Course Schema Validation', () => {
 
   it('should fail if courseName is missing', () => {
     const result = courseSchema.safeParse({
-      day: 'Martes',
+      day: 'K',
       startTime: '09:00:00',
       endTime: '11:00:00',
       groupNumber: 2
@@ -34,7 +34,7 @@ describe('Course Schema Validation', () => {
   it('should fail if day is invalid', () => {
     const result = courseSchema.safeParse({
       courseName: 'Physics 101',
-      day: 'Lundi',
+      day: 'Q',
       startTime: '10:00:00',
       endTime: '12:00:00',
       groupNumber: 3
@@ -42,7 +42,7 @@ describe('Course Schema Validation', () => {
     expect(result.success).toBe(false)
     if (!result.success) {
       expect(result.error.format().day?._errors).toContain(
-        "Invalid enum value. Expected 'Lunes' | 'Martes' | 'Miércoles' | 'Jueves' | 'Viernes' | 'Sábado' | 'Domingo', received 'Lundi'"
+        "Invalid enum value. Expected 'L' | 'K' | 'M' | 'J' | 'V' | 'S' | 'D', received 'Q'"
       )
     }
   })
@@ -50,7 +50,7 @@ describe('Course Schema Validation', () => {
   it('should fail if startTime is in the wrong format', () => {
     const result = courseSchema.safeParse({
       courseName: 'History 101',
-      day: 'Miércoles',
+      day: 'M',
       startTime: '10:00',
       endTime: '12:00:00',
       groupNumber: 1
@@ -66,7 +66,7 @@ describe('Course Schema Validation', () => {
   it('should fail if groupNumber is less than 1', () => {
     const result = courseSchema.safeParse({
       courseName: 'Biology 101',
-      day: 'Jueves',
+      day: 'J',
       startTime: '11:00:00',
       endTime: '13:00:00',
       groupNumber: 0
@@ -84,9 +84,9 @@ describe('Course Params Schema Validation', () => {
   it('should validate correct course params', () => {
     const result = courseParamsSchema.safeParse({
       courseName: 'Physics 101',
-      day: 'Viernes',
+      day: 'V',
       startTime: '14:00:00',
-      groupNumber: '2'
+      groupNumber: 2
     })
     expect(result.success).toBe(true)
   })
@@ -94,7 +94,7 @@ describe('Course Params Schema Validation', () => {
   it('should fail if courseName is empty', () => {
     const result = courseParamsSchema.safeParse({
       courseName: '',
-      day: 'Sábado',
+      day: 'S',
       startTime: '15:00:00',
       groupNumber: 3
     })
