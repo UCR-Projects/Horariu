@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Loader2, Calendar } from 'lucide-react'
 import { toast } from 'sonner'
+import useCourseStore from '@/stores/useCourseStore'
 import { useEffect } from 'react'
 import useScheduleStore from '@/stores/useScheduleStore'
 import { useTranslation } from 'react-i18next'
@@ -11,9 +12,9 @@ import LoadSampleDataButtons from '@/components/LoadSampleDataButtons'
 
 const Home = () => {
   const { t } = useTranslation()
-  const { generateSchedule, isLoading, isSuccess, error } =
-    useGenerateSchedule()
-  const { scheduleData } = useScheduleStore()
+  const { generateSchedule } = useGenerateSchedule()
+  const { scheduleData, error, isLoading, isSuccess } = useScheduleStore()
+  const { courses } = useCourseStore()
 
   useEffect(() => {
     if (isSuccess) {
@@ -39,7 +40,7 @@ const Home = () => {
           <div className='w-full md:w-auto'>
             <LoadSampleDataButtons />
             <Button
-              onClick={() => generateSchedule()}
+              onClick={() => generateSchedule(courses)}
               disabled={isLoading}
               className='w-full md:w-auto px-4 py-2 font-medium'
             >
