@@ -3,6 +3,7 @@ import { users } from '../database/schema/users'
 import { eq, count } from 'drizzle-orm'
 import bcrypt from 'bcrypt'
 import { UserCredentials } from '../schemas/user.schema'
+import { InternalServerError } from '../utils/customsErrors'
 
 export const UserRepository = {
   async createUser ({ email, password }: UserCredentials): Promise<{ id: string; email: string }> {
@@ -20,16 +21,21 @@ export const UserRepository = {
   },
 
   async verifyCredentials ({ email, password }: UserCredentials): Promise<{ id: string; email: string } | null> {
-    const userCredentials = await db
-      .select({ id: users.id, email: users.email, password: users.password })
-      .from(users)
-      .where(eq(users.email, email))
+    try {
+      const userCredentials = await db
+        .select({ id: users.id, email: users.email, password: users.password })
+        .from(users)
+        .where(eq(users.email, email))
 
-    if (userCredentials.length === 0) return null
+      if (userCredentials.length === 0) return null
 
-    const isValidPassword = await bcrypt.compare(password, userCredentials[0].password)
-    if (!isValidPassword) return null
+      const isValidPassword = await bcrypt.compare(password, userCredentials[0].password)
+      if (!isValidPassword) return null
 
-    return { id: userCredentials[0].id, email: userCredentials[0].email }
+      return { id: userCredentials[0].id, email: userCredentials[0].email }
+    } catch (error) {
+      console.error('[UserRepository.verifyCredentials]:', error)
+      throw new InternalServerError('Database error while verifying credentials')
+    }
   }
 }

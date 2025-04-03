@@ -1,6 +1,7 @@
 import { UserCredentials } from '../schemas/user.schema'
 import { signToken } from '../utils/utils'
 import { UserRepository } from '../repositories/userRepository'
+import { AuthenticationError } from '../utils/customsErrors'
 
 export const UserService = {
   async register (user: UserCredentials): Promise<{ token: string }> {
@@ -19,7 +20,7 @@ export const UserService = {
   async login (user: UserCredentials): Promise<{ token: string }> {
     const verifiedUser = await UserRepository.verifyCredentials(user)
     if (!verifiedUser) {
-      throw new Error('Invalid credentials')
+      throw new AuthenticationError('Invalid email or password')
     }
 
     const token = signToken(verifiedUser)

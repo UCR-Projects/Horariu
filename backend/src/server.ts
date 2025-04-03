@@ -39,7 +39,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     if (httpMethod === 'POST' && path === '/login') {
       const result = await UserController.login(parsedBody)
       return {
-        statusCode: 201,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, POST'),
         body: result.body
       }
