@@ -23,6 +23,13 @@ export class AuthenticationError extends CustomError {
   }
 }
 
+export class ConflictError extends CustomError {
+  constructor (message: string = 'Conflict') {
+    super(message, 409)
+    this.name = 'ConflictError'
+  }
+}
+
 export class InternalServerError extends CustomError {
   constructor (message: string = 'Internal server error') {
     super(message, 500)
