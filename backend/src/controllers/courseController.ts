@@ -1,13 +1,18 @@
 import { CourseService } from '../services/CourseService'
 import { validateCourse, validateUpdateCourse, validateCourseParams } from '../schemas/course.schema'
 import { validateCourses } from '../schemas/schedule.schema'
+import { ValidationError, UnprocessableEntityError } from '../utils/customsErrors'
 
 export const CourseController = {
   async generateSchedules (courses: unknown) {
     try {
       const validatedCourses = await validateCourses(courses)
       if (!validatedCourses.success) {
-        throw new Error(JSON.stringify(validatedCourses.error.errors))
+        const errors = validatedCourses.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       const schedules = await CourseService.generateSchedules(validatedCourses.data)
@@ -16,7 +21,19 @@ export const CourseController = {
         body: JSON.stringify({ message: 'Schedules generated successfully', schedules })
       }
     } catch (error) {
-      console.error('[generateSchedule]:', (error as Error).message)
+      console.error('[generateSchedule]:', error)
+      if (error instanceof ValidationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ errors: error.details })
+        }
+      }
+      if (error instanceof UnprocessableEntityError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })

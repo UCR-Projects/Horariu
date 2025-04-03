@@ -48,7 +48,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     if (httpMethod === 'POST' && path === '/courses/generate') {
       const result = await CourseController.generateSchedules(parsedBody)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, POST'),
         body: result.body
       }
