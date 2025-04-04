@@ -1,7 +1,7 @@
 import { CourseService } from '../services/CourseService'
 import { validateCourse, validateUpdateCourse, validateCourseParams } from '../schemas/course.schema'
 import { validateCourses } from '../schemas/schedule.schema'
-import { ValidationError, UnprocessableEntityError } from '../utils/customsErrors'
+import { ValidationError, UnprocessableEntityError, UnauthorizedError, ConflictError } from '../utils/customsErrors'
 
 export const CourseController = {
   async generateSchedules (courses: unknown) {
@@ -44,12 +44,16 @@ export const CourseController = {
   async registerCourse (userId: string, course: unknown) {
     try {
       if (!userId) {
-        throw new Error('[UNAUTHORIZED]: User not found')
+        throw new UnauthorizedError('User not found')
       }
 
       const courseValid = await validateCourse(course)
       if (!courseValid.success) {
-        throw new Error('Validation failed')
+        const errors = courseValid.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       const newCourse = await CourseService.registerCourse(userId, courseValid.data)
@@ -59,6 +63,18 @@ export const CourseController = {
       }
     } catch (error) {
       console.error('[registerCourse]:', (error as Error).message)
+      if (error instanceof ValidationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ errors: error.details })
+        }
+      }
+      if (error instanceof UnauthorizedError || error instanceof ConflictError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })

@@ -3,22 +3,42 @@ import { courses } from '../database/schema/courses'
 import { eq, and } from 'drizzle-orm'
 import { validateCourseDetails } from '../schemas/course.schema'
 import { IAddCourseData, ICourseData, ICourseIdentifiers } from '../interfaces/ICourseData'
+import { InternalServerError, ConflictError } from '../utils/customsErrors'
+
+function isDatabaseError (error: unknown): error is { code?: string; message: string } {
+  return typeof error === 'object' &&
+         error !== null &&
+         'message' in error &&
+         typeof (error as Record<string, unknown>).message === 'string'
+}
 
 export const CourseRepository = {
   async addCourse (courseData: IAddCourseData): Promise<ICourseData> {
-    const newCourse = await db.insert(courses).values({
-      userId: courseData.userId,
-      courseName: courseData.courseName,
-      day: courseData.day,
-      startTime: courseData.startTime,
-      endTime: courseData.endTime,
-      groupNumber: courseData.groupNumber,
-      courseDetails: courseData.courseDetails ?? {}
-    }).returning()
-    // TODO: Avoid returning userId?
-    return {
-      ...newCourse[0],
-      courseDetails: await validateCourseDetails(newCourse[0].courseDetails)
+    try {
+      const newCourse = await db.insert(courses).values({
+        userId: courseData.userId,
+        courseName: courseData.courseName,
+        day: courseData.day,
+        startTime: courseData.startTime,
+        endTime: courseData.endTime,
+        groupNumber: courseData.groupNumber,
+        courseDetails: courseData.courseDetails ?? {}
+      }).returning()
+
+      return {
+        ...newCourse[0],
+        courseDetails: await validateCourseDetails(newCourse[0].courseDetails)
+      }
+    } catch (error: unknown) {
+      console.error('[CourseRepository.addCourse]', error)
+
+      if (isDatabaseError(error)) {
+        if (error.code === '23505' || error.message.includes('duplicate')) {
+          throw new ConflictError('Course already exists')
+        }
+      }
+
+      throw new InternalServerError('Database error while inserting course')
     }
   },
 

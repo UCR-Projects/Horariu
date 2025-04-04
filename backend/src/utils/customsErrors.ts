@@ -16,6 +16,13 @@ export class ValidationError extends CustomError {
   }
 }
 
+export class UnauthorizedError extends CustomError {
+  constructor (message: string = 'Unauthorized') {
+    super(message, 401)
+    this.name = 'UnauthorizedError'
+  }
+}
+
 export class AuthenticationError extends CustomError {
   constructor (message: string = 'Invalid email or password') {
     super(message, 401)

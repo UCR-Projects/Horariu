@@ -1,6 +1,7 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda'
 import { UserController } from './controllers/userController'
 import { CourseController } from './controllers/courseController'
+import { UnauthorizedError } from './utils/customsErrors'
 
 const getCorsHeaders = (origin: string, methods: string) => ({
   /* eslint-disable @typescript-eslint/naming-convention */
@@ -56,12 +57,12 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
     if (httpMethod === 'POST' && path === '/courses') {
       if (!event.requestContext.authorizer || !event.requestContext.authorizer.principalId) {
-        throw new Error('[UNAUTHORIZED]: Missing authorization context')
+        throw new UnauthorizedError('Missing authorization context')
       }
       const userId = event.requestContext.authorizer.principalId
       const result = await CourseController.registerCourse(userId, parsedBody)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, POST'),
         body: result.body
       }

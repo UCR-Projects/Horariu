@@ -17,13 +17,7 @@ export const CourseService = {
   },
 
   async registerCourse (userId: string, course: CourseInfo) {
-    const newCourse = await CourseRepository.addCourse({ ...course, userId })
-
-    if ('error' in newCourse) {
-      throw new Error(newCourse.error as string)
-    }
-
-    return newCourse
+    return await CourseRepository.addCourse({ ...course, userId })
   },
 
   async getCourses (userId: string) {
