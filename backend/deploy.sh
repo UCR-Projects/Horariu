@@ -6,6 +6,12 @@ STAGE=${1:-Dev}  # Dev by default, but we can use Prod with the command: ./deplo
 
 STACK_NAME="horariu-${STAGE}"
 
+if [ "$STAGE" == "Prod" ]; then
+  ALLOWED_ORIGIN="'https://horariu-client.vercel.app'"
+else
+  ALLOWED_ORIGIN="'http://localhost:5173'"
+fi
+
 echo "----------------------------------------"
 echo "Building the project..."
 echo "----------------------------------------"
@@ -27,7 +33,8 @@ NODE_ENV=$(aws ssm get-parameter --name "/horariu/${STAGE}/NODE_ENV" --with-decr
 JWT_SECRET=$(aws ssm get-parameter --name "/horariu/${STAGE}/JWT_SECRET" --with-decryption --region $AWS_REGION --query "Parameter.Value" --output text)
 
 echo "----------------------------------------"
-echo "Deploying to AWS Lambda..."
+echo "Deploying to AWS Lambda ($STAGE environment)..."
+echo "Using AllowOrigin: $ALLOWED_ORIGIN"
 echo "----------------------------------------"
 
 sam deploy \
@@ -44,6 +51,7 @@ sam deploy \
   ParameterKey=DBPort,ParameterValue=$DB_PORT \
   ParameterKey=NodeEnv,ParameterValue=$NODE_ENV \
   ParameterKey=JwtSecret,ParameterValue=$JWT_SECRET \
+  ParameterKey=AllowOrigin,ParameterValue=$ALLOWED_ORIGIN \
   | grep -v -E 'DBPassword|JwtSecret|DBUser|DBHost|DBName|DBPort|NodeEnv'
 
 echo "----------------------------------------"
