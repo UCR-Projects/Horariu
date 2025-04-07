@@ -47,7 +47,7 @@ export const CourseService = {
   async deleteCourse (userId: string, params: CourseParamsInfo) {
     const deletedCourse = await CourseRepository.deleteCourse({ userId, ...params })
     if (!deletedCourse) {
-      throw new Error('Course not found or already deleted')
+      throw new NotFoundError('Course not found or already deleted')
     }
 
     return params

@@ -138,7 +138,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       }
       const result = await CourseController.deleteCourse(userId, pathParameters)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, DELETE'),
         body: result.body
       }
