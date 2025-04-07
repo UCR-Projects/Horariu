@@ -1,13 +1,18 @@
 import { CourseService } from '../services/CourseService'
 import { validateCourse, validateUpdateCourse, validateCourseParams } from '../schemas/course.schema'
 import { validateCourses } from '../schemas/schedule.schema'
+import { ValidationError, UnprocessableEntityError, UnauthorizedError, ConflictError, NotFoundError, BadRequestError } from '../utils/customsErrors'
 
 export const CourseController = {
   async generateSchedules (courses: unknown) {
     try {
       const validatedCourses = await validateCourses(courses)
       if (!validatedCourses.success) {
-        throw new Error(JSON.stringify(validatedCourses.error.errors))
+        const errors = validatedCourses.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       const schedules = await CourseService.generateSchedules(validatedCourses.data)
@@ -16,7 +21,19 @@ export const CourseController = {
         body: JSON.stringify({ message: 'Schedules generated successfully', schedules })
       }
     } catch (error) {
-      console.error('[generateSchedule]:', (error as Error).message)
+      console.error('[generateSchedule]:', error)
+      if (error instanceof ValidationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ errors: error.details })
+        }
+      }
+      if (error instanceof UnprocessableEntityError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })
@@ -27,12 +44,16 @@ export const CourseController = {
   async registerCourse (userId: string, course: unknown) {
     try {
       if (!userId) {
-        throw new Error('[UNAUTHORIZED]: User not found')
+        throw new UnauthorizedError('User not found')
       }
 
       const courseValid = await validateCourse(course)
       if (!courseValid.success) {
-        throw new Error('Validation failed')
+        const errors = courseValid.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       const newCourse = await CourseService.registerCourse(userId, courseValid.data)
@@ -42,6 +63,18 @@ export const CourseController = {
       }
     } catch (error) {
       console.error('[registerCourse]:', (error as Error).message)
+      if (error instanceof ValidationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ errors: error.details })
+        }
+      }
+      if (error instanceof UnauthorizedError || error instanceof ConflictError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })
@@ -52,15 +85,24 @@ export const CourseController = {
   async getCourses (userId: string) {
     try {
       if (!userId) {
-        throw new Error('[UNAUTHORIZED]: User not found')
+        throw new UnauthorizedError('User not found')
       }
       const courses = await CourseService.getCourses(userId)
       return {
-        statusCode: 201,
-        body: JSON.stringify({ message: 'Courses found successfully', courses })
+        statusCode: 200,
+        body: JSON.stringify({
+          message: courses.length === 0 ? 'No courses found' : 'Courses found successfully',
+          courses
+        })
       }
     } catch (error) {
       console.error('[getCourses]:', (error as Error).message)
+      if (error instanceof UnauthorizedError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })
@@ -71,20 +113,39 @@ export const CourseController = {
   async getCourse (userId: string, params: unknown) {
     try {
       const paramsValid = await validateCourseParams(params)
+
       if (!paramsValid.success) {
-        throw new Error('Validation failed')
+        const errors = paramsValid.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       if (!userId) {
-        throw new Error('[UNAUTHORIZED]: User not found')
+        throw new UnauthorizedError('User not found')
       }
       const course = await CourseService.getCourse(userId, paramsValid.data)
       return {
-        statusCode: 201,
+        statusCode: 200,
         body: JSON.stringify({ message: 'Course retrieved successfully', course })
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('[getCourse]:', (error as Error).message)
+
+      if (error instanceof ValidationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ errors: error.details })
+        }
+      }
+
+      if (error instanceof UnauthorizedError || error instanceof NotFoundError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })
@@ -95,26 +156,52 @@ export const CourseController = {
   async updateCourse (userId: string, params: unknown, updates: unknown) {
     try {
       if (!userId) {
-        throw new Error('[UNAUTHORIZED]: User not found')
+        throw new UnauthorizedError('User not found')
       }
 
       const paramsValid = await validateCourseParams(params)
+
       if (!paramsValid.success) {
-        throw new Error('Validation failed')
+        const errors = paramsValid.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       const updateValid = await validateUpdateCourse(updates)
       if (!updateValid.success) {
-        throw new Error('Validation failed')
+        const errors = updateValid.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       const updatedCourse = await CourseService.updateCourse(userId, paramsValid.data, updateValid.data)
       return {
-        statusCode: 201,
+        statusCode: 200,
         body: JSON.stringify({ message: 'Course updated successfully', updatedCourse })
       }
     } catch (error) {
       console.error('[updateCourse]:', (error as Error).message)
+      if (error instanceof ValidationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ errors: error.details })
+        }
+      }
+
+      if (
+        error instanceof UnauthorizedError ||
+        error instanceof NotFoundError ||
+        error instanceof BadRequestError
+      ) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })
@@ -125,21 +212,39 @@ export const CourseController = {
   async deleteCourse (userId: string, params: unknown) {
     try {
       if (!userId) {
-        throw new Error('[UNAUTHORIZED]: User not found')
+        throw new UnauthorizedError('User not found')
       }
 
       const paramsValid = await validateCourseParams(params)
+
       if (!paramsValid.success) {
-        throw new Error('Validation failed')
+        const errors = paramsValid.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       const deletedCourse = await CourseService.deleteCourse(userId, paramsValid.data)
       return {
-        statusCode: 201,
+        statusCode: 200,
         body: JSON.stringify({ message: 'Course deleted successfully', deletedCourse })
       }
     } catch (error) {
       console.error('[deleteCourse]:', (error as Error).message)
+      if (error instanceof ValidationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ errors: error.details })
+        }
+      }
+
+      if (error instanceof UnauthorizedError || error instanceof NotFoundError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })

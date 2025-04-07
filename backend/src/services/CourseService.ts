@@ -2,22 +2,22 @@ import { CourseRepository } from '../repositories/courseRepository'
 import { CourseInfo, CourseParamsInfo, CourseUpdateInfo } from '../schemas/course.schema'
 import { GenerateScheduleInfo } from '../schemas/schedule.schema'
 import { generateAllSchedules } from '../utils/scheduleUtils'
+import { UnprocessableEntityError, NotFoundError } from '../utils/customsErrors'
 
 export const CourseService = {
 
   async generateSchedules (courses: GenerateScheduleInfo) {
     const generatedSchedules = generateAllSchedules(courses)
+
+    if (generatedSchedules.length === 0) {
+      throw new UnprocessableEntityError('No valid schedules could be generated')
+    }
+
     return generatedSchedules
   },
 
   async registerCourse (userId: string, course: CourseInfo) {
-    const newCourse = await CourseRepository.addCourse({ ...course, userId })
-
-    if ('error' in newCourse) {
-      throw new Error(newCourse.error as string)
-    }
-
-    return newCourse
+    return await CourseRepository.addCourse({ ...course, userId })
   },
 
   async getCourses (userId: string) {
@@ -29,7 +29,7 @@ export const CourseService = {
   async getCourse (userId: string, params: CourseParamsInfo) {
     const course = await CourseRepository.getCourse({ userId, ...params })
     if (!course) {
-      throw new Error('Course not found')
+      throw new NotFoundError('Course not found')
     }
 
     return course
@@ -38,7 +38,7 @@ export const CourseService = {
   async updateCourse (userId: string, params: CourseParamsInfo, updates: CourseUpdateInfo) {
     const updatedCourse = await CourseRepository.updateCourse({ userId, ...params }, updates)
     if (!updatedCourse) {
-      throw new Error('Course not found')
+      throw new NotFoundError('Course not found')
     }
 
     return updatedCourse
@@ -47,7 +47,7 @@ export const CourseService = {
   async deleteCourse (userId: string, params: CourseParamsInfo) {
     const deletedCourse = await CourseRepository.deleteCourse({ userId, ...params })
     if (!deletedCourse) {
-      throw new Error('Course not found or already deleted')
+      throw new NotFoundError('Course not found or already deleted')
     }
 
     return params

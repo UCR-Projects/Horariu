@@ -22,6 +22,9 @@ Parameters:
     Type: String
   JwtSecret:
     Type: String
+  AllowOrigin:
+    Type: String
+    Default: http://localhost:5173
 
 
 Resources:
@@ -45,7 +48,7 @@ Resources:
           AllowCredentials: true
           AllowMethods: "'OPTIONS,GET,POST,PATCH,DELETE'"
           AllowHeaders: "'Content-Type,Authorization'"
-          AllowOrigin: "'https://horariu-client.vercel.app'"
+          AllowOrigin: !Sub "'${AllowOrigin}'"
         Auth:
           Authorizers:
             TokenAuthorizer:

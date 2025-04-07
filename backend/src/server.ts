@@ -1,6 +1,7 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda'
 import { UserController } from './controllers/userController'
 import { CourseController } from './controllers/courseController'
+import { UnauthorizedError } from './utils/customsErrors'
 
 const allowedOrigins = ['http://localhost:5173', 'https://horariu-client.vercel.app']
 
@@ -44,7 +45,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     if (httpMethod === 'POST' && path === '/register') {
       const result = await UserController.register(parsedBody)
       return {
-        statusCode: 201,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, POST'),
         body: result.body
       }
@@ -53,7 +54,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     if (httpMethod === 'POST' && path === '/login') {
       const result = await UserController.login(parsedBody)
       return {
-        statusCode: 201,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, POST'),
         body: result.body
       }
@@ -62,7 +63,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     if (httpMethod === 'POST' && path === '/courses/generate') {
       const result = await CourseController.generateSchedules(parsedBody)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, POST'),
         body: result.body
       }
@@ -70,12 +71,12 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
     if (httpMethod === 'POST' && path === '/courses') {
       if (!event.requestContext.authorizer || !event.requestContext.authorizer.principalId) {
-        throw new Error('[UNAUTHORIZED]: Missing authorization context')
+        throw new UnauthorizedError('Missing authorization context')
       }
       const userId = event.requestContext.authorizer.principalId
       const result = await CourseController.registerCourse(userId, parsedBody)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, POST'),
         body: result.body
       }
@@ -83,12 +84,12 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
     if (httpMethod === 'GET' && path === '/courses') {
       if (!event.requestContext.authorizer || !event.requestContext.authorizer.principalId) {
-        throw new Error('[UNAUTHORIZED]: Missing authorization context')
+        throw new UnauthorizedError('Missing authorization context')
       }
       const userId = event.requestContext.authorizer.principalId
       const result = await CourseController.getCourses(userId)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, GET'),
         body: result.body
       }
@@ -109,7 +110,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       }
       const result = await CourseController.getCourse(userId, pathParameters)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, GET'),
         body: result.body
       }
@@ -130,7 +131,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       }
       const result = await CourseController.updateCourse(userId, pathParameters, parsedBody)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, PATCH'),
         body: result.body
       }
@@ -151,7 +152,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       }
       const result = await CourseController.deleteCourse(userId, pathParameters)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, DELETE'),
         body: result.body
       }

@@ -1,5 +1,6 @@
 import { UserService } from '../services/UserService'
 import { validateUser, validateLogin } from '../schemas/user.schema'
+import { ValidationError, AuthenticationError, ConflictError } from '../utils/customsErrors'
 
 export const UserController = {
   async register (user: unknown) {
@@ -7,7 +8,11 @@ export const UserController = {
       const validatedUser = await validateUser(user)
 
       if (!validatedUser.success) {
-        throw new Error(JSON.stringify(validatedUser.error.format()))
+        const errors = validatedUser.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       const { token } = await UserService.register(validatedUser.data)
@@ -18,6 +23,18 @@ export const UserController = {
       }
     } catch (error) {
       console.error('[registerUser]:', (error as Error).message)
+      if (error instanceof ValidationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ errors: error.details })
+        }
+      }
+      if (error instanceof ConflictError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })
@@ -30,15 +47,31 @@ export const UserController = {
       const validatedUser = await validateLogin(user)
 
       if (!validatedUser.success) {
-        throw new Error(JSON.stringify(validatedUser.error.format()))
+        const errors = validatedUser.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
       const { token } = await UserService.login(validatedUser.data)
       return {
-        statusCode: 201,
+        statusCode: 200,
         body: JSON.stringify({ message: 'Login successful', token })
       }
     } catch (error) {
       console.error('[loginUser]:', (error as Error).message)
+      if (error instanceof ValidationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ errors: error.details })
+        }
+      }
+      if (error instanceof AuthenticationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })
