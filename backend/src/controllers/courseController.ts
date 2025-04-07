@@ -85,15 +85,24 @@ export const CourseController = {
   async getCourses (userId: string) {
     try {
       if (!userId) {
-        throw new Error('[UNAUTHORIZED]: User not found')
+        throw new UnauthorizedError('User not found')
       }
       const courses = await CourseService.getCourses(userId)
       return {
-        statusCode: 201,
-        body: JSON.stringify({ message: 'Courses found successfully', courses })
+        statusCode: 200,
+        body: JSON.stringify({
+          message: courses.length === 0 ? 'No courses found' : 'Courses found successfully',
+          courses
+        })
       }
     } catch (error) {
       console.error('[getCourses]:', (error as Error).message)
+      if (error instanceof UnauthorizedError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })

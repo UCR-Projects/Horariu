@@ -70,12 +70,12 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
     if (httpMethod === 'GET' && path === '/courses') {
       if (!event.requestContext.authorizer || !event.requestContext.authorizer.principalId) {
-        throw new Error('[UNAUTHORIZED]: Missing authorization context')
+        throw new UnauthorizedError('Missing authorization context')
       }
       const userId = event.requestContext.authorizer.principalId
       const result = await CourseController.getCourses(userId)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, GET'),
         body: result.body
       }

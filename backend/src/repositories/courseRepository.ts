@@ -42,13 +42,13 @@ export const CourseRepository = {
     }
   },
 
-  async getCourses (userId: string): Promise<ICourseData[] | null> {
+  async getCourses (userId: string): Promise<ICourseData[]> {
     const allCourses = await db
       .select()
       .from(courses)
       .where(eq(courses.userId, userId))
 
-    if (allCourses.length === 0) return null
+    if (allCourses.length === 0) return []
 
     return await Promise.all(
       allCourses.map(async (course) => {
