@@ -30,6 +30,13 @@ export class AuthenticationError extends CustomError {
   }
 }
 
+export class NotFoundError extends CustomError {
+  constructor (message = 'Resource not found') {
+    super(message, 404)
+    this.name = 'NotFoundError'
+  }
+}
+
 export class ConflictError extends CustomError {
   constructor (message: string = 'Conflict') {
     super(message, 409)

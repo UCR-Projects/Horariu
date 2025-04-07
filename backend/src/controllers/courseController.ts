@@ -1,7 +1,7 @@
 import { CourseService } from '../services/CourseService'
 import { validateCourse, validateUpdateCourse, validateCourseParams } from '../schemas/course.schema'
 import { validateCourses } from '../schemas/schedule.schema'
-import { ValidationError, UnprocessableEntityError, UnauthorizedError, ConflictError } from '../utils/customsErrors'
+import { ValidationError, UnprocessableEntityError, UnauthorizedError, ConflictError, NotFoundError } from '../utils/customsErrors'
 
 export const CourseController = {
   async generateSchedules (courses: unknown) {
@@ -113,20 +113,39 @@ export const CourseController = {
   async getCourse (userId: string, params: unknown) {
     try {
       const paramsValid = await validateCourseParams(params)
+
       if (!paramsValid.success) {
-        throw new Error('Validation failed')
+        const errors = paramsValid.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       if (!userId) {
-        throw new Error('[UNAUTHORIZED]: User not found')
+        throw new UnauthorizedError('User not found')
       }
       const course = await CourseService.getCourse(userId, paramsValid.data)
       return {
-        statusCode: 201,
+        statusCode: 200,
         body: JSON.stringify({ message: 'Course retrieved successfully', course })
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('[getCourse]:', (error as Error).message)
+
+      if (error instanceof ValidationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ errors: error.details })
+        }
+      }
+
+      if (error instanceof UnauthorizedError || error instanceof NotFoundError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })

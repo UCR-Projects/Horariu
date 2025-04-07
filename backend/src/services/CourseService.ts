@@ -2,7 +2,7 @@ import { CourseRepository } from '../repositories/courseRepository'
 import { CourseInfo, CourseParamsInfo, CourseUpdateInfo } from '../schemas/course.schema'
 import { GenerateScheduleInfo } from '../schemas/schedule.schema'
 import { generateAllSchedules } from '../utils/scheduleUtils'
-import { UnprocessableEntityError } from '../utils/customsErrors'
+import { UnprocessableEntityError, NotFoundError } from '../utils/customsErrors'
 
 export const CourseService = {
 
@@ -29,7 +29,7 @@ export const CourseService = {
   async getCourse (userId: string, params: CourseParamsInfo) {
     const course = await CourseRepository.getCourse({ userId, ...params })
     if (!course) {
-      throw new Error('Course not found')
+      throw new NotFoundError('Course not found')
     }
 
     return course
