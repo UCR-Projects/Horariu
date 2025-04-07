@@ -112,6 +112,6 @@ jobs:
       - name: Make deploy script executable
         run: chmod +x backend/deploy.sh
 
-      - name: Run Deploy Script
-        run: backend/deploy.sh
+      - name: Run Deploy Script (Prod)
+        run: backend/deploy.sh Prod
 
