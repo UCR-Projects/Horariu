@@ -115,6 +115,6 @@ jobs:
         working-directory: backend
 
       - name: Run Deploy Script (Prod)
-        run: deploy.sh Prod
+        run: ./deploy.sh Prod
         working-directory: backend
 
