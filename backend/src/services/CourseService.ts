@@ -38,7 +38,7 @@ export const CourseService = {
   async updateCourse (userId: string, params: CourseParamsInfo, updates: CourseUpdateInfo) {
     const updatedCourse = await CourseRepository.updateCourse({ userId, ...params }, updates)
     if (!updatedCourse) {
-      throw new Error('Course not found')
+      throw new NotFoundError('Course not found')
     }
 
     return updatedCourse

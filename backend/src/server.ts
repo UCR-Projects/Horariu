@@ -96,7 +96,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       }
       const result = await CourseController.getCourse(userId, pathParameters)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, GET'),
         body: result.body
       }
@@ -117,7 +117,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       }
       const result = await CourseController.updateCourse(userId, pathParameters, parsedBody)
       return {
-        statusCode: 200,
+        statusCode: result.statusCode ?? 500,
         headers: getCorsHeaders(origin, 'OPTIONS, PATCH'),
         body: result.body
       }

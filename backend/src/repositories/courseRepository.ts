@@ -3,7 +3,7 @@ import { courses } from '../database/schema/courses'
 import { eq, and } from 'drizzle-orm'
 import { validateCourseDetails } from '../schemas/course.schema'
 import { IAddCourseData, ICourseData, ICourseIdentifiers } from '../interfaces/ICourseData'
-import { InternalServerError, ConflictError } from '../utils/customsErrors'
+import { InternalServerError, ConflictError, BadRequestError } from '../utils/customsErrors'
 
 function isDatabaseError (error: unknown): error is { code?: string; message: string } {
   return typeof error === 'object' &&
@@ -92,13 +92,37 @@ export const CourseRepository = {
     updates: Partial<ICourseData>
   ): Promise<Partial<ICourseData> | null> {
     if (Object.keys(updates).length === 0) {
-      throw new Error('No fields provided for update')
+      throw new BadRequestError('No fields provided for update')
     }
 
-    if (updates.courseDetails) {
-      const existingCourse = await db
-        .select({ courseDetails: courses.courseDetails })
-        .from(courses)
+    try {
+      if (updates.courseDetails) {
+        const existingCourse = await db
+          .select({ courseDetails: courses.courseDetails })
+          .from(courses)
+          .where(
+            and(
+              eq(courses.userId, identifiers.userId),
+              eq(courses.courseName, identifiers.courseName),
+              eq(courses.day, identifiers.day),
+              eq(courses.startTime, identifiers.startTime),
+              eq(courses.groupNumber, identifiers.groupNumber)
+            )
+          )
+
+        if (existingCourse.length === 0) return null
+
+        const validatedExistingDetails = await validateCourseDetails(existingCourse[0].courseDetails)
+
+        updates.courseDetails = {
+          ...validatedExistingDetails,
+          ...updates.courseDetails
+        }
+      }
+
+      const updatedCourse = await db
+        .update(courses)
+        .set(updates)
         .where(
           and(
             eq(courses.userId, identifiers.userId),
@@ -108,36 +132,17 @@ export const CourseRepository = {
             eq(courses.groupNumber, identifiers.groupNumber)
           )
         )
+        .returning()
 
-      if (existingCourse.length === 0) return null
+      if (updatedCourse.length === 0) return null
 
-      const validatedExistingDetails = await validateCourseDetails(existingCourse[0].courseDetails)
-
-      updates.courseDetails = {
-        ...validatedExistingDetails,
-        ...updates.courseDetails
+      return {
+        ...updatedCourse[0],
+        courseDetails: await validateCourseDetails(updatedCourse[0].courseDetails)
       }
-    }
-
-    const updatedCourse = await db
-      .update(courses)
-      .set(updates)
-      .where(
-        and(
-          eq(courses.userId, identifiers.userId),
-          eq(courses.courseName, identifiers.courseName),
-          eq(courses.day, identifiers.day),
-          eq(courses.startTime, identifiers.startTime),
-          eq(courses.groupNumber, identifiers.groupNumber)
-        )
-      )
-      .returning()
-
-    if (updatedCourse.length === 0) return null
-
-    return {
-      ...updatedCourse[0],
-      courseDetails: await validateCourseDetails(updatedCourse[0].courseDetails)
+    } catch (error: unknown) {
+      console.error('[CourseRepository.updateCourse]', error)
+      throw new InternalServerError('Error while updating the course')
     }
   },
 

@@ -1,7 +1,7 @@
 import { CourseService } from '../services/CourseService'
 import { validateCourse, validateUpdateCourse, validateCourseParams } from '../schemas/course.schema'
 import { validateCourses } from '../schemas/schedule.schema'
-import { ValidationError, UnprocessableEntityError, UnauthorizedError, ConflictError, NotFoundError } from '../utils/customsErrors'
+import { ValidationError, UnprocessableEntityError, UnauthorizedError, ConflictError, NotFoundError, BadRequestError } from '../utils/customsErrors'
 
 export const CourseController = {
   async generateSchedules (courses: unknown) {
@@ -156,26 +156,52 @@ export const CourseController = {
   async updateCourse (userId: string, params: unknown, updates: unknown) {
     try {
       if (!userId) {
-        throw new Error('[UNAUTHORIZED]: User not found')
+        throw new UnauthorizedError('User not found')
       }
 
       const paramsValid = await validateCourseParams(params)
+
       if (!paramsValid.success) {
-        throw new Error('Validation failed')
+        const errors = paramsValid.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       const updateValid = await validateUpdateCourse(updates)
       if (!updateValid.success) {
-        throw new Error('Validation failed')
+        const errors = updateValid.error.issues.map(issue => ({
+          path: issue.path.join('.'),
+          message: issue.message
+        }))
+        throw new ValidationError(errors)
       }
 
       const updatedCourse = await CourseService.updateCourse(userId, paramsValid.data, updateValid.data)
       return {
-        statusCode: 201,
+        statusCode: 200,
         body: JSON.stringify({ message: 'Course updated successfully', updatedCourse })
       }
     } catch (error) {
       console.error('[updateCourse]:', (error as Error).message)
+      if (error instanceof ValidationError) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ errors: error.details })
+        }
+      }
+
+      if (
+        error instanceof UnauthorizedError ||
+        error instanceof NotFoundError ||
+        error instanceof BadRequestError
+      ) {
+        return {
+          statusCode: error.statusCode,
+          body: JSON.stringify({ message: error.message })
+        }
+      }
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Internal server error' })
