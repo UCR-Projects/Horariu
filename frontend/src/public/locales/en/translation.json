@@ -30,6 +30,10 @@
     }
   },
   "hours": "Hours",
+  "course": "Course",
+  "coursesList": "Courses List",
+  "NoCoursesYet": "No courses added yet",
+  "mustAddACourse": "You must add a course first",
   "addGroup": "Add Group",
   "addCourse": "Add Course",
   "group": "Group",
