@@ -3,9 +3,21 @@ import { Button } from '@/components/ui/button'
 import CourseForm from '@/components/courseForm/CourseForm'
 import useCourseStore from '@/stores/useCourseStore'
 import { SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar'
+import { useTranslation } from 'react-i18next'
 
 const CourseList = () => {
   const { courses, deleteCourse } = useCourseStore()
+  const { t } = useTranslation()
+
+  if (courses.length === 0) {
+    return (
+      <div className='px-4 py-4 text-center group-data-[collapsible=icon]:hidden'>
+        <p className='text-xs text-neutral-500 dark:text-neutral-500'>
+          {t('noCoursesYet')}
+        </p>
+      </div>
+    )
+  }
 
   return (
     <SidebarMenu>
