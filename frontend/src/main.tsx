@@ -5,10 +5,15 @@ import { routes } from './routes/routes'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from './components/ThemeProvider'
 import { Toaster } from '@/components/ui/sonner'
+import { inject } from '@vercel/analytics'
 import './i18n.config'
 
 const router = createBrowserRouter(routes)
 const queryClient = new QueryClient()
+
+if (import.meta.env.PROD) {
+  inject()
+}
 
 createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
