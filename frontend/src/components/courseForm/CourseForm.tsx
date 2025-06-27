@@ -271,7 +271,9 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
             )}
           </DrawerTrigger>
 
-          <DrawerContent>{content}</DrawerContent>
+          <DrawerContent>
+            <div className='px-4 pt-2 pb-6 space-y-4'>{content}</div>
+          </DrawerContent>
         </Drawer>
       ) : (
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

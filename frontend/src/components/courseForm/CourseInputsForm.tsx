@@ -147,7 +147,7 @@ export function CourseInputsForm({
     <>
       {isMobile ? (
         <>
-          <DrawerHeader>
+          <DrawerHeader className='p-0'>
             <DrawerTitle className='text-lg'>
               {isEditingCourse ? t('editCourse') : t('newCourse')}
             </DrawerTitle>
@@ -157,7 +157,7 @@ export function CourseInputsForm({
           </DrawerHeader>
           {formContent}
 
-          <DrawerFooter>{footerButtons}</DrawerFooter>
+          <DrawerFooter className='p-0'>{footerButtons}</DrawerFooter>
         </>
       ) : (
         <>
