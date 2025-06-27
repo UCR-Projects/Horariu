@@ -33,7 +33,7 @@ export function AppSidebar() {
             </div>
           )}
 
-          <SidebarHeader className='text-2xl font-bold px-4 py-2 group-data-[collapsible=icon]:hidden'>
+          <SidebarHeader className='text-xl font-bold px-4 py-2 group-data-[collapsible=icon]:hidden'>
             {t('course')}s
           </SidebarHeader>
 
