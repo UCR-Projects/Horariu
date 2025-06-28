@@ -6,11 +6,13 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarTrigger,
+  SidebarFooter,
 } from '@/components/ui/sidebar'
 
 import { useTranslation } from 'react-i18next'
 import CourseList from '@/components/CourseList'
 import CourseForm from './courseForm/CourseForm'
+import { LanguageToggleButton } from '@/components/LanguageToggle'
 import { useIsMobile } from '@/hooks/use-mobile'
 
 export function AppSidebar() {
@@ -53,6 +55,10 @@ export function AppSidebar() {
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
+
+          <SidebarFooter className='p-2'>
+            <LanguageToggleButton />
+          </SidebarFooter>
         </Sidebar>
       </div>
     </>
