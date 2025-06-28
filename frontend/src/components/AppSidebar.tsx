@@ -32,18 +32,23 @@ export function AppSidebar() {
               <SidebarTrigger className='cursor-pointer' />
             </div>
           )}
-          <SidebarHeader className='text-2xl font-bold px-4 py-2 group-data-[collapsible=icon]:hidden'>
-            {t('courses')}
+
+          <SidebarHeader className='text-xl font-bold px-4 py-2 group-data-[collapsible=icon]:hidden'>
+            {t('course')}s
           </SidebarHeader>
+
           <SidebarContent>
-            <div className='p-4 group-data-[collapsible=icon]:hidden'>
-              <CourseForm />
-            </div>
-            <SidebarGroup className='pt-10 overflow-y-auto'>
-              <SidebarGroupLabel className='px-4 group-data-[collapsible=icon]:hidden'>
-                {t('Lista de cursos')}
+            <SidebarGroup className='group-data-[collapsible=icon]:hidden'>
+              <SidebarGroupContent className='px-4'>
+                <CourseForm />
+              </SidebarGroupContent>
+            </SidebarGroup>
+
+            <SidebarGroup className='flex-1 overflow-hidden'>
+              <SidebarGroupLabel className='px-4 text-sm font-medium text-neutral-700 dark:text-neutral-400 group-data-[collapsible=icon]:hidden'>
+                {t('coursesList')}
               </SidebarGroupLabel>
-              <SidebarGroupContent>
+              <SidebarGroupContent className='overflow-y-auto'>
                 <CourseList />
               </SidebarGroupContent>
             </SidebarGroup>

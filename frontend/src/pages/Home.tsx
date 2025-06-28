@@ -1,20 +1,16 @@
 import Schedules from '@/components/Schedules'
-import { useGenerateSchedule } from '@/hooks/useGenerateSchedule'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Loader2, Calendar } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
-import useCourseStore from '@/stores/useCourseStore'
 import { useEffect } from 'react'
 import useScheduleStore from '@/stores/useScheduleStore'
 import { useTranslation } from 'react-i18next'
 import LoadSampleDataButtons from '@/components/LoadSampleDataButtons'
+import GenerateScheduleButton from '@/components/GenerateScheduleButton'
 
 const Home = () => {
   const { t } = useTranslation()
-  const { generateSchedule } = useGenerateSchedule()
   const { scheduleData, error, isLoading, isSuccess } = useScheduleStore()
-  const { courses } = useCourseStore()
 
   useEffect(() => {
     if (isSuccess) {
@@ -39,23 +35,7 @@ const Home = () => {
         <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-2 p-2 mb-2'>
           <div className='w-full md:w-auto'>
             <LoadSampleDataButtons />
-            <Button
-              onClick={() => generateSchedule(courses)}
-              disabled={isLoading}
-              className='w-full md:w-auto px-4 py-2 font-medium'
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className='mr-2 h-5 w-5 animate-spin' />
-                  {t('generating')}...
-                </>
-              ) : (
-                <>
-                  <Calendar className='mr-2 h-5 w-5' />
-                  {t('generateSchedules')}
-                </>
-              )}
-            </Button>
+            <GenerateScheduleButton />
           </div>
 
           {showBadge && (
@@ -81,7 +61,6 @@ const Home = () => {
           )}
         </div>
       </div>
-
       <Schedules />
     </>
   )

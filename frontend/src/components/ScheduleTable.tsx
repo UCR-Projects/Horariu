@@ -94,7 +94,7 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
           <DropdownMenuTrigger asChild>
             <Button
               variant='outline'
-              className='dark:bg-neutral-900 cursor-pointer'
+              className='dark:bg-neutral-900 cursor-pointer bg-neutral-100  hover:bg-neutral-200/50 dark:hover:bg-neutral-900/70'
             >
               <Download size={16} className='mr-1' />
               <span>{t('downloadSchedule')}</span>
@@ -103,12 +103,15 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
           <DropdownMenuContent align='end'>
             <DropdownMenuItem
               onClick={exportAsImage}
-              className='cursor-pointer'
+              className='cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800'
             >
               <FileImage size={16} className='mr-2' />
               <span>{t('image')}</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={exportAsPDF} className='cursor-pointer'>
+            <DropdownMenuItem
+              onClick={exportAsPDF}
+              className='cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800'
+            >
               <FileText size={16} className='mr-2' />
               <span>PDF</span>
             </DropdownMenuItem>
