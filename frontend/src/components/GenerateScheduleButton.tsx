@@ -35,7 +35,7 @@ const GenerateScheduleButton = () => {
     <Button
       onClick={() => generateSchedule(courses)}
       disabled={isDisabled}
-      className='w-full md:w-auto px-4 py-2 font-medium disabled:text-neutral-400 disabled:bg-neutral-900'
+      className='w-full md:w-auto px-4 py-2 font-medium disabled:text-neutral-400 disabled:bg-neutral-900 cursor-pointer'
     >
       {buttonContent}
     </Button>

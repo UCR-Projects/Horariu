@@ -23,7 +23,7 @@ export function LanguageToggleButton() {
       <TooltipTrigger asChild>
         <button
           onClick={toggleLanguage}
-          className='flex items-center gap-2 w-fit px-3 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md transition-colors duration-200 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:w-fit'
+          className='flex items-center gap-2 w-fit px-3 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded-md transition-colors duration-200 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:w-fit pointer cursor-pointer'
         >
           <Languages className='h-4 w-4' />
           <span className='group-data-[collapsible=icon]:hidden'>

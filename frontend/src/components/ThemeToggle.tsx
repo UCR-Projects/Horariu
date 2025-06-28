@@ -12,9 +12,9 @@ import {
 const ThemeToggle = () => {
   const { setTheme } = useTheme()
   const dropdownStyles =
-    'dark:bg-neutral-800 dark:border-neutral-900/40 border-neutral-300 bg-neutral-100'
+    'dark:bg-neutral-800 dark:border-neutral-900/40 border-neutral-300 bg-neutral-100 cursor-pointer'
   const menuItemStyles =
-    'hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:bg-neutral-200 dark:focus:bg-neutral-700'
+    'hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:bg-neutral-200 dark:focus:bg-neutral-700 cursor-pointer'
 
   const themes: { name: string; value: Theme }[] = [
     { name: 'Light', value: 'light' },
@@ -29,7 +29,7 @@ const ThemeToggle = () => {
           variant='outline'
           size='icon'
           className='dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-700
-            border-neutral-300/60 bg-neutral-100 hover:bg-neutral-200/50 transition-colors duration-100'
+            border-neutral-300/60 bg-neutral-100 hover:bg-neutral-200/50 transition-colors duration-100 cursor-pointer'
         >
           <Sun className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
           <Moon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
