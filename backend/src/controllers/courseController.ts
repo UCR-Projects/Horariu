@@ -1,7 +1,7 @@
 import { CourseService } from '../services/CourseService'
 import { validateCourse, validateUpdateCourse, validateCourseParams } from '../schemas/course.schema'
 import { validateCourses } from '../schemas/schedule.schema'
-import { ValidationError, UnprocessableEntityError, UnauthorizedError, ConflictError, NotFoundError, BadRequestError } from '../utils/customsErrors'
+import { ValidationError, UnauthorizedError, ConflictError, NotFoundError, BadRequestError } from '../utils/customsErrors'
 
 export const CourseController = {
   async generateSchedules (courses: unknown) {
@@ -15,10 +15,17 @@ export const CourseController = {
         throw new ValidationError(errors)
       }
 
-      const schedules = await CourseService.generateSchedules(validatedCourses.data)
+      const result = await CourseService.generateSchedules(validatedCourses.data)
+      if (result.schedules.length === 0) {
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ message: result.message, schedules: result.schedules })
+        }
+      }
+
       return {
         statusCode: 201,
-        body: JSON.stringify({ message: 'Schedules generated successfully', schedules })
+        body: JSON.stringify({ message: 'Schedules generated successfully', schedules: result.schedules })
       }
     } catch (error) {
       console.error('[generateSchedule]:', error)
@@ -26,12 +33,6 @@ export const CourseController = {
         return {
           statusCode: error.statusCode,
           body: JSON.stringify({ errors: error.details })
-        }
-      }
-      if (error instanceof UnprocessableEntityError) {
-        return {
-          statusCode: error.statusCode,
-          body: JSON.stringify({ message: error.message })
         }
       }
       return {
