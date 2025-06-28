@@ -2,7 +2,7 @@ import { CourseRepository } from '../repositories/courseRepository'
 import { CourseInfo, CourseParamsInfo, CourseUpdateInfo } from '../schemas/course.schema'
 import { GenerateScheduleInfo } from '../schemas/schedule.schema'
 import { generateAllSchedules } from '../utils/scheduleUtils'
-import { UnprocessableEntityError, NotFoundError } from '../utils/customsErrors'
+import { NotFoundError } from '../utils/customsErrors'
 
 export const CourseService = {
 
@@ -10,10 +10,17 @@ export const CourseService = {
     const generatedSchedules = generateAllSchedules(courses)
 
     if (generatedSchedules.length === 0) {
-      throw new UnprocessableEntityError('No valid schedules could be generated')
+      return {
+        success: true,
+        message: 'Schedule conflicts',
+        schedules: []
+      }
     }
 
-    return generatedSchedules
+    return {
+      success: true,
+      schedules: generatedSchedules
+    }
   },
 
   async registerCourse (userId: string, course: CourseInfo) {
