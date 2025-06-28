@@ -51,13 +51,6 @@ export class ConflictError extends CustomError {
   }
 }
 
-export class UnprocessableEntityError extends CustomError {
-  constructor (message: string = 'Cannot generate schedules') {
-    super(message, 422)
-    this.name = 'UnprocessableEntityError'
-  }
-}
-
 export class InternalServerError extends CustomError {
   constructor (message: string = 'Internal server error') {
     super(message, 500)
