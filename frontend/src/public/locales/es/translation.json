@@ -92,5 +92,9 @@
         "timeRange": "Todos los días seleccionados deben tener un horario válido"
       }
     }
-  }
+  },
+
+  "confirmClearAllCourses": "¿Estás seguro?",
+  "confirmClearAllCoursesDescription": "Esta acción no se puede deshacer. Se eliminarán todos los cursos de la lista.",
+  "clearAll": "Eliminar todo"
 }

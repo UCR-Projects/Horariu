@@ -95,5 +95,9 @@
         "timeRange": "All selected days must have a valid schedule"
       }
     }
-  }
+  },
+
+  "confirmClearAllCourses": "Are you sure?",
+  "confirmClearAllCoursesDescription": "This action cannot be undone. All courses will be removed from the list.",
+  "clearAll": "Clear All"
 }
