@@ -29,6 +29,9 @@
       "short": "Su"
     }
   },
+  "scheduleSuccess": "Schedules generated successfully",
+  "scheduleError": "Error generating schedule",
+  "scheduleNotPossible": "No possible combinations with the selected courses and schedules.",
   "hours": "Hours",
   "course": "Course",
   "coursesList": "Courses List",

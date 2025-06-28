@@ -29,6 +29,9 @@
       "short": "D"
     }
   },
+  "scheduleSuccess": "Horario generado exitosamente",
+  "scheduleError": "Error al generar el horario",
+  "scheduleNotPossible": "No hay combinaciones posibles con los cursos y horarios seleccionados.",
   "hours": "Horas",
   "course": "Curso",
   "coursesList": "Lista de Cursos",

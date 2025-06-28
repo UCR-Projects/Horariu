@@ -1,30 +1,39 @@
 import { useMutation } from '@tanstack/react-query'
 import { generateScheduleService } from '@/services/generateScheduleService'
-import useScheduleStore from '@/stores/useScheduleStore'
 import { Course } from '@/types'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import useScheduleStore from '@/stores/useScheduleStore'
 
 export const useGenerateSchedule = () => {
   const { setScheduleData, setLoading, setError, reset } = useScheduleStore()
+  const { t } = useTranslation()
 
   const mutation = useMutation({
     mutationKey: ['generateSchedule'],
-    mutationFn: (courseData: Course[]) => {
-      return generateScheduleService.generateSchedule(courseData)
-    },
+    mutationFn: (courseData: Course[]) =>
+      generateScheduleService.generateSchedule(courseData),
 
     // onMutate: Called before the mutation function is executed.
     // Used for optimistic updates and preparing the mutation environment.
     onMutate: () => {
+      reset()
       setLoading(true)
       setError(null)
     },
 
     onSuccess: (data) => {
-      setScheduleData(data)
+      if (data.schedules.length === 0) {
+        toast.error(t('scheduleNotPossible'))
+      } else {
+        setScheduleData(data)
+        toast.success(t('scheduleSuccess'))
+      }
     },
 
     onError: (error) => {
       setError(error)
+      toast.error(t('scheduleError'))
       console.error(error)
     },
 

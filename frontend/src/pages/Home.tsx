@@ -1,8 +1,6 @@
 import Schedules from '@/components/Schedules'
 import { Badge } from '@/components/ui/badge'
 import { Loader2 } from 'lucide-react'
-import { toast } from 'sonner'
-import { useEffect } from 'react'
 import useScheduleStore from '@/stores/useScheduleStore'
 import { useTranslation } from 'react-i18next'
 import LoadSampleDataButtons from '@/components/LoadSampleDataButtons'
@@ -10,21 +8,7 @@ import GenerateScheduleButton from '@/components/GenerateScheduleButton'
 
 const Home = () => {
   const { t } = useTranslation()
-  const { scheduleData, error, isLoading, isSuccess } = useScheduleStore()
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success('Schedule generated successfully', {
-        className: 'bg-green-500 text-white border border-green-600',
-      })
-    }
-  }, [isSuccess])
-
-  useEffect(() => {
-    if (error) {
-      toast.error('Error generating schedule')
-    }
-  }, [error])
+  const { scheduleData, isLoading } = useScheduleStore()
 
   const schedulesCount = scheduleData?.schedules?.length || 0
   const showBadge = isLoading || schedulesCount > 0
