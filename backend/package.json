@@ -23,7 +23,6 @@
     "sam:invoke:getCourse": "infisical run -- sam local invoke HorariuApiFunction -e events/event-get-course.json",
     "sam:invoke:updateCourse": "infisical run -- sam local invoke HorariuApiFunction -e events/event-update-course.json",
     "sam:invoke:deleteCourse": "infisical run -- sam local invoke HorariuApiFunction -e events/event-delete-course.json",
-
     "sam:invoke:register:debug": "infisical run -- sam local invoke --debug-port 5858 HorariuApiFunction -e events/event-register.json",
     "sam:invoke:login:debug": "infisical run -- sam local invoke --debug-port 5858 HorariuApiFunction -e events/event-login.json",
     "sam:invoke:generateSchedules:debug": "infisical run -- sam local invoke HorariuApiFunction --debug-port 5858 -e events/event-generate-schedules.json",
@@ -44,6 +43,7 @@
     "drizzle-orm": "0.39.1",
     "jsonwebtoken": "9.0.2",
     "pg": "8.13.1",
+    "uuid": "^11.1.0",
     "zod": "3.24.1"
   },
   "devDependencies": {
