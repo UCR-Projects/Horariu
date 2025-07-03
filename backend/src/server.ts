@@ -2,6 +2,8 @@ import { APIGatewayProxyHandler, APIGatewayProxyResult, APIGatewayProxyEvent } f
 import { UserController } from './controllers/userController'
 import { CourseController } from './controllers/courseController'
 import { UnauthorizedError } from './utils/customsErrors'
+import { setCookie } from './utils/cookieUtils'
+import { v4 as uuidv4 } from 'uuid'
 
 const allowedOrigins = ['http://localhost:5173', 'https://horariu-client.vercel.app']
 
@@ -61,10 +63,25 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     }
 
     if (httpMethod === 'POST' && path === '/courses/generate') {
+      const sessionId = uuidv4()
+
       const result = await CourseController.generateSchedules(parsedBody)
       return {
         statusCode: result.statusCode ?? 500,
-        headers: getCorsHeaders(origin, 'OPTIONS, POST'),
+        headers: {
+          ...getCorsHeaders(origin, 'OPTIONS, POST'),
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          'Set-Cookie': setCookie('sessionId', sessionId, {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            HttpOnly: true,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            Secure: true,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            MaxAge: 3600,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            Path: '/'
+          })
+        },
         body: result.body
       }
     }
