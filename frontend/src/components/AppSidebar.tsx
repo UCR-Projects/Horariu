@@ -22,12 +22,6 @@ export function AppSidebar() {
 
   return (
     <>
-      {isMobile && (
-        <div className='absolute top-2 left-2 z-10'>
-          <SidebarTrigger className='cursor-pointer' />
-        </div>
-      )}
-
       <div className={isMobile ? 'invisible sm:visible' : ''}>
         <Sidebar collapsible='icon'>
           {!isMobile && (

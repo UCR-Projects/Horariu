@@ -5,6 +5,7 @@ import useScheduleStore from '@/stores/useScheduleStore'
 import { useTranslation } from 'react-i18next'
 import LoadSampleDataButtons from '@/components/LoadSampleDataButtons'
 import GenerateScheduleButton from '@/components/GenerateScheduleButton'
+import { MobileSidebarTrigger } from '@/components/MobileSidebarTrigger'
 
 const Home = () => {
   const { t } = useTranslation()
@@ -19,6 +20,7 @@ const Home = () => {
         <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-2 p-2 mb-2'>
           <div className='w-full md:w-auto'>
             <LoadSampleDataButtons />
+            <MobileSidebarTrigger />
             <GenerateScheduleButton />
           </div>
 
