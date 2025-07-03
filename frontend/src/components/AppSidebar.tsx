@@ -14,7 +14,7 @@ import CourseList from '@/components/CourseList'
 import CourseForm from './courseForm/CourseForm'
 import { LanguageToggleButton } from '@/components/LanguageToggle'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { ClearCoursesButton } from './ClearCoursesButton'
+// import { ClearCoursesButton } from './ClearCoursesButton'
 
 export function AppSidebar() {
   const { t } = useTranslation()
@@ -31,12 +31,12 @@ export function AppSidebar() {
       <div className={isMobile ? 'invisible sm:visible' : ''}>
         <Sidebar collapsible='icon'>
           {!isMobile && (
-            <div className='flex items-center justify-end p-2 align-middle'>
+            <div className='flex items-center justify-end px-4 py-2'>
               <SidebarTrigger className='cursor-pointer' />
             </div>
           )}
 
-          <SidebarHeader className='text-xl font-bold px-4 py-2 group-data-[collapsible=icon]:hidden'>
+          <SidebarHeader className='text-xl font-bold px-5 py-2 group-data-[collapsible=icon]:hidden'>
             {t('course')}s
           </SidebarHeader>
 
@@ -48,19 +48,17 @@ export function AppSidebar() {
             </SidebarGroup>
 
             <SidebarGroup className='flex-1 overflow-hidden'>
-              <div className='flex items-center justify-between px-4 group-data-[collapsible=icon]:hidden pb-2.5'>
-                <SidebarGroupLabel className='text-md font-medium text-neutral-800 dark:text-neutral-400 flex-1'>
-                  {t('coursesList')}
-                </SidebarGroupLabel>
-                <ClearCoursesButton />
-              </div>
-              <SidebarGroupContent className='overflow-y-auto'>
+              <SidebarGroupLabel className='px-4 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-400 group-data-[collapsible=icon]:hidden'>
+                {t('coursesList')}
+              </SidebarGroupLabel>
+
+              <SidebarGroupContent className='overflow-y-auto px-1.5'>
                 <CourseList />
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
 
-          <SidebarFooter className='p-2'>
+          <SidebarFooter className='px-4 py-2'>
             <LanguageToggleButton />
           </SidebarFooter>
         </Sidebar>
