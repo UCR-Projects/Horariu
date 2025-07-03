@@ -1,11 +1,5 @@
-import { BroomIcon } from '@/assets/icons/Icons'
 import { useTranslation } from 'react-i18next'
 import useCourseStore from '@/stores/useCourseStore'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,46 +11,44 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
 export function ClearCoursesButton() {
   const { t } = useTranslation()
-  const { clearAllCourses, courses } = useCourseStore()
-
-  if (!courses || courses.length < 2) {
-    return null
-  }
+  const { clearAllCourses } = useCourseStore()
 
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <button className='p-1 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded transition-colors cursor-pointer'>
-              <BroomIcon className='text-neutral-600' />
-            </button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>{t('confirmClearAllCourses')}</AlertDialogTitle>
-              <AlertDialogDescription>
-                {t('confirmClearAllCoursesDescription')}
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={clearAllCourses}
-                className='bg-red-600 hover:bg-red-700 focus:ring-red-600'
-              >
-                {t('clearAll')}
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>{t('clearAllCourses')}</p>
-      </TooltipContent>
-    </Tooltip>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <DropdownMenuItem
+          className='flex items-center gap-2 cursor-pointer'
+          onSelect={(e) => {
+            e.preventDefault()
+          }}
+        >
+          {t('Eliminar Cursos')}
+        </DropdownMenuItem>
+      </AlertDialogTrigger>
+
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t('confirmClearAllCourses')}</AlertDialogTitle>
+          <AlertDialogDescription>
+            {t('confirmClearAllCoursesDescription')}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel className='cursor-pointer'>
+            {t('cancel')}
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={clearAllCourses}
+            className='bg-red-600 hover:bg-red-700 focus:ring-red-600 cursor-pointer dark:text-neutral-50'
+          >
+            {t('clearAll')}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }

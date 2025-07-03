@@ -14,7 +14,7 @@ import CourseList from '@/components/CourseList'
 import CourseForm from './courseForm/CourseForm'
 import { LanguageToggleButton } from '@/components/LanguageToggle'
 import { useIsMobile } from '@/hooks/use-mobile'
-// import { ClearCoursesButton } from './ClearCoursesButton'
+import { CoursesListOptions } from './CoursesListOptions'
 
 export function AppSidebar() {
   const { t } = useTranslation()
@@ -48,17 +48,18 @@ export function AppSidebar() {
             </SidebarGroup>
 
             <SidebarGroup className='flex-1 overflow-hidden'>
-              <SidebarGroupLabel className='px-4 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-400 group-data-[collapsible=icon]:hidden'>
-                {t('coursesList')}
+              <SidebarGroupLabel className='flex items-center justify-between px-4 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-400 group-data-[collapsible=icon]:hidden'>
+                <span>{t('coursesList')}</span>
+                <CoursesListOptions />
               </SidebarGroupLabel>
 
-              <SidebarGroupContent className='overflow-y-auto px-1.5'>
+              <SidebarGroupContent className='overflow-y-auto px-1.5 py-3'>
                 <CourseList />
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
 
-          <SidebarFooter className='px-4 py-2'>
+          <SidebarFooter className='px-4 py-2 group-data-[collapsible=icon]:hidden'>
             <LanguageToggleButton />
           </SidebarFooter>
         </Sidebar>
