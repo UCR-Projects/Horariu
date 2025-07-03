@@ -29,10 +29,14 @@
       "short": "D"
     }
   },
+  "scheduleSuccess": "Horarios generados exitosamente!",
+  "scheduleError": "Error al generar el horario",
+  "scheduleNotPossible": "No hay combinaciones posibles con los cursos y horarios seleccionados.",
   "hours": "Horas",
   "course": "Curso",
   "coursesList": "Lista de Cursos",
   "noCoursesYet": "No se han agregado cursos aún",
+  "clearAllCourses": "Limpiar Todos los Cursos",
   "mustAddACourse": "Debes agregar un curso primero",
   "addGroup": "Agregar Grupo",
   "addCourse": "Agregar Curso",
@@ -88,5 +92,13 @@
         "timeRange": "Todos los días seleccionados deben tener un horario válido"
       }
     }
-  }
+  },
+
+  "confirmClearAllCourses": "¿Estás seguro?",
+  "confirmClearAllCoursesDescription": "Esta acción no se puede deshacer. Se eliminarán todos los cursos de la lista.",
+  "clearAll": "Eliminar todo",
+  "dark": "Oscuro",
+  "light": "Claro",
+  "system": "Sistema",
+  "seeCourses": "Ver Cursos"
 }

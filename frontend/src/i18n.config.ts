@@ -12,12 +12,15 @@ i18n.use(initReactI18next).init({
       translation: translationES,
     },
   },
-  // lng: navigator.language || 'es', // Navigator language or Spanish
-  lng: 'es',
+  lng: localStorage.getItem('language') || 'es', // Navigator language or Spanish
   fallbackLng: 'es', // Fallback language is Spanish
   interpolation: {
     escapeValue: false,
   },
+})
+
+i18n.on('languageChanged', (lng) => {
+  localStorage.setItem('language', lng)
 })
 
 export default i18n

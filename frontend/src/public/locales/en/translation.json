@@ -29,10 +29,14 @@
       "short": "Su"
     }
   },
+  "scheduleSuccess": "Schedules generated successfully",
+  "scheduleError": "Error generating schedule",
+  "scheduleNotPossible": "No possible combinations with the selected courses and schedules.",
   "hours": "Hours",
   "course": "Course",
   "coursesList": "Courses List",
-  "NoCoursesYet": "No courses added yet",
+  "noCoursesYet": "No courses added yet",
+  "clearAllCourses": "Clear All Courses",
   "mustAddACourse": "You must add a course first",
   "addGroup": "Add Group",
   "addCourse": "Add Course",
@@ -91,5 +95,13 @@
         "timeRange": "All selected days must have a valid schedule"
       }
     }
-  }
+  },
+
+  "confirmClearAllCourses": "Are you sure?",
+  "confirmClearAllCoursesDescription": "This action cannot be undone. All courses will be removed from the list.",
+  "clearAll": "Clear All",
+  "dark": "Dark",
+  "light": "Light",
+  "system": "System",
+  "seeCourses": "See Courses"
 }
