@@ -33,7 +33,7 @@ export function LanguageToggleButton() {
       </TooltipTrigger>
       <TooltipContent>
         <p>
-          {i18n.language === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish'}
+          {i18n.language === 'es' ? 'Cambiar a Inglés' : 'Switch to Spanish'}
         </p>
       </TooltipContent>
     </Tooltip>

@@ -15,9 +15,9 @@ const WeekDaySelector = ({ day, active, onToggle }: WeekDaySelectorProps) => {
     <button
       type='button'
       onClick={() => onToggle(!active)}
-      className={`transition-colors rounded-full w-8 h-8 flex items-center justify-center dark:hover:bg-neutral-800/20 cursor-pointer ${
+      className={`transition-colors rounded-full w-8 h-8 flex items-center justify-center dark:hover:bg-neutral-800/20 hover:bg-neutral-200 cursor-pointer ${
         active
-          ? 'text-sky-500 font-extrabold dark:bg-neutral-800/20'
+          ? 'text-sky-500 font-extrabold dark:bg-neutral-800/20 bg-neutral-100'
           : 'dark:text-neutral-300'
       }`}
     >

@@ -43,7 +43,7 @@ export function ClearCoursesButton() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>{t('cancel') || 'Cancelar'}</AlertDialogCancel>
+              <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
               <AlertDialogAction
                 onClick={clearAllCourses}
                 className='bg-red-600 hover:bg-red-700 focus:ring-red-600'

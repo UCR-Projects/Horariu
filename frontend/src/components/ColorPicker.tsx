@@ -39,7 +39,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         <PopoverTrigger asChild>
           <Button
             variant='outline'
-            className='w-full justify-start text-left font-normal h-10'
+            className='w-full justify-start text-left font-normal h-10 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800'
           >
             <div className='flex items-center gap-2'>
               <div

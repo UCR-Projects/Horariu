@@ -2,6 +2,7 @@ import { Sun, Moon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Theme } from '@/types'
 import { useTheme } from '@/components/ThemeProvider'
+import { useTranslation } from 'react-i18next'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -10,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 const ThemeToggle = () => {
+  const { t } = useTranslation()
   const { setTheme } = useTheme()
   const dropdownStyles =
     'dark:bg-neutral-800 dark:border-neutral-900/40 border-neutral-300 bg-neutral-100 cursor-pointer'
@@ -17,9 +19,9 @@ const ThemeToggle = () => {
     'hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:bg-neutral-200 dark:focus:bg-neutral-700 cursor-pointer'
 
   const themes: { name: string; value: Theme }[] = [
-    { name: 'Light', value: 'light' },
-    { name: 'Dark', value: 'dark' },
-    { name: 'System', value: 'system' },
+    { name: `${t('light')}`, value: 'light' },
+    { name: t('dark'), value: 'dark' },
+    { name: t('system'), value: 'system' },
   ]
 
   return (
