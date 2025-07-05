@@ -1,4 +1,4 @@
-import Schedules from '@/components/Schedules'
+import SchedulesList from '@/components/SchedulesList'
 import { Badge } from '@/components/ui/badge'
 import { Loader2 } from 'lucide-react'
 import useScheduleStore from '@/stores/useScheduleStore'
@@ -47,7 +47,7 @@ const Home = () => {
           )}
         </div>
       </div>
-      <Schedules />
+      <SchedulesList />
     </>
   )
 }

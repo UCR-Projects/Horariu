@@ -103,5 +103,9 @@
   "dark": "Dark",
   "light": "Light",
   "system": "System",
-  "seeCourses": "See Courses"
+  "seeCourses": "See Courses",
+  "deleteCourses": "Delete Courses",
+  "showingResults": "Showing {{start}} - {{end}} of {{total}} combinations",
+  "pageInfo": "Page {{current}} of {{total}}"
+
 }
