@@ -29,5 +29,5 @@
       ]
     }
   },
-  "include": ["src"]
+  "include": ["src", "i18n.config.ts"]
 }
