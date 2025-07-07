@@ -26,7 +26,7 @@ export function ClearCoursesButton() {
             e.preventDefault()
           }}
         >
-          {t('Eliminar Cursos')}
+          {t('deleteCourses')}
         </DropdownMenuItem>
       </AlertDialogTrigger>
 

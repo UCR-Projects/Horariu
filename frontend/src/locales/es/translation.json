@@ -100,5 +100,8 @@
   "dark": "Oscuro",
   "light": "Claro",
   "system": "Sistema",
-  "seeCourses": "Ver Cursos"
+  "seeCourses": "Ver Cursos",
+  "deleteCourses": "Eliminar Cursos",
+  "showingResults": "Mostrando {{start}} - {{end}} de {{total}} combinaciones",
+  "pageInfo": "Página {{current}} de {{total}}"
 }
