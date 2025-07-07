@@ -3,7 +3,7 @@ import { UserController } from './controllers/userController'
 import { CourseController } from './controllers/courseController'
 import { UnauthorizedError } from './utils/customsErrors'
 
-const allowedOrigins = ['http://localhost:5173', 'https://horariu-client.vercel.app']
+const allowedOrigins = ['http://localhost:5173', 'https://horariu.com']
 
 const getCorsHeaders = (origin: string | undefined, methods: string) => {
   const allowedOrigin = origin && allowedOrigins.includes(origin) ? origin : ''
