@@ -7,7 +7,7 @@ STAGE=${1:-Dev}  # Dev by default, but we can use Prod with the command: ./deplo
 STACK_NAME="horariu-${STAGE}"
 
 if [ "$STAGE" == "Prod" ]; then
-  ALLOWED_ORIGIN="'https://horariu-client.vercel.app'"
+  ALLOWED_ORIGIN="'https://horariu.com'"
 else
   ALLOWED_ORIGIN="'http://localhost:5173'"
 fi
