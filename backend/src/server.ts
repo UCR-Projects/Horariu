@@ -5,8 +5,7 @@ import { UnauthorizedError } from './utils/customsErrors'
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://horariu.com',
-  'https://www.horariu.com'
+  'https://horariu.com'
 ]
 
 const getCorsHeaders = (origin: string | undefined, methods: string) => {
