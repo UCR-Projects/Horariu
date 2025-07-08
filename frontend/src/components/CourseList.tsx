@@ -44,8 +44,6 @@ const CourseList = () => {
       {courses.map((course) => {
         const isExpanded = expandedCourses.has(course.name)
         const hasGroups = course.groups.length > 0
-        const hasMultipleGroups = course.groups.length > 1
-        const activeGroupsCount = course.groups.filter((g) => g.isActive).length
 
         return (
           <SidebarMenuItem
@@ -79,11 +77,6 @@ const CourseList = () => {
                   className={`truncate max-w-full text-[13px] leading-tight ${!course.isActive ? 'line-through' : ''}`}
                 >
                   {course.name}
-                  {hasMultipleGroups && (
-                    <span className='text-xs text-neutral-500 ml-1'>
-                      ({activeGroupsCount}/{course.groups.length})
-                    </span>
-                  )}
                 </span>
               </div>
               <div
@@ -124,7 +117,8 @@ const CourseList = () => {
                       }`}
                     >
                       <div className='flex items-center gap-3 min-w-0 flex-1'>
-                        <div className='h-2 w-2 rounded-full bg-gradient-to-r from-neutral-400 to-neutral-500' />
+                        <div className='h-2 w-2 rounded-full bg-gradient-to-r from-neutral-400 to-neutral-500 opacity-30' />
+
                         <span
                           className={`truncate text-xs font-normal ${!group.isActive ? 'line-through text-neutral-400' : 'text-neutral-600 dark:text-neutral-400'}`}
                         >
