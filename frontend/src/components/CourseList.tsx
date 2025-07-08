@@ -1,9 +1,10 @@
 import CourseForm from '@/components/courseForm/CourseForm'
 import { Button } from '@/components/ui/button'
 import { SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar'
-import { Trash2, Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import useCourseStore from '@/stores/useCourseStore'
+import DeleteCourseDialog from './DeleteCourseDialog'
 
 const CourseList = () => {
   const { courses, deleteCourse, toggleCourseVisibility } = useCourseStore()
@@ -55,14 +56,10 @@ const CourseList = () => {
                 )}
               </Button>
               <CourseForm existingCourse={course} />
-              <Button
-                variant='ghost'
-                size='icon'
-                className='h-7 w-7 dark:hover:bg-neutral-900/80 cursor-pointer'
-                onClick={() => deleteCourse(course.name)}
-              >
-                <Trash2 className='h-4 w-4 text-neutral-600' />
-              </Button>
+              <DeleteCourseDialog
+                courseName={course.name}
+                onConfirm={() => deleteCourse(course.name)}
+              />
             </div>
           </div>
         </SidebarMenuItem>
