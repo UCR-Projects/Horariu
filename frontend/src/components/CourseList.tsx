@@ -61,7 +61,7 @@ const CourseList = () => {
                   <Button
                     variant='ghost'
                     size='icon'
-                    className='h-4 w-4 p-0 hover:bg-transparent flex-shrink-0'
+                    className='h-4 w-4 p-0 hover:bg-transparent flex-shrink-0 cursor-pointer'
                   >
                     {isExpanded ? (
                       <ChevronDown className='h-3 w-3 text-neutral-500' />
