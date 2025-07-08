@@ -46,12 +46,12 @@ export function GroupsList({
             value={`group-${index}`}
             className='border-b last:border-b-0'
           >
-            <AccordionTrigger
-              className={`px-3 py-2 transition-colors group cursor-pointer ${
-                !isVisible ? 'opacity-50' : ''
-              }`}
-            >
-              <div className='flex items-center justify-between w-full'>
+            <div className='flex items-center justify-between w-full'>
+              <AccordionTrigger
+                className={`flex-1 px-3 py-2 transition-colors group cursor-pointer ${
+                  !isVisible ? 'opacity-50' : ''
+                }`}
+              >
                 <span
                   className={`text-sm font-medium transition-colors ${
                     isVisible
@@ -61,48 +61,48 @@ export function GroupsList({
                 >
                   {group.name}
                 </span>
-                <div className='flex items-center space-x-2'>
-                  <span
-                    className='inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors'
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      onToggleGroupVisibility(index)
-                    }}
-                  >
-                    {isVisible ? (
-                      <Eye className='h-4 w-4 text-muted-foreground' />
-                    ) : (
-                      <EyeOff className='h-4 w-4 text-muted-foreground' />
-                    )}
-                  </span>
+              </AccordionTrigger>
+              <div className='flex items-center space-x-2 px-3'>
+                <span
+                  className='inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer'
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onToggleGroupVisibility(index)
+                  }}
+                >
+                  {isVisible ? (
+                    <Eye className='h-4 w-4 text-muted-foreground' />
+                  ) : (
+                    <EyeOff className='h-4 w-4 text-muted-foreground' />
+                  )}
+                </span>
 
-                  <span
-                    className='inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors'
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      onEditGroup(index)
-                    }}
-                  >
-                    <Edit2 className='h-4 w-4 text-muted-foreground' />
-                  </span>
+                <span
+                  className='inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer'
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onEditGroup(index)
+                  }}
+                >
+                  <Edit2 className='h-4 w-4 text-muted-foreground' />
+                </span>
 
-                  <span
-                    className='inline-flex items-center justify-center h-7 w-7 rounded-md transition-colors'
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <DeleteConfirmationDialog
-                      itemName={group.name}
-                      onConfirm={() => onDeleteGroup(index)}
-                      title={t('confirmDeleteGroup')}
-                      description={t('confirmDeleteGroupDescription', {
-                        itemName: group.name,
-                      })}
-                      triggerClassName='hover:bg-accent'
-                    />
-                  </span>
-                </div>
+                <span
+                  className='inline-flex items-center justify-center h-7 w-7 rounded-md transition-colors'
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <DeleteConfirmationDialog
+                    itemName={group.name}
+                    onConfirm={() => onDeleteGroup(index)}
+                    title={t('confirmDeleteGroup')}
+                    description={t('confirmDeleteGroupDescription', {
+                      itemName: group.name,
+                    })}
+                    triggerClassName='hover:bg-accent'
+                  />
+                </span>
               </div>
-            </AccordionTrigger>
+            </div>
 
             <AccordionContent
               className={`px-4 py-2 bg-muted/50 text-sm ${
