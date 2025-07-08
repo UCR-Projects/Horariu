@@ -25,35 +25,35 @@ export function AppSidebar() {
       <div className={isMobile ? 'invisible sm:visible' : ''}>
         <Sidebar collapsible='icon'>
           {!isMobile && (
-            <div className='flex items-center justify-end px-4 py-2'>
+            <div className='flex items-center justify-end px-1 py-2'>
               <SidebarTrigger className='cursor-pointer' />
             </div>
           )}
 
-          <SidebarHeader className='text-xl font-bold px-5 py-2 group-data-[collapsible=icon]:hidden'>
+          <SidebarHeader className='text-xl font-bold px-3 py-2 group-data-[collapsible=icon]:hidden'>
             {t('course')}s
           </SidebarHeader>
 
           <SidebarContent>
             <SidebarGroup className='group-data-[collapsible=icon]:hidden'>
-              <SidebarGroupContent className='px-3'>
+              <SidebarGroupContent className='px-1'>
                 <CourseForm />
               </SidebarGroupContent>
             </SidebarGroup>
 
             <SidebarGroup className='flex-1 overflow-hidden'>
-              <SidebarGroupLabel className='flex items-center justify-between px-3 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-400 group-data-[collapsible=icon]:hidden'>
+              <SidebarGroupLabel className='flex items-center justify-between px-2 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-400 group-data-[collapsible=icon]:hidden'>
                 <span>{t('coursesList')}</span>
                 <CoursesListOptions />
               </SidebarGroupLabel>
 
-              <SidebarGroupContent className='overflow-y-auto px-0.5 py-3'>
+              <SidebarGroupContent className='overflow-y-auto py-3'>
                 <CourseList />
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
 
-          <SidebarFooter className='px-4 py-2 group-data-[collapsible=icon]:hidden'>
+          <SidebarFooter className='px-2 py-2 group-data-[collapsible=icon]:hidden'>
             <LanguageToggleButton />
           </SidebarFooter>
         </Sidebar>

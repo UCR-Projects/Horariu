@@ -11,6 +11,7 @@ export interface Schedule {
 export interface Group {
   name: string
   schedule: Schedule
+  isActive: boolean
 }
 
 export interface Course {

@@ -75,6 +75,7 @@ export const createCourseSchema = (currentCourseName?: string) =>
         z.object({
           name: z.string(),
           schedule: z.array(scheduleItemSchema),
+          isActive: z.boolean().default(true), // Agregado para manejar visibilidad
         })
       )
       .nonempty({ message: validMsgs.course.groupRequired }),

@@ -18,6 +18,7 @@ interface CourseState {
   updateCourse: (oldCourseName: string, course: Course) => void
 
   toggleCourseVisibility: (courseName: string) => void
+  toggleGroupVisibility: (courseName: string, groupName: string) => void
 
   clearAllCourses: () => void
 
@@ -41,8 +42,17 @@ const useCourseStore = create<CourseState>()(
             return state
           }
 
+          const courseWithActiveGroups = {
+            ...courseData,
+            isActive: true,
+            groups: courseData.groups.map((group) => ({
+              ...group,
+              isActive: group.isActive !== undefined ? group.isActive : true,
+            })),
+          }
+
           return {
-            courses: [...state.courses, { ...courseData, isActive: true }],
+            courses: [...state.courses, courseWithActiveGroups],
           }
         }),
 
@@ -59,15 +69,22 @@ const useCourseStore = create<CourseState>()(
             (course) => course.name !== oldCourseName
           )
 
+          const courseWithActiveGroups = {
+            ...updatedCourse,
+            groups: updatedCourse.groups.map((group) => ({
+              ...group,
+              isActive: group.isActive !== undefined ? group.isActive : true,
+            })),
+          }
+
           return {
-            courses: [...filteredCourses, updatedCourse],
+            courses: [...filteredCourses, courseWithActiveGroups],
             selectedCourse:
               state.selectedCourse?.name === oldCourseName
-                ? updatedCourse
+                ? courseWithActiveGroups
                 : state.selectedCourse,
           }
         }),
-
       toggleCourseVisibility: (courseName) =>
         set((state) => ({
           courses: state.courses.map((course) =>
@@ -75,6 +92,32 @@ const useCourseStore = create<CourseState>()(
               ? { ...course, isActive: !course.isActive }
               : course
           ),
+        })),
+      toggleGroupVisibility: (courseName, groupName) =>
+        set((state) => ({
+          courses: state.courses.map((course) =>
+            course.name === courseName
+              ? {
+                  ...course,
+                  groups: course.groups.map((group) =>
+                    group.name === groupName
+                      ? { ...group, isActive: !group.isActive }
+                      : group
+                  ),
+                }
+              : course
+          ),
+          selectedCourse:
+            state.selectedCourse?.name === courseName
+              ? {
+                  ...state.selectedCourse,
+                  groups: state.selectedCourse.groups.map((group) =>
+                    group.name === groupName
+                      ? { ...group, isActive: !group.isActive }
+                      : group
+                  ),
+                }
+              : state.selectedCourse,
         })),
 
       clearAllCourses: () =>
@@ -91,6 +134,28 @@ const useCourseStore = create<CourseState>()(
     }),
     {
       name: 'course-storage',
+      migrate: (persistedState: unknown, version: number) => {
+        if (version === 0) {
+          const state = persistedState as Partial<CourseState>
+          return {
+            ...state,
+            courses:
+              state.courses?.map((course) => ({
+                ...course,
+                isActive:
+                  course.isActive !== undefined ? course.isActive : true,
+                groups:
+                  course.groups?.map((group) => ({
+                    ...group,
+                    isActive:
+                      group.isActive !== undefined ? group.isActive : true,
+                  })) || [],
+              })) || [],
+          }
+        }
+        return persistedState as CourseState
+      },
+      version: 1,
       storage: createJSONStorage(() => localStorage),
     }
   )

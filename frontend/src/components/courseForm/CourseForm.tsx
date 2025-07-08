@@ -69,6 +69,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
         groups:
           existingCourse.groups.map((group) => ({
             name: group.name,
+            isActive: group.isActive ?? true,
             schedule: DAYS.map((day) => {
               const daySchedule = group.schedule[day]
               return {
@@ -156,6 +157,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
         startTime: schedule.active ? schedule.startTime : '----',
         endTime: schedule.active ? schedule.endTime : '----',
       })),
+      isActive: true,
     }
 
     const currentGroups = courseForm.getValues('groups') || []
@@ -181,6 +183,19 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
       groupForm.reset()
     }
     setActiveStep('course')
+  }
+
+  const handleToggleGroupVisibility = (index: number) => {
+    const currentGroups = courseForm.getValues('groups')
+    const updatedGroups = currentGroups.map((group, i) =>
+      i === index ? { ...group, isActive: !group.isActive } : group
+    )
+
+    courseForm.setValue(
+      'groups',
+      updatedGroups as CourseFormValuesType['groups'],
+      { shouldValidate: true }
+    )
   }
 
   const handleEditGroup = (index: number) => {
@@ -210,6 +225,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
           }
           return acc
         }, {} as Schedule),
+      isActive: group.isActive,
     }))
 
     if (!isEditingCourse) {
@@ -242,6 +258,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
         onAddGroup={() => setActiveStep('group')}
         onEditGroup={handleEditGroup}
         onDeleteGroup={handleDeleteGroup}
+        onToggleGroupVisibility={handleToggleGroupVisibility}
         onCancel={() => setIsDialogOpen(false)}
       />
     ) : (
