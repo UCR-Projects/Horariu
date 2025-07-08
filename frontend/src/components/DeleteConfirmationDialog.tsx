@@ -9,7 +9,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
 import { Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
@@ -38,13 +37,11 @@ const DeleteConfirmationDialog = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button
-          variant='ghost'
-          size='icon'
-          className={`h-7 w-7 dark:hover:bg-neutral-900/80 cursor-pointer ${triggerClassName || ''}`}
+        <span
+          className={`inline-flex items-center justify-center h-7 w-7 rounded-md transition-colors cursor-pointer ${triggerClassName || ''}`}
         >
           <Trash2 className='h-4 w-4 text-neutral-600' />
-        </Button>
+        </span>
       </AlertDialogTrigger>
 
       <AlertDialogContent>
