@@ -110,36 +110,35 @@ const CourseList = () => {
             {isExpanded && hasGroups && (
               <div className='ml-6 mt-1 space-y-1'>
                 {course.groups.map((group) => (
-                  <div key={group.name} className='flex items-center'>
-                    <div
-                      className={`flex items-center justify-between px-3 py-1 rounded-md text-sm transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800 flex-1 mr-8 ${
-                        !group.isActive ? 'opacity-50' : ''
-                      }`}
-                    >
-                      <div className='flex items-center gap-3 min-w-0 flex-1'>
-                        <div className='h-2 w-2 rounded-full bg-gradient-to-r from-neutral-400 to-neutral-500 opacity-30' />
+                  <div
+                    key={group.name}
+                    className={`flex items-center justify-between px-3 py-1 rounded-md text-sm transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800 ${
+                      !group.isActive ? 'opacity-50' : ''
+                    }`}
+                  >
+                    <div className='flex items-center gap-3 min-w-0 flex-1'>
+                      <div className='h-2 w-2 rounded-full bg-gradient-to-r from-neutral-400 to-neutral-500 opacity-30' />
 
-                        <span
-                          className={`truncate text-xs font-normal ${!group.isActive ? 'line-through text-neutral-400' : 'text-neutral-600 dark:text-neutral-400'}`}
-                        >
-                          {group.name}
-                        </span>
-                      </div>
-                      <Button
-                        variant='ghost'
-                        size='icon'
-                        className='h-6 w-6 hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors'
-                        onClick={() =>
-                          toggleGroupVisibility(course.name, group.name)
-                        }
+                      <span
+                        className={`truncate max-w-full text-xs font-normal ${!group.isActive ? 'line-through text-neutral-400' : 'text-neutral-600 dark:text-neutral-400'}`}
                       >
-                        {group.isActive ? (
-                          <Eye className='h-3 w-3 text-neutral-600' />
-                        ) : (
-                          <EyeOff className='h-3 w-3 text-neutral-600' />
-                        )}
-                      </Button>
+                        {group.name}
+                      </span>
                     </div>
+                    <Button
+                      variant='ghost'
+                      size='icon'
+                      className='h-6 w-6 hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors flex-shrink-0'
+                      onClick={() =>
+                        toggleGroupVisibility(course.name, group.name)
+                      }
+                    >
+                      {group.isActive ? (
+                        <Eye className='h-3 w-3 text-neutral-600' />
+                      ) : (
+                        <EyeOff className='h-3 w-3 text-neutral-600' />
+                      )}
+                    </Button>
                   </div>
                 ))}
               </div>
