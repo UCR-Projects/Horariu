@@ -36,18 +36,18 @@ export function AppSidebar() {
 
           <SidebarContent>
             <SidebarGroup className='group-data-[collapsible=icon]:hidden'>
-              <SidebarGroupContent className='px-4'>
+              <SidebarGroupContent className='px-3'>
                 <CourseForm />
               </SidebarGroupContent>
             </SidebarGroup>
 
             <SidebarGroup className='flex-1 overflow-hidden'>
-              <SidebarGroupLabel className='flex items-center justify-between px-4 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-400 group-data-[collapsible=icon]:hidden'>
+              <SidebarGroupLabel className='flex items-center justify-between px-3 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-400 group-data-[collapsible=icon]:hidden'>
                 <span>{t('coursesList')}</span>
                 <CoursesListOptions />
               </SidebarGroupLabel>
 
-              <SidebarGroupContent className='overflow-y-auto px-1.5 py-3'>
+              <SidebarGroupContent className='overflow-y-auto px-0.5 py-3'>
                 <CourseList />
               </SidebarGroupContent>
             </SidebarGroup>

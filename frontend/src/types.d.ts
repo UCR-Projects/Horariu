@@ -17,6 +17,7 @@ export interface Course {
   name: string
   color: string
   groups: Group[]
+  isActive: boolean
 }
 
 export interface TailwindColor {

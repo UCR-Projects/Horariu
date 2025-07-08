@@ -30,7 +30,7 @@
     }
   },
   "scheduleSuccess": "Schedules generated successfully",
-  "scheduleError": "Error generating schedule",
+  "scheduleError": "Error generating schedules",
   "scheduleNotPossible": "No possible combinations with the selected courses and schedules.",
   "hours": "Hours",
   "course": "Course",
@@ -38,6 +38,7 @@
   "noCoursesYet": "No courses added yet",
   "clearAllCourses": "Clear All Courses",
   "mustAddACourse": "You must add a course first",
+  "mustHaveActiveCourses": "You must have at least one active course",
   "addGroup": "Add Group",
   "addCourse": "Add Course",
   "group": "Group",
