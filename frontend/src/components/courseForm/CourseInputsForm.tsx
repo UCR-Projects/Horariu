@@ -33,6 +33,7 @@ interface CourseFormProps {
   form: UseFormReturn<CourseFormValuesType>
   isEditingCourse: boolean
   groups: CourseFormValuesType['groups']
+  onToggleGroupVisibility: (index: number) => void
   onSubmit: (values: CourseFormValuesType) => void
   onAddGroup: () => void
   onEditGroup: (index: number) => void
@@ -49,6 +50,7 @@ export function CourseInputsForm({
   onEditGroup,
   onDeleteGroup,
   onCancel,
+  onToggleGroupVisibility,
 }: CourseFormProps) {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
@@ -120,6 +122,7 @@ export function CourseInputsForm({
           groups={groups}
           onEditGroup={onEditGroup}
           onDeleteGroup={onDeleteGroup}
+          onToggleGroupVisibility={onToggleGroupVisibility}
         />
       </form>
     </Form>

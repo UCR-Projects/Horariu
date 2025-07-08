@@ -4,7 +4,7 @@ import { SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar'
 import { Eye, EyeOff } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import useCourseStore from '@/stores/useCourseStore'
-import DeleteCourseDialog from './DeleteCourseDialog'
+import DeleteCourseDialog from './DeleteConfirmationDialog'
 
 const CourseList = () => {
   const { courses, deleteCourse, toggleCourseVisibility } = useCourseStore()
@@ -57,8 +57,12 @@ const CourseList = () => {
               </Button>
               <CourseForm existingCourse={course} />
               <DeleteCourseDialog
-                courseName={course.name}
+                itemName={course.name}
                 onConfirm={() => deleteCourse(course.name)}
+                title={t('confirmDeleteCourse')}
+                description={t('confirmDeleteCourseDescription', {
+                  itemName: course.name,
+                })}
               />
             </div>
           </div>

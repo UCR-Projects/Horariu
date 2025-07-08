@@ -16,10 +16,17 @@ const GenerateScheduleButton = () => {
   const { isLoading } = useScheduleStore()
   const { courses } = useCourseStore()
 
-  const activeCourses = courses.filter((course) => course.isActive)
+  const activeCoursesWithActiveGroups = courses
+    .filter((course) => course.isActive)
+    .map((course) => ({
+      ...course,
+      groups: course.groups.filter((group) => group.isActive),
+    }))
+    .filter((course) => course.groups.length > 0)
+
   const hasCourses = courses.length > 0
-  const hasActiveCourses = activeCourses.length > 0
-  const isDisabled = !hasActiveCourses || isLoading
+  const hasActiveCoursesWithGroups = activeCoursesWithActiveGroups.length > 0
+  const isDisabled = !hasActiveCoursesWithGroups || isLoading
 
   const buttonContent = isLoading ? (
     <>
@@ -35,7 +42,7 @@ const GenerateScheduleButton = () => {
 
   const button = (
     <Button
-      onClick={() => generateSchedule(activeCourses)}
+      onClick={() => generateSchedule(activeCoursesWithActiveGroups)}
       disabled={isDisabled}
       className='w-full md:w-auto px-4 py-2 font-medium disabled:text-neutral-400 disabled:bg-neutral-900 cursor-pointer'
     >
@@ -43,27 +50,26 @@ const GenerateScheduleButton = () => {
     </Button>
   )
 
-  if (hasCourses && !hasActiveCourses) {
-    return (
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <span className='w-full md:w-auto'>{button}</span>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>{t('mustHaveActiveCourses')}</p>
-        </TooltipContent>
-      </Tooltip>
-    )
+  let tooltipMessage = ''
+  if (!hasCourses) {
+    tooltipMessage = t('mustAddACourse')
+  } else if (!hasActiveCoursesWithGroups) {
+    const activeCourses = courses.filter((c) => c.isActive)
+    if (activeCourses.length === 0) {
+      tooltipMessage = t('mustHaveActiveCourses')
+    } else {
+      tooltipMessage = t('mustHaveActiveGroups')
+    }
   }
 
-  if (!hasCourses) {
+  if (tooltipMessage) {
     return (
       <Tooltip>
         <TooltipTrigger asChild>
           <span className='w-full md:w-auto'>{button}</span>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{t('mustAddACourse')}</p>
+          <p>{tooltipMessage}</p>
         </TooltipContent>
       </Tooltip>
     )

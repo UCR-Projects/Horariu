@@ -13,15 +13,26 @@ import { Button } from '@/components/ui/button'
 import { Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
-interface DeleteCourseDialogProps {
-  courseName: string
+interface DeleteConfirmationDialogProps {
+  itemName: string
   onConfirm: () => void
+  triggerClassName?: string
+
+  title?: string
+  description?: string
+  cancelLabel?: string
+  confirmLabel?: string
 }
 
-const DeleteCourseDialog = ({
-  courseName,
+const DeleteConfirmationDialog = ({
+  itemName,
   onConfirm,
-}: DeleteCourseDialogProps) => {
+  title,
+  description,
+  cancelLabel,
+  confirmLabel,
+  triggerClassName,
+}: DeleteConfirmationDialogProps) => {
   const { t } = useTranslation()
 
   return (
@@ -30,7 +41,7 @@ const DeleteCourseDialog = ({
         <Button
           variant='ghost'
           size='icon'
-          className='h-7 w-7 dark:hover:bg-neutral-900/80 cursor-pointer'
+          className={`h-7 w-7 dark:hover:bg-neutral-900/80 cursor-pointer ${triggerClassName || ''}`}
         >
           <Trash2 className='h-4 w-4 text-neutral-600' />
         </Button>
@@ -38,20 +49,20 @@ const DeleteCourseDialog = ({
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t('confirmDeleteCourse')}</AlertDialogTitle>
+          <AlertDialogTitle>{title || t('confirmDeleteItem')}</AlertDialogTitle>
           <AlertDialogDescription>
-            {t('confirmDeleteCourseDescription', { courseName })}
+            {description || t('confirmDeleteItemDescription', { itemName })}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className='cursor-pointer'>
-            {t('cancel')}
+            {cancelLabel || t('cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
             className='bg-red-600 hover:bg-red-700 focus:ring-red-600 cursor-pointer dark:text-neutral-50'
           >
-            {t('delete')}
+            {confirmLabel || t('delete')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -59,4 +70,4 @@ const DeleteCourseDialog = ({
   )
 }
 
-export default DeleteCourseDialog
+export default DeleteConfirmationDialog
