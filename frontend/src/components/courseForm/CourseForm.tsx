@@ -217,12 +217,14 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
         name: values.courseName,
         color: values.color,
         groups: formattedGroups,
+        isActive: true,
       })
     } else {
       updateCourse(existingCourse.name, {
         name: values.courseName,
         color: values.color,
         groups: formattedGroups,
+        isActive: existingCourse.isActive,
       })
     }
 

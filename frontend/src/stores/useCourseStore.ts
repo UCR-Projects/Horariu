@@ -17,6 +17,8 @@ interface CourseState {
 
   updateCourse: (oldCourseName: string, course: Course) => void
 
+  toggleCourseVisibility: (courseName: string) => void
+
   clearAllCourses: () => void
 
   loadSampleData: (datasetType: SampleCoursesSetType) => void
@@ -40,9 +42,10 @@ const useCourseStore = create<CourseState>()(
           }
 
           return {
-            courses: [...state.courses, courseData],
+            courses: [...state.courses, { ...courseData, isActive: true }],
           }
         }),
+
       deleteCourse: (name) =>
         set((state) => ({
           courses: state.courses.filter((course) => course.name !== name),
@@ -64,6 +67,15 @@ const useCourseStore = create<CourseState>()(
                 : state.selectedCourse,
           }
         }),
+
+      toggleCourseVisibility: (courseName) =>
+        set((state) => ({
+          courses: state.courses.map((course) =>
+            course.name === courseName
+              ? { ...course, isActive: !course.isActive }
+              : course
+          ),
+        })),
 
       clearAllCourses: () =>
         set({

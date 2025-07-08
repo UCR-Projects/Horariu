@@ -12,6 +12,7 @@ export const sampleCoursesSingleOption: Course[] = [
         schedule: { L: { start: '08:00', end: '09:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Historia',
@@ -22,6 +23,7 @@ export const sampleCoursesSingleOption: Course[] = [
         schedule: { M: { start: '10:00', end: '11:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Literatura',
@@ -32,6 +34,7 @@ export const sampleCoursesSingleOption: Course[] = [
         schedule: { K: { start: '12:00', end: '13:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Biología',
@@ -42,6 +45,7 @@ export const sampleCoursesSingleOption: Course[] = [
         schedule: { J: { start: '14:00', end: '15:50' } },
       },
     ],
+    isActive: true,
   },
 ]
 
@@ -65,6 +69,7 @@ export const sampleCoursesMultipleOptions: Course[] = [
         },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Estructuras de Datos',
@@ -79,6 +84,7 @@ export const sampleCoursesMultipleOptions: Course[] = [
         schedule: { J: { start: '12:00', end: '13:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Bases de Datos',
@@ -93,6 +99,7 @@ export const sampleCoursesMultipleOptions: Course[] = [
         schedule: { V: { start: '14:00', end: '15:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Sistemas Operativos',
@@ -107,6 +114,7 @@ export const sampleCoursesMultipleOptions: Course[] = [
         schedule: { V: { start: '16:00', end: '17:50' } },
       },
     ],
+    isActive: true,
   },
 ]
 
@@ -133,10 +141,11 @@ export const sampleCoursesHeavy: Course[] = [
         name: 'Grupo 3',
         schedule: {
           K: { start: '12:00', end: '13:50' },
-          V: { start: '12:00', end: '13:50' },
+          V: { start: '12:00', end: '15:50' },
         },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Física II',
@@ -151,6 +160,7 @@ export const sampleCoursesHeavy: Course[] = [
         schedule: { M: { start: '15:00', end: '16:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Química Orgánica',
@@ -165,6 +175,7 @@ export const sampleCoursesHeavy: Course[] = [
         schedule: { V: { start: '17:00', end: '18:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Economía',
@@ -179,6 +190,7 @@ export const sampleCoursesHeavy: Course[] = [
         schedule: { K: { start: '19:00', end: '20:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Historia del Arte',
@@ -193,6 +205,7 @@ export const sampleCoursesHeavy: Course[] = [
         schedule: { J: { start: '21:00', end: '22:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Literatura Contemporánea',
@@ -207,6 +220,7 @@ export const sampleCoursesHeavy: Course[] = [
         schedule: { L: { start: '20:00', end: '21:50' } },
       },
     ],
+    isActive: true,
   },
 ]
 
@@ -220,6 +234,7 @@ export const sampleCoursesConflict: Course[] = [
         schedule: { L: { start: '08:00', end: '09:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Curso B',
@@ -230,6 +245,7 @@ export const sampleCoursesConflict: Course[] = [
         schedule: { L: { start: '08:00', end: '09:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Curso C',
@@ -240,6 +256,7 @@ export const sampleCoursesConflict: Course[] = [
         schedule: { L: { start: '08:00', end: '09:50' } },
       },
     ],
+    isActive: true,
   },
   {
     name: 'Curso D',
@@ -250,6 +267,7 @@ export const sampleCoursesConflict: Course[] = [
         schedule: { L: { start: '08:00', end: '09:50' } },
       },
     ],
+    isActive: true,
   },
 ]
 

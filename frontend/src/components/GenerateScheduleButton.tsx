@@ -16,8 +16,10 @@ const GenerateScheduleButton = () => {
   const { isLoading } = useScheduleStore()
   const { courses } = useCourseStore()
 
+  const activeCourses = courses.filter((course) => course.isActive)
   const hasCourses = courses.length > 0
-  const isDisabled = !hasCourses || isLoading
+  const hasActiveCourses = activeCourses.length > 0
+  const isDisabled = !hasActiveCourses || isLoading
 
   const buttonContent = isLoading ? (
     <>
@@ -33,13 +35,26 @@ const GenerateScheduleButton = () => {
 
   const button = (
     <Button
-      onClick={() => generateSchedule(courses)}
+      onClick={() => generateSchedule(activeCourses)}
       disabled={isDisabled}
       className='w-full md:w-auto px-4 py-2 font-medium disabled:text-neutral-400 disabled:bg-neutral-900 cursor-pointer'
     >
       {buttonContent}
     </Button>
   )
+
+  if (hasCourses && !hasActiveCourses) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span className='w-full md:w-auto'>{button}</span>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{t('mustHaveActiveCourses')}</p>
+        </TooltipContent>
+      </Tooltip>
+    )
+  }
 
   if (!hasCourses) {
     return (
