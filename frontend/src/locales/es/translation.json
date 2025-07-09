@@ -110,5 +110,29 @@
   "seeCourses": "Ver Cursos",
   "deleteCourses": "Eliminar Cursos",
   "showingResults": "Mostrando {{start}} - {{end}} de {{total}} combinaciones",
-  "pageInfo": "Página {{current}} de {{total}}"
+  "pageInfo": "Página {{current}} de {{total}}",
+
+  "colors": {
+    "Slate": "Pizarra",
+    "Zinc": "Zinc",
+    "Neutral": "Neutral",
+    "Stone": "Piedra",
+    "Red": "Rojo",
+    "Orange": "Naranja",
+    "Amber": "Ámbar",
+    "Yellow": "Amarillo",
+    "Lime": "Lima",
+    "Green": "Verde",
+    "Emerald": "Esmeralda",
+    "Teal": "Verde Azulado",
+    "Cyan": "Cian",
+    "Sky": "Cielo",
+    "Blue": "Azul",
+    "Indigo": "Índigo",
+    "Violet": "Violeta",
+    "Purple": "Púrpura",
+    "Fuchsia": "Fucsia",
+    "Pink": "Rosa",
+    "Rose": "Rosa Claro"
+  }
 }
