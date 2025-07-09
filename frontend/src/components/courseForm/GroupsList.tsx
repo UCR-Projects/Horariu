@@ -46,24 +46,22 @@ export function GroupsList({
             value={`group-${index}`}
             className='border-b last:border-b-0'
           >
-            <div className='flex items-center justify-between w-full'>
-              <AccordionTrigger
-                className={`flex-1 px-3 py-2 transition-colors group cursor-pointer ${
-                  !isVisible ? 'opacity-50' : ''
+            <AccordionTrigger
+              className={`flex items-center w-full px-3 py-2 transition-colors group cursor-pointer ${
+                !isVisible ? 'opacity-50' : ''
+              }`}
+            >
+              <span
+                className={`text-sm font-medium transition-colors flex-1 text-left ${
+                  isVisible
+                    ? 'text-sky-600'
+                    : 'text-muted-foreground line-through'
                 }`}
               >
-                <span
-                  className={`text-sm font-medium transition-colors ${
-                    isVisible
-                      ? 'text-sky-600'
-                      : 'text-muted-foreground line-through'
-                  }`}
-                >
-                  {group.name}
-                </span>
-              </AccordionTrigger>
-              <div className='flex items-center space-x-2 px-3'>
-                <span
+                {group.name}
+              </span>
+              <div className='flex items-center space-x-2 ml-auto'>
+                <div
                   className='inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer'
                   onClick={(e) => {
                     e.stopPropagation()
@@ -75,9 +73,9 @@ export function GroupsList({
                   ) : (
                     <EyeOff className='h-4 w-4 text-neutral-600' />
                   )}
-                </span>
+                </div>
 
-                <span
+                <div
                   className='inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer'
                   onClick={(e) => {
                     e.stopPropagation()
@@ -85,9 +83,9 @@ export function GroupsList({
                   }}
                 >
                   <Edit2 className='h-4 w-4 text-neutral-600' />
-                </span>
+                </div>
 
-                <span
+                <div
                   className='inline-flex items-center justify-center h-7 w-7 rounded-md transition-colors'
                   onClick={(e) => e.stopPropagation()}
                 >
@@ -100,9 +98,9 @@ export function GroupsList({
                     })}
                     triggerClassName='hover:bg-accent'
                   />
-                </span>
+                </div>
               </div>
-            </div>
+            </AccordionTrigger>
 
             <AccordionContent
               className={`px-4 py-2 bg-muted/50 text-sm ${
