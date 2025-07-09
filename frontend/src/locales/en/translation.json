@@ -113,6 +113,30 @@
   "seeCourses": "See Courses",
   "deleteCourses": "Delete Courses",
   "showingResults": "Showing {{start}} - {{end}} of {{total}} combinations",
-  "pageInfo": "Page {{current}} of {{total}}"
+  "pageInfo": "Page {{current}} of {{total}}",
+
+  "colors": {
+    "Amber": "Amber",
+    "Blue": "Blue",
+    "Cyan": "Cyan",
+    "Emerald": "Emerald",
+    "Fuchsia": "Fuchsia",
+    "Green": "Green",
+    "Indigo": "Indigo",
+    "Lime": "Lime",
+    "Neutral": "Neutral",
+    "Orange": "Orange",
+    "Pink": "Pink",
+    "Purple": "Purple",
+    "Red": "Red",
+    "Rose": "Rose",
+    "Sky": "Sky",
+    "Slate": "Slate",
+    "Stone": "Stone",
+    "Teal": "Teal",
+    "Violet": "Violet",
+    "Yellow": "Yellow",
+    "Zinc": "Zinc"
+  }
 
 }

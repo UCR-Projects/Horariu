@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Check } from 'lucide-react'
 import { COLORS } from '@/utils/constants'
 import { TailwindColor } from '@/types'
+import { useTranslation } from 'react-i18next'
 
 interface ColorPickerProps {
   onColorChange?: (color: string) => void
@@ -21,6 +22,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   colorValue,
 }) => {
   const [open, setOpen] = useState(false)
+  const { t } = useTranslation()
 
   const selectedColor =
     COLORS.find((color) => color.value === colorValue) || COLORS[4]
@@ -48,7 +50,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                   selectedColor.class
                 )}
               />
-              <span>{selectedColor.name}</span>
+              <span>{t(`colors.${selectedColor.name}`)}</span>
             </div>
           </Button>
         </PopoverTrigger>
