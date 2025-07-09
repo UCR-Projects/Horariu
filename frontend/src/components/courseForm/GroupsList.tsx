@@ -71,9 +71,9 @@ export function GroupsList({
                   }}
                 >
                   {isVisible ? (
-                    <Eye className='h-4 w-4 text-muted-foreground' />
+                    <Eye className='h-4 w-4 text-neutral-600' />
                   ) : (
-                    <EyeOff className='h-4 w-4 text-muted-foreground' />
+                    <EyeOff className='h-4 w-4 text-neutral-600' />
                   )}
                 </span>
 
@@ -84,7 +84,7 @@ export function GroupsList({
                     onEditGroup(index)
                   }}
                 >
-                  <Edit2 className='h-4 w-4 text-muted-foreground' />
+                  <Edit2 className='h-4 w-4 text-neutral-600' />
                 </span>
 
                 <span
