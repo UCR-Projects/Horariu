@@ -1,0 +1,3766 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScheduleService - generateAllSchedules ScheduleService - generateAllSchedules (snapshot test) should generate 48 combinations with no conflicts and match snapshot 1`] = `
+[
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1A",
+        "schedule": {
+          "L": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2A",
+        "schedule": {
+          "M": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3A",
+        "schedule": {
+          "K": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4A",
+        "schedule": {
+          "J": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5A",
+        "schedule": {
+          "V": [
+            {
+              "end": "09:50",
+              "start": "08:00",
+            },
+            {
+              "end": "14:50",
+              "start": "13:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5B",
+        "schedule": {
+          "V": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  [
+    {
+      "color": "bg-red-500",
+      "courseName": "Curso 1",
+      "group": {
+        "name": "Grupo 1B",
+        "schedule": {
+          "L": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-blue-500",
+      "courseName": "Curso 2",
+      "group": {
+        "name": "Grupo 2B",
+        "schedule": {
+          "M": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-green-500",
+      "courseName": "Curso 3",
+      "group": {
+        "name": "Grupo 3B",
+        "schedule": {
+          "K": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-yellow-500",
+      "courseName": "Curso 4",
+      "group": {
+        "name": "Grupo 4B",
+        "schedule": {
+          "J": [
+            {
+              "end": "11:50",
+              "start": "10:00",
+            },
+          ],
+        },
+      },
+    },
+    {
+      "color": "bg-purple-500",
+      "courseName": "Curso 5",
+      "group": {
+        "name": "Grupo 5C",
+        "schedule": {
+          "V": [
+            {
+              "end": "13:50",
+              "start": "12:00",
+            },
+          ],
+        },
+      },
+    },
+  ],
+]
+`;
