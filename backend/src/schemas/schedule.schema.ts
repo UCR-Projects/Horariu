@@ -7,7 +7,7 @@ export const timeSlotSchema = z.object({
 
 export const scheduleSchema = z
   .object({})
-  .catchall(timeSlotSchema)
+  .catchall(z.array(timeSlotSchema).min(1, 'At least one time slot is required per day'))
   .refine(schedule => Object.keys(schedule).length > 0, {
     message: 'At least one schedule entry is required'
   })
