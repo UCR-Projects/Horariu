@@ -36,22 +36,22 @@ describe('Time Slot Schema Validation', () => {
 describe('Schedule Schema Validation', () => {
   it('should validate a correct schedule', () => {
     const result = scheduleSchema.safeParse({
-      L: { start: '08:00', end: '10:00' },
-      M: { start: '14:00', end: '16:00' }
+      L: [{ start: '08:00', end: '10:00' }],
+      M: [{ start: '14:00', end: '16:00' }]
     })
     expect(result.success).toBe(true)
   })
 
   it('should fail if a day key is longer than one character', () => {
     const result = scheduleSchema.safeParse({
-      Monday: { start: '08:00', end: '10:00' }
+      Monday: [{ start: '08:00', end: '10:00' }]
     })
     expect(result.success).toBe(false)
   })
 
   it('should fail if a time slot is invalid', () => {
     const result = scheduleSchema.safeParse({
-      L: { start: '08:60', end: '10:00' }
+      L: [{ start: '08:60', end: '10:00' }]
     })
     expect(result.success).toBe(false)
   })
@@ -62,7 +62,7 @@ describe('Group Schema Validation', () => {
     const result = groupSchema.safeParse({
       name: 'Group A',
       schedule: {
-        L: { start: '09:00', end: '11:00' }
+        L: [{ start: '09:00', end: '11:00' }]
       }
     })
     expect(result.success).toBe(true)
@@ -72,7 +72,7 @@ describe('Group Schema Validation', () => {
     const result = groupSchema.safeParse({
       name: '',
       schedule: {
-        L: { start: '09:00', end: '11:00' }
+        L: [{ start: '09:00', end: '11:00' }]
       }
     })
     expect(result.success).toBe(false)
@@ -95,7 +95,7 @@ describe('Course Schema Validation', () => {
       groups: [
         {
           name: 'Group A',
-          schedule: { L: { start: '08:00', end: '10:00' } }
+          schedule: { L: [{ start: '08:00', end: '10:00' }] }
         }
       ]
     })
@@ -109,7 +109,7 @@ describe('Course Schema Validation', () => {
       groups: [
         {
           name: 'Group A',
-          schedule: { L: { start: '08:00', end: '10:00' } }
+          schedule: { L: [{ start: '08:00', end: '10:00' }] }
         }
       ]
     })
@@ -135,7 +135,7 @@ describe('Generate Schedule Schema Validation', () => {
         groups: [
           {
             name: 'Group A',
-            schedule: { M: { start: '09:00', end: '11:00' } }
+            schedule: { M: [{ start: '09:00', end: '11:00' }] }
           }
         ]
       }
@@ -157,7 +157,7 @@ describe('All Courses Schema Validation', () => {
         color: '#123456',
         group: {
           name: 'Group C',
-          schedule: { V: { start: '14:00', end: '16:00' } }
+          schedule: { V: [{ start: '14:00', end: '16:00' }] }
         }
       }
     ])
@@ -170,7 +170,7 @@ describe('All Courses Schema Validation', () => {
         courseName: 'Chemistry 101',
         group: {
           name: 'Group D',
-          schedule: { S: { start: '12:00', end: '14:00' } }
+          schedule: { S: [{ start: '12:00', end: '14:00' }] }
         }
       }
     ])
