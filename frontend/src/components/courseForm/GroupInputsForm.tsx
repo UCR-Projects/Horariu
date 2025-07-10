@@ -30,6 +30,7 @@ import {
 import { useIsMobile } from '@/hooks/use-mobile'
 import { Day } from '@/types'
 import { useTranslation } from 'react-i18next'
+import { Plus } from 'lucide-react'
 
 interface GroupFormProps {
   form: UseFormReturn<GroupFormValuesType>
@@ -51,16 +52,67 @@ export function GroupInputsForm({
     const currentSchedules = form.getValues('schedules')
     const updatedSchedules = currentSchedules.map((schedule) =>
       schedule.day === day
-        ? { ...schedule, active, startTime: '----', endTime: '----' }
+        ? {
+            ...schedule,
+            active,
+            timeBlocks: active
+              ? schedule.timeBlocks.length > 0
+                ? schedule.timeBlocks
+                : [{ start: '----', end: '----' }]
+              : [],
+          }
         : schedule
     )
     form.setValue('schedules', updatedSchedules)
   }
 
-  const handleTimeChange = (day: Day, startTime: string, endTime: string) => {
+  const handleAddTimeBlock = (day: Day) => {
     const currentSchedules = form.getValues('schedules')
     const updatedSchedules = currentSchedules.map((schedule) =>
-      schedule.day === day ? { ...schedule, startTime, endTime } : schedule
+      schedule.day === day
+        ? {
+            ...schedule,
+            timeBlocks: [
+              ...schedule.timeBlocks,
+              { start: '----', end: '----' },
+            ],
+          }
+        : schedule
+    )
+    form.setValue('schedules', updatedSchedules)
+  }
+
+  const handleRemoveTimeBlock = (day: Day, blockIndex: number) => {
+    const currentSchedules = form.getValues('schedules')
+    const updatedSchedules = currentSchedules.map((schedule) =>
+      schedule.day === day
+        ? {
+            ...schedule,
+            timeBlocks: schedule.timeBlocks.filter(
+              (_, index) => index !== blockIndex
+            ),
+          }
+        : schedule
+    )
+    form.setValue('schedules', updatedSchedules)
+  }
+
+  const handleTimeBlockChange = (
+    day: Day,
+    blockIndex: number,
+    start: string,
+    end: string
+  ) => {
+    const currentSchedules = form.getValues('schedules')
+    const updatedSchedules = currentSchedules.map((schedule) =>
+      schedule.day === day
+        ? {
+            ...schedule,
+            timeBlocks: schedule.timeBlocks.map((block, index) =>
+              index === blockIndex ? { start, end } : block
+            ),
+          }
+        : schedule
     )
     form.setValue('schedules', updatedSchedules)
   }
@@ -132,23 +184,45 @@ export function GroupInputsForm({
             {activeDays.length > 0 ? (
               <div className='border-t pt-2 mt-2'>
                 <div className='p-2 rounded'>
-                  <div className='flex items-center mb-2'>
-                    <div className='w-24'></div>
-                    <div className='w-24 text-xs text-neutral-500 font-medium text-center italic'>
-                      {t('from')}:
-                    </div>
-                    <div className='w-24 text-xs text-neutral-500 font-medium text-center italic'>
-                      {t('to')}:
-                    </div>
-                  </div>
                   {activeDays.map((schedule) => (
-                    <TimeRangeSelector
-                      key={schedule.day}
-                      day={schedule.day}
-                      startTime={schedule.startTime}
-                      endTime={schedule.endTime}
-                      onChange={handleTimeChange}
-                    />
+                    <div key={schedule.day} className='mb-4 last:mb-0'>
+                      <div className='flex items-center justify-between mb-2'>
+                        <h4 className='font-medium text-sm'>
+                          {t(`days.${schedule.day}.name`)}
+                        </h4>
+                        <Button
+                          type='button'
+                          variant='ghost'
+                          size='sm'
+                          onClick={() => handleAddTimeBlock(schedule.day)}
+                          className='text-xs text-neutral-500 cursor-pointer'
+                        >
+                          <Plus className='h-3 w-3' />
+                          {t('addTimeBlock')}
+                        </Button>
+                      </div>
+
+                      {schedule.timeBlocks.length === 0 ? (
+                        <div className='text-xs text-neutral-500 italic text-center border border-dashed rounded p-4'>
+                          {t('noTimeBlocks')}
+                        </div>
+                      ) : (
+                        <div className='space-y-2'>
+                          {schedule.timeBlocks.map((block, blockIndex) => (
+                            <TimeRangeSelector
+                              key={`${schedule.day}-${blockIndex}`}
+                              day={schedule.day}
+                              blockIndex={blockIndex}
+                              startTime={block.start}
+                              endTime={block.end}
+                              onChange={handleTimeBlockChange}
+                              onRemove={handleRemoveTimeBlock}
+                              canRemove={schedule.timeBlocks.length > 1}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>

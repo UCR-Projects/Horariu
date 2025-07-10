@@ -4,11 +4,19 @@ import { validMsgs } from '@/validation/validationMessages'
 import { DAYS } from '@/utils/constants'
 import { Day } from '@/types'
 
-export const scheduleItemSchema = z.object({
+//TODO: DELETE SPANISH MESSAGES AND COMMENTS
+
+// Schema para un bloque de tiempo individual
+export const timeBlockSchema = z.object({
+  start: z.string().min(1, { message: 'Hora de inicio requerida' }),
+  end: z.string().min(1, { message: 'Hora de fin requerida' }),
+})
+
+// Schema para un día con múltiples bloques
+export const dayScheduleSchema = z.object({
   day: z.enum(DAYS as [Day, ...Day[]]),
   active: z.boolean(),
-  startTime: z.string(),
-  endTime: z.string(),
+  timeBlocks: z.array(timeBlockSchema).default([]),
 })
 
 export const createGroupSchema = (
@@ -33,17 +41,21 @@ export const createGroupSchema = (
         { message: validMsgs.group.name.unique }
       ),
     schedules: z
-      .array(scheduleItemSchema)
+      .array(dayScheduleSchema)
       // Check if at least one day is active
       .refine((schedules) => schedules.some((s) => s.active), {
         message: validMsgs.group.schedule.required,
       })
-      // Check if all active schedules have a valid time range
+      // Check if all time blocks have valid times (not '----')
       .refine(
         (schedules) =>
           !schedules
             .filter((s) => s.active)
-            .some((s) => s.startTime === '----' || s.endTime === '----'),
+            .some((s) =>
+              s.timeBlocks.some(
+                (block) => block.start === '----' || block.end === '----'
+              )
+            ),
         { message: validMsgs.group.schedule.timeRange }
       ),
   })
@@ -74,8 +86,8 @@ export const createCourseSchema = (currentCourseName?: string) =>
       .array(
         z.object({
           name: z.string(),
-          schedule: z.array(scheduleItemSchema),
-          isActive: z.boolean().default(true), // Agregado para manejar visibilidad
+          schedule: z.array(dayScheduleSchema),
+          isActive: z.boolean().default(true),
         })
       )
       .nonempty({ message: validMsgs.course.groupRequired }),

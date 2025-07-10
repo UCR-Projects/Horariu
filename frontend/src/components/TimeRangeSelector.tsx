@@ -9,34 +9,45 @@ import { Day } from '@/types'
 import { START_TIMES, END_TIMES } from '@/utils/constants'
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
+import { Button } from './ui/button'
+import { Trash2 } from 'lucide-react'
 
 interface TimeRangeSelectorProps {
   day: Day
+  blockIndex: number
   startTime: string
   endTime: string
-  onChange: (day: Day, startTime: string, endTime: string) => void
+  onChange: (
+    day: Day,
+    blockIndex: number,
+    startTime: string,
+    endTime: string
+  ) => void
+  onRemove: (day: Day, blockIndex: number) => void
+  canRemove: boolean
   disabled?: boolean
 }
 
 const TimeRangeSelector = ({
   day,
+  blockIndex,
   startTime = '----',
   endTime = '----',
   onChange,
+  onRemove,
+  canRemove,
   disabled = false,
 }: TimeRangeSelectorProps) => {
   const { t } = useTranslation()
 
-  // Generate end time options based on selected start time
   const getValidEndTimes = (start: string) => {
     if (!start || start === '----') return ['----']
     const startIndex = START_TIMES.indexOf(start)
-    return ['----', ...END_TIMES.slice(startIndex)] // Add '----' as first option
+    return ['----', ...END_TIMES.slice(startIndex)]
   }
 
   const validEndTimes = getValidEndTimes(startTime)
 
-  // Check if the current endTime is valid for the selected startTime
   const isEndTimeValid = (start: string, end: string) => {
     if (end === '----') return true
     if (start === '----') return false
@@ -47,28 +58,34 @@ const TimeRangeSelector = ({
     return endIndex >= startIndex
   }
 
-  // Validate the initial endTime value when component mounts
-  // or when startTime changes
   useEffect(() => {
     if (startTime !== '----' && endTime !== '----') {
       if (!isEndTimeValid(startTime, endTime)) {
-        onChange(day, startTime, '----')
+        onChange(day, blockIndex, startTime, '----')
       }
     }
-  }, [startTime, endTime, day, onChange])
+  }, [startTime, endTime, day, blockIndex, onChange])
 
   return (
-    <div className='flex items-center gap-2 mb-3'>
-      <div className='w-24 '>{t(`days.${day}.name`)}</div>
+    <div className='flex items-center gap-2 pl-2 mb-2'>
+      <div className='w-20 text-xs text-neutral-500'>
+        {blockIndex === 0 ? t('block') : `${t('block')} ${blockIndex + 1}`}
+      </div>
+
       <Select
         disabled={disabled}
         value={startTime}
         onValueChange={(value) => {
           const newEndTime = isEndTimeValid(value, endTime) ? endTime : '----'
-          onChange(day, value, value === '----' ? '----' : newEndTime)
+          onChange(
+            day,
+            blockIndex,
+            value,
+            value === '----' ? '----' : newEndTime
+          )
         }}
       >
-        <SelectTrigger className='w-24 cursor-pointer'>
+        <SelectTrigger className='w-24 cursor-pointer text-sm'>
           <SelectValue placeholder='----'>{startTime}</SelectValue>
         </SelectTrigger>
         <SelectContent>
@@ -85,10 +102,10 @@ const TimeRangeSelector = ({
         disabled={disabled || startTime === '----'}
         value={endTime}
         onValueChange={(value) => {
-          onChange(day, startTime, value)
+          onChange(day, blockIndex, startTime, value)
         }}
       >
-        <SelectTrigger className='w-24 cursor-pointer'>
+        <SelectTrigger className='w-24 cursor-pointer text-sm'>
           <SelectValue placeholder='----'>{endTime}</SelectValue>
         </SelectTrigger>
         <SelectContent>
@@ -99,6 +116,20 @@ const TimeRangeSelector = ({
           ))}
         </SelectContent>
       </Select>
+
+      <div className='w-8 h-8 flex items-center justify-center'>
+        {canRemove && (
+          <Button
+            type='button'
+            variant='ghost'
+            size='sm'
+            onClick={() => onRemove(day, blockIndex)}
+            className='h-8 w-8 p-0 hover:bg-accent transition-colors cursor-pointer'
+          >
+            <Trash2 className='h-4 w-4 text-neutral-600' />
+          </Button>
+        )}
+      </div>
     </div>
   )
 }
