@@ -16,14 +16,20 @@ function hasTimeConflict (slot1: TimeSlot, slot2: TimeSlot): boolean {
 
 function hasConflict (currentSchedule: CurrentSchedule, group: Group): boolean {
   for (const day in group.schedule) {
-    const newTimeSlot = group.schedule[day]
+    const newTimeSlots = group.schedule[day]
 
     for (const selectedGroup of currentSchedule) {
       const existingGroup = selectedGroup.group
+
       if (existingGroup.schedule[day]) {
-        const existingTimeSlot = existingGroup.schedule[day]
-        if (hasTimeConflict(newTimeSlot, existingTimeSlot)) {
-          return true
+        const existingTimeSlots = existingGroup.schedule[day]
+
+        for (const newSlot of newTimeSlots) {
+          for (const existingSlot of existingTimeSlots) {
+            if (hasTimeConflict(newSlot, existingSlot)) {
+              return true
+            }
+          }
         }
       }
     }
