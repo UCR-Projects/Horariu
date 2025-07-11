@@ -29,10 +29,15 @@ describe('createCourseSchema Validation', () => {
             {
               day: 'L',
               active: true,
-              startTime: '08:00',
-              endTime: '09:30',
+              timeBlocks: [
+                {
+                  start: '08:00',
+                  end: '09:30',
+                },
+              ],
             },
           ],
+          isActive: true,
         },
       ],
     }
@@ -53,10 +58,15 @@ describe('createCourseSchema Validation', () => {
             {
               day: 'L',
               active: true,
-              startTime: '08:00',
-              endTime: '09:30',
+              timeBlocks: [
+                {
+                  start: '08:00',
+                  end: '09:30',
+                },
+              ],
             },
           ],
+          isActive: true,
         },
       ],
     }
@@ -77,10 +87,15 @@ describe('createCourseSchema Validation', () => {
             {
               day: 'L',
               active: true,
-              startTime: '08:00',
-              endTime: '09:30',
+              timeBlocks: [
+                {
+                  start: '08:00',
+                  end: '09:30',
+                },
+              ],
             },
           ],
+          isActive: true,
         },
       ],
     }
@@ -101,10 +116,15 @@ describe('createCourseSchema Validation', () => {
             {
               day: 'L',
               active: true,
-              startTime: '08:00',
-              endTime: '09:30',
+              timeBlocks: [
+                {
+                  start: '08:00',
+                  end: '09:30',
+                },
+              ],
             },
           ],
+          isActive: true,
         },
       ],
     }
@@ -126,10 +146,15 @@ describe('createCourseSchema Validation', () => {
             {
               day: 'L',
               active: true,
-              startTime: '08:00',
-              endTime: '09:30',
+              timeBlocks: [
+                {
+                  start: '08:00',
+                  end: '09:30',
+                },
+              ],
             },
           ],
+          isActive: true,
         },
       ],
     }
@@ -161,44 +186,6 @@ describe('createCourseSchema Validation', () => {
   })
 })
 
-//* scheduleItemSchema Validation
-// describe('scheduleItemSchema Validation', () => {
-//   it('should pass if the schedule is valid', () => {
-//     const validScheduleItem = {
-//       day: 'L',
-//       active: true,
-//       startTime: '08:00',
-//       endTime: '09:30',
-//     }
-
-//     const result = scheduleItemSchema.safeParse(validScheduleItem)
-//     expect(result.success).toBe(true)
-//   })
-
-//   it('should fail if the day is invalid', () => {
-//     const invalidScheduleItem = {
-//       day: 'invalidDay',
-//       active: true,
-//       startTime: '08:00',
-//       endTime: '09:30',
-//     }
-
-//     const result = scheduleItemSchema.safeParse(invalidScheduleItem)
-//     expect(result.success).toBe(false)
-//   })
-
-//   it('should fail if a property is missing', () => {
-//     const invalidScheduleItem = {
-//       day: 'L',
-//       active: true,
-//     }
-
-//     const result = scheduleItemSchema.safeParse(invalidScheduleItem)
-//     expect(result.success).toBe(false)
-//   })
-// })
-
-//* createCourseSchema Validation
 describe('createGroupSchema Validation', () => {
   it('should pass if the group is valid', () => {
     const validGroup = {
@@ -207,14 +194,22 @@ describe('createGroupSchema Validation', () => {
         {
           day: 'L',
           active: true,
-          startTime: '08:00',
-          endTime: '09:30',
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '09:30',
+            },
+          ],
         },
         {
           day: 'K',
           active: true,
-          startTime: '12:00',
-          endTime: '09:30',
+          timeBlocks: [
+            {
+              start: '12:00',
+              end: '13:30',
+            },
+          ],
         },
       ],
     }
@@ -223,7 +218,32 @@ describe('createGroupSchema Validation', () => {
     expect(result.success).toBe(true)
   })
 
-  it('should pass if the group name is the same as the editing course name', () => {
+  it('should pass if the group has multiple time blocks without overlap', () => {
+    const validGroup = {
+      groupName: 'Group 1',
+      schedules: [
+        {
+          day: 'L',
+          active: true,
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '09:30',
+            },
+            {
+              start: '10:00',
+              end: '11:30',
+            },
+          ],
+        },
+      ],
+    }
+    const schema = createGroupSchema()
+    const result = schema.safeParse(validGroup)
+    expect(result.success).toBe(true)
+  })
+
+  it('should pass if the group name is the same as the editing group name', () => {
     const existingGroups = ['Group 1', 'Group 2']
     const editedGroup = {
       groupName: 'Group 1',
@@ -231,8 +251,12 @@ describe('createGroupSchema Validation', () => {
         {
           day: 'L',
           active: true,
-          startTime: '08:00',
-          endTime: '09:30',
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '09:30',
+            },
+          ],
         },
       ],
     }
@@ -248,8 +272,12 @@ describe('createGroupSchema Validation', () => {
         {
           day: 'L',
           active: true,
-          startTime: '08:00',
-          endTime: '09:30',
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '09:30',
+            },
+          ],
         },
       ],
     }
@@ -265,8 +293,12 @@ describe('createGroupSchema Validation', () => {
         {
           day: 'L',
           active: true,
-          startTime: '08:00',
-          endTime: '09:30',
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '09:30',
+            },
+          ],
         },
       ],
     }
@@ -283,8 +315,12 @@ describe('createGroupSchema Validation', () => {
         {
           day: 'L',
           active: true,
-          startTime: '08:00',
-          endTime: '09:30',
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '09:30',
+            },
+          ],
         },
       ],
     }
@@ -300,14 +336,22 @@ describe('createGroupSchema Validation', () => {
         {
           day: 'L',
           active: false,
-          startTime: '08:00',
-          endTime: '09:30',
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '09:30',
+            },
+          ],
         },
         {
           day: 'K',
           active: false,
-          startTime: '12:00',
-          endTime: '09:30',
+          timeBlocks: [
+            {
+              start: '12:00',
+              end: '13:30',
+            },
+          ],
         },
       ],
     }
@@ -316,26 +360,150 @@ describe('createGroupSchema Validation', () => {
     expect(result.success).toBe(false)
   })
 
-  // it('should fail if an active schedule has an invalid time range', () => {
-  //   const invalidGroup = {
-  //     groupName: 'Group 1',
-  //     schedules: [
-  //       {
-  //         day: 'L',
-  //         active: true,
-  //         startTime: '----',
-  //         endTime: '09:30',
-  //       },
-  //       {
-  //         day: 'K',
-  //         active: true,
-  //         startTime: '12:00',
-  //         endTime: '----',
-  //       },
-  //     ],
-  //   }
-  //   const schema = createGroupSchema()
-  //   const result = schema.safeParse(invalidGroup)
-  //   expect(result.success).toBe(false)
-  // })
+  it('should fail if an active schedule has an invalid time range', () => {
+    const invalidGroup = {
+      groupName: 'Group 1',
+      schedules: [
+        {
+          day: 'L',
+          active: true,
+          timeBlocks: [
+            {
+              start: '----',
+              end: '09:30',
+            },
+          ],
+        },
+        {
+          day: 'K',
+          active: true,
+          timeBlocks: [
+            {
+              start: '12:00',
+              end: '----',
+            },
+          ],
+        },
+      ],
+    }
+    const schema = createGroupSchema()
+    const result = schema.safeParse(invalidGroup)
+    expect(result.success).toBe(false)
+  })
+
+  it('should fail if time blocks overlap within a day', () => {
+    const invalidGroup = {
+      groupName: 'Group 1',
+      schedules: [
+        {
+          day: 'L',
+          active: true,
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '10:00',
+            },
+            {
+              start: '09:30',
+              end: '11:00',
+            },
+          ],
+        },
+      ],
+    }
+    const schema = createGroupSchema()
+    const result = schema.safeParse(invalidGroup)
+    expect(result.success).toBe(false)
+  })
+
+  it('should pass if time blocks touch but do not overlap', () => {
+    const validGroup = {
+      groupName: 'Group 1',
+      schedules: [
+        {
+          day: 'L',
+          active: true,
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '09:30',
+            },
+            {
+              start: '09:30',
+              end: '11:00',
+            },
+          ],
+        },
+      ],
+    }
+    const schema = createGroupSchema()
+    const result = schema.safeParse(validGroup)
+    expect(result.success).toBe(true)
+  })
+
+  it('should pass if inactive schedules have invalid time ranges', () => {
+    const validGroup = {
+      groupName: 'Group 1',
+      schedules: [
+        {
+          day: 'L',
+          active: true,
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '09:30',
+            },
+          ],
+        },
+        {
+          day: 'K',
+          active: false,
+          timeBlocks: [
+            {
+              start: '----',
+              end: '----',
+            },
+          ],
+        },
+      ],
+    }
+    const schema = createGroupSchema()
+    const result = schema.safeParse(validGroup)
+    expect(result.success).toBe(true)
+  })
+
+  it('should pass if inactive schedules have overlapping time blocks', () => {
+    const validGroup = {
+      groupName: 'Group 1',
+      schedules: [
+        {
+          day: 'L',
+          active: true,
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '09:30',
+            },
+          ],
+        },
+        {
+          day: 'K',
+          active: false,
+          timeBlocks: [
+            {
+              start: '08:00',
+              end: '10:00',
+            },
+            {
+              start: '09:30',
+              end: '11:00',
+            },
+          ],
+        },
+      ],
+    }
+    const schema = createGroupSchema()
+    const result = schema.safeParse(validGroup)
+    expect(result.success).toBe(true)
+  })
 })

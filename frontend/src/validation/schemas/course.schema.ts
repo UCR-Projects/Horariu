@@ -4,20 +4,50 @@ import { validMsgs } from '@/validation/validationMessages'
 import { DAYS } from '@/utils/constants'
 import { Day } from '@/types'
 
-//TODO: DELETE SPANISH MESSAGES AND COMMENTS
-
-// Schema para un bloque de tiempo individual
-export const timeBlockSchema = z.object({
-  start: z.string().min(1, { message: 'Hora de inicio requerida' }),
-  end: z.string().min(1, { message: 'Hora de fin requerida' }),
-})
-
-// Schema para un día con múltiples bloques
 export const dayScheduleSchema = z.object({
   day: z.enum(DAYS as [Day, ...Day[]]),
   active: z.boolean(),
-  timeBlocks: z.array(timeBlockSchema).default([]),
+  timeBlocks: z
+    .array(
+      z.object({
+        start: z.string(),
+        end: z.string(),
+      })
+    )
+    .default([]),
 })
+
+// Helper function to convert time string to minutes
+const timeToMinutes = (time: string): number => {
+  if (time === '----') return -1
+  const [hours, minutes] = time.split(':').map(Number)
+  return hours * 60 + minutes
+}
+
+// Function to check if there are overlapping time blocks
+const hasTimeOverlap = (blocks: { start: string; end: string }[]): boolean => {
+  // Filter and convert time blocks to minutes
+  const validBlocks = blocks
+    .filter((block) => block.start !== '----' && block.end !== '----')
+    .map((block) => ({
+      start: timeToMinutes(block.start),
+      end: timeToMinutes(block.end),
+    }))
+    .sort((a, b) => a.start - b.start) // Sort by start time
+
+  // Check for overlaps
+  for (let i = 0; i < validBlocks.length - 1; i++) {
+    const current = validBlocks[i]
+    const next = validBlocks[i + 1]
+
+    // If the current block ends after the next block starts, there's an overlap
+    if (current.end > next.start) {
+      return true
+    }
+  }
+
+  return false
+}
 
 export const createGroupSchema = (
   existingGroups: string[] = [],
@@ -31,11 +61,11 @@ export const createGroupSchema = (
       .max(25, { message: validMsgs.group.name.max })
       .refine(
         (name) => {
-          // if editing and the name didn't change, it's valid
+          // If editing and the name didn't change, it's valid
           if (currentGroupName && name === currentGroupName) {
             return true
           }
-          // if not, check if it's unique
+          // If not, check if it's unique
           return !existingGroups.includes(name)
         },
         { message: validMsgs.group.name.unique }
@@ -57,6 +87,21 @@ export const createGroupSchema = (
               )
             ),
         { message: validMsgs.group.schedule.timeRange }
+      )
+      // Check for time overlaps within each day
+      .refine(
+        (schedules) => {
+          const activeDays = schedules.filter((s) => s.active)
+
+          for (const daySchedule of activeDays) {
+            if (hasTimeOverlap(daySchedule.timeBlocks)) {
+              return false
+            }
+          }
+
+          return true
+        },
+        { message: validMsgs.group.schedule.overlap }
       ),
   })
 
@@ -71,12 +116,12 @@ export const createCourseSchema = (currentCourseName?: string) =>
         (name) => {
           const courses = useCourseStore.getState().courses
 
-          // if editing and the name didn't change, it's valid
+          // If editing and the name didn't change, it's valid
           if (currentCourseName && name === currentCourseName) {
             return true
           }
 
-          // if not, check if it's unique
+          // If not, check if it's unique
           return courses.every((course) => course.name !== name)
         },
         { message: validMsgs.course.name.unique }

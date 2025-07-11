@@ -115,11 +115,13 @@ export function GroupsList({
                         {t(`days.${schedule.day}.short`)}
                       </span>
                       <div className='flex flex-col items-end space-y-1'>
-                        {schedule.timeBlocks.map((block, blockIndex) => (
-                          <span key={blockIndex} className='text-xs'>
-                            {block.start} - {block.end}
-                          </span>
-                        ))}
+                        {schedule.timeBlocks
+                          .sort((a, b) => a.start.localeCompare(b.start))
+                          .map((block, blockIndex) => (
+                            <span key={blockIndex} className='text-xs'>
+                              {block.start} - {block.end}
+                            </span>
+                          ))}
                       </div>
                     </div>
                   ))}
