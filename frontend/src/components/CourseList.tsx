@@ -86,13 +86,13 @@ const CourseList = () => {
                 <Button
                   variant='ghost'
                   size='icon'
-                  className='h-6 w-6 dark:hover:bg-neutral-900/80 cursor-pointer'
+                  className='h-7 w-7 dark:hover:bg-neutral-900/80 hover:bg-neutral-200 cursor-pointer'
                   onClick={() => toggleCourseVisibility(course.name)}
                 >
                   {course.isActive ? (
-                    <Eye className='h-3.5 w-3.5 text-neutral-600' />
+                    <Eye className='h-4 w-4 text-neutral-600' />
                   ) : (
-                    <EyeOff className='h-3.5 w-3.5 text-neutral-600' />
+                    <EyeOff className='h-4 w-4 text-neutral-600' />
                   )}
                 </Button>
                 <CourseForm existingCourse={course} />
@@ -103,6 +103,7 @@ const CourseList = () => {
                   description={t('confirmDeleteCourseDescription', {
                     itemName: course.name,
                   })}
+                  triggerClassName='h-7 w-7 hover:bg-neutral-200 dark:hover:bg-neutral-900/80 cursor-pointer'
                 />
               </div>
             </div>
@@ -128,7 +129,7 @@ const CourseList = () => {
                     <Button
                       variant='ghost'
                       size='icon'
-                      className='h-6 w-6 hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors flex-shrink-0'
+                      className='h-6 w-6 hover:bg-neutral-100/60 dark:hover:bg-neutral-900/80 cursor-pointer transition-colors flex-shrink-0'
                       onClick={() =>
                         toggleGroupVisibility(course.name, group.name)
                       }

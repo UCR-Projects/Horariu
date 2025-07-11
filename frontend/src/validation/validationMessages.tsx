@@ -20,6 +20,7 @@ export const validMsgs = {
     schedule: {
       required: i18n.t('validation.group.schedule.required'),
       timeRange: i18n.t('validation.group.schedule.timeRange'),
+      overlap: i18n.t('validation.group.schedule.overlap'),
     },
   },
 }

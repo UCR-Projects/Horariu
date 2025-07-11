@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { Course } from '../types'
+import { Course, Schedule } from '../types'
 import { DEFAULT_COLOR } from '../utils/constants'
 import { getSampleSet, SampleCoursesSetType } from '../mocks/sampleCourses'
 
@@ -153,9 +153,37 @@ const useCourseStore = create<CourseState>()(
               })) || [],
           }
         }
+        if (version === 1) {
+          const state = persistedState as Partial<CourseState>
+          return {
+            ...state,
+            courses:
+              state.courses?.map((course) => ({
+                ...course,
+                groups:
+                  course.groups?.map((group) => ({
+                    ...group,
+                    // Convert old schedule format to new format
+                    schedule: Object.entries(group.schedule || {}).reduce(
+                      (acc, [day, timeData]) => {
+                        // Check if it's old format (single object) or new format (array)
+                        if (Array.isArray(timeData)) {
+                          acc[day] = timeData
+                        } else {
+                          // Old format: convert single time block to array
+                          acc[day] = [timeData]
+                        }
+                        return acc
+                      },
+                      {} as Schedule
+                    ),
+                  })) || [],
+              })) || [],
+          }
+        }
         return persistedState as CourseState
       },
-      version: 1,
+      version: 2,
       storage: createJSONStorage(() => localStorage),
     }
   )

@@ -70,6 +70,7 @@
   "options": "Opciones",
   "image": "Imagen",
   "downloadSchedule": "Descargar Horario",
+  "addTimeBlock": "Agregar Bloque",
 
 
   "validation": {
@@ -91,7 +92,8 @@
       },
       "schedule": {
         "required": "Debe seleccionar al menos un día",
-        "timeRange": "Todos los días seleccionados deben tener un horario válido"
+        "timeRange": "Todos los días seleccionados deben tener un horario válido",
+        "overlap": "Los bloques de tiempo no deben solaparse entre sí"
       }
     }
   },

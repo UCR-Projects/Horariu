@@ -1,6 +1,11 @@
+@import '@fontsource/inter';
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
+
+@theme {
+  --font-sans: 'Inter Variable', sans-serif;
+}
 
 @custom-variant dark (&:is(.dark *));
 
@@ -119,7 +124,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply font-sans bg-background text-foreground;
   }
 
   :root {
@@ -144,9 +149,6 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
-
-
-/*Scroll bar theme*/
 
 @media (min-width: 769px) {
   .dark {

@@ -32,11 +32,47 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
     const [startTime, endTime] = timeRange.split(' - ')
 
     return currentSchedule.find((course) => {
-      const courseSchedule = course.group.schedule[day]
-      if (!courseSchedule) return false
+      // Verify that course and course.group exist
+      if (!course || !course.group || !course.group.schedule) return false
 
-      return courseSchedule.start <= startTime && courseSchedule.end >= endTime
+      // Validate that course.group.schedule has the day
+      const daySchedule = course.group.schedule[day]
+      if (!daySchedule || !Array.isArray(daySchedule)) return false
+
+      // Check if the time range overlaps with any time block for the day
+      return daySchedule.some((timeBlock) => {
+        return (
+          timeBlock && timeBlock.start <= startTime && timeBlock.end >= endTime
+        )
+      })
     })
+  }
+
+  const getGroupNameAtTimeSlot = (day: Day, timeRange: TimeRange) => {
+    const currentSchedule = scheduleData?.schedules?.[scheduleIndex] || []
+    if (!currentSchedule.length) return null
+
+    const [startTime, endTime] = timeRange.split(' - ')
+
+    for (const course of currentSchedule) {
+      // Verify that course and course.group exist
+      if (!course || !course.group || !course.group.schedule) continue
+
+      const daySchedule = course.group.schedule[day]
+      if (!daySchedule || !Array.isArray(daySchedule)) continue
+
+      const hasTimeSlot = daySchedule.some((timeBlock) => {
+        return (
+          timeBlock && timeBlock.start <= startTime && timeBlock.end >= endTime
+        )
+      })
+
+      if (hasTimeSlot) {
+        return course.group.name
+      }
+    }
+
+    return null
   }
 
   const generateCanvas = async () => {
@@ -144,6 +180,7 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
                   </td>
                   {DAYS.map((day) => {
                     const course = getCourseAtTimeSlot(day, range)
+                    const groupName = getGroupNameAtTimeSlot(day, range)
 
                     return (
                       <td
@@ -157,7 +194,7 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
                             <div className='font-semibold'>
                               {course.courseName}
                             </div>
-                            <div className='text-xs'>{course.group.name}</div>
+                            <div className='text-xs'>{groupName}</div>
                           </div>
                         )}
                       </td>
