@@ -278,7 +278,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
               <Button
                 variant='ghost'
                 size='icon'
-                className='h-7 w-7 dark:hover:bg-neutral-900/80 cursor-pointer'
+                className='h-7 w-7 hover:bg-green-200  dark:hover:bg-neutral-900/80 cursor-pointer'
               >
                 <Edit2 className='h-4 w-4 text-neutral-600' />
               </Button>
@@ -296,7 +296,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
               <Button
                 variant='ghost'
                 size='icon'
-                className='h-7 w-7 dark:hover:bg-neutral-900/80 cursor-pointer'
+                className='h-7 w-7 dark:hover:bg-neutral-900/80  hover:bg-neutral-200 cursor-pointer'
               >
                 <Edit2 className='h-4 w-4 text-neutral-600' />
               </Button>

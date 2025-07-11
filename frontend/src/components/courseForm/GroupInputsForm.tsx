@@ -190,16 +190,13 @@ export function GroupInputsForm({
                         <h4 className='font-medium text-sm'>
                           {t(`days.${schedule.day}.name`)}
                         </h4>
-                        <Button
-                          type='button'
-                          variant='ghost'
-                          size='sm'
+                        <div
                           onClick={() => handleAddTimeBlock(schedule.day)}
-                          className='text-xs text-neutral-500 cursor-pointer'
+                          className='flex items-center gap-1 text-xs text-neutral-500 dark:hover:text-neutral-300 cursor-pointer transition-colors'
                         >
                           <Plus className='h-3 w-3' />
-                          {t('addTimeBlock')}
-                        </Button>
+                          <span className='text-xs'>{t('addTimeBlock')}</span>
+                        </div>
                       </div>
 
                       {schedule.timeBlocks.length === 0 ? (
