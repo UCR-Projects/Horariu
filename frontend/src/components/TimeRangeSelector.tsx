@@ -67,71 +67,75 @@ const TimeRangeSelector = ({
   }, [startTime, endTime, day, blockIndex, onChange])
 
   return (
-    <div className='flex items-center justify-center gap-2 mb-2'>
-      <div className='flex items-center gap-1'>
-        <span className='text-xs italic text-neutral-500'>{t('from')}:</span>
-        <Select
-          disabled={disabled}
-          value={startTime}
-          onValueChange={(value) => {
-            const newEndTime = isEndTimeValid(value, endTime) ? endTime : '----'
-            onChange(
-              day,
-              blockIndex,
-              value,
-              value === '----' ? '----' : newEndTime
-            )
-          }}
-        >
-          <SelectTrigger className='w-24 cursor-pointer text-sm'>
-            <SelectValue placeholder='----'>{startTime}</SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value='----'>----</SelectItem>
-            {START_TIMES.map((time) => (
-              <SelectItem className='cursor-pointer' key={time} value={time}>
-                {time}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+    <div className='relative flex items-center justify-center gap-2 mb-2'>
+      <div className='flex items-center gap-2'>
+        <div className='flex items-center gap-1'>
+          <span className='text-xs italic text-neutral-500'>{t('from')}:</span>
+          <Select
+            disabled={disabled}
+            value={startTime}
+            onValueChange={(value) => {
+              const newEndTime = isEndTimeValid(value, endTime)
+                ? endTime
+                : '----'
+              onChange(
+                day,
+                blockIndex,
+                value,
+                value === '----' ? '----' : newEndTime
+              )
+            }}
+          >
+            <SelectTrigger className='w-24 cursor-pointer text-sm'>
+              <SelectValue placeholder='----'>{startTime}</SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value='----'>----</SelectItem>
+              {START_TIMES.map((time) => (
+                <SelectItem className='cursor-pointer' key={time} value={time}>
+                  {time}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className='flex items-center gap-1'>
+          <span className='text-xs italic text-neutral-500'>{t('to')}:</span>
+          <Select
+            disabled={disabled || startTime === '----'}
+            value={endTime}
+            onValueChange={(value) => {
+              onChange(day, blockIndex, startTime, value)
+            }}
+          >
+            <SelectTrigger className='w-24 cursor-pointer text-sm'>
+              <SelectValue placeholder='----'>{endTime}</SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {validEndTimes.map((time) => (
+                <SelectItem className='cursor-pointer' key={time} value={time}>
+                  {time}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
-      <div className='flex items-center gap-1'>
-        <span className='text-xs italic text-neutral-500'>{t('to')}:</span>
-        <Select
-          disabled={disabled || startTime === '----'}
-          value={endTime}
-          onValueChange={(value) => {
-            onChange(day, blockIndex, startTime, value)
-          }}
-        >
-          <SelectTrigger className='w-24 cursor-pointer text-sm'>
-            <SelectValue placeholder='----'>{endTime}</SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            {validEndTimes.map((time) => (
-              <SelectItem className='cursor-pointer' key={time} value={time}>
-                {time}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div className='w-8 h-8 flex items-center justify-center'>
-        {canRemove && (
+      {canRemove && (
+        <div className='absolute right-0 w-8 h-8 flex items-center justify-center'>
           <Button
             type='button'
             variant='ghost'
             size='sm'
             onClick={() => onRemove(day, blockIndex)}
-            className='h-8 w-8 p-0 hover:bg-accent transition-colors cursor-pointer'
+            className='h-8 w-8 hover:bg-neutral-200 dark:hover:bg-neutral-900/80 cursor-pointer'
           >
             <Trash2 className='h-4 w-4 text-neutral-600' />
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
