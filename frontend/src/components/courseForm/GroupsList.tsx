@@ -109,7 +109,7 @@ export function GroupsList({
                   .map((schedule) => (
                     <div
                       key={schedule.day}
-                      className='flex justify-between text-muted-foreground py-1 border-b last:border-b-0'
+                      className='flex items-center justify-between text-muted-foreground py-1 border-b last:border-b-0'
                     >
                       <span className='font-medium'>
                         {t(`days.${schedule.day}.short`)}
