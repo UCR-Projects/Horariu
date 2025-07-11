@@ -1,6 +1,6 @@
 <div align="center">
   <h1 align="center">
-    Horariu
+    HorariU
   </h1>
 </div>
 
@@ -13,17 +13,36 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://deepwiki.com/UCR-Projects/Horariu">
+    <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki" />
+  </a>
+</p>
+
 ## Introduction
 
 Horariu is a university schedule generator that creates all possible timetable combinations for a given semester, allowing students to explore different options and choose their preferred schedule. This helps in planning efficiently before course registration.
 
 ## 💡 Features
 
+- Add courses
+- Add multiple groups for each course
+- Add multiple time intervals for each group
+- Download schedules as images or PDFs
+- English and Spanish support
+- Light and dark mode
+- Mobile compatibility
+- Schedule pagination
+- Hide courses to exclude them from generation
+- Hide specific groups to exclude them from generation
+- Edit courses and groups
+
 ## 🛠️ Technologies Used
 
 - **Frontend:** React.js
 - **Backend:** Node.js, Express.js
-- **Database:** PostgreSQL
-- **Documentation:** Docusaurus
+- **Cloud & Deployment:** AWS, Github Actions
 
 ## 🤝 Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for improvements or new features.
