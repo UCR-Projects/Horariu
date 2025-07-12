@@ -25,12 +25,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4 # Clones the repository with just latest commit
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # Sets up node environment
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
@@ -44,15 +44,15 @@ jobs:
         working-directory: backend
 
   build:
-    runs-on: ubuntu-22.04 # The runner to use
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4 # Clones the repository with just latest commit
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # Sets up node environment
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
@@ -70,12 +70,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4 # Clones the repository with just latest commit
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # Sets up node environment
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
@@ -87,13 +87,47 @@ jobs:
       - name: Run tests
         run: npm test
         working-directory: backend
+  
+  validate:
+      needs: [build, lint, test]
+      if: github.event_name == 'pull_request'
+      runs-on: ubuntu-22.04
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ secrets.AWS_REGION }}
+        
+        - name: Install AWS SAM CLI
+          run: |
+            sudo apt update
+            sudo apt install -y awscli
+            pip install aws-sam-cli
+
+        - name: Make deploy script executable
+          run: chmod +x deploy.sh
+          working-directory: backend
+
+        - name: Run Validation Script
+          run: ./deploy.sh Validate
+          working-directory: backend
+          env:
+            GITHUB_REF: ${{ github.ref }}
 
   deploy:
     needs: [build, lint, test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4 # Clones the repository with just latest commit
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       
