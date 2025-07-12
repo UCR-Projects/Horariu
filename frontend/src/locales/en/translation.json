@@ -70,7 +70,7 @@
   "options": "Options",
   "image": "Image",
   "downloadSchedule": "Download Schedule",
-  
+  "addTimeBlock": "Add Time Block",
 
 
 
@@ -94,7 +94,8 @@
       },
       "schedule": {
         "required": "At least one day must be selected",
-        "timeRange": "All selected days must have a valid schedule"
+        "timeRange": "All selected days must have a valid schedule",
+        "overlap": "Time blocks must not overlap with each other"
       }
     }
   },

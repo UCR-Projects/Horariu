@@ -1,23 +1,20 @@
 import { create } from 'zustand'
-import { Day } from '../types'
 import { persist, createJSONStorage } from 'zustand/middleware'
+import { Schedule } from '../types'
 
-interface CourseScheduleItem {
+interface StoredGroup {
+  name: string
+  schedule: Schedule
+}
+
+interface StoredCourse {
   courseName: string
   color: string
-  group: {
-    name: string
-    schedule: {
-      [key in Day]?: {
-        start: string
-        end: string
-      }
-    }
-  }
+  group: StoredGroup
 }
 
 export interface ScheduleDataType {
-  schedules: CourseScheduleItem[][]
+  schedules: StoredCourse[][]
 }
 
 interface ScheduleState {
@@ -57,6 +54,56 @@ const useScheduleStore = create<ScheduleState>()(
     {
       name: 'schedule-storage',
       storage: createJSONStorage(() => localStorage),
+      version: 1,
+      migrate: (persistedState: unknown, version: number) => {
+        if (
+          version === 0 &&
+          persistedState &&
+          typeof persistedState === 'object'
+        ) {
+          const state = persistedState as {
+            scheduleData?: { schedules?: unknown[][] }
+          }
+
+          if (state.scheduleData?.schedules) {
+            state.scheduleData.schedules = state.scheduleData.schedules.map(
+              (schedule: unknown) => {
+                if (Array.isArray(schedule)) {
+                  return schedule.map((course: unknown) => {
+                    if (course && typeof course === 'object') {
+                      const typedCourse = course as {
+                        group?: {
+                          schedule?: Record<
+                            string,
+                            { start: string; end: string }
+                          >
+                        }
+                      }
+
+                      return {
+                        ...typedCourse,
+                        group: typedCourse.group
+                          ? {
+                              ...typedCourse.group,
+                              schedule: Object.fromEntries(
+                                Object.entries(
+                                  typedCourse.group.schedule || {}
+                                ).map(([day, timeBlock]) => [day, [timeBlock]])
+                              ),
+                            }
+                          : undefined,
+                      }
+                    }
+                    return course
+                  })
+                }
+                return schedule
+              }
+            ) as unknown[][]
+          }
+        }
+        return persistedState
+      },
       partialize: (state) => ({
         scheduleData: state.scheduleData,
       }),

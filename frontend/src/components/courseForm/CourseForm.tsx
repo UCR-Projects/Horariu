@@ -38,6 +38,30 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
     null
   )
 
+  // Helper function to convert schedule to form format
+  const convertScheduleToFormFormat = (schedule: Schedule) => {
+    return DAYS.map((day) => {
+      const daySchedule = schedule[day]
+      return {
+        day,
+        active: !!daySchedule && daySchedule.length > 0,
+        timeBlocks: daySchedule || [],
+      }
+    })
+  }
+
+  // Helper function to convert form format to schedule
+  const convertFormFormatToSchedule = (
+    schedules: CourseFormValuesType['groups'][0]['schedule']
+  ) => {
+    return schedules
+      .filter((s) => s.active && s.timeBlocks.length > 0)
+      .reduce((acc, curr) => {
+        acc[curr.day] = curr.timeBlocks
+        return acc
+      }, {} as Schedule)
+  }
+
   // Init course form
   const courseForm = useForm<CourseFormValuesType>({
     resolver: zodResolver(createCourseSchema(existingCourse?.name)),
@@ -47,15 +71,8 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
       groups:
         existingCourse?.groups.map((group) => ({
           name: group.name,
-          schedule: DAYS.map((day) => {
-            const daySchedule = group.schedule[day]
-            return {
-              day,
-              active: !!daySchedule,
-              startTime: daySchedule?.start || '----',
-              endTime: daySchedule?.end || '----',
-            }
-          }),
+          isActive: group.isActive ?? true,
+          schedule: convertScheduleToFormFormat(group.schedule),
         })) || [],
     },
   })
@@ -70,15 +87,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
           existingCourse.groups.map((group) => ({
             name: group.name,
             isActive: group.isActive ?? true,
-            schedule: DAYS.map((day) => {
-              const daySchedule = group.schedule[day]
-              return {
-                day,
-                active: !!daySchedule,
-                startTime: daySchedule?.start || '----',
-                endTime: daySchedule?.end || '----',
-              }
-            }),
+            schedule: convertScheduleToFormFormat(group.schedule),
           })) || [],
       })
     }
@@ -108,8 +117,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
       schedules: DAYS.map((day) => ({
         day,
         active: false,
-        startTime: '----',
-        endTime: '----',
+        timeBlocks: [],
       })),
     },
   })
@@ -122,8 +130,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
         schedules: DAYS.map((day) => ({
           day,
           active: false,
-          startTime: '----',
-          endTime: '----',
+          timeBlocks: [],
         })),
       })
     }
@@ -140,8 +147,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
           schedules: groupToEdit.schedule.map((schedule) => ({
             day: schedule.day,
             active: schedule.active,
-            startTime: schedule.active ? schedule.startTime : '----',
-            endTime: schedule.active ? schedule.endTime : '----',
+            timeBlocks: schedule.timeBlocks || [],
           })),
         })
       }
@@ -154,8 +160,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
       schedule: values.schedules.map((schedule) => ({
         day: schedule.day,
         active: schedule.active,
-        startTime: schedule.active ? schedule.startTime : '----',
-        endTime: schedule.active ? schedule.endTime : '----',
+        timeBlocks: schedule.active ? schedule.timeBlocks : [],
       })),
       isActive: true,
     }
@@ -216,15 +221,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
   const onSubmitCourse = (values: CourseFormValuesType) => {
     const formattedGroups: Group[] = values.groups.map((group) => ({
       name: group.name,
-      schedule: group.schedule
-        .filter((s) => s.active)
-        .reduce((acc, curr) => {
-          acc[curr.day] = {
-            start: curr.startTime,
-            end: curr.endTime,
-          }
-          return acc
-        }, {} as Schedule),
+      schedule: convertFormFormatToSchedule(group.schedule),
       isActive: group.isActive,
     }))
 
@@ -281,7 +278,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
               <Button
                 variant='ghost'
                 size='icon'
-                className='h-7 w-7 dark:hover:bg-neutral-900/80 cursor-pointer'
+                className='h-7 w-7 hover:bg-green-200  dark:hover:bg-neutral-900/80 cursor-pointer'
               >
                 <Edit2 className='h-4 w-4 text-neutral-600' />
               </Button>
@@ -299,7 +296,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
               <Button
                 variant='ghost'
                 size='icon'
-                className='h-7 w-7 dark:hover:bg-neutral-900/80 cursor-pointer'
+                className='h-7 w-7 dark:hover:bg-neutral-900/80  hover:bg-neutral-200 cursor-pointer'
               >
                 <Edit2 className='h-4 w-4 text-neutral-600' />
               </Button>

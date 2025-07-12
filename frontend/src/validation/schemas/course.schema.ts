@@ -4,12 +4,50 @@ import { validMsgs } from '@/validation/validationMessages'
 import { DAYS } from '@/utils/constants'
 import { Day } from '@/types'
 
-export const scheduleItemSchema = z.object({
+export const dayScheduleSchema = z.object({
   day: z.enum(DAYS as [Day, ...Day[]]),
   active: z.boolean(),
-  startTime: z.string(),
-  endTime: z.string(),
+  timeBlocks: z
+    .array(
+      z.object({
+        start: z.string(),
+        end: z.string(),
+      })
+    )
+    .default([]),
 })
+
+// Helper function to convert time string to minutes
+const timeToMinutes = (time: string): number => {
+  if (time === '----') return -1
+  const [hours, minutes] = time.split(':').map(Number)
+  return hours * 60 + minutes
+}
+
+// Function to check if there are overlapping time blocks
+const hasTimeOverlap = (blocks: { start: string; end: string }[]): boolean => {
+  // Filter and convert time blocks to minutes
+  const validBlocks = blocks
+    .filter((block) => block.start !== '----' && block.end !== '----')
+    .map((block) => ({
+      start: timeToMinutes(block.start),
+      end: timeToMinutes(block.end),
+    }))
+    .sort((a, b) => a.start - b.start) // Sort by start time
+
+  // Check for overlaps
+  for (let i = 0; i < validBlocks.length - 1; i++) {
+    const current = validBlocks[i]
+    const next = validBlocks[i + 1]
+
+    // If the current block ends after the next block starts, there's an overlap
+    if (current.end > next.start) {
+      return true
+    }
+  }
+
+  return false
+}
 
 export const createGroupSchema = (
   existingGroups: string[] = [],
@@ -23,28 +61,47 @@ export const createGroupSchema = (
       .max(25, { message: validMsgs.group.name.max })
       .refine(
         (name) => {
-          // if editing and the name didn't change, it's valid
+          // If editing and the name didn't change, it's valid
           if (currentGroupName && name === currentGroupName) {
             return true
           }
-          // if not, check if it's unique
+          // If not, check if it's unique
           return !existingGroups.includes(name)
         },
         { message: validMsgs.group.name.unique }
       ),
     schedules: z
-      .array(scheduleItemSchema)
+      .array(dayScheduleSchema)
       // Check if at least one day is active
       .refine((schedules) => schedules.some((s) => s.active), {
         message: validMsgs.group.schedule.required,
       })
-      // Check if all active schedules have a valid time range
+      // Check if all time blocks have valid times (not '----')
       .refine(
         (schedules) =>
           !schedules
             .filter((s) => s.active)
-            .some((s) => s.startTime === '----' || s.endTime === '----'),
+            .some((s) =>
+              s.timeBlocks.some(
+                (block) => block.start === '----' || block.end === '----'
+              )
+            ),
         { message: validMsgs.group.schedule.timeRange }
+      )
+      // Check for time overlaps within each day
+      .refine(
+        (schedules) => {
+          const activeDays = schedules.filter((s) => s.active)
+
+          for (const daySchedule of activeDays) {
+            if (hasTimeOverlap(daySchedule.timeBlocks)) {
+              return false
+            }
+          }
+
+          return true
+        },
+        { message: validMsgs.group.schedule.overlap }
       ),
   })
 
@@ -59,12 +116,12 @@ export const createCourseSchema = (currentCourseName?: string) =>
         (name) => {
           const courses = useCourseStore.getState().courses
 
-          // if editing and the name didn't change, it's valid
+          // If editing and the name didn't change, it's valid
           if (currentCourseName && name === currentCourseName) {
             return true
           }
 
-          // if not, check if it's unique
+          // If not, check if it's unique
           return courses.every((course) => course.name !== name)
         },
         { message: validMsgs.course.name.unique }
@@ -74,8 +131,8 @@ export const createCourseSchema = (currentCourseName?: string) =>
       .array(
         z.object({
           name: z.string(),
-          schedule: z.array(scheduleItemSchema),
-          isActive: z.boolean().default(true), // Agregado para manejar visibilidad
+          schedule: z.array(dayScheduleSchema),
+          isActive: z.boolean().default(true),
         })
       )
       .nonempty({ message: validMsgs.course.groupRequired }),
