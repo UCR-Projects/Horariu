@@ -43,6 +43,95 @@ Horariu is a university schedule generator that creates all possible timetable c
 - **Backend:** Node.js, Express.js
 - **Cloud & Deployment:** AWS, Github Actions
 
+## 🚀 Installation & Running
+
+### Backend
+
+1. **Requirements:**  
+   - Node.js (v18+ recommended)
+   - AWS CLI
+   - AWS SAM CLI
+   - Access to AWS SSM parameters for database and environment config
+
+2. **Install dependencies:**
+   ```sh
+   cd backend
+   npm install
+   ```
+
+3. **Build and deploy to AWS (Dev by default):**
+   ```sh
+   ./deploy.sh
+   ```
+   - For production:  
+     ```sh
+     ./deploy.sh Prod
+     ```
+   - This script builds the project, fetches environment variables from AWS SSM, and deploys using AWS SAM.
+
+---
+
+### Frontend
+
+1. **Requirements:**  
+   - Node.js (v18+ recommended)
+   - npm
+
+2. **Install dependencies:**
+   ```sh
+   cd frontend
+   npm install
+   ```
+
+3. **Run the development server:**
+   ```sh
+   npm run dev
+   ```
+   - The app will be available at `http://localhost:5173` by default.
+
+---
+
 ## 🤝 Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request for improvements or new features.
+We welcome contributions to HorariU! Whether you're fixing bugs, adding new features, or improving documentation, your help is appreciated.
+
+### Getting Started
+
+1. **Fork the repository** on GitHub
+2. **Clone your fork** locally:
+   ```sh
+   git clone https://github.com/UCR-Projects/Horariu.git
+   cd Horariu
+   ```
+3. **Create a new branch** for your feature or bugfix:
+   ```sh
+   git checkout -b feature/your-feature-name
+   ```
+4. **Set up the development environment** following the installation instructions above
+5. **Make your changes** and test them thoroughly
+6. **Commit your changes** with clear, descriptive messages using Conventional Commits Format:
+   ```sh
+   git commit -m "feat: allow provided config object to extend other configs"
+   ```
+7. **Push to your fork**:
+   ```sh
+   git push origin feature/your-feature-name
+   ```
+8. **Create a Pull Request** on GitHub with a clear description of your changes
+
+### What Can You Contribute?
+
+- 🐛 Bug fixes
+- ✨ New features
+- 📝 Documentation improvements
+- 🌐 Translations
+- 🎨 UI/UX improvements
+- ⚡ Performance optimizations
+
+### Guidelines
+
+- Follow the existing code style and conventions
+- Write clear commit messages
+- Test your changes before submitting
+- Update documentation when necessary
+- Be respectful and constructive in discussions
