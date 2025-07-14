@@ -135,3 +135,11 @@ We welcome contributions to HorariU! Whether you're fixing bugs, adding new feat
 - Test your changes before submitting
 - Update documentation when necessary
 - Be respectful and constructive in discussions
+
+For more detailed information about contributing, please see our [CONTRIBUTING.md](CONTRIBUTING.md) file.
+
+## 📄 License
+
+This project is licensed under the terms of the [LICENSE](LICENSE) file. Please see the LICENSE file for more details about permissions and limitations.
+
+---
