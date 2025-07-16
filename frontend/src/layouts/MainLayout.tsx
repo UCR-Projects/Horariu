@@ -11,7 +11,7 @@ const MainLayout = () => {
           <AppSidebar />
         </div>
         <div className='flex-1 flex flex-col overflow-hidden'>
-          <header className='p-4 border-b dark:border-neutral-700'>
+          <header className='p-2 border-b dark:border-neutral-700'>
             <div className='flex items-center justify-between'>
               <Header />
             </div>
