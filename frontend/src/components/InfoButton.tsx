@@ -51,13 +51,15 @@ export function InfoButton() {
 
             <div className='space-y-3'>
               <div className='border rounded-lg p-3 bg-card'>
-                <p className='font-medium text-foreground'>Gabriel Gonzáles</p>
+                <p className='font-medium text-foreground'>Gabriel González</p>
                 <p className='text-xs text-muted-foreground mb-2'>
                   {t('info.university')}
                 </p>
                 <div className='flex items-center gap-2'>
                   <Mail className='h-3 w-3 text-muted-foreground' />
-                  <p className='text-sm text-muted-foreground'>gbq@email.com</p>
+                  <p className='text-sm text-muted-foreground'>
+                    gabriel@gabrielgonzalez.me
+                  </p>
                 </div>
               </div>
 
