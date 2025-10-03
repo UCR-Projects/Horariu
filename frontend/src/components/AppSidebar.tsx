@@ -15,6 +15,7 @@ import CourseForm from './courseForm/CourseForm'
 import { LanguageToggleButton } from '@/components/LanguageToggle'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { CoursesListOptions } from './CoursesListOptions'
+import { InfoButton } from './InfoButton'
 
 export function AppSidebar() {
   const { t } = useTranslation()
@@ -54,7 +55,10 @@ export function AppSidebar() {
           </SidebarContent>
 
           <SidebarFooter className='px-2 py-2 group-data-[collapsible=icon]:hidden'>
-            <LanguageToggleButton />
+            <div className='flex items-center justify-between'>
+              <LanguageToggleButton />
+              <InfoButton />
+            </div>
           </SidebarFooter>
         </Sidebar>
       </div>
