@@ -72,13 +72,13 @@
   "downloadSchedule": "Descargar Horario",
   "addTimeBlock": "Agregar Bloque",
 
-  "info": {
-    "tooltip": "Info and contact",
-    "title": "About HorariU",
-    "developedBy": "Developed by",
-    "university": "University of Costa Rica",
-    "issue": "Have suggestions or found a bug?",
-    "feedback": "Feel free to contact us. We appreciate your help!"
+    "info": {
+    "tooltip": "Información y contacto",
+    "title": "Sobre HorariU",
+    "developedBy": "Desarrollado por",
+    "university": "Universidad de Costa Rica",
+    "issue": "¿Tienes sugerencias o encontraste un error?",
+    "feedback": "No dudes en contactarnos. ¡Agradecemos tu ayuda!"
   },
 
   "validation": {
