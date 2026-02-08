@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { Course, Schedule } from '../types'
-import { DEFAULT_COLOR } from '../utils/constants'
-import { getSampleSet, SampleCoursesSetType } from '../mocks/sampleCourses'
+import { Course, Schedule } from '@/types'
+import { DEFAULT_COLOR } from '@/utils/constants'
+import { getSampleSet, SampleCoursesSetType } from '@/mocks/sampleCourses'
 
 interface CourseState {
   courses: Course[]

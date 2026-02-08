@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { Schedule } from '../types'
+import { Schedule } from '@/types'
 
 interface StoredGroup {
   name: string

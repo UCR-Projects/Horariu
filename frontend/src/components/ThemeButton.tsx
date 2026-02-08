@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { SunIcon, MoonIcon } from '../assets/icons/Icons'
+import { SunIcon, MoonIcon } from '@/assets/icons/Icons'
 
 const ThemeButton = () => {
   const getStoredTheme = () => {

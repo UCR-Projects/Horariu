@@ -1,4 +1,4 @@
-import { Day, TimeRange, TailwindColor } from '../types'
+import { Day, TimeRange, TailwindColor } from '@/types'
 
 const START_TIMES: string[] = [
   '07:00',

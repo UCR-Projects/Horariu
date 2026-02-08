@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { Day, TimeRange } from '../types'
+import { Day, TimeRange } from '@/types'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
 const mapToObject = (map: Map<string, { hour: TimeRange; day: Day }>) => {
