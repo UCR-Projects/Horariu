@@ -1,0 +1,58 @@
+{
+  "title": "Courses",
+  "course": "Course",
+  "coursesList": "Courses List",
+  "courseName": "Course Name",
+  "addCourse": "Add Course",
+  "newCourse": "Create Course",
+  "editCourse": "Edit Course",
+  "deleteCourse": "Delete Course",
+  "seeCourses": "See Courses",
+  "deleteCourses": "Delete Courses",
+  "clearAllCourses": "Clear All Courses",
+  "noCoursesYet": "No courses added yet",
+  "form": {
+    "title": "Course Information",
+    "description": "Enter the course information to include it in your plan",
+    "editDescription": "Edit the course information"
+  },
+  "group": "Group",
+  "groupName": "Group Name",
+  "addGroup": "Add Group",
+  "newGroup": "Create Group",
+  "editGroup": "Edit Group",
+  "deleteGroup": "Delete Group",
+  "noGroupsYet": "No groups added yet",
+  "groupFormDes": "Enter the group information to include it in the course",
+  "editGroupFormDes": "Edit the group information",
+  "schedule": "Schedule",
+  "noActiveDays": "Select a day to add times",
+  "addTimeBlock": "Add Time Block",
+  "noTimeBlocks": "No time blocks",
+  "courseFormDes": "Enter the course information to include it in your schedule",
+  "editCourseDes": "Edit the course information",
+  "validation": {
+    "mustAddACourse": "You must add a course first",
+    "mustHaveActiveCourses": "You must have at least one active course",
+    "mustHaveActiveGroups": "You must have at least one active group in some course"
+  },
+  "confirmations": {
+    "clearAll": {
+      "title": "Are you sure?",
+      "description": "This action cannot be undone. All courses will be removed from the list."
+    },
+    "deleteItem": {
+      "title": "Are you sure you want to delete this item?",
+      "description": "This action cannot be undone. \"{{itemName}}\" will be removed."
+    },
+    "deleteCourse": {
+      "title": "Are you sure you want to delete this course?",
+      "description": "This action cannot be undone. The course \"{{itemName}}\" will be removed from the list."
+    },
+    "deleteGroup": {
+      "title": "Are you sure you want to delete this group?",
+      "description": "This action cannot be undone. The group \"{{itemName}}\" will be removed from the course."
+    }
+  }
+}
+

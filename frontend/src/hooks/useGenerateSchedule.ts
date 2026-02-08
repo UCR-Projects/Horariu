@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
 import { generateScheduleService } from '@/services/generateScheduleService'
 import { Course } from '@/types'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import { toast } from 'sonner'
 import useScheduleStore from '@/stores/useScheduleStore'
 
 export const useGenerateSchedule = () => {
   const { setScheduleData, setLoading, setError, reset } = useScheduleStore()
-  const { t } = useTranslation()
+  const { t } = useI18n('schedules')
 
   const mutation = useMutation({
     mutationKey: ['generateSchedule'],
@@ -24,16 +24,16 @@ export const useGenerateSchedule = () => {
 
     onSuccess: (data) => {
       if (data.schedules.length === 0) {
-        toast.error(t('scheduleNotPossible'))
+        toast.error(t('messages.notPossible'))
       } else {
         setScheduleData(data)
-        toast.success(t('scheduleSuccess'))
+        toast.success(t('messages.success'))
       }
     },
 
     onError: (error) => {
       setError(error)
-      toast.error(t('scheduleError'))
+      toast.error(t('messages.error'))
       console.error(error)
     },
 

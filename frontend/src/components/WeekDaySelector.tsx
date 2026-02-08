@@ -1,5 +1,5 @@
 import { Day } from '@/types'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 
 interface WeekDaySelectorProps {
   day: Day
@@ -9,7 +9,7 @@ interface WeekDaySelectorProps {
 }
 
 const WeekDaySelector = ({ day, active, onToggle }: WeekDaySelectorProps) => {
-  const { t } = useTranslation()
+  const { t } = useI18n()
 
   return (
     <button

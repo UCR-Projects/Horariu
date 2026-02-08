@@ -4,10 +4,10 @@ import ScheduleTable from '@/components/ScheduleTable'
 import EmptyScheduleTable from './EmptyScheduleTable'
 import { SCHEDULES_PER_PAGE } from '@/utils/constants'
 import CustomPagination from './CustomPagination'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 
 const SchedulesList = () => {
-  const { t } = useTranslation()
+  const { t } = useI18n()
   const { scheduleData } = useScheduleStore()
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -46,7 +46,7 @@ const SchedulesList = () => {
         <>
           <div className='flex justify-between items-center mb-4'>
             <span className='text-sm text-muted-foreground'>
-              {t('showingResults', {
+              {t('pagination.showingResults', {
                 start: (currentPage - 1) * SCHEDULES_PER_PAGE + 1,
                 end: Math.min(currentPage * SCHEDULES_PER_PAGE, totalSchedules),
                 total: totalSchedules,
@@ -54,7 +54,7 @@ const SchedulesList = () => {
             </span>
             {showPagination && (
               <span className='text-sm text-muted-foreground'>
-                {t('pageInfo', {
+                {t('pagination.pageInfo', {
                   current: currentPage,
                   total: totalPages,
                 })}

@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/select'
 import { Day } from '@/types'
 import { START_TIMES, END_TIMES } from '@/utils/constants'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import { useEffect } from 'react'
 import { Button } from './ui/button'
 import { Trash2 } from 'lucide-react'
@@ -38,7 +38,7 @@ const TimeRangeSelector = ({
   canRemove,
   disabled = false,
 }: TimeRangeSelectorProps) => {
-  const { t } = useTranslation()
+  const { t } = useI18n()
 
   const getValidEndTimes = (start: string) => {
     if (!start || start === '----') return ['----']
@@ -70,7 +70,9 @@ const TimeRangeSelector = ({
     <div className='relative flex items-center justify-center gap-2 mb-2'>
       <div className='flex items-center gap-2'>
         <div className='flex items-center gap-1'>
-          <span className='text-xs italic text-neutral-500'>{t('from')}:</span>
+          <span className='text-xs italic text-neutral-500'>
+            {t('time.from')}:
+          </span>
           <Select
             disabled={disabled}
             value={startTime}
@@ -101,7 +103,9 @@ const TimeRangeSelector = ({
         </div>
 
         <div className='flex items-center gap-1'>
-          <span className='text-xs italic text-neutral-500'>{t('to')}:</span>
+          <span className='text-xs italic text-neutral-500'>
+            {t('time.to')}:
+          </span>
           <Select
             disabled={disabled || startTime === '----'}
             value={endTime}

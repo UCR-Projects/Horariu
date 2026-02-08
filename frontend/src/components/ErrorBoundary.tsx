@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react'
 import { withTranslation, WithTranslation } from 'react-i18next'
 
-interface Props extends WithTranslation {
+interface Props extends WithTranslation<'errors'> {
   children: ReactNode
   fallback?: ReactNode
   onReset?: () => void
@@ -157,4 +157,4 @@ class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default withTranslation()(ErrorBoundary)
+export default withTranslation('errors')(ErrorBoundary)

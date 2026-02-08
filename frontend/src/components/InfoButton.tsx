@@ -1,6 +1,6 @@
 import { Info, User, Mail } from 'lucide-react'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,7 @@ import {
 
 export function InfoButton() {
   const [open, setOpen] = useState(false)
-  const { t } = useTranslation()
+  const { t } = useI18n('info')
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -29,14 +29,14 @@ export function InfoButton() {
           </DialogTrigger>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{t('info.tooltip')}</p>
+          <p>{t('tooltip')}</p>
         </TooltipContent>
       </Tooltip>
 
       <DialogContent className='sm:max-w-md'>
         <DialogHeader>
           <DialogTitle className='text-xl font-semibold'>
-            {t('info.title')}
+            {t('title')}
           </DialogTitle>
         </DialogHeader>
 
@@ -45,7 +45,7 @@ export function InfoButton() {
             <div className='flex items-center gap-2 mb-4'>
               <User className='h-4 w-4 text-muted-foreground' />
               <h3 className='font-medium text-foreground'>
-                {t('info.developedBy')}
+                {t('developedBy')}
               </h3>
             </div>
 
@@ -53,7 +53,7 @@ export function InfoButton() {
               <div className='border rounded-lg p-3 bg-card'>
                 <p className='font-medium text-foreground'>Gabriel González</p>
                 <p className='text-xs text-muted-foreground mb-2'>
-                  {t('info.university')}
+                  {t('university')}
                 </p>
                 <div className='flex items-center gap-2'>
                   <Mail className='h-3 w-3 text-muted-foreground' />
@@ -66,7 +66,7 @@ export function InfoButton() {
               <div className='border rounded-lg p-3 bg-card'>
                 <p className='font-medium text-foreground'>Geancarlo Rivera</p>
                 <p className='text-xs text-muted-foreground mb-2'>
-                  {t('info.university')}
+                  {t('university')}
                 </p>
                 <div className='flex items-center gap-2'>
                   <Mail className='h-3 w-3 text-muted-foreground' />
@@ -80,9 +80,9 @@ export function InfoButton() {
 
           <div className='border rounded-lg p-4 bg-muted/20'>
             <p className='text-sm text-muted-foreground leading-relaxed'>
-              {t('info.issue')}
+              {t('issue')}
               <br />
-              {t('info.feedback')}
+              {t('feedback')}
             </p>
           </div>
 

@@ -1,5 +1,5 @@
 import { Day, TimeRange } from '@/types'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import { TIME_RANGES, DAYS } from '@/utils/constants'
 import { useRef } from 'react'
 import { Download, FileImage, FileText } from 'lucide-react'
@@ -21,7 +21,7 @@ interface ScheduleTableProps {
 }
 
 const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
-  const { t } = useTranslation()
+  const { t } = useI18n(['common', 'schedules'])
   const tableRef = useRef<HTMLTableElement>(null)
   const { theme } = useTheme()
 
@@ -123,7 +123,7 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
     <div className='mb-12'>
       <div className='flex justify-between items-center mb-4'>
         <h2 className='font-bold'>
-          {t('option')} {scheduleIndex + 1}
+          {t('schedules:option')} {scheduleIndex + 1}
         </h2>
 
         <DropdownMenu>
@@ -133,7 +133,7 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
               className='dark:bg-neutral-900 cursor-pointer bg-neutral-100  hover:bg-neutral-200/50 dark:hover:bg-neutral-900/70'
             >
               <Download size={16} className='mr-1' />
-              <span>{t('downloadSchedule')}</span>
+              <span>{t('schedules:downloadSchedule')}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
@@ -142,7 +142,7 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
               className='cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800'
             >
               <FileImage size={16} className='mr-2' />
-              <span>{t('image')}</span>
+              <span>{t('schedules:image')}</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={exportAsPDF}
@@ -160,14 +160,15 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
             <thead>
               <tr>
                 <th className='border border-neutral-900 dark:border-neutral-300 w-16 md:w-24 h-9'>
-                  {t('hours')}
+                  {t('common:time.hours')}
                 </th>
                 {DAYS.map((day) => (
                   <th
                     key={day}
                     className='p-1 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32'
                   >
-                    ({t(`days.${day}.short`)}) {t(`days.${day}.name`)}
+                    ({t(`common:days.${day}.short`)}){' '}
+                    {t(`common:days.${day}.name`)}
                   </th>
                 ))}
               </tr>

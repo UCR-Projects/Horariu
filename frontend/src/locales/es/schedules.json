@@ -1,0 +1,18 @@
+{
+  "title": "Horarios",
+  "schedule": "Horario",
+  "generateSchedules": "Generar Horarios",
+  "downloadSchedule": "Descargar Horario",
+  "noSchedulesGenerated": "No se han generado horarios",
+  "option": "Opción",
+  "options": "Opciones",
+  "image": "Imagen",
+  "possibleSchedule": "Opción Encontrada",
+  "possibleSchedules": "Opciones Encontradas",
+  "messages": {
+    "success": "Horarios generados exitosamente!",
+    "error": "Error al generar los horarios",
+    "notPossible": "No hay combinaciones posibles con los cursos y horarios seleccionados."
+  }
+}
+

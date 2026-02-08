@@ -2,13 +2,13 @@ import SchedulesList from '@/components/SchedulesList'
 import { Badge } from '@/components/ui/badge'
 import { Loader2 } from 'lucide-react'
 import useScheduleStore from '@/stores/useScheduleStore'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import LoadSampleDataButtons from '@/components/LoadSampleDataButtons'
 import GenerateScheduleButton from '@/components/GenerateScheduleButton'
 import { MobileSidebarTrigger } from '@/components/MobileSidebarTrigger'
 
 const Home = () => {
-  const { t } = useTranslation()
+  const { t } = useI18n('schedules')
   const { scheduleData, isLoading } = useScheduleStore()
 
   const schedulesCount = scheduleData?.schedules?.length || 0

@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog'
 
 interface GroupsListProps {
@@ -24,7 +24,7 @@ export function GroupsList({
   onDeleteGroup,
   onToggleGroupVisibility,
 }: GroupsListProps) {
-  const { t } = useTranslation()
+  const { t } = useI18n('courses')
 
   if (groups.length === 0) {
     return (
@@ -89,8 +89,8 @@ export function GroupsList({
                   <DeleteConfirmationDialog
                     itemName={group.name}
                     onConfirm={() => onDeleteGroup(index)}
-                    title={t('confirmDeleteGroup')}
-                    description={t('confirmDeleteGroupDescription', {
+                    title={t('confirmations.deleteGroup.title')}
+                    description={t('confirmations.deleteGroup.description', {
                       itemName: group.name,
                     })}
                     triggerClassName='hover:bg-accent'
@@ -112,7 +112,7 @@ export function GroupsList({
                       className='flex items-center justify-between text-muted-foreground py-1 border-b last:border-b-0'
                     >
                       <span className='font-medium'>
-                        {t(`days.${schedule.day}.short`)}
+                        {t(`common:days.${schedule.day}.short`)}
                       </span>
                       <div className='flex flex-col items-end space-y-1'>
                         {schedule.timeBlocks

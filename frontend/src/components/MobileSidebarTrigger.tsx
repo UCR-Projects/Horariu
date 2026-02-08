@@ -2,10 +2,10 @@ import { Button } from './ui/button'
 import { useSidebar } from './ui/sidebar'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { BookOpen } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 
 export const MobileSidebarTrigger = () => {
-  const { t } = useTranslation()
+  const { t } = useI18n('courses')
   const { toggleSidebar } = useSidebar()
   const isMobile = useIsMobile()
 

@@ -1,0 +1,20 @@
+{
+  "errorBoundary": {
+    "title": "Oops! Algo salió mal",
+    "description": "Lo sentimos, ha ocurrido un error inesperado. Puedes intentar recargar la página o volver al inicio.",
+    "detailsTitle": "Detalles del error (solo en desarrollo)",
+    "tryAgain": "Intentar de nuevo",
+    "goHome": "Ir al inicio",
+    "testButton": "Test Error Boundary"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "La página que buscas no existe.",
+    "goHome": "Volver al inicio"
+  },
+  "generic": {
+    "title": "Error",
+    "description": "Ha ocurrido un error inesperado. Por favor, intenta de nuevo."
+  }
+}
+

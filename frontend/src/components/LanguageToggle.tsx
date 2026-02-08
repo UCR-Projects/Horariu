@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useLanguage } from '@/hooks/useI18n'
 import { Languages } from 'lucide-react'
 import {
   Tooltip,
@@ -7,15 +7,15 @@ import {
 } from '@/components/ui/tooltip'
 
 export function LanguageToggleButton() {
-  const { i18n } = useTranslation()
+  const { language, changeLanguage } = useLanguage()
 
   const toggleLanguage = () => {
-    const newLang = i18n.language === 'es' ? 'en' : 'es'
-    i18n.changeLanguage(newLang)
+    const newLang = language === 'es' ? 'en' : 'es'
+    changeLanguage(newLang)
   }
 
   const getCurrentLanguageLabel = () => {
-    return i18n.language === 'es' ? 'ES' : 'EN'
+    return language === 'es' ? 'ES' : 'EN'
   }
 
   return (
@@ -32,9 +32,7 @@ export function LanguageToggleButton() {
         </button>
       </TooltipTrigger>
       <TooltipContent>
-        <p>
-          {i18n.language === 'es' ? 'Cambiar a Inglés' : 'Switch to Spanish'}
-        </p>
+        <p>{language === 'es' ? 'Cambiar a Inglés' : 'Switch to Spanish'}</p>
       </TooltipContent>
     </Tooltip>
   )

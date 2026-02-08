@@ -4,6 +4,13 @@ import { DAYS } from '@/utils/constants'
 import TimeRangeSelector from '@/components/TimeRangeSelector'
 import WeekDaySelector from '@/components/WeekDaySelector'
 import { GroupFormValuesType } from '@/validation/schemas/course.schema'
+import { Day } from '@/types'
+
+type DaySchedule = {
+  day: Day
+  active: boolean
+  timeBlocks: { start: string; end: string }[]
+}
 import {
   Form,
   FormControl,
@@ -28,8 +35,7 @@ import {
 } from '@/components/ui/drawer'
 
 import { useIsMobile } from '@/hooks/use-mobile'
-import { Day } from '@/types'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import { Plus } from 'lucide-react'
 
 interface GroupFormProps {
@@ -45,12 +51,12 @@ export function GroupInputsForm({
   onSubmit,
   onCancel,
 }: GroupFormProps) {
-  const { t } = useTranslation()
+  const { t } = useI18n(['common', 'courses'])
   const isMobile = useIsMobile()
 
   const handleDayToggle = (day: Day, active: boolean) => {
     const currentSchedules = form.getValues('schedules')
-    const updatedSchedules = currentSchedules.map((schedule) =>
+    const updatedSchedules = currentSchedules.map((schedule: DaySchedule) =>
       schedule.day === day
         ? {
             ...schedule,
@@ -68,7 +74,7 @@ export function GroupInputsForm({
 
   const handleAddTimeBlock = (day: Day) => {
     const currentSchedules = form.getValues('schedules')
-    const updatedSchedules = currentSchedules.map((schedule) =>
+    const updatedSchedules = currentSchedules.map((schedule: DaySchedule) =>
       schedule.day === day
         ? {
             ...schedule,
@@ -84,12 +90,13 @@ export function GroupInputsForm({
 
   const handleRemoveTimeBlock = (day: Day, blockIndex: number) => {
     const currentSchedules = form.getValues('schedules')
-    const updatedSchedules = currentSchedules.map((schedule) =>
+    const updatedSchedules = currentSchedules.map((schedule: DaySchedule) =>
       schedule.day === day
         ? {
             ...schedule,
             timeBlocks: schedule.timeBlocks.filter(
-              (_, index) => index !== blockIndex
+              (_: { start: string; end: string }, index: number) =>
+                index !== blockIndex
             ),
           }
         : schedule
@@ -104,12 +111,13 @@ export function GroupInputsForm({
     end: string
   ) => {
     const currentSchedules = form.getValues('schedules')
-    const updatedSchedules = currentSchedules.map((schedule) =>
+    const updatedSchedules = currentSchedules.map((schedule: DaySchedule) =>
       schedule.day === day
         ? {
             ...schedule,
-            timeBlocks: schedule.timeBlocks.map((block, index) =>
-              index === blockIndex ? { start, end } : block
+            timeBlocks: schedule.timeBlocks.map(
+              (block: { start: string; end: string }, index: number) =>
+                index === blockIndex ? { start, end } : block
             ),
           }
         : schedule
@@ -137,10 +145,12 @@ export function GroupInputsForm({
           name='groupName'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm'>{t('groupName')}</FormLabel>
+              <FormLabel className='text-sm'>
+                {t('courses:groupName')}
+              </FormLabel>
               <FormControl>
                 <Input
-                  placeholder={t('groupName')}
+                  placeholder={t('courses:groupName')}
                   {...field}
                   className='text-sm py-2'
                   maxLength={25}
@@ -152,7 +162,7 @@ export function GroupInputsForm({
         />
 
         <div className='space-y-2'>
-          <FormLabel className='text-sm'>{t('schedule')}</FormLabel>
+          <FormLabel className='text-sm'>{t('courses:schedule')}</FormLabel>
 
           {form.formState.errors.schedules?.message && (
             <div className='text-red-500 text-sm'>
@@ -188,20 +198,22 @@ export function GroupInputsForm({
                     <div key={schedule.day} className='mb-4 last:mb-0'>
                       <div className='flex items-center justify-between mb-2'>
                         <h4 className='font-medium text-sm'>
-                          {t(`days.${schedule.day}.name`)}
+                          {t(`common:days.${schedule.day}.name`)}
                         </h4>
                         <div
                           onClick={() => handleAddTimeBlock(schedule.day)}
                           className='flex items-center gap-1 text-xs text-neutral-500 dark:hover:text-neutral-300 cursor-pointer transition-colors'
                         >
                           <Plus className='h-3 w-3' />
-                          <span className='text-xs'>{t('addTimeBlock')}</span>
+                          <span className='text-xs'>
+                            {t('courses:addTimeBlock')}
+                          </span>
                         </div>
                       </div>
 
                       {schedule.timeBlocks.length === 0 ? (
                         <div className='text-xs text-neutral-500 italic text-center border border-dashed rounded p-4'>
-                          {t('noTimeBlocks')}
+                          {t('courses:noTimeBlocks')}
                         </div>
                       ) : (
                         <div className='space-y-2'>
@@ -225,7 +237,7 @@ export function GroupInputsForm({
               </div>
             ) : (
               <div className='text-xs text-neutral-500 italic text-center border-t pt-3'>
-                {t('noActiveDays')}
+                {t('courses:noActiveDays')}
               </div>
             )}
           </div>
@@ -242,10 +254,10 @@ export function GroupInputsForm({
         className='cursor-pointer'
         onClick={onCancel}
       >
-        {t('cancel')}
+        {t('common:actions.cancel')}
       </Button>
       <Button type='submit' form='groupForm' className='cursor-pointer'>
-        {t('save')}
+        {t('common:actions.save')}
       </Button>
     </div>
   )
@@ -256,10 +268,12 @@ export function GroupInputsForm({
         <>
           <DrawerHeader>
             <DrawerTitle className='text-lg'>
-              {isEditing ? t('editGroup') : t('newGroup')}
+              {isEditing ? t('courses:editGroup') : t('courses:newGroup')}
             </DrawerTitle>
             <DrawerDescription className='text-sm'>
-              {isEditing ? t('editGroupFormDes') : t('groupFormDes')}
+              {isEditing
+                ? t('courses:editGroupFormDes')
+                : t('courses:groupFormDes')}
             </DrawerDescription>
           </DrawerHeader>
           {formContent}
@@ -269,10 +283,12 @@ export function GroupInputsForm({
         <>
           <DialogHeader>
             <DialogTitle className='text-lg'>
-              {isEditing ? t('editGroup') : t('newGroup')}
+              {isEditing ? t('courses:editGroup') : t('courses:newGroup')}
             </DialogTitle>
             <DialogDescription className='text-sm'>
-              {isEditing ? t('editGroupFormDes') : t('groupFormDes')}
+              {isEditing
+                ? t('courses:editGroupFormDes')
+                : t('courses:groupFormDes')}
             </DialogDescription>
           </DialogHeader>
           {formContent}

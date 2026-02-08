@@ -1,0 +1,25 @@
+{
+  "course": {
+    "name": {
+      "required": "Course name is required",
+      "min": "Course name must be at least 1 character",
+      "max": "Course name must be at most 30 characters",
+      "unique": "A course with this name already exists"
+    },
+    "groupRequired": "At least one group must be added"
+  },
+  "group": {
+    "name": {
+      "required": "Group name is required",
+      "min": "Group name must be at least 1 character",
+      "max": "Group name must be at most 25 characters",
+      "unique": "Group name already exists for this course"
+    },
+    "schedule": {
+      "required": "At least one day must be selected",
+      "timeRange": "All selected days must have a valid schedule",
+      "overlap": "Time blocks must not overlap with each other"
+    }
+  }
+}
+

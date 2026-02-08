@@ -2,7 +2,7 @@ import CourseForm from '@/components/courseForm/CourseForm'
 import { Button } from '@/components/ui/button'
 import { SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar'
 import { Eye, EyeOff, ChevronDown, ChevronRight } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import { useState } from 'react'
 import useCourseStore from '@/stores/useCourseStore'
 import DeleteConfirmationDialog from './DeleteConfirmationDialog'
@@ -14,7 +14,7 @@ const CourseList = () => {
     toggleCourseVisibility,
     toggleGroupVisibility,
   } = useCourseStore()
-  const { t } = useTranslation()
+  const { t } = useI18n('courses')
   const [expandedCourses, setExpandedCourses] = useState<Set<string>>(new Set())
 
   const toggleCourseExpansion = (courseName: string) => {
@@ -99,8 +99,8 @@ const CourseList = () => {
                 <DeleteConfirmationDialog
                   itemName={course.name}
                   onConfirm={() => deleteCourse(course.name)}
-                  title={t('confirmDeleteCourse')}
-                  description={t('confirmDeleteCourseDescription', {
+                  title={t('confirmations.deleteCourse.title')}
+                  description={t('confirmations.deleteCourse.description', {
                     itemName: course.name,
                   })}
                   triggerClassName='h-7 w-7 hover:bg-neutral-200 dark:hover:bg-neutral-900/80 cursor-pointer'
