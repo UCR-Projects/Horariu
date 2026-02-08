@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/accordion'
 
 import { useI18n } from '@/hooks/useI18n'
-import DeleteConfirmationDialog from '../DeleteConfirmationDialog'
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog'
 
 interface GroupsListProps {
   groups: CourseFormValuesType['groups']

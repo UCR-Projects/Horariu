@@ -1,4 +1,4 @@
-import { Header } from '../components/Header'
+import { Header } from '@/components/Header'
 import { Outlet } from 'react-router'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/AppSidebar'

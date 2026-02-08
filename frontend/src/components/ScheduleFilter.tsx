@@ -1,7 +1,7 @@
-import { Day, TimeRange } from '../types'
+import { Day, TimeRange } from '@/types'
 import { useI18n } from '@/hooks/useI18n'
-import { useScheduleFilterStore } from '../stores/useScheduleFilterStore'
-import { TIME_RANGES, DAYS } from '../utils/constants'
+import { useScheduleFilterStore } from '@/stores/useScheduleFilterStore'
+import { TIME_RANGES, DAYS } from '@/utils/constants'
 
 const ScheduleFilter = () => {
   const { t } = useI18n()
