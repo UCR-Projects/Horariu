@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from './components/ThemeProvider'
 import { Toaster } from '@/components/ui/sonner'
 import { inject } from '@vercel/analytics'
+import ErrorBoundary from './components/ErrorBoundary'
 import '../i18n.config'
 
 const router = createBrowserRouter(routes)
@@ -16,11 +17,13 @@ if (import.meta.env.PROD) {
 }
 
 createRoot(document.getElementById('root')!).render(
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
-      <RouterProvider router={router} />
-      <Toaster />
-    </ThemeProvider>
-    <ReactQueryDevtools />
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+        <RouterProvider router={router} />
+        <Toaster />
+      </ThemeProvider>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  </ErrorBoundary>
 )
