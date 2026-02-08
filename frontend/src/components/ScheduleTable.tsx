@@ -41,9 +41,7 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
 
       // Check if the time range overlaps with any time block for the day
       return daySchedule.some((timeBlock) => {
-        return (
-          timeBlock && timeBlock.start <= startTime && timeBlock.end >= endTime
-        )
+        return timeBlock && timeBlock.start <= startTime && timeBlock.end >= endTime
       })
     })
   }
@@ -62,9 +60,7 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
       if (!daySchedule || !Array.isArray(daySchedule)) continue
 
       const hasTimeSlot = daySchedule.some((timeBlock) => {
-        return (
-          timeBlock && timeBlock.start <= startTime && timeBlock.end >= endTime
-        )
+        return timeBlock && timeBlock.start <= startTime && timeBlock.end >= endTime
       })
 
       if (hasTimeSlot) {
@@ -81,8 +77,7 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
     try {
       const isDarkMode =
         theme === 'dark' ||
-        (theme === 'system' &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches)
+        (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
 
       const element = tableRef.current
       return await html2canvas(element, {
@@ -120,55 +115,54 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
   }
 
   return (
-    <div className='mb-12'>
-      <div className='flex justify-between items-center mb-4'>
-        <h2 className='font-bold'>
+    <div className="mb-12">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="font-bold">
           {t('schedules:option')} {scheduleIndex + 1}
         </h2>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              variant='outline'
-              className='dark:bg-neutral-900 cursor-pointer bg-neutral-100  hover:bg-neutral-200/50 dark:hover:bg-neutral-900/70'
+              variant="outline"
+              className="dark:bg-neutral-900 cursor-pointer bg-neutral-100  hover:bg-neutral-200/50 dark:hover:bg-neutral-900/70"
             >
-              <Download size={16} className='mr-1' />
+              <Download size={16} className="mr-1" />
               <span>{t('schedules:downloadSchedule')}</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
+          <DropdownMenuContent align="end">
             <DropdownMenuItem
               onClick={exportAsImage}
-              className='cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800'
+              className="cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800"
             >
-              <FileImage size={16} className='mr-2' />
+              <FileImage size={16} className="mr-2" />
               <span>{t('schedules:image')}</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={exportAsPDF}
-              className='cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800'
+              className="cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800"
             >
-              <FileText size={16} className='mr-2' />
+              <FileText size={16} className="mr-2" />
               <span>PDF</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className='overflow-x-auto md:overflow-visible'>
-        <div className='min-w-[600px] md:min-w-0'>
-          <table className='w-full border-collapse' ref={tableRef}>
+      <div className="overflow-x-auto md:overflow-visible">
+        <div className="min-w-150 md:min-w-0">
+          <table className="w-full border-collapse" ref={tableRef}>
             <thead>
               <tr>
-                <th className='border border-neutral-900 dark:border-neutral-300 w-16 md:w-24 h-9'>
+                <th className="border border-neutral-900 dark:border-neutral-300 w-16 md:w-24 h-9">
                   {t('common:time.hours')}
                 </th>
                 {DAYS.map((day) => (
                   <th
                     key={day}
-                    className='p-1 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32'
+                    className="p-1 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32"
                   >
-                    ({t(`common:days.${day}.short`)}){' '}
-                    {t(`common:days.${day}.name`)}
+                    ({t(`common:days.${day}.short`)}) {t(`common:days.${day}.name`)}
                   </th>
                 ))}
               </tr>
@@ -176,7 +170,7 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
             <tbody>
               {TIME_RANGES.map((range) => (
                 <tr key={range}>
-                  <td className='p-1 border border-neutral-900 dark:border-neutral-300 text-center w-16 md:w-24'>
+                  <td className="p-1 border border-neutral-900 dark:border-neutral-300 text-center w-16 md:w-24">
                     {range}
                   </td>
                   {DAYS.map((day) => {
@@ -191,11 +185,9 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
                         } h-9`}
                       >
                         {course && (
-                          <div className='p-0.5 text-xs md:text-sm text-center text-neutral-900'>
-                            <div className='font-semibold'>
-                              {course.courseName}
-                            </div>
-                            <div className='text-xs'>{groupName}</div>
+                          <div className="p-0.5 text-xs md:text-sm text-center text-neutral-900">
+                            <div className="font-semibold">{course.courseName}</div>
+                            <div className="text-xs">{groupName}</div>
                           </div>
                         )}
                       </td>

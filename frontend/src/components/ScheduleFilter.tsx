@@ -13,20 +13,20 @@ const ScheduleFilter = () => {
   }
 
   return (
-    <div className='w-full max-w-8xl mx-auto p-2'>
-      <div className='overflow-x-auto md:overflow-visible'>
-        <div className='min-w-[600px] md:min-w-0'>
-          <table className='w-full border-collapse transition-colors duration-100'>
+    <div className="w-full max-w-8xl mx-auto p-2">
+      <div className="overflow-x-auto md:overflow-visible">
+        <div className="min-w-150 md:min-w-0">
+          <table className="w-full border-collapse transition-colors duration-100">
             <thead>
               <tr>
-                <th className='border border-neutral-900 dark:border-neutral-300 w-16 md:w-24'>
+                <th className="border border-neutral-900 dark:border-neutral-300 w-16 md:w-24">
                   {t('time.hours')}
                 </th>
 
                 {DAYS.map((day) => (
                   <th
                     key={day}
-                    className='p-2 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32 h-14'
+                    className="p-2 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32 h-14"
                   >
                     ({t(`days.${day}.short`)}) {t(`days.${day}.name`)}
                   </th>
@@ -36,7 +36,7 @@ const ScheduleFilter = () => {
             <tbody>
               {TIME_RANGES.map((hour) => (
                 <tr key={hour}>
-                  <td className='p-1 border border-neutral-900 dark:border-neutral-300 text-center w-16 md:w-32 h-11'>
+                  <td className="p-1 border border-neutral-900 dark:border-neutral-300 text-center w-16 md:w-32 h-11">
                     {hour}
                   </td>
 

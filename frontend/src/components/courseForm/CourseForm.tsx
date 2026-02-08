@@ -34,9 +34,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
   const [activeStep, setActiveStep] = useState<'course' | 'group'>('course')
 
   // State for editing group, (have the index of the group being edited)
-  const [editingGroupIndex, setEditingGroupIndex] = useState<number | null>(
-    null
-  )
+  const [editingGroupIndex, setEditingGroupIndex] = useState<number | null>(null)
 
   // Helper function to convert schedule to form format
   const convertScheduleToFormFormat = (schedule: Schedule) => {
@@ -107,9 +105,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
     resolver: zodResolver(
       createGroupSchema(
         currentGroupNames,
-        editingGroupIndex !== null
-          ? currentGroups[editingGroupIndex]?.name
-          : undefined
+        editingGroupIndex !== null ? currentGroups[editingGroupIndex]?.name : undefined
       )
     ),
     defaultValues: {
@@ -202,11 +198,9 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
       i === index ? { ...group, isActive: !group.isActive } : group
     )
 
-    courseForm.setValue(
-      'groups',
-      updatedGroups as CourseFormValuesType['groups'],
-      { shouldValidate: true }
-    )
+    courseForm.setValue('groups', updatedGroups as CourseFormValuesType['groups'], {
+      shouldValidate: true,
+    })
   }
 
   const handleEditGroup = (index: number) => {
@@ -217,11 +211,9 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
   const handleDeleteGroup = (index: number) => {
     const currentGroups = courseForm.getValues('groups')
     const updatedGroups = currentGroups.filter((_, i) => i !== index)
-    courseForm.setValue(
-      'groups',
-      updatedGroups as CourseFormValuesType['groups'],
-      { shouldValidate: true }
-    )
+    courseForm.setValue('groups', updatedGroups as CourseFormValuesType['groups'], {
+      shouldValidate: true,
+    })
   }
 
   const onSubmitCourse = (values: CourseFormValuesType) => {
@@ -282,14 +274,14 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
           <DrawerTrigger asChild>
             {isEditingCourse ? (
               <Button
-                variant='ghost'
-                size='icon'
-                className='h-7 w-7 hover:bg-green-200  dark:hover:bg-neutral-900/80 cursor-pointer'
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 hover:bg-green-200  dark:hover:bg-neutral-900/80 cursor-pointer"
               >
-                <Edit2 className='h-4 w-4 text-neutral-600' />
+                <Edit2 className="h-4 w-4 text-neutral-600" />
               </Button>
             ) : (
-              <Button className='cursor-pointer'>{t('addCourse')}</Button>
+              <Button className="cursor-pointer">{t('addCourse')}</Button>
             )}
           </DrawerTrigger>
 
@@ -300,18 +292,18 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
           <DialogTrigger asChild>
             {isEditingCourse ? (
               <Button
-                variant='ghost'
-                size='icon'
-                className='h-7 w-7 dark:hover:bg-neutral-900/80  hover:bg-neutral-200 cursor-pointer'
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 dark:hover:bg-neutral-900/80  hover:bg-neutral-200 cursor-pointer"
               >
-                <Edit2 className='h-4 w-4 text-neutral-600' />
+                <Edit2 className="h-4 w-4 text-neutral-600" />
               </Button>
             ) : (
-              <Button className='cursor-pointer'>{t('addCourse')}</Button>
+              <Button className="cursor-pointer">{t('addCourse')}</Button>
             )}
           </DialogTrigger>
 
-          <DialogContent className='sm:max-w-[425px]'>{content}</DialogContent>
+          <DialogContent className="sm:max-w-106.25">{content}</DialogContent>
         </Dialog>
       )}
     </>
