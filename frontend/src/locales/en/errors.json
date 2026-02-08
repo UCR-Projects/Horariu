@@ -15,6 +15,18 @@
   "generic": {
     "title": "Error",
     "description": "An unexpected error has occurred. Please try again."
+  },
+  "api": {
+    "network": "Unable to connect to the server. Please check your internet connection.",
+    "timeout": "The request took too long. Please try again.",
+    "validation": "The data provided is not valid. Please review the information.",
+    "notFound": "The requested resource was not found.",
+    "server": "Server error. Please try again later.",
+    "unauthorized": "Authentication required. Please log in.",
+    "forbidden": "You do not have permission to perform this action.",
+    "rateLimit": "Too many requests. Please wait a moment and try again.",
+    "unknown": "An unexpected error has occurred.",
+    "retrying": "Retrying connection..."
   }
 }
 

@@ -1,16 +1,59 @@
 import { publicApi } from './apiConfig'
-import { Course } from '@/types'
+import { Course, Schedule } from '@/types'
+import { ApiError, parseApiError } from './errors'
+
+/**
+ * API response type for schedule generation
+ */
+export interface GenerateScheduleResponse {
+  message?: string
+  schedules: Array<
+    Array<{
+      courseName: string
+      color: string
+      group: {
+        name: string
+        schedule: Schedule
+      }
+    }>
+  >
+}
+
+/**
+ * Request options for schedule generation
+ */
+export interface GenerateScheduleOptions {
+  timeout?: number
+}
 
 export const generateScheduleService = {
-  async generateSchedule(coursesData: Course[]) {
+  /**
+   * Generate schedules from course data
+   * @param coursesData - Array of courses to generate schedules from
+   * @param options - Optional request configuration
+   * @returns Promise with generated schedules
+   * @throws {ApiError} When the API request fails
+   */
+  async generateSchedule(
+    coursesData: Course[],
+    options?: GenerateScheduleOptions
+  ): Promise<GenerateScheduleResponse> {
     try {
-      const response = await publicApi.post('/generate', coursesData)
+      const response = await publicApi.post<GenerateScheduleResponse>(
+        '/generate',
+        coursesData,
+        {
+          timeout: options?.timeout,
+        }
+      )
       return response.data
     } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('[fetch] Error generating schedule:', error)
+      // Error is already parsed by the interceptor if it's from axios
+      if (error instanceof ApiError) {
+        throw error
       }
-      throw new Error('Error generating schedule')
+      // Parse any other errors
+      throw parseApiError(error)
     }
   },
 }
