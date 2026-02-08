@@ -144,6 +144,14 @@
     "Violet": "Violet",
     "Yellow": "Yellow",
     "Zinc": "Zinc"
-  }
+  },
 
+  "errorBoundary": {
+    "title": "Oops! Something went wrong",
+    "description": "We're sorry, an unexpected error has occurred. You can try reloading the page or go back to home.",
+    "detailsTitle": "Error details (development only)",
+    "tryAgain": "Try again",
+    "goHome": "Go to home",
+    "testButton": "Test Error Boundary"
+  }
 }

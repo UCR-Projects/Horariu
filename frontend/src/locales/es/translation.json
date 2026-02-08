@@ -144,5 +144,14 @@
     "Violet": "Violeta",
     "Yellow": "Amarillo",
     "Zinc": "Zinc"
+  },
+
+  "errorBoundary": {
+    "title": "Oops! Algo salió mal",
+    "description": "Lo sentimos, ha ocurrido un error inesperado. Puedes intentar recargar la página o volver al inicio.",
+    "detailsTitle": "Detalles del error (solo en desarrollo)",
+    "tryAgain": "Intentar de nuevo",
+    "goHome": "Ir al inicio",
+    "testButton": "Test Error Boundary"
   }
 }
