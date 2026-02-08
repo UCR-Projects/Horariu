@@ -1,0 +1,86 @@
+{
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Agregar",
+    "create": "Crear",
+    "clear": "Limpiar",
+    "clearAll": "Eliminar todo",
+    "download": "Descargar",
+    "generate": "Generar",
+    "generating": "Generando",
+    "tryAgain": "Intentar de nuevo",
+    "goHome": "Ir al inicio"
+  },
+  "time": {
+    "from": "Desde",
+    "to": "Hasta",
+    "hours": "Horas"
+  },
+  "theme": {
+    "dark": "Oscuro",
+    "light": "Claro",
+    "system": "Sistema"
+  },
+  "days": {
+    "L": {
+      "name": "Lunes",
+      "short": "L"
+    },
+    "K": {
+      "name": "Martes",
+      "short": "K"
+    },
+    "M": {
+      "name": "Miércoles",
+      "short": "M"
+    },
+    "J": {
+      "name": "Jueves",
+      "short": "J"
+    },
+    "V": {
+      "name": "Viernes",
+      "short": "V"
+    },
+    "S": {
+      "name": "Sábado",
+      "short": "S"
+    },
+    "D": {
+      "name": "Domingo",
+      "short": "D"
+    }
+  },
+  "colors": {
+    "Amber": "Ámbar",
+    "Blue": "Azul",
+    "Cyan": "Cian",
+    "Emerald": "Esmeralda",
+    "Fuchsia": "Fucsia",
+    "Green": "Verde",
+    "Indigo": "Índigo",
+    "Lime": "Lima",
+    "Neutral": "Neutral",
+    "Orange": "Naranja",
+    "Pink": "Rosa",
+    "Purple": "Púrpura",
+    "Red": "Rojo",
+    "Rose": "Rosa Claro",
+    "Sky": "Cielo",
+    "Slate": "Pizarra",
+    "Stone": "Piedra",
+    "Teal": "Verde Azulado",
+    "Violet": "Violeta",
+    "Yellow": "Amarillo",
+    "Zinc": "Zinc"
+  },
+  "pagination": {
+    "showingResults": "Mostrando {{start}} - {{end}} de {{total}} combinaciones",
+    "pageInfo": "Página {{current}} de {{total}}"
+  }
+}
+

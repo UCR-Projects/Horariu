@@ -1,0 +1,58 @@
+{
+  "title": "Cursos",
+  "course": "Curso",
+  "coursesList": "Lista de Cursos",
+  "courseName": "Nombre del Curso",
+  "addCourse": "Agregar Curso",
+  "newCourse": "Crear Curso",
+  "editCourse": "Editar Curso",
+  "deleteCourse": "Eliminar Curso",
+  "seeCourses": "Ver Cursos",
+  "deleteCourses": "Eliminar Cursos",
+  "clearAllCourses": "Limpiar Todos los Cursos",
+  "noCoursesYet": "No se han agregado cursos aún",
+  "form": {
+    "title": "Información del Curso",
+    "description": "Ingresa la información del curso para incluirlo en tu horario",
+    "editDescription": "Edita la información del curso"
+  },
+  "group": "Grupo",
+  "groupName": "Nombre del Grupo",
+  "addGroup": "Agregar Grupo",
+  "newGroup": "Crear Grupo",
+  "editGroup": "Editar Grupo",
+  "deleteGroup": "Eliminar Grupo",
+  "noGroupsYet": "No se han agregado grupos",
+  "groupFormDes": "Ingresa la información del grupo para incluirlo en el curso",
+  "editGroupFormDes": "Edita la información del grupo",
+  "schedule": "Horario",
+  "noActiveDays": "Selecciona un día para agregar horarios",
+  "addTimeBlock": "Agregar Bloque",
+  "noTimeBlocks": "No hay bloques de tiempo",
+  "courseFormDes": "Ingresa la información del curso para incluirlo en tu horario",
+  "editCourseDes": "Edita la información del curso",
+  "validation": {
+    "mustAddACourse": "Debes agregar un curso primero",
+    "mustHaveActiveCourses": "Debes tener al menos un curso activo",
+    "mustHaveActiveGroups": "Debes tener al menos un grupo activo en algún curso"
+  },
+  "confirmations": {
+    "clearAll": {
+      "title": "¿Estás seguro?",
+      "description": "Esta acción no se puede deshacer. Se eliminarán todos los cursos de la lista."
+    },
+    "deleteItem": {
+      "title": "¿Estás seguro de eliminar este elemento?",
+      "description": "Esta acción no se puede deshacer. \"{{itemName}}\" será eliminado."
+    },
+    "deleteCourse": {
+      "title": "¿Estás seguro de eliminar este curso?",
+      "description": "Esta acción no se puede deshacer. El curso \"{{itemName}}\" será eliminado de la lista."
+    },
+    "deleteGroup": {
+      "title": "¿Estás seguro de eliminar este grupo?",
+      "description": "Esta acción no se puede deshacer. El grupo \"{{itemName}}\" será eliminado del curso."
+    }
+  }
+}
+

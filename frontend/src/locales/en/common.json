@@ -1,0 +1,86 @@
+{
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "create": "Create",
+    "clear": "Clear",
+    "clearAll": "Clear All",
+    "download": "Download",
+    "generate": "Generate",
+    "generating": "Generating",
+    "tryAgain": "Try again",
+    "goHome": "Go to home"
+  },
+  "time": {
+    "from": "From",
+    "to": "To",
+    "hours": "Hours"
+  },
+  "theme": {
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System"
+  },
+  "days": {
+    "L": {
+      "name": "Monday",
+      "short": "Mo"
+    },
+    "K": {
+      "name": "Tuesday",
+      "short": "Tu"
+    },
+    "M": {
+      "name": "Wednesday",
+      "short": "We"
+    },
+    "J": {
+      "name": "Thursday",
+      "short": "Th"
+    },
+    "V": {
+      "name": "Friday",
+      "short": "Fr"
+    },
+    "S": {
+      "name": "Saturday",
+      "short": "Sa"
+    },
+    "D": {
+      "name": "Sunday",
+      "short": "Su"
+    }
+  },
+  "colors": {
+    "Amber": "Amber",
+    "Blue": "Blue",
+    "Cyan": "Cyan",
+    "Emerald": "Emerald",
+    "Fuchsia": "Fuchsia",
+    "Green": "Green",
+    "Indigo": "Indigo",
+    "Lime": "Lime",
+    "Neutral": "Neutral",
+    "Orange": "Orange",
+    "Pink": "Pink",
+    "Purple": "Purple",
+    "Red": "Red",
+    "Rose": "Rose",
+    "Sky": "Sky",
+    "Slate": "Slate",
+    "Stone": "Stone",
+    "Teal": "Teal",
+    "Violet": "Violet",
+    "Yellow": "Yellow",
+    "Zinc": "Zinc"
+  },
+  "pagination": {
+    "showingResults": "Showing {{start}} - {{end}} of {{total}} combinations",
+    "pageInfo": "Page {{current}} of {{total}}"
+  }
+}
+

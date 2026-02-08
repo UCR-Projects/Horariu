@@ -1,10 +1,10 @@
 import { Day, TimeRange } from '../types'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import { useScheduleFilterStore } from '../stores/useScheduleFilterStore'
 import { TIME_RANGES, DAYS } from '../utils/constants'
 
 const ScheduleFilter = () => {
-  const { t } = useTranslation()
+  const { t } = useI18n()
 
   const { toggleCell, selectedCells } = useScheduleFilterStore()
 
@@ -20,7 +20,7 @@ const ScheduleFilter = () => {
             <thead>
               <tr>
                 <th className='border border-neutral-900 dark:border-neutral-300 w-16 md:w-24'>
-                  {t('hours')}
+                  {t('time.hours')}
                 </th>
 
                 {DAYS.map((day) => (

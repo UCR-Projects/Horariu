@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 
 /**
  * Component for testing Error Boundary functionality
@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
  */
 const ErrorBoundaryTest = () => {
   const [shouldThrow, setShouldThrow] = useState(false)
-  const { t } = useTranslation()
+  const { t } = useI18n('errors')
 
   if (shouldThrow) {
     // This will be caught by the nearest Error Boundary

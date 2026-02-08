@@ -1,0 +1,18 @@
+{
+  "title": "Schedules",
+  "schedule": "Schedule",
+  "generateSchedules": "Generate Schedules",
+  "downloadSchedule": "Download Schedule",
+  "noSchedulesGenerated": "No schedules generated",
+  "option": "Option",
+  "options": "Options",
+  "image": "Image",
+  "possibleSchedule": "Possible Schedule",
+  "possibleSchedules": "Possible Schedules",
+  "messages": {
+    "success": "Schedules generated successfully",
+    "error": "Error generating schedules",
+    "notPossible": "No possible combinations with the selected courses and schedules."
+  }
+}
+

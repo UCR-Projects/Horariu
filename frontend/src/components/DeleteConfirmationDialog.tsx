@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Trash2 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 
 interface DeleteConfirmationDialogProps {
   itemName: string
@@ -32,7 +32,7 @@ const DeleteConfirmationDialog = ({
   confirmLabel,
   triggerClassName,
 }: DeleteConfirmationDialogProps) => {
-  const { t } = useTranslation()
+  const { t } = useI18n(['common', 'courses'])
 
   return (
     <AlertDialog>
@@ -46,20 +46,23 @@ const DeleteConfirmationDialog = ({
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{title || t('confirmDeleteItem')}</AlertDialogTitle>
+          <AlertDialogTitle>
+            {title || t('courses:confirmations.deleteItem.title')}
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            {description || t('confirmDeleteItemDescription', { itemName })}
+            {description ||
+              t('courses:confirmations.deleteItem.description', { itemName })}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className='cursor-pointer'>
-            {cancelLabel || t('cancel')}
+            {cancelLabel || t('common:actions.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
             className='bg-red-600 hover:bg-red-700 focus:ring-red-600 cursor-pointer dark:text-neutral-50'
           >
-            {confirmLabel || t('delete')}
+            {confirmLabel || t('common:actions.delete')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

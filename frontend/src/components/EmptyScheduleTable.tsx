@@ -1,9 +1,9 @@
 import { DAYS, TIME_RANGES } from '@/utils/constants'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import useScheduleStore from '@/stores/useScheduleStore'
 
 const EmptyScheduleTable = () => {
-  const { t } = useTranslation()
+  const { t } = useI18n()
   const { isLoading } = useScheduleStore()
 
   const SkeletonLoader = () => (
@@ -14,7 +14,7 @@ const EmptyScheduleTable = () => {
             <thead>
               <tr>
                 <th className='border border-neutral-900 dark:border-neutral-300 w-16 md:w-24 h-9 rounded-sm'>
-                  {t('hours')}
+                  {t('time.hours')}
                 </th>
                 {DAYS.map((day) => (
                   <th
@@ -65,7 +65,7 @@ const EmptyScheduleTable = () => {
             <thead>
               <tr>
                 <th className='border border-neutral-900 dark:border-neutral-300 w-16 md:w-24 h-9'>
-                  {t('hours')}
+                  {t('time.hours')}
                 </th>
                 {DAYS.map((day) => (
                   <th

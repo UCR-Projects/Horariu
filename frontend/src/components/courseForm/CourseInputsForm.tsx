@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/drawer'
 
 import ColorPicker from '@/components/ColorPicker'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { GroupsList } from '@/components/courseForm/GroupsList'
 
@@ -52,7 +52,7 @@ export function CourseInputsForm({
   onCancel,
   onToggleGroupVisibility,
 }: CourseFormProps) {
-  const { t } = useTranslation()
+  const { t } = useI18n(['common', 'courses'])
   const isMobile = useIsMobile()
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -72,10 +72,12 @@ export function CourseInputsForm({
           name='courseName'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm'>{t('courseName')}</FormLabel>
+              <FormLabel className='text-sm'>
+                {t('courses:courseName')}
+              </FormLabel>
               <FormControl>
                 <Input
-                  placeholder={t('courseName')}
+                  placeholder={t('courses:courseName')}
                   {...field}
                   className='text-sm py-2'
                   maxLength={30}
@@ -100,7 +102,7 @@ export function CourseInputsForm({
         />
 
         <div className='flex items-center justify-between'>
-          <FormLabel className='text-sm'>{t('group')}s</FormLabel>
+          <FormLabel className='text-sm'>{t('courses:group')}s</FormLabel>
           <Button
             type='button'
             variant='outline'
@@ -108,7 +110,7 @@ export function CourseInputsForm({
             className='text-xs px-2 py-1 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800'
             onClick={onAddGroup}
           >
-            {t('addGroup')}
+            {t('courses:addGroup')}
           </Button>
         </div>
 
@@ -137,11 +139,11 @@ export function CourseInputsForm({
           className='cursor-pointer'
           onClick={onCancel}
         >
-          {t('cancel')}
+          {t('common:actions.cancel')}
         </Button>
       )}
       <Button type='submit' form='courseForm' className='cursor-pointer'>
-        {isEditingCourse ? t('save') : t('addCourse')}
+        {isEditingCourse ? t('common:actions.save') : t('courses:addCourse')}
       </Button>
     </div>
   )
@@ -152,10 +154,14 @@ export function CourseInputsForm({
         <>
           <DrawerHeader>
             <DrawerTitle className='text-lg'>
-              {isEditingCourse ? t('editCourse') : t('newCourse')}
+              {isEditingCourse
+                ? t('courses:editCourse')
+                : t('courses:newCourse')}
             </DrawerTitle>
             <DrawerDescription className='text-sm'>
-              {isEditingCourse ? t('editCourseDes') : t('courseFormDes')}
+              {isEditingCourse
+                ? t('courses:editCourseDes')
+                : t('courses:courseFormDes')}
             </DrawerDescription>
           </DrawerHeader>
           {formContent}
@@ -166,10 +172,14 @@ export function CourseInputsForm({
         <>
           <DialogHeader>
             <DialogTitle className='text-lg'>
-              {isEditingCourse ? t('editCourse') : t('newCourse')}
+              {isEditingCourse
+                ? t('courses:editCourse')
+                : t('courses:newCourse')}
             </DialogTitle>
             <DialogDescription className='text-sm'>
-              {isEditingCourse ? t('editCourseDes') : t('courseFormDes')}
+              {isEditingCourse
+                ? t('courses:editCourseDes')
+                : t('courses:courseFormDes')}
             </DialogDescription>
           </DialogHeader>
           <div className='space-y-2'>

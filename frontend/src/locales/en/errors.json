@@ -1,0 +1,20 @@
+{
+  "errorBoundary": {
+    "title": "Oops! Something went wrong",
+    "description": "We're sorry, an unexpected error has occurred. You can try reloading the page or go back to home.",
+    "detailsTitle": "Error details (development only)",
+    "tryAgain": "Try again",
+    "goHome": "Go to home",
+    "testButton": "Test Error Boundary"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist.",
+    "goHome": "Go to home"
+  },
+  "generic": {
+    "title": "Error",
+    "description": "An unexpected error has occurred. Please try again."
+  }
+}
+

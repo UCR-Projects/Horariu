@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Check } from 'lucide-react'
 import { COLORS } from '@/utils/constants'
 import { TailwindColor } from '@/types'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 
 interface ColorPickerProps {
   onColorChange?: (color: string) => void
@@ -22,10 +22,14 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   colorValue,
 }) => {
   const [open, setOpen] = useState(false)
-  const { t } = useTranslation()
+  const { t } = useI18n()
 
   const selectedColor =
     COLORS.find((color) => color.value === colorValue) || COLORS[4]
+
+  const getColorTranslation = (colorName: string) => {
+    return t(`colors.${colorName}` as 'colors.Amber')
+  }
 
   const handleSelectColor = (color: TailwindColor) => {
     if (onColorChange) {
@@ -50,7 +54,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                   selectedColor.class
                 )}
               />
-              <span>{t(`colors.${selectedColor.name}`)}</span>
+              <span>{getColorTranslation(selectedColor.name)}</span>
             </div>
           </Button>
         </PopoverTrigger>

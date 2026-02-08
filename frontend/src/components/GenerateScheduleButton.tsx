@@ -8,10 +8,10 @@ import { Loader2, Calendar } from 'lucide-react'
 import { useGenerateSchedule } from '@/hooks/useGenerateSchedule'
 import useScheduleStore from '@/stores/useScheduleStore'
 import useCourseStore from '@/stores/useCourseStore'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 
 const GenerateScheduleButton = () => {
-  const { t } = useTranslation()
+  const { t } = useI18n(['common', 'courses', 'schedules'])
   const { generateSchedule } = useGenerateSchedule()
   const { isLoading } = useScheduleStore()
   const { courses } = useCourseStore()
@@ -31,12 +31,12 @@ const GenerateScheduleButton = () => {
   const buttonContent = isLoading ? (
     <>
       <Loader2 className='mr-2 h-5 w-5 animate-spin' />
-      {t('generating')}...
+      {t('common:actions.generating')}...
     </>
   ) : (
     <>
       <Calendar className='mr-2 h-5 w-5' />
-      {t('generateSchedules')}
+      {t('schedules:generateSchedules')}
     </>
   )
 
@@ -52,13 +52,13 @@ const GenerateScheduleButton = () => {
 
   let tooltipMessage = ''
   if (!hasCourses) {
-    tooltipMessage = t('mustAddACourse')
+    tooltipMessage = t('courses:validation.mustAddACourse')
   } else if (!hasActiveCoursesWithGroups) {
     const activeCourses = courses.filter((c) => c.isActive)
     if (activeCourses.length === 0) {
-      tooltipMessage = t('mustHaveActiveCourses')
+      tooltipMessage = t('courses:validation.mustHaveActiveCourses')
     } else {
-      tooltipMessage = t('mustHaveActiveGroups')
+      tooltipMessage = t('courses:validation.mustHaveActiveGroups')
     }
   }
 

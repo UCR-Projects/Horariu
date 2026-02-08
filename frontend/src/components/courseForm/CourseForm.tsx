@@ -14,8 +14,8 @@ import { Edit2 } from 'lucide-react'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
 
-import { Group, Schedule, Course } from '@/types'
-import { useTranslation } from 'react-i18next'
+import { Group, Schedule, Course, Day } from '@/types'
+import { useI18n } from '@/hooks/useI18n'
 import useCourseStore from '@/stores/useCourseStore'
 import { DEFAULT_COLOR } from '@/utils/constants'
 import { GroupInputsForm } from '@/components/courseForm/GroupInputsForm'
@@ -28,7 +28,7 @@ interface CourseFormProps {
 export default function CourseForm({ existingCourse }: CourseFormProps) {
   const isMobile = useIsMobile()
   const isEditingCourse = !!existingCourse
-  const { t } = useTranslation()
+  const { t } = useI18n('courses')
   const { addCourse, updateCourse } = useCourseStore()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [activeStep, setActiveStep] = useState<'course' | 'group'>('course')
@@ -157,11 +157,17 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
   const onSubmitGroup = (values: GroupFormValuesType) => {
     const newGroup = {
       name: values.groupName,
-      schedule: values.schedules.map((schedule) => ({
-        day: schedule.day,
-        active: schedule.active,
-        timeBlocks: schedule.active ? schedule.timeBlocks : [],
-      })),
+      schedule: values.schedules.map(
+        (schedule: {
+          day: Day
+          active: boolean
+          timeBlocks: { start: string; end: string }[]
+        }) => ({
+          day: schedule.day,
+          active: schedule.active,
+          timeBlocks: schedule.active ? schedule.timeBlocks : [],
+        })
+      ),
       isActive: true,
     }
 

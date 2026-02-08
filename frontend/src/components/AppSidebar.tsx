@@ -9,7 +9,7 @@ import {
   SidebarFooter,
 } from '@/components/ui/sidebar'
 
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 import CourseList from '@/components/CourseList'
 import CourseForm from './courseForm/CourseForm'
 import { LanguageToggleButton } from '@/components/LanguageToggle'
@@ -18,7 +18,7 @@ import { CoursesListOptions } from './CoursesListOptions'
 import { InfoButton } from './InfoButton'
 
 export function AppSidebar() {
-  const { t } = useTranslation()
+  const { t } = useI18n('courses')
   const isMobile = useIsMobile()
 
   return (
@@ -32,7 +32,7 @@ export function AppSidebar() {
           )}
 
           <SidebarHeader className='text-xl font-bold px-3 py-2 group-data-[collapsible=icon]:hidden'>
-            {t('course')}s
+            {t('courses:course')}s
           </SidebarHeader>
 
           <SidebarContent>

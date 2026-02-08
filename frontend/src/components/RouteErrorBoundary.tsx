@@ -1,7 +1,7 @@
 import { useRouteError, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '@/hooks/useI18n'
 
 /**
  * Error Boundary component specifically for React Router errors
@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next'
 const RouteErrorBoundary = () => {
   const error = useRouteError() as Error
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const { t } = useI18n('errors')
 
   const handleReset = () => {
     window.location.reload()
