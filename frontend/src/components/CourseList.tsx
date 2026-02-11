@@ -3,16 +3,16 @@ import { Button } from '@/components/ui/button'
 import { SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar'
 import { Eye, EyeOff, ChevronDown, ChevronRight } from 'lucide-react'
 import { useI18n } from '@/hooks/useI18n'
-import { useState } from 'react'
+import { useState, useCallback, memo } from 'react'
 import useCourseStore from '@/stores/useCourseStore'
 import DeleteConfirmationDialog from './DeleteConfirmationDialog'
 
-const CourseList = () => {
+const CourseList = memo(() => {
   const { courses, deleteCourse, toggleCourseVisibility, toggleGroupVisibility } = useCourseStore()
   const { t } = useI18n('courses')
   const [expandedCourses, setExpandedCourses] = useState<Set<string>>(new Set())
 
-  const toggleCourseExpansion = (courseName: string) => {
+  const toggleCourseExpansion = useCallback((courseName: string) => {
     setExpandedCourses((prev) => {
       const newSet = new Set(prev)
       if (newSet.has(courseName)) {
@@ -22,7 +22,7 @@ const CourseList = () => {
       }
       return newSet
     })
-  }
+  }, [])
 
   if (courses.length === 0) {
     return (
@@ -135,6 +135,6 @@ const CourseList = () => {
       })}
     </SidebarMenu>
   )
-}
+})
 
 export default CourseList

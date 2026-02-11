@@ -1,7 +1,6 @@
-import { Day, TimeRange } from '@/types'
 import { useI18n } from '@/hooks/useI18n'
 import { TIME_RANGES, DAYS } from '@/utils/constants'
-import { useRef } from 'react'
+import { useRef, useMemo, useCallback, memo } from 'react'
 import { Download, FileImage, FileText } from 'lucide-react'
 import { ScheduleDataType } from '@/stores/useScheduleStore'
 import {
@@ -20,58 +19,51 @@ interface ScheduleTableProps {
   scheduleIndex: number
 }
 
-const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
+const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
   const { t } = useI18n(['common', 'schedules'])
   const tableRef = useRef<HTMLTableElement>(null)
   const { theme } = useTheme()
 
-  const getCourseAtTimeSlot = (day: Day, timeRange: TimeRange) => {
+  // Pre-compute the schedule grid to avoid recalculating on every cell render
+  const scheduleGrid = useMemo(() => {
     const currentSchedule = scheduleData?.schedules?.[scheduleIndex] || []
-    if (!currentSchedule.length) return null
+    const grid: Record<string, { course: (typeof currentSchedule)[0]; groupName: string } | null> =
+      {}
 
-    const [startTime, endTime] = timeRange.split(' - ')
+    if (!currentSchedule.length) return grid
 
-    return currentSchedule.find((course) => {
-      // Verify that course and course.group exist
-      if (!course || !course.group || !course.group.schedule) return false
+    for (const range of TIME_RANGES) {
+      const [startTime, endTime] = range.split(' - ')
 
-      // Validate that course.group.schedule has the day
-      const daySchedule = course.group.schedule[day]
-      if (!daySchedule || !Array.isArray(daySchedule)) return false
+      for (const day of DAYS) {
+        const key = `${day}-${range}`
 
-      // Check if the time range overlaps with any time block for the day
-      return daySchedule.some((timeBlock) => {
-        return timeBlock && timeBlock.start <= startTime && timeBlock.end >= endTime
-      })
-    })
-  }
+        for (const course of currentSchedule) {
+          if (!course?.group?.schedule) continue
 
-  const getGroupNameAtTimeSlot = (day: Day, timeRange: TimeRange) => {
-    const currentSchedule = scheduleData?.schedules?.[scheduleIndex] || []
-    if (!currentSchedule.length) return null
+          const daySchedule = course.group.schedule[day]
+          if (!daySchedule || !Array.isArray(daySchedule)) continue
 
-    const [startTime, endTime] = timeRange.split(' - ')
+          const hasTimeSlot = daySchedule.some(
+            (timeBlock) => timeBlock && timeBlock.start <= startTime && timeBlock.end >= endTime
+          )
 
-    for (const course of currentSchedule) {
-      // Verify that course and course.group exist
-      if (!course || !course.group || !course.group.schedule) continue
+          if (hasTimeSlot) {
+            grid[key] = { course, groupName: course.group.name }
+            break
+          }
+        }
 
-      const daySchedule = course.group.schedule[day]
-      if (!daySchedule || !Array.isArray(daySchedule)) continue
-
-      const hasTimeSlot = daySchedule.some((timeBlock) => {
-        return timeBlock && timeBlock.start <= startTime && timeBlock.end >= endTime
-      })
-
-      if (hasTimeSlot) {
-        return course.group.name
+        if (!grid[key]) {
+          grid[key] = null
+        }
       }
     }
 
-    return null
-  }
+    return grid
+  }, [scheduleData, scheduleIndex])
 
-  const generateCanvas = async () => {
+  const generateCanvas = useCallback(async () => {
     if (!tableRef.current) return null
 
     try {
@@ -88,9 +80,9 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
       console.error('Error generating canvas:', error)
       return null
     }
-  }
+  }, [theme])
 
-  const exportAsImage = async () => {
+  const exportAsImage = useCallback(async () => {
     const canvas = await generateCanvas()
     if (!canvas) return
 
@@ -99,9 +91,9 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
     link.href = image
     link.download = `schedule-option-${scheduleIndex + 1}.png`
     link.click()
-  }
+  }, [generateCanvas, scheduleIndex])
 
-  const exportAsPDF = async () => {
+  const exportAsPDF = useCallback(async () => {
     const canvas = await generateCanvas()
     if (!canvas) return
 
@@ -112,7 +104,7 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
     const pdf = new jsPDF('p', 'mm', 'a4')
     pdf.addImage(image, 'PNG', 0, 0, imgWidth, imgHeight)
     pdf.save(`schedule-option-${scheduleIndex + 1}.pdf`)
-  }
+  }, [generateCanvas, scheduleIndex])
 
   return (
     <div className="mb-12">
@@ -174,8 +166,9 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
                     {range}
                   </td>
                   {DAYS.map((day) => {
-                    const course = getCourseAtTimeSlot(day, range)
-                    const groupName = getGroupNameAtTimeSlot(day, range)
+                    const cellData = scheduleGrid[`${day}-${range}`]
+                    const course = cellData?.course
+                    const groupName = cellData?.groupName
 
                     return (
                       <td
@@ -201,6 +194,6 @@ const ScheduleTable = ({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
       </div>
     </div>
   )
-}
+})
 
 export default ScheduleTable
