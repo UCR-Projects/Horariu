@@ -29,9 +29,12 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
   const isMobile = useIsMobile()
   const isEditingCourse = !!existingCourse
   const { t } = useI18n('courses')
-  const { addCourse, updateCourse } = useCourseStore()
+  const { addCourse, updateCourse, courses } = useCourseStore()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [activeStep, setActiveStep] = useState<'course' | 'group'>('course')
+
+  // Get existing course names for validation
+  const existingCourseNames = courses.map((c) => c.name)
 
   // State for editing group, (have the index of the group being edited)
   const [editingGroupIndex, setEditingGroupIndex] = useState<number | null>(null)
@@ -62,7 +65,7 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
 
   // Init course form
   const courseForm = useForm<CourseFormValuesType>({
-    resolver: zodResolver(createCourseSchema(existingCourse?.name)),
+    resolver: zodResolver(createCourseSchema(existingCourseNames, existingCourse?.name)),
     defaultValues: {
       courseName: existingCourse?.name || '',
       color: existingCourse?.color || DEFAULT_COLOR,
