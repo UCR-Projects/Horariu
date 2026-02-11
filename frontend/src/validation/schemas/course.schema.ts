@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import useCourseStore from '@/stores/useCourseStore'
 import { validMsgs } from '@/validation/validationMessages'
 import { DAYS } from '@/utils/constants'
 import { Day } from '@/types'
@@ -49,10 +48,7 @@ const hasTimeOverlap = (blocks: { start: string; end: string }[]): boolean => {
   return false
 }
 
-export const createGroupSchema = (
-  existingGroups: string[] = [],
-  currentGroupName?: string
-) =>
+export const createGroupSchema = (existingGroups: string[] = [], currentGroupName?: string) =>
   z.object({
     groupName: z
       .string()
@@ -82,9 +78,7 @@ export const createGroupSchema = (
           !schedules
             .filter((s) => s.active)
             .some((s) =>
-              s.timeBlocks.some(
-                (block) => block.start === '----' || block.end === '----'
-              )
+              s.timeBlocks.some((block) => block.start === '----' || block.end === '----')
             ),
         { message: validMsgs.group.schedule.timeRange }
       )
@@ -105,7 +99,10 @@ export const createGroupSchema = (
       ),
   })
 
-export const createCourseSchema = (currentCourseName?: string) =>
+export const createCourseSchema = (
+  existingCourseNames: string[] = [],
+  currentCourseName?: string
+) =>
   z.object({
     courseName: z
       .string()
@@ -114,15 +111,13 @@ export const createCourseSchema = (currentCourseName?: string) =>
       .max(30, { message: validMsgs.course.name.max })
       .refine(
         (name) => {
-          const courses = useCourseStore.getState().courses
-
           // If editing and the name didn't change, it's valid
           if (currentCourseName && name === currentCourseName) {
             return true
           }
 
           // If not, check if it's unique
-          return courses.every((course) => course.name !== name)
+          return !existingCourseNames.includes(name)
         },
         { message: validMsgs.course.name.unique }
       ),
@@ -139,6 +134,4 @@ export const createCourseSchema = (currentCourseName?: string) =>
   })
 
 export type GroupFormValuesType = z.infer<ReturnType<typeof createGroupSchema>>
-export type CourseFormValuesType = z.infer<
-  ReturnType<typeof createCourseSchema>
->
+export type CourseFormValuesType = z.infer<ReturnType<typeof createCourseSchema>>

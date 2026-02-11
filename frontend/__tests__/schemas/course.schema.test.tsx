@@ -1,21 +1,9 @@
-import { expect, it, describe, beforeEach, vi } from 'vitest'
+import { expect, it, describe } from 'vitest'
 
-import {
-  createCourseSchema,
-  createGroupSchema,
-} from '../../src/validation/schemas/course.schema'
+import { createCourseSchema, createGroupSchema } from '../../src/validation/schemas/course.schema'
 
-vi.mock('@/stores/useCourseStore', () => ({
-  default: {
-    getState: vi.fn(() => ({
-      courses: [{ name: 'Calculus I', color: 'bg-green-500', groups: [] }],
-    })),
-  },
-}))
-
-beforeEach(() => {
-  vi.clearAllMocks()
-})
+// Existing course names for testing uniqueness validation
+const existingCourseNames = ['Calculus I']
 
 describe('createCourseSchema Validation', () => {
   it('should pass if the course is valid', () => {
@@ -42,7 +30,7 @@ describe('createCourseSchema Validation', () => {
       ],
     }
 
-    const schema = createCourseSchema()
+    const schema = createCourseSchema(existingCourseNames)
     const result = schema.safeParse(validCourse)
     expect(result.success).toBe(true)
   })
@@ -71,7 +59,7 @@ describe('createCourseSchema Validation', () => {
       ],
     }
 
-    const schema = createCourseSchema('Calculus I')
+    const schema = createCourseSchema(existingCourseNames, 'Calculus I')
     const result = schema.safeParse(editedCourse)
     expect(result.success).toBe(true)
   })
@@ -100,7 +88,7 @@ describe('createCourseSchema Validation', () => {
       ],
     }
 
-    const schema = createCourseSchema()
+    const schema = createCourseSchema(existingCourseNames)
     const result = schema.safeParse(duplicateCourse)
     expect(result.success).toBe(false)
   })
@@ -129,15 +117,14 @@ describe('createCourseSchema Validation', () => {
       ],
     }
 
-    const schema = createCourseSchema()
+    const schema = createCourseSchema(existingCourseNames)
     const result = schema.safeParse(invalidCourse)
     expect(result.success).toBe(false)
   })
 
   it('should fail if the course name is too long (more than 30 characters)', () => {
     const invalidCourse = {
-      courseName:
-        '............................................................',
+      courseName: '............................................................',
       color: 'bg-green-500',
       groups: [
         {
@@ -159,7 +146,7 @@ describe('createCourseSchema Validation', () => {
       ],
     }
 
-    const schema = createCourseSchema()
+    const schema = createCourseSchema(existingCourseNames)
     const result = schema.safeParse(invalidCourse)
     expect(result.success).toBe(false)
   })
@@ -170,7 +157,7 @@ describe('createCourseSchema Validation', () => {
       color: 'bg-green-500',
       groups: [],
     }
-    const schema = createCourseSchema()
+    const schema = createCourseSchema(existingCourseNames)
     const result = schema.safeParse(invalidCourse)
     expect(result.success).toBe(false)
   })
@@ -180,7 +167,7 @@ describe('createCourseSchema Validation', () => {
       courseName: 'Course 1',
       color: 'bg-green-500',
     }
-    const schema = createCourseSchema()
+    const schema = createCourseSchema(existingCourseNames)
     const result = schema.safeParse(invalidCourse)
     expect(result.success).toBe(false)
   })
