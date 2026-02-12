@@ -1,9 +1,5 @@
 import { Button } from '@/components/ui/button'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Loader2, Calendar } from 'lucide-react'
 import { useGenerateSchedule } from '@/hooks/useGenerateSchedule'
 import useScheduleStore from '@/stores/useScheduleStore'
@@ -13,8 +9,8 @@ import { useI18n } from '@/hooks/useI18n'
 const GenerateScheduleButton = () => {
   const { t } = useI18n(['common', 'courses', 'schedules'])
   const { generateSchedule } = useGenerateSchedule()
-  const { isLoading } = useScheduleStore()
-  const { courses } = useCourseStore()
+  const isLoading = useScheduleStore((state) => state.isLoading)
+  const courses = useCourseStore((state) => state.courses)
 
   const activeCoursesWithActiveGroups = courses
     .filter((course) => course.isActive)
@@ -30,12 +26,12 @@ const GenerateScheduleButton = () => {
 
   const buttonContent = isLoading ? (
     <>
-      <Loader2 className='mr-2 h-5 w-5 animate-spin' />
+      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
       {t('common:actions.generating')}...
     </>
   ) : (
     <>
-      <Calendar className='mr-2 h-5 w-5' />
+      <Calendar className="mr-2 h-5 w-5" />
       {t('schedules:generateSchedules')}
     </>
   )
@@ -44,7 +40,7 @@ const GenerateScheduleButton = () => {
     <Button
       onClick={() => generateSchedule(activeCoursesWithActiveGroups)}
       disabled={isDisabled}
-      className='w-full md:w-auto px-4 py-2 font-medium disabled:text-neutral-400 disabled:bg-neutral-900 cursor-pointer'
+      className="w-full md:w-auto px-4 py-2 font-medium disabled:text-neutral-400 disabled:bg-neutral-900 cursor-pointer"
     >
       {buttonContent}
     </Button>
@@ -66,7 +62,7 @@ const GenerateScheduleButton = () => {
     return (
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className='w-full md:w-auto'>{button}</span>
+          <span className="w-full md:w-auto">{button}</span>
         </TooltipTrigger>
         <TooltipContent>
           <p>{tooltipMessage}</p>
