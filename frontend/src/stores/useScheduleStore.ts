@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { Schedule } from '@/types'
+import { Schedule, DaySchedule, TimeBlock, Day } from '@/types'
+import { DAYS } from '@/utils/constants'
 
 interface StoredGroup {
   name: string
@@ -31,6 +32,42 @@ interface ScheduleState {
   reset: () => void
 }
 
+// Legacy types for migration
+interface LegacySchedule {
+  [key: string]: TimeBlock[]
+}
+
+interface LegacyGroup {
+  name: string
+  schedule: LegacySchedule
+}
+
+interface LegacyCourse {
+  courseName: string
+  color: string
+  group: LegacyGroup
+}
+
+interface LegacyState {
+  scheduleData: {
+    schedules: LegacyCourse[][]
+  } | null
+}
+
+/**
+ * Converts legacy object schedule format to new array format.
+ */
+function convertLegacyScheduleToArray(schedule: LegacySchedule): DaySchedule[] {
+  return DAYS.map((day: Day): DaySchedule => {
+    const timeBlocks = schedule[day] || []
+    return {
+      day,
+      active: timeBlocks.length > 0,
+      timeBlocks,
+    }
+  })
+}
+
 const useScheduleStore = create<ScheduleState>()(
   persist(
     (set) => ({
@@ -54,55 +91,29 @@ const useScheduleStore = create<ScheduleState>()(
     {
       name: 'schedule-storage',
       storage: createJSONStorage(() => localStorage),
-      version: 1,
+      version: 2,
       migrate: (persistedState: unknown, version: number) => {
-        if (
-          version === 0 &&
-          persistedState &&
-          typeof persistedState === 'object'
-        ) {
-          const state = persistedState as {
-            scheduleData?: { schedules?: unknown[][] }
-          }
-
-          if (state.scheduleData?.schedules) {
-            state.scheduleData.schedules = state.scheduleData.schedules.map(
-              (schedule: unknown) => {
-                if (Array.isArray(schedule)) {
-                  return schedule.map((course: unknown) => {
-                    if (course && typeof course === 'object') {
-                      const typedCourse = course as {
-                        group?: {
-                          schedule?: Record<
-                            string,
-                            { start: string; end: string }
-                          >
-                        }
-                      }
-
-                      return {
-                        ...typedCourse,
-                        group: typedCourse.group
-                          ? {
-                              ...typedCourse.group,
-                              schedule: Object.fromEntries(
-                                Object.entries(
-                                  typedCourse.group.schedule || {}
-                                ).map(([day, timeBlock]) => [day, [timeBlock]])
-                              ),
-                            }
-                          : undefined,
-                      }
-                    }
-                    return course
-                  })
-                }
-                return schedule
-              }
-            ) as unknown[][]
+        // v1 -> v2: Convert object schedule format to array format
+        if (version < 2) {
+          const state = persistedState as LegacyState
+          if (state?.scheduleData?.schedules) {
+            return {
+              ...state,
+              scheduleData: {
+                schedules: state.scheduleData.schedules.map((schedule: LegacyCourse[]) =>
+                  schedule.map((course: LegacyCourse) => ({
+                    ...course,
+                    group: {
+                      ...course.group,
+                      schedule: convertLegacyScheduleToArray(course.group.schedule || {}),
+                    },
+                  }))
+                ),
+              },
+            } as unknown as ScheduleState
           }
         }
-        return persistedState
+        return persistedState as ScheduleState
       },
       partialize: (state) => ({
         scheduleData: state.scheduleData,
