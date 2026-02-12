@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { Schedule } from '@/types'
+import { Schedule, DaySchedule, TimeBlock, Day } from '@/types'
+import { DAYS } from '@/utils/constants'
 
 interface StoredGroup {
   name: string
@@ -31,6 +32,25 @@ interface ScheduleState {
   reset: () => void
 }
 
+// Legacy format for migration
+interface LegacySchedule {
+  [key: string]: TimeBlock[]
+}
+
+/**
+ * Converts legacy object schedule format to new array format.
+ */
+function convertLegacyScheduleToArray(schedule: LegacySchedule): DaySchedule[] {
+  return DAYS.map((day: Day): DaySchedule => {
+    const timeBlocks = schedule[day] || []
+    return {
+      day,
+      active: timeBlocks.length > 0,
+      timeBlocks,
+    }
+  })
+}
+
 const useScheduleStore = create<ScheduleState>()(
   persist(
     (set) => ({
@@ -54,55 +74,65 @@ const useScheduleStore = create<ScheduleState>()(
     {
       name: 'schedule-storage',
       storage: createJSONStorage(() => localStorage),
-      version: 1,
+      version: 2,
       migrate: (persistedState: unknown, version: number) => {
-        if (
-          version === 0 &&
-          persistedState &&
-          typeof persistedState === 'object'
-        ) {
-          const state = persistedState as {
-            scheduleData?: { schedules?: unknown[][] }
-          }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let state = persistedState as any
 
+        // v0 -> v1: Convert single time blocks to arrays
+        if (version === 0 && state && typeof state === 'object') {
           if (state.scheduleData?.schedules) {
-            state.scheduleData.schedules = state.scheduleData.schedules.map(
-              (schedule: unknown) => {
-                if (Array.isArray(schedule)) {
-                  return schedule.map((course: unknown) => {
-                    if (course && typeof course === 'object') {
-                      const typedCourse = course as {
-                        group?: {
-                          schedule?: Record<
-                            string,
-                            { start: string; end: string }
-                          >
-                        }
-                      }
-
-                      return {
-                        ...typedCourse,
-                        group: typedCourse.group
-                          ? {
-                              ...typedCourse.group,
-                              schedule: Object.fromEntries(
-                                Object.entries(
-                                  typedCourse.group.schedule || {}
-                                ).map(([day, timeBlock]) => [day, [timeBlock]])
-                              ),
-                            }
-                          : undefined,
-                      }
+            state.scheduleData.schedules = state.scheduleData.schedules.map((schedule: any) => {
+              if (Array.isArray(schedule)) {
+                return schedule.map((course: any) => {
+                  if (course && typeof course === 'object') {
+                    return {
+                      ...course,
+                      group: course.group
+                        ? {
+                            ...course.group,
+                            schedule: Object.fromEntries(
+                              Object.entries(course.group.schedule || {}).map(
+                                ([day, timeBlock]) => [day, [timeBlock]]
+                              )
+                            ),
+                          }
+                        : undefined,
                     }
-                    return course
-                  })
-                }
-                return schedule
+                  }
+                  return course
+                })
               }
-            ) as unknown[][]
+              return schedule
+            })
+          }
+          version = 1 // Mark as migrated to v1
+        }
+
+        // v1 -> v2: Convert object schedule format to array format
+        if (version === 1 && state && typeof state === 'object') {
+          if (state.scheduleData?.schedules) {
+            state.scheduleData.schedules = state.scheduleData.schedules.map((schedule: any) => {
+              if (Array.isArray(schedule)) {
+                return schedule.map((course: any) => {
+                  if (course && typeof course === 'object' && course.group) {
+                    return {
+                      ...course,
+                      group: {
+                        ...course.group,
+                        schedule: convertLegacyScheduleToArray(course.group.schedule || {}),
+                      },
+                    }
+                  }
+                  return course
+                })
+              }
+              return schedule
+            })
           }
         }
-        return persistedState
+
+        return state
       },
       partialize: (state) => ({
         scheduleData: state.scheduleData,

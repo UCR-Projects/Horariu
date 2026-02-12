@@ -36,10 +36,11 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
         for (const course of currentSchedule) {
           if (!course?.group?.schedule) continue
 
-          const daySchedule = course.group.schedule[day]
-          if (!daySchedule || !Array.isArray(daySchedule)) continue
+          // Find the day in the schedule array
+          const daySchedule = course.group.schedule.find((s) => s.day === day)
+          if (!daySchedule || !daySchedule.active) continue
 
-          const hasTimeSlot = daySchedule.some(
+          const hasTimeSlot = daySchedule.timeBlocks.some(
             (timeBlock) => timeBlock && timeBlock.start <= startTime && timeBlock.end >= endTime
           )
 

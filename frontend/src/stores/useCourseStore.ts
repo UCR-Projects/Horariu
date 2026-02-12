@@ -1,8 +1,29 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { Course, Schedule } from '@/types'
-import { DEFAULT_COLOR } from '@/utils/constants'
+import { Course, DaySchedule, TimeBlock } from '@/types'
+import { DEFAULT_COLOR, DAYS } from '@/utils/constants'
 import { getSampleSet, SampleCoursesSetType } from '@/mocks/sampleCourses'
+
+// Legacy format for migration from v2
+interface LegacySchedule {
+  [key: string]: TimeBlock[]
+}
+
+/**
+ * Converts legacy object schedule format to new array format.
+ * Legacy: { L: [{start, end}], M: [{start, end}] }
+ * New: [{ day: 'L', active: true, timeBlocks: [{start, end}] }, ...]
+ */
+function convertLegacyScheduleToArray(schedule: LegacySchedule): DaySchedule[] {
+  return DAYS.map((day) => {
+    const timeBlocks = schedule[day] || []
+    return {
+      day,
+      active: timeBlocks.length > 0,
+      timeBlocks,
+    }
+  })
+}
 
 interface CourseState {
   courses: Course[]
@@ -142,37 +163,53 @@ const useCourseStore = create<CourseState>()(
               })) || [],
           }
         }
+        // v1 -> v2: Convert single time blocks to arrays (legacy object format)
         if (version === 1) {
-          const state = persistedState as Partial<CourseState>
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const state = persistedState as any
           return {
             ...state,
             courses:
-              state.courses?.map((course) => ({
+              state.courses?.map((course: any) => ({
                 ...course,
                 groups:
-                  course.groups?.map((group) => ({
+                  course.groups?.map((group: any) => ({
                     ...group,
-                    // Convert old schedule format to new format
                     schedule: Object.entries(group.schedule || {}).reduce(
-                      (acc, [day, timeData]) => {
-                        // Check if it's old format (single object) or new format (array)
+                      (acc: LegacySchedule, [day, timeData]: [string, any]) => {
                         if (Array.isArray(timeData)) {
                           acc[day] = timeData
                         } else {
-                          // Old format: convert single time block to array
                           acc[day] = [timeData]
                         }
                         return acc
                       },
-                      {} as Schedule
+                      {} as LegacySchedule
                     ),
+                  })) || [],
+              })) || [],
+          }
+        }
+        // v2 -> v3: Convert object schedule format to array format
+        if (version === 2) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const state = persistedState as any
+          return {
+            ...state,
+            courses:
+              state.courses?.map((course: any) => ({
+                ...course,
+                groups:
+                  course.groups?.map((group: any) => ({
+                    ...group,
+                    schedule: convertLegacyScheduleToArray(group.schedule || {}),
                   })) || [],
               })) || [],
           }
         }
         return persistedState as CourseState
       },
-      version: 2,
+      version: 3,
       storage: createJSONStorage(() => localStorage),
     }
   )
