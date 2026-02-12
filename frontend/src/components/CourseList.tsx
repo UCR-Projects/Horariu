@@ -8,7 +8,10 @@ import useCourseStore from '@/stores/useCourseStore'
 import DeleteConfirmationDialog from './DeleteConfirmationDialog'
 
 const CourseList = memo(() => {
-  const { courses, deleteCourse, toggleCourseVisibility, toggleGroupVisibility } = useCourseStore()
+  const courses = useCourseStore((state) => state.courses)
+  const deleteCourse = useCourseStore((state) => state.deleteCourse)
+  const toggleCourseVisibility = useCourseStore((state) => state.toggleCourseVisibility)
+  const toggleGroupVisibility = useCourseStore((state) => state.toggleGroupVisibility)
   const { t } = useI18n('courses')
   const [expandedCourses, setExpandedCourses] = useState<Set<string>>(new Set())
 

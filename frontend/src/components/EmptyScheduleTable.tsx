@@ -4,7 +4,7 @@ import useScheduleStore from '@/stores/useScheduleStore'
 
 const EmptyScheduleTable = () => {
   const { t } = useI18n()
-  const { isLoading } = useScheduleStore()
+  const isLoading = useScheduleStore((state) => state.isLoading)
 
   const SkeletonLoader = () => (
     <div className="mb-12">

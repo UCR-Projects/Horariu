@@ -7,7 +7,10 @@ import useScheduleStore from '@/stores/useScheduleStore'
 import { ApiError, ApiErrorCode } from '@/services/errors'
 
 export const useGenerateSchedule = () => {
-  const { setScheduleData, setLoading, setError, reset } = useScheduleStore()
+  const setScheduleData = useScheduleStore((state) => state.setScheduleData)
+  const setLoading = useScheduleStore((state) => state.setLoading)
+  const setError = useScheduleStore((state) => state.setError)
+  const reset = useScheduleStore((state) => state.reset)
   const { t } = useI18n(['schedules', 'errors'])
 
   /**
@@ -41,8 +44,7 @@ export const useGenerateSchedule = () => {
 
   const mutation = useMutation({
     mutationKey: ['generateSchedule'],
-    mutationFn: (courseData: Course[]) =>
-      generateScheduleService.generateSchedule(courseData),
+    mutationFn: (courseData: Course[]) => generateScheduleService.generateSchedule(courseData),
 
     // onMutate: Called before the mutation function is executed.
     // Used for optimistic updates and preparing the mutation environment.

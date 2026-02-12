@@ -8,7 +8,7 @@ import { useI18n } from '@/hooks/useI18n'
 
 const SchedulesList = () => {
   const { t } = useI18n()
-  const { scheduleData } = useScheduleStore()
+  const scheduleData = useScheduleStore((state) => state.scheduleData)
   const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
