@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/accordion'
 
 import { useI18n } from '@/hooks/useI18n'
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog'
+import { DeleteConfirmationDialog } from '@/components/shared'
 
 interface GroupsListProps {
   groups: CourseFormValuesType['groups']
@@ -28,23 +28,19 @@ export function GroupsList({
 
   if (groups.length === 0) {
     return (
-      <div className='border rounded-md p-3 text-center text-xs text-muted-foreground italic'>
+      <div className="border rounded-md p-3 text-center text-xs text-muted-foreground italic">
         {t('noGroupsYet')}
       </div>
     )
   }
 
   return (
-    <Accordion type='single' collapsible className='border rounded-md'>
+    <Accordion type="single" collapsible className="border rounded-md">
       {groups.map((group, index) => {
         const isLast = index === groups.length - 1
         const isVisible = group.isActive !== false
         return (
-          <AccordionItem
-            key={index}
-            value={`group-${index}`}
-            className='border-b last:border-b-0'
-          >
+          <AccordionItem key={index} value={`group-${index}`} className="border-b last:border-b-0">
             <AccordionTrigger
               className={`flex items-center w-full px-3 py-2 transition-colors group cursor-pointer ${
                 !isVisible ? 'opacity-50' : ''
@@ -52,38 +48,36 @@ export function GroupsList({
             >
               <span
                 className={`text-sm font-medium transition-colors flex-1 text-left ${
-                  isVisible
-                    ? 'text-sky-600'
-                    : 'text-muted-foreground line-through'
+                  isVisible ? 'text-sky-600' : 'text-muted-foreground line-through'
                 }`}
               >
                 {group.name}
               </span>
-              <div className='flex items-center space-x-2 ml-auto'>
+              <div className="flex items-center space-x-2 ml-auto">
                 <div
-                  className='inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer'
+                  className="inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation()
                     onToggleGroupVisibility(index)
                   }}
                 >
                   {isVisible ? (
-                    <Eye className='h-4 w-4 text-neutral-600' />
+                    <Eye className="h-4 w-4 text-neutral-600" />
                   ) : (
-                    <EyeOff className='h-4 w-4 text-neutral-600' />
+                    <EyeOff className="h-4 w-4 text-neutral-600" />
                   )}
                 </div>
                 <div
-                  className='inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer'
+                  className="inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation()
                     onEditGroup(index)
                   }}
                 >
-                  <Edit2 className='h-4 w-4 text-neutral-600' />
+                  <Edit2 className="h-4 w-4 text-neutral-600" />
                 </div>
                 <div
-                  className='inline-flex items-center justify-center h-7 w-7 rounded-md transition-colors'
+                  className="inline-flex items-center justify-center h-7 w-7 rounded-md transition-colors"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <DeleteConfirmationDialog
@@ -93,7 +87,7 @@ export function GroupsList({
                     description={t('confirmations.deleteGroup.description', {
                       itemName: group.name,
                     })}
-                    triggerClassName='hover:bg-accent'
+                    triggerClassName="hover:bg-accent"
                   />
                 </div>
               </div>
@@ -103,22 +97,20 @@ export function GroupsList({
                 isLast ? 'rounded-b-sm' : ''
               } ${!isVisible ? 'opacity-50' : ''}`}
             >
-              <div className='space-y-1'>
+              <div className="space-y-1">
                 {group.schedule
                   .filter((s) => s.active)
                   .map((schedule) => (
                     <div
                       key={schedule.day}
-                      className='flex items-center justify-between text-muted-foreground py-1 border-b last:border-b-0'
+                      className="flex items-center justify-between text-muted-foreground py-1 border-b last:border-b-0"
                     >
-                      <span className='font-medium'>
-                        {t(`common:days.${schedule.day}.short`)}
-                      </span>
-                      <div className='flex flex-col items-end space-y-1'>
+                      <span className="font-medium">{t(`common:days.${schedule.day}.short`)}</span>
+                      <div className="flex flex-col items-end space-y-1">
                         {schedule.timeBlocks
                           .sort((a, b) => a.start.localeCompare(b.start))
                           .map((block, blockIndex) => (
-                            <span key={blockIndex} className='text-xs'>
+                            <span key={blockIndex} className="text-xs">
                               {block.start} - {block.end}
                             </span>
                           ))}

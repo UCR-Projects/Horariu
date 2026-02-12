@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from 'react'
 import useScheduleStore from '@/stores/useScheduleStore'
-import ScheduleTable from '@/components/ScheduleTable'
+import ScheduleTable from './ScheduleTable'
 import EmptyScheduleTable from './EmptyScheduleTable'
 import { SCHEDULES_PER_PAGE } from '@/utils/constants'
-import CustomPagination from './CustomPagination'
+import { CustomPagination } from '@/components/shared'
 import { useI18n } from '@/hooks/useI18n'
 
 const SchedulesList = () => {

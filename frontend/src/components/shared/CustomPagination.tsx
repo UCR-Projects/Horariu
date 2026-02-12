@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 
 interface CustomPaginationProps {
   currentPage: number
@@ -7,11 +7,7 @@ interface CustomPaginationProps {
   onPageChange: (page: number) => void
 }
 
-const CustomPagination = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-}: CustomPaginationProps) => {
+const CustomPagination = ({ currentPage, totalPages, onPageChange }: CustomPaginationProps) => {
   const getVisiblePages = () => {
     const pages = []
     const maxVisible = 5
@@ -58,27 +54,27 @@ const CustomPagination = ({
   const visiblePages = getVisiblePages()
 
   return (
-    <div className='flex items-center justify-center space-x-1'>
+    <div className="flex items-center justify-center space-x-1">
       <Button
-        variant='outline'
-        size='sm'
+        variant="outline"
+        size="sm"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className='h-8 w-8 p-0 cursor-pointer dark:hover:bg-neutral-900 hover:bg-neutral-200/50'
+        className="h-8 w-8 p-0 cursor-pointer dark:hover:bg-neutral-900 hover:bg-neutral-200/50"
       >
-        <ChevronLeft className='h-4 w-4' />
+        <ChevronLeft className="h-4 w-4" />
       </Button>
 
       {visiblePages.map((page, index) => (
         <div key={index}>
           {page === '...' ? (
-            <div className='flex items-center justify-center h-8 w-8'>
-              <MoreHorizontal className='h-4 w-4' />
+            <div className="flex items-center justify-center h-8 w-8">
+              <MoreHorizontal className="h-4 w-4" />
             </div>
           ) : (
             <Button
               variant={currentPage === page ? 'default' : 'outline'}
-              size='sm'
+              size="sm"
               onClick={() => typeof page === 'number' && onPageChange(page)}
               className={`h-8 w-8 p-0 cursor-pointer ${
                 currentPage === page
@@ -93,13 +89,13 @@ const CustomPagination = ({
       ))}
 
       <Button
-        variant='outline'
-        size='sm'
+        variant="outline"
+        size="sm"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className='h-8 w-8 p-0 cursor-pointer dark:hover:bg-neutral-900 hover:bg-neutral-200/50'
+        className="h-8 w-8 p-0 cursor-pointer dark:hover:bg-neutral-900 hover:bg-neutral-200/50"
       >
-        <ChevronRight className='h-4 w-4' />
+        <ChevronRight className="h-4 w-4" />
       </Button>
     </div>
   )
