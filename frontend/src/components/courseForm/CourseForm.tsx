@@ -29,7 +29,9 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
   const isMobile = useIsMobile()
   const isEditingCourse = !!existingCourse
   const { t } = useI18n('courses')
-  const { addCourse, updateCourse, courses } = useCourseStore()
+  const addCourse = useCourseStore((state) => state.addCourse)
+  const updateCourse = useCourseStore((state) => state.updateCourse)
+  const courses = useCourseStore((state) => state.courses)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [activeStep, setActiveStep] = useState<'course' | 'group'>('course')
 
