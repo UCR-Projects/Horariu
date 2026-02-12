@@ -5,6 +5,7 @@ import { useGenerateSchedule } from '@/hooks/useGenerateSchedule'
 import useScheduleStore from '@/stores/useScheduleStore'
 import useCourseStore from '@/stores/useCourseStore'
 import { useI18n } from '@/hooks/useI18n'
+import { useMemo } from 'react'
 
 const GenerateScheduleButton = () => {
   const { t } = useI18n(['common', 'courses', 'schedules'])
@@ -12,15 +13,21 @@ const GenerateScheduleButton = () => {
   const isLoading = useScheduleStore((state) => state.isLoading)
   const courses = useCourseStore((state) => state.courses)
 
-  const activeCoursesWithActiveGroups = courses
-    .filter((course) => course.isActive)
-    .map((course) => ({
-      ...course,
-      groups: course.groups.filter((group) => group.isActive),
-    }))
-    .filter((course) => course.groups.length > 0)
+  // Memoize derived state to prevent recalculation on every render
+  const activeCoursesWithActiveGroups = useMemo(
+    () =>
+      courses
+        .filter((course) => course.isActive)
+        .map((course) => ({
+          ...course,
+          groups: course.groups.filter((group) => group.isActive),
+        }))
+        .filter((course) => course.groups.length > 0),
+    [courses]
+  )
 
   const hasCourses = courses.length > 0
+  const hasActiveCourses = courses.some((course) => course.isActive)
   const hasActiveCoursesWithGroups = activeCoursesWithActiveGroups.length > 0
   const isDisabled = !hasActiveCoursesWithGroups || isLoading
 
@@ -46,17 +53,14 @@ const GenerateScheduleButton = () => {
     </Button>
   )
 
-  let tooltipMessage = ''
-  if (!hasCourses) {
-    tooltipMessage = t('courses:validation.mustAddACourse')
-  } else if (!hasActiveCoursesWithGroups) {
-    const activeCourses = courses.filter((c) => c.isActive)
-    if (activeCourses.length === 0) {
-      tooltipMessage = t('courses:validation.mustHaveActiveCourses')
-    } else {
-      tooltipMessage = t('courses:validation.mustHaveActiveGroups')
-    }
+  const getTooltipMessage = (): string => {
+    if (!hasCourses) return t('courses:validation.mustAddACourse')
+    if (!hasActiveCourses) return t('courses:validation.mustHaveActiveCourses')
+    if (!hasActiveCoursesWithGroups) return t('courses:validation.mustHaveActiveGroups')
+    return ''
   }
+
+  const tooltipMessage = getTooltipMessage()
 
   if (tooltipMessage) {
     return (

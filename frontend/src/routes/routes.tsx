@@ -1,6 +1,6 @@
 import MainLayout from '@/layouts/MainLayout'
 import Home from '@/pages/Home'
-import RouteErrorBoundary from '@/components/RouteErrorBoundary'
+import { RouteErrorBoundary } from '@/components/error'
 
 export const routes = [
   {
