@@ -1,8 +1,46 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { Course, Schedule } from '@/types'
-import { DEFAULT_COLOR } from '@/utils/constants'
+import { Course, DaySchedule, TimeBlock } from '@/types'
+import { DEFAULT_COLOR, DAYS } from '@/utils/constants'
 import { getSampleSet, SampleCoursesSetType } from '@/mocks/sampleCourses'
+
+// Legacy types for migration (v2 -> v3: object to array format)
+interface LegacySchedule {
+  [key: string]: TimeBlock[]
+}
+
+interface LegacyGroup {
+  name: string
+  schedule: LegacySchedule
+  isActive?: boolean
+}
+
+interface LegacyCourse {
+  name: string
+  color: string
+  groups: LegacyGroup[]
+  isActive?: boolean
+}
+
+interface LegacyState {
+  courses: LegacyCourse[]
+}
+
+/**
+ * Converts legacy object schedule format to new array format.
+ * Legacy: { L: [{start, end}], M: [{start, end}] }
+ * New: [{ day: 'L', active: true, timeBlocks: [{start, end}] }, ...]
+ */
+function convertLegacyScheduleToArray(schedule: LegacySchedule): DaySchedule[] {
+  return DAYS.map((day) => {
+    const timeBlocks = schedule[day] || []
+    return {
+      day,
+      active: timeBlocks.length > 0,
+      timeBlocks,
+    }
+  })
+}
 
 interface CourseState {
   courses: Course[]
@@ -125,55 +163,27 @@ const useCourseStore = create<CourseState>()(
     }),
     {
       name: 'course-storage',
+      storage: createJSONStorage(() => localStorage),
+      version: 3,
       migrate: (persistedState: unknown, version: number) => {
-        if (version === 0) {
-          const state = persistedState as Partial<CourseState>
+        // v2 -> v3: Convert object schedule format to array format
+        if (version < 3) {
+          const state = persistedState as LegacyState
           return {
             ...state,
             courses:
-              state.courses?.map((course) => ({
-                ...course,
-                isActive: course.isActive !== undefined ? course.isActive : true,
-                groups:
-                  course.groups?.map((group) => ({
-                    ...group,
-                    isActive: group.isActive !== undefined ? group.isActive : true,
-                  })) || [],
-              })) || [],
-          }
-        }
-        if (version === 1) {
-          const state = persistedState as Partial<CourseState>
-          return {
-            ...state,
-            courses:
-              state.courses?.map((course) => ({
+              state.courses?.map((course: LegacyCourse) => ({
                 ...course,
                 groups:
-                  course.groups?.map((group) => ({
+                  course.groups?.map((group: LegacyGroup) => ({
                     ...group,
-                    // Convert old schedule format to new format
-                    schedule: Object.entries(group.schedule || {}).reduce(
-                      (acc, [day, timeData]) => {
-                        // Check if it's old format (single object) or new format (array)
-                        if (Array.isArray(timeData)) {
-                          acc[day] = timeData
-                        } else {
-                          // Old format: convert single time block to array
-                          acc[day] = [timeData]
-                        }
-                        return acc
-                      },
-                      {} as Schedule
-                    ),
+                    schedule: convertLegacyScheduleToArray(group.schedule || {}),
                   })) || [],
               })) || [],
-          }
+          } as unknown as CourseState
         }
         return persistedState as CourseState
       },
-      version: 2,
-      storage: createJSONStorage(() => localStorage),
     }
   )
 )

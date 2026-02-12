@@ -7,7 +7,18 @@ export interface TimeBlock {
   end: string
 }
 
-export interface Schedule {
+// New unified format: array of day schedules
+export interface DaySchedule {
+  day: Day
+  active: boolean
+  timeBlocks: TimeBlock[]
+}
+
+// Schedule is now an array of DaySchedule
+export type Schedule = DaySchedule[]
+
+// Legacy format for API compatibility
+export interface ApiSchedule {
   [key: string]: TimeBlock[]
 }
 

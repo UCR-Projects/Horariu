@@ -2,10 +2,9 @@ import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { createCourseSchema, CourseFormValuesType } from '@/validation/schemas/course.schema'
-import { Course, Group } from '@/types'
+import { Course, Group, Schedule } from '@/types'
 import useCourseStore from '@/stores/useCourseStore'
 import { DEFAULT_COLOR } from '@/utils/constants'
-import { convertScheduleToFormFormat, convertFormFormatToSchedule } from '@/utils/scheduleConverters'
 
 interface UseCourseFormManagerOptions {
   existingCourse?: Course
@@ -47,7 +46,7 @@ export function useCourseFormManager({
         existingCourse?.groups.map((group) => ({
           name: group.name,
           isActive: group.isActive ?? true,
-          schedule: convertScheduleToFormFormat(group.schedule),
+          schedule: group.schedule,
         })) || [],
     },
   })
@@ -62,7 +61,7 @@ export function useCourseFormManager({
           existingCourse.groups.map((group) => ({
             name: group.name,
             isActive: group.isActive ?? true,
-            schedule: convertScheduleToFormFormat(group.schedule),
+            schedule: group.schedule,
           })) || [],
       })
     }
@@ -79,7 +78,7 @@ export function useCourseFormManager({
   const onSubmitCourse = (values: CourseFormValuesType) => {
     const formattedGroups: Group[] = values.groups.map((group) => ({
       name: group.name,
-      schedule: convertFormFormatToSchedule(group.schedule),
+      schedule: group.schedule as Schedule,
       isActive: group.isActive,
     }))
 
@@ -111,4 +110,3 @@ export function useCourseFormManager({
     onSubmitCourse,
   }
 }
-
