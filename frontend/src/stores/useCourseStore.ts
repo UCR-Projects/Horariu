@@ -59,15 +59,12 @@ const useCourseStore = create<CourseState>()(
       deleteCourse: (name) =>
         set((state) => ({
           courses: state.courses.filter((course) => course.name !== name),
-          selectedCourse:
-            state.selectedCourse?.name === name ? null : state.selectedCourse,
+          selectedCourse: state.selectedCourse?.name === name ? null : state.selectedCourse,
         })),
 
       updateCourse: (oldCourseName, updatedCourse) =>
         set((state) => {
-          const filteredCourses = state.courses.filter(
-            (course) => course.name !== oldCourseName
-          )
+          const filteredCourses = state.courses.filter((course) => course.name !== oldCourseName)
 
           const courseWithActiveGroups = {
             ...updatedCourse,
@@ -88,9 +85,7 @@ const useCourseStore = create<CourseState>()(
       toggleCourseVisibility: (courseName) =>
         set((state) => ({
           courses: state.courses.map((course) =>
-            course.name === courseName
-              ? { ...course, isActive: !course.isActive }
-              : course
+            course.name === courseName ? { ...course, isActive: !course.isActive } : course
           ),
         })),
       toggleGroupVisibility: (courseName, groupName) =>
@@ -100,9 +95,7 @@ const useCourseStore = create<CourseState>()(
               ? {
                   ...course,
                   groups: course.groups.map((group) =>
-                    group.name === groupName
-                      ? { ...group, isActive: !group.isActive }
-                      : group
+                    group.name === groupName ? { ...group, isActive: !group.isActive } : group
                   ),
                 }
               : course
@@ -112,9 +105,7 @@ const useCourseStore = create<CourseState>()(
               ? {
                   ...state.selectedCourse,
                   groups: state.selectedCourse.groups.map((group) =>
-                    group.name === groupName
-                      ? { ...group, isActive: !group.isActive }
-                      : group
+                    group.name === groupName ? { ...group, isActive: !group.isActive } : group
                   ),
                 }
               : state.selectedCourse,
@@ -142,13 +133,11 @@ const useCourseStore = create<CourseState>()(
             courses:
               state.courses?.map((course) => ({
                 ...course,
-                isActive:
-                  course.isActive !== undefined ? course.isActive : true,
+                isActive: course.isActive !== undefined ? course.isActive : true,
                 groups:
                   course.groups?.map((group) => ({
                     ...group,
-                    isActive:
-                      group.isActive !== undefined ? group.isActive : true,
+                    isActive: group.isActive !== undefined ? group.isActive : true,
                   })) || [],
               })) || [],
           }

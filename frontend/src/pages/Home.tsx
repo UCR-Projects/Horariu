@@ -1,11 +1,10 @@
-import SchedulesList from '@/components/SchedulesList'
 import { Badge } from '@/components/ui/badge'
 import { Loader2 } from 'lucide-react'
 import useScheduleStore from '@/stores/useScheduleStore'
 import { useI18n } from '@/hooks/useI18n'
-import LoadSampleDataButtons from '@/components/LoadSampleDataButtons'
-import GenerateScheduleButton from '@/components/GenerateScheduleButton'
-import { MobileSidebarTrigger } from '@/components/MobileSidebarTrigger'
+import { SchedulesList, GenerateScheduleButton } from '@/components/schedules'
+import { LoadSampleDataButtons } from '@/components/courses'
+import { MobileSidebarTrigger } from '@/components/sidebar'
 
 const Home = () => {
   const { t } = useI18n('schedules')
