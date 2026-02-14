@@ -75,12 +75,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4 # Clones the repository with just latest commit
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # Sets up node environment
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
@@ -90,9 +90,25 @@ jobs:
         run: npm ci --no-audit --no-fund
         working-directory: frontend
 
-      - name: Run tests
+      - name: Unit Tests
         run: npm test
         working-directory: frontend
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+        working-directory: frontend
+
+      - name: E2E Tests
+        run: npm run test:e2e
+        working-directory: frontend
+
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: frontend/playwright-report/
+          retention-days: 7
 
   deploy:
     needs: [test]
