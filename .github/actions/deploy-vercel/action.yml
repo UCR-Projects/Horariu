@@ -1,17 +1,23 @@
-name: "Deploy to Vercel"
-description: "Build and deploy frontend to Vercel"
+name: 'Deploy to Vercel'
+description: 'Build and deploy frontend to Vercel'
 
 inputs:
   vercel-token:
-    description: "Vercel authentication token"
+    description: 'Vercel authentication token'
+    required: true
+  vercel-org-id:
+    description: 'Vercel Organization ID'
+    required: true
+  vercel-project-id:
+    description: 'Vercel Project ID'
     required: true
   environment:
-    description: "Deployment environment (preview or production)"
+    description: 'Deployment environment (preview or production)'
     required: true
-    default: "preview"
+    default: 'preview'
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Install Vercel CLI
       run: npm install --global vercel@latest
@@ -21,6 +27,9 @@ runs:
       run: vercel pull --yes --environment=${{ inputs.environment }} --token=${{ inputs.vercel-token }}
       shell: bash
       working-directory: frontend
+      env:
+        VERCEL_ORG_ID: ${{ inputs.vercel-org-id }}
+        VERCEL_PROJECT_ID: ${{ inputs.vercel-project-id }}
 
     - name: Build Project Artifacts
       run: |
@@ -31,6 +40,9 @@ runs:
         fi
       shell: bash
       working-directory: frontend
+      env:
+        VERCEL_ORG_ID: ${{ inputs.vercel-org-id }}
+        VERCEL_PROJECT_ID: ${{ inputs.vercel-project-id }}
 
     - name: Deploy to Vercel
       run: |
@@ -41,4 +53,6 @@ runs:
         fi
       shell: bash
       working-directory: frontend
-
+      env:
+        VERCEL_ORG_ID: ${{ inputs.vercel-org-id }}
+        VERCEL_PROJECT_ID: ${{ inputs.vercel-project-id }}
