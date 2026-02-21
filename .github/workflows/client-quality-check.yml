@@ -1,14 +1,7 @@
 name: Client App Quality Check
 
 on:
-  push:
-    branches-ignore:
-      - main
-    paths:
-      - "frontend/**"
   pull_request:
-    branches-ignore:
-      - main
     paths:
       - "frontend/**"
 

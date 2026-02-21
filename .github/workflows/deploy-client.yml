@@ -6,14 +6,6 @@ on:
       - main
     paths:
       - "frontend/**"
-  pull_request:
-    branches:
-      - main
-    types:
-      - opened
-      - synchronize
-    paths:
-      - "frontend/**"
 
 concurrency:
   group: ci-client-deploy-${{ github.ref }}
