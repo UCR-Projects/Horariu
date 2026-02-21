@@ -1,14 +1,7 @@
 name: Client App Quality Check
 
 on:
-  push:
-    branches-ignore:
-      - main
-    paths:
-      - "frontend/**"
   pull_request:
-    branches-ignore:
-      - main
     paths:
       - "frontend/**"
 
@@ -26,21 +19,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
-          cache-dependency-path: frontend/package-lock.json
+      - name: Setup Frontend
+        uses: ./.github/actions/setup-frontend
 
-      - name: Install dependencies
-        run: npm ci --no-audit --no-fund
-        working-directory: frontend
-
-      - name: Lint code
+      - name: Lint
         run: npm run lint
         working-directory: frontend
 
@@ -48,37 +31,11 @@ jobs:
         run: npm run build
         working-directory: frontend
 
-      - name: Unit Tests
-        run: npm run test
-        working-directory: frontend
+      - name: Test
+        uses: ./.github/actions/test-frontend
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
-        working-directory: frontend
-
-      - name: E2E Tests
-        run: npm run test:e2e
-        working-directory: frontend
-
-      - name: Upload Playwright Report
-        uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+      - name: Deploy Preview
+        uses: ./.github/actions/deploy-vercel
         with:
-          name: playwright-report
-          path: frontend/playwright-report/
-          retention-days: 7
-
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-
-      - name: Pull Vercel Environment Variables
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
-
-      - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
-
-      - name: Deploy Preview Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          environment: preview

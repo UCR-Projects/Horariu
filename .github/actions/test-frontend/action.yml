@@ -1,0 +1,35 @@
+name: "Test Frontend"
+description: "Run unit tests and E2E tests for frontend"
+
+inputs:
+  upload-report:
+    description: "Whether to upload Playwright report as artifact"
+    required: false
+    default: "true"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Unit Tests
+      run: npm run test
+      shell: bash
+      working-directory: frontend
+
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps chromium
+      shell: bash
+      working-directory: frontend
+
+    - name: E2E Tests
+      run: npm run test:e2e
+      shell: bash
+      working-directory: frontend
+
+    - name: Upload Playwright Report
+      uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() && inputs.upload-report == 'true' }}
+      with:
+        name: playwright-report
+        path: frontend/playwright-report/
+        retention-days: 7
+

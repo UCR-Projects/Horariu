@@ -6,112 +6,38 @@ on:
       - main
     paths:
       - "frontend/**"
-  pull_request:
-    branches:
-      - main
-    types:
-      - opened
-      - synchronize
-    paths:
-      - "frontend/**"
 
 env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
 
 concurrency:
-  group: ci-client-deploy-${{ github.ref }} # This will make sure that only one workflow runs at a time
+  group: ci-client-deploy-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  lint:
+  quality:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4 # Clones the repository with just latest commit
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4 # Sets up node environment
-        with:
-          node-version: 20
-          cache: "npm"
-          cache-dependency-path: frontend/package-lock.json
+      - name: Setup Frontend
+        uses: ./.github/actions/setup-frontend
 
-      - name: Install dependencies
-        run: npm ci --no-audit --no-fund
-        working-directory: frontend
-
-      - name: Lint code
+      - name: Lint
         run: npm run lint
-        working-directory: frontend
-
-  build:
-    runs-on: ubuntu-22.04 # The runner to use
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4 # Clones the repository with just latest commit
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4 # Sets up node environment
-        with:
-          node-version: 20
-          cache: "npm"
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci --no-audit --no-fund
         working-directory: frontend
 
       - name: Build
         run: npm run build
         working-directory: frontend
 
-  test:
-    needs: [build, lint]
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci --no-audit --no-fund
-        working-directory: frontend
-
-      - name: Unit Tests
-        run: npm test
-        working-directory: frontend
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
-        working-directory: frontend
-
-      - name: E2E Tests
-        run: npm run test:e2e
-        working-directory: frontend
-
-      - name: Upload Playwright Report
-        uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: frontend/playwright-report/
-          retention-days: 7
+      - name: Test
+        uses: ./.github/actions/test-frontend
 
   deploy:
-    needs: [test]
+    needs: [quality]
     runs-on: ubuntu-22.04
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
@@ -120,17 +46,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Vercel CLI
-        run: npm install -g vercel@latest
-
-      - name: Pull Vercel Environment Variables
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
-
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
-
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
+      - name: Deploy Production
+        uses: ./.github/actions/deploy-vercel
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          environment: production

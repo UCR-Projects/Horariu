@@ -1,0 +1,44 @@
+name: "Deploy to Vercel"
+description: "Build and deploy frontend to Vercel"
+
+inputs:
+  vercel-token:
+    description: "Vercel authentication token"
+    required: true
+  environment:
+    description: "Deployment environment (preview or production)"
+    required: true
+    default: "preview"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Vercel CLI
+      run: npm install --global vercel@latest
+      shell: bash
+
+    - name: Pull Vercel Environment Variables
+      run: vercel pull --yes --environment=${{ inputs.environment }} --token=${{ inputs.vercel-token }}
+      shell: bash
+      working-directory: frontend
+
+    - name: Build Project Artifacts
+      run: |
+        if [ "${{ inputs.environment }}" = "production" ]; then
+          vercel build --prod --token=${{ inputs.vercel-token }}
+        else
+          vercel build --token=${{ inputs.vercel-token }}
+        fi
+      shell: bash
+      working-directory: frontend
+
+    - name: Deploy to Vercel
+      run: |
+        if [ "${{ inputs.environment }}" = "production" ]; then
+          vercel deploy --prebuilt --prod --token=${{ inputs.vercel-token }}
+        else
+          vercel deploy --prebuilt --token=${{ inputs.vercel-token }}
+        fi
+      shell: bash
+      working-directory: frontend
+
