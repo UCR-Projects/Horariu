@@ -12,10 +12,6 @@ on:
     paths:
       - "frontend/**"
 
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
 concurrency:
   group: ci-client-quality-${{ github.ref }}
   cancel-in-progress: true
@@ -45,4 +41,6 @@ jobs:
         uses: ./.github/actions/deploy-vercel
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           environment: preview
