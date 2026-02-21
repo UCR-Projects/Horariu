@@ -18,38 +18,45 @@ interface GroupListItemProps {
   onToggleVisibility: () => void
 }
 
-const GroupListItem = memo(({ group, onToggleVisibility }: GroupListItemProps) => (
-  <div
-    className={`flex items-center justify-between px-3 py-1 rounded-md text-sm transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800 ${
-      !group.isActive ? 'opacity-50' : ''
-    }`}
-  >
-    <div className="flex items-center gap-3 min-w-0 flex-1">
-      <div className="h-2 w-2 rounded-full bg-linear-to-r from-neutral-400 to-neutral-500 opacity-30" />
-      <span
-        className={`truncate max-w-full text-xs font-normal ${
-          !group.isActive
-            ? 'line-through text-neutral-400'
-            : 'text-neutral-600 dark:text-neutral-400'
-        }`}
-      >
-        {group.name}
-      </span>
-    </div>
-    <Button
-      variant="ghost"
-      size="icon"
-      className="h-6 w-6 hover:bg-neutral-100/60 dark:hover:bg-neutral-900/80 cursor-pointer transition-colors shrink-0"
-      onClick={onToggleVisibility}
+const GroupListItem = memo(({ group, onToggleVisibility }: GroupListItemProps) => {
+  const { t } = useI18n('courses')
+
+  return (
+    <div
+      className={`flex items-center justify-between px-3 py-1 rounded-md text-sm transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800 ${
+        !group.isActive ? 'opacity-50' : ''
+      }`}
+      role="listitem"
     >
-      {group.isActive ? (
-        <Eye className="h-3 w-3 text-neutral-600" />
-      ) : (
-        <EyeOff className="h-3 w-3 text-neutral-600" />
-      )}
-    </Button>
-  </div>
-))
+      <div className="flex items-center gap-3 min-w-0 flex-1">
+        <div className="h-2 w-2 rounded-full bg-linear-to-r from-neutral-400 to-neutral-500 opacity-30" aria-hidden="true" />
+        <span
+          className={`truncate max-w-full text-xs font-normal ${
+            !group.isActive
+              ? 'line-through text-neutral-400'
+              : 'text-neutral-600 dark:text-neutral-400'
+          }`}
+        >
+          {group.name}
+        </span>
+      </div>
+      <Button
+        variant="ghost"
+        size="icon"
+        aria-label={group.isActive ? t('accessibility.hideGroup', { groupName: group.name }) : t('accessibility.showGroup', { groupName: group.name })}
+        aria-pressed={group.isActive}
+        className="h-6 w-6 hover:bg-neutral-100/60 dark:hover:bg-neutral-900/80 cursor-pointer transition-colors shrink-0"
+        onClick={onToggleVisibility}
+      >
+        {group.isActive ? (
+          <Eye className="h-3 w-3 text-neutral-600" aria-hidden="true" />
+        ) : (
+          <EyeOff className="h-3 w-3 text-neutral-600" aria-hidden="true" />
+        )}
+      </Button>
+    </div>
+  )
+})
 
 // ============================================================================
 // CourseListItem - Renders a single course with its groups
@@ -77,28 +84,34 @@ const CourseListItem = memo(
     const hasGroups = course.groups.length > 0
 
     return (
-      <SidebarMenuItem className="group-data-[collapsible=icon]:hidden">
+      <SidebarMenuItem className="group-data-[collapsible=icon]:hidden" role="listitem">
         <div
           className={`flex items-center justify-between w-full px-2 py-2 rounded-lg transition-all duration-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 border border-transparent hover:border-neutral-200 dark:hover:border-neutral-700 ${
             !course.isActive ? 'opacity-50' : ''
           } ${hasGroups ? 'cursor-pointer' : ''}`}
           onClick={() => hasGroups && onToggleExpansion()}
+          role={hasGroups ? 'button' : undefined}
+          tabIndex={hasGroups ? 0 : undefined}
+          aria-expanded={hasGroups ? isExpanded : undefined}
+          aria-label={hasGroups ? t('accessibility.toggleCourseGroups', { courseName: course.name }) : undefined}
+          onKeyDown={(e) => {
+            if (hasGroups && (e.key === 'Enter' || e.key === ' ')) {
+              e.preventDefault()
+              onToggleExpansion()
+            }
+          }}
         >
           <div className="flex items-center gap-1.5 min-w-0 flex-1">
             {hasGroups && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-4 w-4 p-0 hover:bg-transparent shrink-0 cursor-pointer"
-              >
+              <span className="h-4 w-4 p-0 shrink-0 flex items-center justify-center" aria-hidden="true">
                 {isExpanded ? (
                   <ChevronDown className="h-3 w-3 text-neutral-500" />
                 ) : (
                   <ChevronRight className="h-3 w-3 text-neutral-500" />
                 )}
-              </Button>
+              </span>
             )}
-            <div className={`h-4 w-4 shrink-0 rounded-full ${course.color}`} />
+            <div className={`h-4 w-4 shrink-0 rounded-full ${course.color}`} aria-hidden="true" />
             <span
               className={`truncate max-w-full text-[13px] leading-tight ${!course.isActive ? 'line-through' : ''}`}
             >
@@ -109,17 +122,21 @@ const CourseListItem = memo(
           <div
             className="flex items-center space-x-1 shrink-0"
             onClick={(e) => e.stopPropagation()}
+            role="group"
+            aria-label={t('accessibility.courseActions', { courseName: course.name })}
           >
             <Button
               variant="ghost"
               size="icon"
+              aria-label={course.isActive ? t('accessibility.hideCourse', { courseName: course.name }) : t('accessibility.showCourse', { courseName: course.name })}
+              aria-pressed={course.isActive}
               className="h-7 w-7 dark:hover:bg-neutral-900/80 hover:bg-neutral-200 cursor-pointer"
               onClick={onToggleCourseVisibility}
             >
               {course.isActive ? (
-                <Eye className="h-4 w-4 text-neutral-600" />
+                <Eye className="h-4 w-4 text-neutral-600" aria-hidden="true" />
               ) : (
-                <EyeOff className="h-4 w-4 text-neutral-600" />
+                <EyeOff className="h-4 w-4 text-neutral-600" aria-hidden="true" />
               )}
             </Button>
             <CourseForm existingCourse={course} />
@@ -134,7 +151,7 @@ const CourseListItem = memo(
         </div>
 
         {isExpanded && hasGroups && (
-          <div className="ml-6 mt-1 space-y-1">
+          <div className="ml-6 mt-1 space-y-1" role="list" aria-label={t('accessibility.groupsOf', { courseName: course.name })}>
             {course.groups.map((group) => (
               <GroupListItem
                 key={group.name}

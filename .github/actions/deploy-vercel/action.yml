@@ -23,6 +23,15 @@ runs:
       run: npm install --global vercel@latest
       shell: bash
 
+    - name: Create Vercel Project Config
+      run: |
+        mkdir -p .vercel
+        echo '{"projectId":"${{ inputs.vercel-project-id }}","orgId":"${{ inputs.vercel-org-id }}"}' > .vercel/project.json
+        echo "Created .vercel/project.json:"
+        cat .vercel/project.json
+      shell: bash
+      working-directory: frontend
+
     - name: Pull Vercel Environment Variables
       run: vercel pull --yes --environment=${{ inputs.environment }} --token=${{ inputs.vercel-token }}
       shell: bash

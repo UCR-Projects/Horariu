@@ -7,6 +7,10 @@ on:
     paths:
       - "frontend/**"
 
+env:
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
 concurrency:
   group: ci-client-deploy-${{ github.ref }}
   cancel-in-progress: true
@@ -35,12 +39,9 @@ jobs:
   deploy:
     needs: [quality]
     runs-on: ubuntu-22.04
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Deploy Production
         uses: ./.github/actions/deploy-vercel

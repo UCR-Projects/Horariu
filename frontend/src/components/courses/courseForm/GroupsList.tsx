@@ -53,43 +53,60 @@ export function GroupsList({
               >
                 {group.name}
               </span>
-              <div className="flex items-center space-x-2 ml-auto">
-                <div
+              <div className="flex items-center space-x-2 ml-auto" role="group" aria-label={t('common:accessibility.groupActions', { groupName: group.name })}>
+                <span
+                  role="button"
+                  tabIndex={0}
                   className="inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer"
+                  aria-label={isVisible ? t('common:accessibility.hideGroup', { groupName: group.name }) : t('common:accessibility.showGroup', { groupName: group.name })}
+                  aria-pressed={isVisible}
                   onClick={(e) => {
                     e.stopPropagation()
                     onToggleGroupVisibility(index)
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      onToggleGroupVisibility(index)
+                    }
+                  }}
                 >
                   {isVisible ? (
-                    <Eye className="h-4 w-4 text-neutral-600" />
+                    <Eye className="h-4 w-4 text-neutral-600" aria-hidden="true" />
                   ) : (
-                    <EyeOff className="h-4 w-4 text-neutral-600" />
+                    <EyeOff className="h-4 w-4 text-neutral-600" aria-hidden="true" />
                   )}
-                </div>
-                <div
+                </span>
+                <span
+                  role="button"
+                  tabIndex={0}
                   className="inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer"
+                  aria-label={t('common:accessibility.editGroup', { groupName: group.name })}
                   onClick={(e) => {
                     e.stopPropagation()
                     onEditGroup(index)
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      onEditGroup(index)
+                    }
+                  }}
                 >
-                  <Edit2 className="h-4 w-4 text-neutral-600" />
-                </div>
-                <div
-                  className="inline-flex items-center justify-center h-7 w-7 rounded-md transition-colors"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <DeleteConfirmationDialog
-                    itemName={group.name}
-                    onConfirm={() => onDeleteGroup(index)}
-                    title={t('confirmations.deleteGroup.title')}
-                    description={t('confirmations.deleteGroup.description', {
-                      itemName: group.name,
-                    })}
-                    triggerClassName="hover:bg-accent"
-                  />
-                </div>
+                  <Edit2 className="h-4 w-4 text-neutral-600" aria-hidden="true" />
+                </span>
+                <DeleteConfirmationDialog
+                  itemName={group.name}
+                  onConfirm={() => onDeleteGroup(index)}
+                  title={t('confirmations.deleteGroup.title')}
+                  description={t('confirmations.deleteGroup.description', {
+                    itemName: group.name,
+                  })}
+                  triggerClassName="hover:bg-accent"
+                  useSpanTrigger
+                />
               </div>
             </AccordionTrigger>
             <AccordionContent

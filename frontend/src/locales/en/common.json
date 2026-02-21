@@ -81,6 +81,30 @@
   "pagination": {
     "showingResults": "Showing {{start}} - {{end}} of {{total}} combinations",
     "pageInfo": "Page {{current}} of {{total}}"
+  },
+  "accessibility": {
+    "selectDay": "Select {{day}}",
+    "deselectDay": "Deselect {{day}}",
+    "startTime": "Start time",
+    "endTime": "End time",
+    "removeTimeBlock": "Remove time block {{block}} for {{day}}",
+    "timeBlockFor": "Time block {{block}} for {{day}}",
+    "color": "Color",
+    "selectColor": "Select a color",
+    "deleteItem": "Delete {{itemName}}",
+    "hideGroup": "Hide group {{groupName}}",
+    "showGroup": "Show group {{groupName}}",
+    "hideCourse": "Hide course {{courseName}}",
+    "showCourse": "Show course {{courseName}}",
+    "toggleCourseGroups": "Toggle groups for {{courseName}}",
+    "courseActions": "Actions for {{courseName}}",
+    "groupsOf": "Groups of {{courseName}}",
+    "groupActions": "Actions for group {{groupName}}",
+    "editGroup": "Edit group {{groupName}}",
+    "scheduleTableCaption": "Schedule option {{option}} showing course assignments by day and time",
+    "courseAt": "{{courseName}} - {{groupName}} on {{day}} at {{time}}",
+    "emptySlot": "Empty slot on {{day}} at {{time}}",
+    "exportSchedule": "Export schedule"
   }
 }
 

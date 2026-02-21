@@ -40,46 +40,57 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
   return (
     <FormItem>
-      <FormLabel>Color</FormLabel>
+      <FormLabel id="color-picker-label">{t('accessibility.color')}</FormLabel>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
-            variant='outline'
-            className='w-full justify-start text-left font-normal h-10 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800'
+            variant="outline"
+            aria-labelledby="color-picker-label"
+            aria-expanded={open}
+            aria-haspopup="listbox"
+            className="w-full justify-start text-left font-normal h-10 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800"
           >
-            <div className='flex items-center gap-2'>
+            <div className="flex items-center gap-2">
               <div
                 className={cn(
                   'h-5 w-5 rounded-full border',
                   selectedColor.class
                 )}
+                aria-hidden="true"
               />
               <span>{getColorTranslation(selectedColor.name)}</span>
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-64 p-3'>
-          <div className='grid grid-cols-5 gap-2'>
-            {COLORS.map((color) => (
-              <button
-                key={color.name}
-                type='button'
-                className='relative flex items-center justify-center p-1'
-                onClick={() => handleSelectColor(color)}
-              >
-                <div
-                  className={cn(
-                    'h-8 w-8 rounded-full',
-                    color.class,
-                    'cursor-pointer flex items-center justify-center'
-                  )}
+        <PopoverContent className="w-64 p-3" role="listbox" aria-label={t('accessibility.selectColor')}>
+          <div className="grid grid-cols-5 gap-2">
+            {COLORS.map((color) => {
+              const isSelected = selectedColor.name === color.name
+              const colorTranslation = getColorTranslation(color.name)
+              return (
+                <button
+                  key={color.name}
+                  type="button"
+                  role="option"
+                  aria-selected={isSelected}
+                  aria-label={colorTranslation}
+                  className="relative flex items-center justify-center p-1"
+                  onClick={() => handleSelectColor(color)}
                 >
-                  {selectedColor.name === color.name && (
-                    <Check className='h-4 w-4 text-white' />
-                  )}
-                </div>
-              </button>
-            ))}
+                  <div
+                    className={cn(
+                      'h-8 w-8 rounded-full',
+                      color.class,
+                      'cursor-pointer flex items-center justify-center'
+                    )}
+                  >
+                    {isSelected && (
+                      <Check className="h-4 w-4 text-white" aria-hidden="true" />
+                    )}
+                  </div>
+                </button>
+              )
+            })}
           </div>
         </PopoverContent>
       </Popover>

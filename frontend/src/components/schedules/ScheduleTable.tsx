@@ -59,28 +59,40 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
     return grid
   }, [scheduleData, scheduleIndex])
 
+  const scheduleTitle = `${t('schedules:option')} ${scheduleIndex + 1}`
+
   return (
-    <div className="mb-12">
+    <div className="mb-12" role="region" aria-labelledby={`schedule-title-${scheduleIndex}`}>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="font-bold">
-          {t('schedules:option')} {scheduleIndex + 1}
+        <h2 id={`schedule-title-${scheduleIndex}`} className="font-bold">
+          {scheduleTitle}
         </h2>
         <ScheduleExportMenu onExportImage={exportAsImage} onExportPDF={exportAsPDF} />
       </div>
       <div className="overflow-x-auto md:overflow-visible">
         <div className="min-w-150 md:min-w-0">
-          <table className="w-full border-collapse" ref={tableRef}>
+          <table
+            className="w-full border-collapse"
+            ref={tableRef}
+            aria-label={scheduleTitle}
+            role="grid"
+          >
+            <caption className="sr-only">
+              {t('accessibility.scheduleTableCaption', { option: scheduleIndex + 1 })}
+            </caption>
             <thead>
               <tr>
-                <th className="border border-neutral-900 dark:border-neutral-300 w-16 md:w-24 h-9">
+                <th scope="col" className="border border-neutral-900 dark:border-neutral-300 w-16 md:w-24 h-9">
                   {t('common:time.hours')}
                 </th>
                 {DAYS.map((day) => (
                   <th
                     key={day}
+                    scope="col"
                     className="p-1 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32"
                   >
-                    ({t(`common:days.${day}.short`)}) {t(`common:days.${day}.name`)}
+                    <span className="sr-only">{t(`common:days.${day}.name`)}</span>
+                    <span aria-hidden="true">({t(`common:days.${day}.short`)}) {t(`common:days.${day}.name`)}</span>
                   </th>
                 ))}
               </tr>
@@ -88,13 +100,14 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
             <tbody>
               {TIME_RANGES.map((range) => (
                 <tr key={range}>
-                  <td className="p-1 border border-neutral-900 dark:border-neutral-300 text-center w-16 md:w-24">
+                  <th scope="row" className="p-1 border border-neutral-900 dark:border-neutral-300 text-center w-16 md:w-24 font-normal">
                     {range}
-                  </td>
+                  </th>
                   {DAYS.map((day) => {
                     const cellData = scheduleGrid[`${day}-${range}`]
                     const course = cellData?.course
                     const groupName = cellData?.groupName
+                    const dayName = t(`common:days.${day}.name`)
 
                     return (
                       <td
@@ -102,6 +115,7 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
                         className={`border border-neutral-900 dark:border-neutral-300 w-20 md:w-24 ${
                           course ? course.color : ''
                         } h-9`}
+                        aria-label={course ? t('accessibility.courseAt', { courseName: course.courseName, groupName, day: dayName, time: range }) : t('accessibility.emptySlot', { day: dayName, time: range })}
                       >
                         {course && (
                           <div className="p-0.5 text-xs md:text-sm text-center text-neutral-900">

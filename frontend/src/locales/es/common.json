@@ -81,6 +81,30 @@
   "pagination": {
     "showingResults": "Mostrando {{start}} - {{end}} de {{total}} combinaciones",
     "pageInfo": "Página {{current}} de {{total}}"
+  },
+  "accessibility": {
+    "selectDay": "Seleccionar {{day}}",
+    "deselectDay": "Deseleccionar {{day}}",
+    "startTime": "Hora de inicio",
+    "endTime": "Hora de fin",
+    "removeTimeBlock": "Eliminar bloque de tiempo {{block}} para {{day}}",
+    "timeBlockFor": "Bloque de tiempo {{block}} para {{day}}",
+    "color": "Color",
+    "selectColor": "Seleccionar un color",
+    "deleteItem": "Eliminar {{itemName}}",
+    "hideGroup": "Ocultar grupo {{groupName}}",
+    "showGroup": "Mostrar grupo {{groupName}}",
+    "hideCourse": "Ocultar curso {{courseName}}",
+    "showCourse": "Mostrar curso {{courseName}}",
+    "toggleCourseGroups": "Mostrar/ocultar grupos de {{courseName}}",
+    "courseActions": "Acciones para {{courseName}}",
+    "groupsOf": "Grupos de {{courseName}}",
+    "groupActions": "Acciones para el grupo {{groupName}}",
+    "editGroup": "Editar grupo {{groupName}}",
+    "scheduleTableCaption": "Opción de horario {{option}} mostrando asignación de cursos por día y hora",
+    "courseAt": "{{courseName}} - {{groupName}} el {{day}} a las {{time}}",
+    "emptySlot": "Espacio vacío el {{day}} a las {{time}}",
+    "exportSchedule": "Exportar horario"
   }
 }
 

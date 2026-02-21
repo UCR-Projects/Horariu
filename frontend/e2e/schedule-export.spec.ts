@@ -80,15 +80,16 @@ test.describe('Schedule Export', () => {
   test('should show export menu button after schedule generation', async ({ page }) => {
     await setupScheduleForExport(page)
 
-    // "Download Schedule" / "Descargar Horario"
-    const exportButton = page.getByRole('button', { name: /Download Schedule|Descargar Horario/i })
+    // aria-label: "Export schedule" / "Exportar horario" (accessibility improvement)
+    // visible text: "Download Schedule" / "Descargar Horario"
+    const exportButton = page.getByRole('button', { name: /Export schedule|Exportar horario|Download Schedule|Descargar Horario/i })
     await expect(exportButton).toBeVisible()
   })
 
   test('should open export dropdown menu when clicking export button', async ({ page }) => {
     await setupScheduleForExport(page)
 
-    const exportButton = page.getByRole('button', { name: /Download Schedule|Descargar Horario/i })
+    const exportButton = page.getByRole('button', { name: /Export schedule|Exportar horario|Download Schedule|Descargar Horario/i })
     await exportButton.click()
 
     // "Image" / "Imagen"
@@ -106,7 +107,7 @@ test.describe('Schedule Export', () => {
     // Set up download listener (may not work in headless due to html2canvas)
     const downloadPromise = page.waitForEvent('download', { timeout: 10000 }).catch(() => null)
 
-    const exportButton = page.getByRole('button', { name: /Download Schedule|Descargar Horario/i })
+    const exportButton = page.getByRole('button', { name: /Export schedule|Exportar horario|Download Schedule|Descargar Horario/i })
     await exportButton.click()
 
     const imageOption = page.getByRole('menuitem', { name: /^Image$|^Imagen$/i })
@@ -125,7 +126,7 @@ test.describe('Schedule Export', () => {
 
     const downloadPromise = page.waitForEvent('download', { timeout: 10000 }).catch(() => null)
 
-    const exportButton = page.getByRole('button', { name: /Download Schedule|Descargar Horario/i })
+    const exportButton = page.getByRole('button', { name: /Export schedule|Exportar horario|Download Schedule|Descargar Horario/i })
     await exportButton.click()
 
     const pdfOption = page.getByRole('menuitem', { name: /^PDF$/i })
@@ -141,7 +142,7 @@ test.describe('Schedule Export', () => {
 
   test('should not show export button when no schedules exist', async ({ page }) => {
     // Without generating schedules, the download button should not be visible
-    const exportButton = page.getByRole('button', { name: /Download Schedule|Descargar Horario/i })
+    const exportButton = page.getByRole('button', { name: /Export schedule|Exportar horario|Download Schedule|Descargar Horario/i })
     await expect(exportButton).not.toBeVisible()
   })
 })

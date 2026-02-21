@@ -46,11 +46,15 @@ const TimeRangeSelector = ({
     }
   }, [startTime, endTime, day, blockIndex, onChange, isEndTimeValid])
 
+  const dayName = t(`days.${day}.name`)
+  const startTimeId = `start-time-${day}-${blockIndex}`
+  const endTimeId = `end-time-${day}-${blockIndex}`
+
   return (
-    <div className="relative flex items-center justify-center gap-2 mb-2">
+    <div className="relative flex items-center justify-center gap-2 mb-2" role="group" aria-label={t('accessibility.timeBlockFor', { day: dayName, block: blockIndex + 1 })}>
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-1">
-          <span className="text-xs italic text-neutral-500">{t('time.from')}:</span>
+          <label htmlFor={startTimeId} className="text-xs italic text-neutral-500">{t('time.from')}:</label>
           <Select
             disabled={disabled}
             value={startTime}
@@ -59,7 +63,7 @@ const TimeRangeSelector = ({
               onChange(day, blockIndex, value, newEndTime)
             }}
           >
-            <SelectTrigger className="w-24 cursor-pointer text-sm">
+            <SelectTrigger id={startTimeId} className="w-24 cursor-pointer text-sm" aria-label={t('accessibility.startTime')}>
               <SelectValue placeholder="----">{startTime}</SelectValue>
             </SelectTrigger>
             <SelectContent>
@@ -74,7 +78,7 @@ const TimeRangeSelector = ({
         </div>
 
         <div className="flex items-center gap-1">
-          <span className="text-xs italic text-neutral-500">{t('time.to')}:</span>
+          <label htmlFor={endTimeId} className="text-xs italic text-neutral-500">{t('time.to')}:</label>
           <Select
             disabled={disabled || startTime === '----'}
             value={endTime}
@@ -82,7 +86,7 @@ const TimeRangeSelector = ({
               onChange(day, blockIndex, startTime, value)
             }}
           >
-            <SelectTrigger className="w-24 cursor-pointer text-sm">
+            <SelectTrigger id={endTimeId} className="w-24 cursor-pointer text-sm" aria-label={t('accessibility.endTime')}>
               <SelectValue placeholder="----">{endTime}</SelectValue>
             </SelectTrigger>
             <SelectContent>
@@ -103,9 +107,10 @@ const TimeRangeSelector = ({
             variant="ghost"
             size="sm"
             onClick={() => onRemove(day, blockIndex)}
+            aria-label={t('accessibility.removeTimeBlock', { day: dayName, block: blockIndex + 1 })}
             className="h-8 w-8 hover:bg-neutral-200 dark:hover:bg-neutral-900/80 cursor-pointer"
           >
-            <Trash2 className="h-4 w-4 text-neutral-600" />
+            <Trash2 className="h-4 w-4 text-neutral-600" aria-hidden="true" />
           </Button>
         </div>
       )}

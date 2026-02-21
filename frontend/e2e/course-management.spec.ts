@@ -215,12 +215,12 @@ test.describe('Course Management', () => {
     const courseInSidebar = page.getByText('Chemistry 301')
     await expect(courseInSidebar).toBeVisible()
 
-    // Find and click delete trigger (span with Trash icon inside course actions)
+    // Find and click delete trigger (button with Trash icon inside course actions)
     const courseItem = page
       .locator('[data-sidebar="menu-item"]')
       .filter({ hasText: 'Chemistry 301' })
-    // The delete trigger is the last clickable element (span with trash icon)
-    const deleteButton = courseItem.locator('span.cursor-pointer').last()
+    // The delete trigger is now a button (accessibility improvement)
+    const deleteButton = courseItem.locator('button[aria-label*="Delete"], button[aria-label*="Eliminar"]').first()
     await deleteButton.click()
     await page.waitForTimeout(300)
 
