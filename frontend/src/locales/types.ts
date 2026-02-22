@@ -2,7 +2,7 @@
  * i18n TypeScript types for type-safe translations
  */
 
-import es from './es'
+import es from '@/locales/es'
 
 /**
  * Available namespaces

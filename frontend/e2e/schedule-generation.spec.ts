@@ -80,13 +80,15 @@ test.describe('Schedule Generation', () => {
     await expect(generateButton).toBeEnabled()
   })
 
-  test('should show empty schedule table when no schedules generated', async ({ page }) => {
-    const emptyTable = page.locator('table')
-    await expect(emptyTable).toBeVisible()
+  test('should show empty state message when no schedules generated', async ({ page }) => {
+    // "Your schedule will appear here" / "Tu horario aparecerá aquí"
+    const emptyStateTitle = page.getByText(/Your schedule will appear here|Tu horario aparecerá aquí/i)
+    await expect(emptyStateTitle).toBeVisible()
 
-    // "Hours" / "Horas"
-    const timeHeader = page.getByText(/^Hours$|^Horas$/i)
-    await expect(timeHeader).toBeVisible()
+    // Check description is also visible
+    // "Add courses with their groups" / "Agrega cursos con sus grupos"
+    const emptyStateDescription = page.getByText(/Add courses with their groups|Agrega cursos con sus grupos/i)
+    await expect(emptyStateDescription).toBeVisible()
   })
 
   test('should generate and display schedule after clicking generate button', async ({ page }) => {
