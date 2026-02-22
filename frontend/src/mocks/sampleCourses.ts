@@ -1,5 +1,13 @@
 import { Course, Day, Schedule, TimeBlock } from '@/types'
-import { COLORS, DAYS } from '@/utils/constants'
+import { DAYS } from '@/utils/constants'
+import { COLOR_PALETTE } from '@/utils/colorPalette'
+
+// Helper to get hex color by family index and shade
+const getColor = (familyIndex: number, shade: 'light' | 'medium' | 'dark' = 'medium') => {
+  const family = COLOR_PALETTE[familyIndex % COLOR_PALETTE.length]
+  const shadeObj = family.shades.find((s) => s.name === shade) ?? family.shades[1]
+  return shadeObj.hex
+}
 
 /**
  * Creates a schedule array from a map of day -> time blocks.
@@ -16,7 +24,7 @@ function createSchedule(dayBlocks: Partial<Record<Day, TimeBlock[]>>): Schedule 
 export const sampleCoursesSingleOption: Course[] = [
   {
     name: 'Matemáticas',
-    color: COLORS[8].value,
+    color: getColor(0), // Red
     groups: [
       {
         name: 'Grupo 1',
@@ -28,7 +36,7 @@ export const sampleCoursesSingleOption: Course[] = [
   },
   {
     name: 'Historia',
-    color: COLORS[9].value,
+    color: getColor(1), // Orange
     groups: [
       {
         name: 'Grupo 1',
@@ -40,7 +48,7 @@ export const sampleCoursesSingleOption: Course[] = [
   },
   {
     name: 'Literatura',
-    color: COLORS[10].value,
+    color: getColor(2), // Yellow
     groups: [
       {
         name: 'Grupo 1',
@@ -52,7 +60,7 @@ export const sampleCoursesSingleOption: Course[] = [
   },
   {
     name: 'Biología',
-    color: COLORS[11].value,
+    color: getColor(3), // Green
     groups: [
       {
         name: 'Grupo 1',
@@ -67,7 +75,7 @@ export const sampleCoursesSingleOption: Course[] = [
 export const sampleCoursesMultipleOptions: Course[] = [
   {
     name: 'Programación I',
-    color: COLORS[4].value,
+    color: getColor(5), // Blue
     groups: [
       {
         name: 'Grupo A',
@@ -90,7 +98,7 @@ export const sampleCoursesMultipleOptions: Course[] = [
   },
   {
     name: 'Estructuras de Datos',
-    color: COLORS[5].value,
+    color: getColor(6), // Purple
     groups: [
       {
         name: 'Grupo A',
@@ -107,7 +115,7 @@ export const sampleCoursesMultipleOptions: Course[] = [
   },
   {
     name: 'Bases de Datos',
-    color: COLORS[6].value,
+    color: getColor(4), // Teal
     groups: [
       {
         name: 'Grupo A',
@@ -124,7 +132,7 @@ export const sampleCoursesMultipleOptions: Course[] = [
   },
   {
     name: 'Sistemas Operativos',
-    color: COLORS[7].value,
+    color: getColor(7), // Pink
     groups: [
       {
         name: 'Grupo A',
@@ -144,7 +152,7 @@ export const sampleCoursesMultipleOptions: Course[] = [
 export const sampleCoursesHeavy: Course[] = [
   {
     name: 'Cálculo Avanzado',
-    color: COLORS[8].value,
+    color: getColor(0, 'dark'), // Red dark
     groups: [
       {
         name: 'Grupo 1',
@@ -175,7 +183,7 @@ export const sampleCoursesHeavy: Course[] = [
   },
   {
     name: 'Física II',
-    color: COLORS[20].value,
+    color: getColor(5, 'dark'), // Blue dark
     groups: [
       {
         name: 'Grupo 1',
@@ -192,7 +200,7 @@ export const sampleCoursesHeavy: Course[] = [
   },
   {
     name: 'Química Orgánica',
-    color: COLORS[19].value,
+    color: getColor(3, 'light'), // Green light
     groups: [
       {
         name: 'Grupo 1',
@@ -209,7 +217,7 @@ export const sampleCoursesHeavy: Course[] = [
   },
   {
     name: 'Economía',
-    color: COLORS[18].value,
+    color: getColor(2, 'light'), // Yellow light
     groups: [
       {
         name: 'Grupo 1',
@@ -226,7 +234,7 @@ export const sampleCoursesHeavy: Course[] = [
   },
   {
     name: 'Historia del Arte',
-    color: COLORS[17].value,
+    color: getColor(6, 'light'), // Purple light
     groups: [
       {
         name: 'Grupo 1',
@@ -243,7 +251,7 @@ export const sampleCoursesHeavy: Course[] = [
   },
   {
     name: 'Literatura Contemporánea',
-    color: COLORS[16].value,
+    color: getColor(7, 'medium'), // Pink medium
     groups: [
       {
         name: 'Grupo 1',
@@ -263,7 +271,7 @@ export const sampleCoursesHeavy: Course[] = [
 export const sampleCoursesConflict: Course[] = [
   {
     name: 'Curso A',
-    color: COLORS[8].value,
+    color: getColor(0), // Red
     groups: [
       {
         name: 'Grupo 1',
@@ -275,7 +283,7 @@ export const sampleCoursesConflict: Course[] = [
   },
   {
     name: 'Curso B',
-    color: COLORS[9].value,
+    color: getColor(5), // Blue
     groups: [
       {
         name: 'Grupo 1',
@@ -287,7 +295,7 @@ export const sampleCoursesConflict: Course[] = [
   },
   {
     name: 'Curso C',
-    color: COLORS[10].value,
+    color: getColor(3), // Green
     groups: [
       {
         name: 'Grupo 1',
@@ -299,7 +307,7 @@ export const sampleCoursesConflict: Course[] = [
   },
   {
     name: 'Curso D',
-    color: COLORS[11].value,
+    color: getColor(6), // Purple
     groups: [
       {
         name: 'Grupo 1',

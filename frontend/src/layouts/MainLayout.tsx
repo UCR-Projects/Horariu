@@ -7,7 +7,7 @@ import { ErrorBoundary, ErrorBoundaryTest } from '@/components/error'
 const MainLayout = () => {
   return (
     <div className="flex h-screen dark:bg-neutral-800 bg-neutral-100 overflow-hidden">
-      <SidebarProvider>
+      <SidebarProvider className="min-h-0 h-full">
         <ErrorBoundary>
           <div className="relative">
             <AppSidebar />

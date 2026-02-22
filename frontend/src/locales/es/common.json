@@ -56,27 +56,22 @@
     }
   },
   "colors": {
-    "Amber": "Ámbar",
-    "Blue": "Azul",
-    "Cyan": "Cian",
-    "Emerald": "Esmeralda",
-    "Fuchsia": "Fucsia",
-    "Green": "Verde",
-    "Indigo": "Índigo",
-    "Lime": "Lima",
-    "Neutral": "Neutral",
-    "Orange": "Naranja",
-    "Pink": "Rosa",
-    "Purple": "Púrpura",
     "Red": "Rojo",
-    "Rose": "Rosa Claro",
-    "Sky": "Cielo",
-    "Slate": "Pizarra",
-    "Stone": "Piedra",
-    "Teal": "Verde Azulado",
-    "Violet": "Violeta",
+    "Orange": "Naranja",
     "Yellow": "Amarillo",
-    "Zinc": "Zinc"
+    "Green": "Verde",
+    "Teal": "Verde Azulado",
+    "Blue": "Azul",
+    "Purple": "Púrpura",
+    "Pink": "Rosa",
+    "Neutral": "Neutral"
+  },
+  "shades": {
+    "lighter": "Más claro",
+    "light": "Claro",
+    "medium": "Medio",
+    "dark": "Oscuro",
+    "darker": "Más oscuro"
   },
   "pagination": {
     "showingResults": "Mostrando {{start}} - {{end}} de {{total}} combinaciones",
