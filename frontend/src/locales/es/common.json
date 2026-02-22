@@ -60,18 +60,26 @@
     "Orange": "Naranja",
     "Yellow": "Amarillo",
     "Green": "Verde",
-    "Teal": "Verde Azulado",
     "Blue": "Azul",
     "Purple": "Púrpura",
     "Pink": "Rosa",
-    "Neutral": "Neutral"
+    "Neutral": "Neutral",
+    "Custom": "Custom"
   },
   "shades": {
     "lighter": "Más claro",
     "light": "Claro",
     "medium": "Medio",
     "dark": "Oscuro",
-    "darker": "Más oscuro"
+    "darker": "Más oscuro",
+    "custom": "Custom"
+  },
+  "customColors": {
+    "add": "Agregar color",
+    "remove": "Eliminar color",
+    "pickColor": "Elegir un color",
+    "save": "Guardar",
+    "cancel": "Cancelar"
   },
   "pagination": {
     "showingResults": "Mostrando {{start}} - {{end}} de {{total}} combinaciones",

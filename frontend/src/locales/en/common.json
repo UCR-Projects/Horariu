@@ -60,18 +60,26 @@
     "Orange": "Orange",
     "Yellow": "Yellow",
     "Green": "Green",
-    "Teal": "Teal",
     "Blue": "Blue",
     "Purple": "Purple",
     "Pink": "Pink",
-    "Neutral": "Neutral"
+    "Neutral": "Neutral",
+    "Custom": "Custom"
   },
   "shades": {
     "lighter": "Lighter",
     "light": "Light",
     "medium": "Medium",
     "dark": "Dark",
-    "darker": "Darker"
+    "darker": "Darker",
+    "custom": "Custom"
+  },
+  "customColors": {
+    "add": "Add color",
+    "remove": "Remove color",
+    "pickColor": "Pick a color",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "pagination": {
     "showingResults": "Showing {{start}} - {{end}} of {{total}} combinations",

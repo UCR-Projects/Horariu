@@ -3,6 +3,7 @@
  */
 
 export type ShadeName = 'lighter' | 'light' | 'medium' | 'dark' | 'darker'
+export type ShadeNameWithCustom = ShadeName | 'custom'
 
 export interface ColorShade {
   name: ShadeName
@@ -55,16 +56,7 @@ export const COLOR_PALETTE: ColorFamily[] = [
       { name: 'darker', hex: '#15803d' },
     ],
   },
-  {
-    name: 'Teal',
-    shades: [
-      { name: 'lighter', hex: '#99f6e4' },
-      { name: 'light', hex: '#5eead4' },
-      { name: 'medium', hex: '#14b8a6' },
-      { name: 'dark', hex: '#0d9488' },
-      { name: 'darker', hex: '#0f766e' },
-    ],
-  },
+
   {
     name: 'Blue',
     shades: [
@@ -129,7 +121,7 @@ export function getAllColors(): { hex: string; family: string; shade: ShadeName 
  */
 export function getColorInfo(
   hex: string
-): { family: string; shade: ShadeName } | null {
+): { family: string; shade: ShadeNameWithCustom } | null {
   const normalizedHex = hex.toLowerCase()
   for (const family of COLOR_PALETTE) {
     for (const shade of family.shades) {
@@ -137,6 +129,10 @@ export function getColorInfo(
         return { family: family.name, shade: shade.name }
       }
     }
+  }
+  // Return Custom for any valid hex not in palette
+  if (/^#[0-9a-f]{6}$/i.test(hex)) {
+    return { family: 'Custom', shade: 'custom' }
   }
   return null
 }

@@ -8,8 +8,8 @@ import {
 
 describe('colorPalette', () => {
   describe('COLOR_PALETTE', () => {
-    it('should have 9 color families', () => {
-      expect(COLOR_PALETTE.length).toBe(9)
+    it('should have 8 color families', () => {
+      expect(COLOR_PALETTE.length).toBe(8)
     })
 
     it('should have 5 shades per family', () => {
@@ -55,7 +55,7 @@ describe('colorPalette', () => {
   describe('getAllColors', () => {
     it('should return flat array of all colors', () => {
       const colors = getAllColors()
-      expect(colors.length).toBe(45) // 9 families * 5 shades
+      expect(colors.length).toBe(40) // 8 families * 5 shades
     })
 
     it('should have correct structure for each color', () => {
@@ -81,8 +81,14 @@ describe('colorPalette', () => {
       expect(info).toEqual({ family: 'Red', shade: 'medium' })
     })
 
-    it('should return null for unknown hex', () => {
-      expect(getColorInfo('#123456')).toBeNull()
+    it('should return Custom for valid hex not in palette', () => {
+      expect(getColorInfo('#123456')).toEqual({ family: 'Custom', shade: 'custom' })
+    })
+
+    it('should return null for invalid hex', () => {
+      expect(getColorInfo('invalid')).toBeNull()
+      expect(getColorInfo('#gg0000')).toBeNull()
+      expect(getColorInfo('#12345')).toBeNull()
     })
 
     it('should find different shades', () => {
