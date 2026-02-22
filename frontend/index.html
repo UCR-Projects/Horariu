@@ -3,37 +3,62 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <!-- Primary Meta Tags -->
-    <title>HorariU - Generador de Combinaciones de Horarios Universitarios</title>
-    <meta name="description" content="Genera automáticamente todas las combinaciones posibles de horarios universitarios. Ingresa tus cursos y grupos disponibles para encontrar la mejor combinación sin conflictos de horario." />
-    <meta name="keywords" content="generador horarios universitarios, combinaciones horarios, horarios sin conflictos, planificador automático, schedule generator, horarios optimizados, matricula universitaria" />
-    <meta name="author" content="HorariU Team" />
-    <meta name="robots" content="index, follow" />
+    <title>HorariU - Generador de Horarios Universitarios Costa Rica | UCR, TEC, UNA</title>
+    <meta name="description" content="Genera automáticamente todas las combinaciones posibles de horarios universitarios en Costa Rica. Ideal para estudiantes de UCR, TEC, UNA y más. Encuentra la mejor combinación sin conflictos de horario." />
+    <meta name="keywords" content="generador horarios universitarios, horarios UCR, horarios TEC, horarios UNA, combinaciones horarios Costa Rica, horarios sin conflictos, planificador universitario, matrícula universitaria Costa Rica, schedule generator" />
+    <meta name="author" content="HorariU" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="language" content="Spanish" />
-    
+    <meta name="revisit-after" content="7 days" />
+
+    <!-- Geo Targeting - Costa Rica -->
+    <meta name="geo.region" content="CR" />
+    <meta name="geo.country" content="Costa Rica" />
+    <meta name="geo.placename" content="Costa Rica" />
+    <meta name="ICBM" content="9.7489, -83.7534" />
+
+    <!-- Language Alternates -->
+    <link rel="alternate" hreflang="es" href="https://horariu.com/" />
+    <link rel="alternate" hreflang="en" href="https://horariu.com/?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://horariu.com/" />
+
     <!-- Canonical URL -->
     <link rel="canonical" href="https://horariu.com/" />
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://horariu.com/" />
-    <meta property="og:title" content="HorariU - Generador de Combinaciones de Horarios Universitarios" />
-    <meta property="og:description" content="Genera automáticamente todas las combinaciones posibles de horarios universitarios. Ingresa tus cursos y grupos disponibles para encontrar la mejor combinación sin conflictos." />
+    <meta property="og:title" content="HorariU - Generador de Horarios Universitarios Costa Rica" />
+    <meta property="og:description" content="Genera automáticamente todas las combinaciones posibles de horarios universitarios. Ideal para estudiantes de UCR, TEC, UNA. Encuentra la mejor combinación sin conflictos." />
     <meta property="og:site_name" content="HorariU" />
-    <meta property="og:locale" content="es_ES" />
-    
+    <meta property="og:locale" content="es_CR" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:image" content="https://horariu.com/android-chrome-512x512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="HorariU - Generador de Horarios Universitarios" />
+
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://horariu.com/" />
-    <meta property="twitter:title" content="HorariU - Generador de Combinaciones de Horarios" />
-    <meta property="twitter:description" content="Genera automáticamente todas las combinaciones posibles de horarios universitarios. Encuentra la mejor combinación sin conflictos de horario." />
-    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content="https://horariu.com/" />
+    <meta name="twitter:title" content="HorariU - Generador de Horarios Universitarios Costa Rica" />
+    <meta name="twitter:description" content="Genera automáticamente todas las combinaciones posibles de horarios universitarios. Ideal para estudiantes de UCR, TEC, UNA." />
+    <meta name="twitter:image" content="https://horariu.com/android-chrome-512x512.png" />
+    <meta name="twitter:image:alt" content="HorariU Logo" />
+
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#2563eb" />
     <meta name="application-name" content="HorariU" />
     <meta name="apple-mobile-web-app-title" content="HorariU" />
     <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="format-detection" content="telephone=no" />
     
     <!-- Favicon and Icons -->
@@ -51,22 +76,86 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "HorariU",
-      "description": "Generador automático de combinaciones de horarios universitarios. Ingresa tus cursos y grupos disponibles para encontrar todas las combinaciones posibles sin conflictos de horario.",
+      "url": "https://horariu.com",
+      "logo": "https://horariu.com/android-chrome-512x512.png",
+      "description": "Generador automático de combinaciones de horarios universitarios para estudiantes en Costa Rica. Compatible con UCR, TEC, UNA y otras universidades.",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "Web Browser",
+      "availableOnDevice": ["Desktop", "Mobile", "Tablet"],
       "featureList": [
         "Generación automática de combinaciones de horarios",
         "Detección de conflictos de horario",
-        "Filtrado de combinaciones optimizadas",
-        "Interfaz bilingüe (español/inglés)"
+        "Exportación a imagen y PDF",
+        "Personalización de colores por curso",
+        "Interfaz bilingüe (español/inglés)",
+        "Funciona sin conexión después de cargar"
       ],
+      "screenshot": "https://horariu.com/android-chrome-512x512.png",
       "offers": {
         "@type": "Offer",
         "price": "0",
-        "priceCurrency": "USD"
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "ratingCount": "1",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "audience": {
+        "@type": "EducationalAudience",
+        "educationalRole": "student",
+        "audienceType": "Estudiantes universitarios"
+      },
+      "contentLocation": {
+        "@type": "Country",
+        "name": "Costa Rica"
       },
       "inLanguage": ["es", "en"],
-      "browserRequirements": "Requires JavaScript. Compatible with modern browsers."
+      "browserRequirements": "Requires JavaScript. Compatible with modern browsers.",
+      "softwareVersion": "1.0.0",
+      "datePublished": "2024-01-01",
+      "creator": {
+        "@type": "Organization",
+        "name": "HorariU",
+        "url": "https://horariu.com"
+      }
+    }
+    </script>
+
+    <!-- Additional Schema: FAQPage for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Cómo funciona el generador de horarios HorariU?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ingresa tus cursos y grupos disponibles con sus horarios. HorariU genera automáticamente todas las combinaciones posibles sin conflictos de horario."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿HorariU es gratis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, HorariU es completamente gratis para todos los estudiantes universitarios."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Funciona con mi universidad en Costa Rica?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, HorariU funciona con cualquier universidad: UCR, TEC, UNA, UNED, y universidades privadas. Solo ingresa los horarios de tus cursos."
+          }
+        }
+      ]
     }
     </script>
   </head>

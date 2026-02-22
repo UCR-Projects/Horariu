@@ -1,0 +1,10 @@
+# robots.txt for HorariU
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://horariu.com/sitemap.xml
+
+# Crawl-delay (optional, be nice to servers)
+Crawl-delay: 1
+
