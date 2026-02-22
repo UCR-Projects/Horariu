@@ -123,8 +123,14 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html, body, #root {
+    @apply h-full overflow-hidden m-0 p-0;
+  }
   body {
     @apply font-sans bg-background text-foreground;
+  }
+  #root {
+    @apply bg-background;
   }
 
   :root {

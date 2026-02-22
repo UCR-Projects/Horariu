@@ -30,13 +30,7 @@ export interface Group {
 
 export interface Course {
   name: string
-  color: string
+  color: string // Hex color value (e.g., '#ef4444')
   groups: Group[]
   isActive: boolean
-}
-
-export interface TailwindColor {
-  name: string
-  class: string
-  value: string
 }

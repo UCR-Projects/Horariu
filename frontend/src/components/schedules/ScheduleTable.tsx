@@ -1,9 +1,11 @@
 import { useI18n } from '@/hooks/useI18n'
 import { TIME_RANGES, DAYS } from '@/utils/constants'
-import { useRef, useMemo, memo } from 'react'
+import { useRef, useMemo, memo, useCallback } from 'react'
 import { ScheduleDataType } from '@/stores/useScheduleStore'
 import { useScheduleExport } from '@/hooks/useScheduleExport'
 import { ScheduleExportMenu } from './ScheduleExportMenu'
+import { getContrastTextColor } from '@/utils/colorUtils'
+import useCourseStore from '@/stores/useCourseStore'
 
 interface ScheduleTableProps {
   scheduleData: ScheduleDataType
@@ -13,6 +15,16 @@ interface ScheduleTableProps {
 const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
   const { t } = useI18n(['common', 'schedules'])
   const tableRef = useRef<HTMLTableElement>(null)
+  const courses = useCourseStore((state) => state.courses)
+
+  // Look up current color from course store, fallback to stored color
+  const getCourseColor = useCallback(
+    (courseName: string, fallbackColor: string): string => {
+      const course = courses.find((c) => c.name === courseName)
+      return course?.color ?? fallbackColor
+    },
+    [courses]
+  )
 
   const { exportAsImage, exportAsPDF } = useScheduleExport({
     tableRef,
@@ -108,17 +120,21 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
                     const course = cellData?.course
                     const groupName = cellData?.groupName
                     const dayName = t(`common:days.${day}.name`)
+                    // Use current color from course store (syncs when course is edited)
+                    const color = course ? getCourseColor(course.courseName, course.color) : undefined
 
                     return (
                       <td
                         key={`${day}-${range}`}
-                        className={`border border-neutral-900 dark:border-neutral-300 w-20 md:w-24 ${
-                          course ? course.color : ''
-                        } h-9`}
+                        className="border border-neutral-900 dark:border-neutral-300 w-20 md:w-24 h-9"
+                        style={color ? { backgroundColor: color } : undefined}
                         aria-label={course ? t('accessibility.courseAt', { courseName: course.courseName, groupName, day: dayName, time: range }) : t('accessibility.emptySlot', { day: dayName, time: range })}
                       >
-                        {course && (
-                          <div className="p-0.5 text-xs md:text-sm text-center text-neutral-900">
+                        {course && color && (
+                          <div
+                            className="p-0.5 text-xs md:text-sm text-center"
+                            style={{ color: getContrastTextColor(color) }}
+                          >
                             <div className="font-semibold">{course.courseName}</div>
                             <div className="text-xs">{groupName}</div>
                           </div>

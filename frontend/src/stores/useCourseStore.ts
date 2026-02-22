@@ -3,6 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 import { Course, DaySchedule, TimeBlock } from '@/types'
 import { DEFAULT_COLOR, DAYS } from '@/utils/constants'
 import { getSampleSet, SampleCoursesSetType } from '@/mocks/sampleCourses'
+import { migrateColor } from '@/utils/colorMigration'
 
 // Legacy types for migration (v2 -> v3: object to array format)
 interface LegacySchedule {
@@ -164,15 +165,19 @@ const useCourseStore = create<CourseState>()(
     {
       name: 'course-storage',
       storage: createJSONStorage(() => localStorage),
-      version: 3,
+      version: 4,
       migrate: (persistedState: unknown, version: number) => {
+        // Use a flexible type that works across migration steps
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let state = persistedState as any
+
         // v2 -> v3: Convert object schedule format to array format
         if (version < 3) {
-          const state = persistedState as LegacyState
-          return {
+          const legacyState = state as LegacyState
+          state = {
             ...state,
             courses:
-              state.courses?.map((course: LegacyCourse) => ({
+              legacyState.courses?.map((course: LegacyCourse) => ({
                 ...course,
                 groups:
                   course.groups?.map((group: LegacyGroup) => ({
@@ -180,9 +185,23 @@ const useCourseStore = create<CourseState>()(
                     schedule: convertLegacyScheduleToArray(group.schedule || {}),
                   })) || [],
               })) || [],
-          } as unknown as CourseState
+          }
         }
-        return persistedState as CourseState
+
+        // v3 -> v4: Migrate Tailwind color classes to hex values
+        if (version < 4) {
+          state = {
+            ...state,
+            courses:
+              state.courses?.map((course: { color: string }) => ({
+                ...course,
+                color: migrateColor(course.color),
+              })) || [],
+            currentColor: migrateColor(state.currentColor ?? DEFAULT_COLOR),
+          }
+        }
+
+        return state as CourseState
       },
     }
   )

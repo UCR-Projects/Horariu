@@ -4,10 +4,10 @@ import {
   END_TIMES,
   TIME_RANGES,
   DAYS,
-  COLORS,
   DEFAULT_COLOR,
   SCHEDULES_PER_PAGE,
 } from '@/utils/constants'
+import { getAllColors } from '@/utils/colorPalette'
 
 describe('constants', () => {
   describe('DAYS', () => {
@@ -50,30 +50,14 @@ describe('constants', () => {
     })
   })
 
-  describe('COLORS', () => {
-    it('should be a non-empty array', () => {
-      expect(COLORS.length).toBeGreaterThan(0)
-    })
-
-    it('should have required properties for each color', () => {
-      COLORS.forEach((color) => {
-        expect(color).toHaveProperty('name')
-        expect(color).toHaveProperty('class')
-        expect(color).toHaveProperty('value')
-      })
-    })
-
-    it('should have valid tailwind color classes', () => {
-      COLORS.forEach((color) => {
-        expect(color.class).toMatch(/^bg-[a-z]+-\d+$/)
-      })
-    })
-  })
-
   describe('DEFAULT_COLOR', () => {
-    it('should be a valid color from COLORS', () => {
-      const colorValues = COLORS.map((c) => c.value)
-      expect(colorValues).toContain(DEFAULT_COLOR)
+    it('should be a valid hex color from the palette', () => {
+      const allHexColors = getAllColors().map((c) => c.hex)
+      expect(allHexColors).toContain(DEFAULT_COLOR)
+    })
+
+    it('should be a valid hex color format', () => {
+      expect(DEFAULT_COLOR).toMatch(/^#[0-9a-fA-F]{6}$/)
     })
   })
 

@@ -111,7 +111,7 @@ const CourseListItem = memo(
                 )}
               </span>
             )}
-            <div className={`h-4 w-4 shrink-0 rounded-full ${course.color}`} aria-hidden="true" />
+            <div className="h-4 w-4 shrink-0 rounded-full" style={{ backgroundColor: course.color }} aria-hidden="true" />
             <span
               className={`truncate max-w-full text-[13px] leading-tight ${!course.isActive ? 'line-through' : ''}`}
             >
