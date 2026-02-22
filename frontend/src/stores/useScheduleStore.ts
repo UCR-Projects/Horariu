@@ -22,6 +22,8 @@ interface ScheduleState {
   scheduleData: ScheduleDataType | null
   setScheduleData: (data: ScheduleDataType) => void
   clearScheduleData: () => void
+  updateCourseName: (oldName: string, newName: string) => void
+  updateGroupName: (courseName: string, oldGroupName: string, newGroupName: string) => void
 
   isLoading: boolean
   error: Error | null
@@ -74,6 +76,36 @@ const useScheduleStore = create<ScheduleState>()(
       scheduleData: null,
       setScheduleData: (data) => set({ scheduleData: data, isSuccess: true }),
       clearScheduleData: () => set({ scheduleData: null }),
+      updateCourseName: (oldName, newName) =>
+        set((state) => {
+          if (!state.scheduleData?.schedules) return state
+          return {
+            scheduleData: {
+              schedules: state.scheduleData.schedules.map((schedule) =>
+                schedule.map((course) =>
+                  course.courseName === oldName
+                    ? { ...course, courseName: newName }
+                    : course
+                )
+              ),
+            },
+          }
+        }),
+      updateGroupName: (courseName, oldGroupName, newGroupName) =>
+        set((state) => {
+          if (!state.scheduleData?.schedules) return state
+          return {
+            scheduleData: {
+              schedules: state.scheduleData.schedules.map((schedule) =>
+                schedule.map((course) =>
+                  course.courseName === courseName && course.group.name === oldGroupName
+                    ? { ...course, group: { ...course.group, name: newGroupName } }
+                    : course
+                )
+              ),
+            },
+          }
+        }),
 
       isLoading: false,
       error: null,

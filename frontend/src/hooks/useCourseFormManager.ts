@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { createCourseSchema, CourseFormValuesType } from '@/validation/schemas/course.schema'
 import { Course, Group, Schedule } from '@/types'
 import useCourseStore from '@/stores/useCourseStore'
+import useScheduleStore from '@/stores/useScheduleStore'
 import { DEFAULT_COLOR } from '@/utils/constants'
 
 interface UseCourseFormManagerOptions {
@@ -32,6 +33,8 @@ export function useCourseFormManager({
   const addCourse = useCourseStore((state) => state.addCourse)
   const updateCourse = useCourseStore((state) => state.updateCourse)
   const courses = useCourseStore((state) => state.courses)
+  const updateCourseName = useScheduleStore((state) => state.updateCourseName)
+  const updateGroupName = useScheduleStore((state) => state.updateGroupName)
 
   const isEditingCourse = !!existingCourse
   const existingCourseNames = courses.map((c) => c.name)
@@ -90,6 +93,24 @@ export function useCourseFormManager({
         isActive: true,
       })
     } else {
+      // If course name changed, sync to schedule store so tables update instantly
+      if (existingCourse.name !== values.courseName) {
+        updateCourseName(existingCourse.name, values.courseName)
+      }
+
+      // Sync group name changes to schedule store
+      // Use the NEW course name (after potential rename) for the lookup
+      const currentCourseName = values.courseName
+      existingCourse.groups.forEach((oldGroup, index) => {
+        // Groups maintain order, so we compare by index
+        if (index < formattedGroups.length) {
+          const newGroupName = formattedGroups[index].name
+          if (oldGroup.name !== newGroupName) {
+            updateGroupName(currentCourseName, oldGroup.name, newGroupName)
+          }
+        }
+      })
+
       updateCourse(existingCourse.name, {
         name: values.courseName,
         color: values.color,
