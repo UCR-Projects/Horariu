@@ -13,6 +13,10 @@
     "success": "Horarios generados exitosamente!",
     "error": "Error al generar los horarios",
     "notPossible": "No hay combinaciones posibles con los cursos y horarios seleccionados."
+  },
+  "emptyState": {
+    "title": "Tu horario aparecerá aquí",
+    "description": "Agrega cursos con sus grupos y presiona \"Generar Horarios\" para ver todas las combinaciones posibles."
   }
 }
 

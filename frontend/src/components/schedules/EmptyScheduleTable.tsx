@@ -1,78 +1,61 @@
-import { DAYS, TIME_RANGES } from '@/utils/constants'
 import { useI18n } from '@/hooks/useI18n'
 import useScheduleStore from '@/stores/useScheduleStore'
-import { ReactNode } from 'react'
+import { CalendarDays, Plus, Sparkles } from 'lucide-react'
 
-interface ScheduleTableShellProps {
-  renderCell: (day: string, range: string) => ReactNode
-  cellClassName?: string
-}
-
-/**
- * Shared table structure for schedule display.
- * Used by both empty state and skeleton loader.
- */
-const ScheduleTableShell = ({ renderCell, cellClassName = '' }: ScheduleTableShellProps) => {
-  const { t } = useI18n()
-
+const LoadingSkeleton = () => {
   return (
-    <div className="mb-12">
-      <div className="overflow-x-auto md:overflow-visible">
-        <div className="min-w-150 md:min-w-0">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr>
-                <th className="border border-neutral-900 dark:border-neutral-300 w-16 md:w-24 h-9">
-                  {t('time.hours')}
-                </th>
-                {DAYS.map((day) => (
-                  <th
-                    key={day}
-                    className="p-1 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32"
-                  >
-                    ({t(`days.${day}.short`)}) {t(`days.${day}.name`)}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {TIME_RANGES.map((range) => (
-                <tr key={range}>
-                  <td className="p-1 border border-neutral-900 dark:border-neutral-300 text-center w-16 md:w-24">
-                    {range}
-                  </td>
-                  {DAYS.map((day) => (
-                    <td
-                      key={`${day}-${range}`}
-                      className={`border border-neutral-900 dark:border-neutral-300 w-20 md:w-24 h-9 ${cellClassName}`}
-                    >
-                      {renderCell(day, range)}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex flex-col items-center gap-4">
+        <div className="relative">
+          <div className="w-16 h-16 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Sparkles className="h-8 w-8 text-neutral-400 dark:text-neutral-500 animate-pulse" />
+          </div>
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          <div className="h-4 w-32 bg-neutral-200 dark:bg-neutral-700 rounded animate-pulse" />
+          <div className="h-3 w-48 bg-neutral-200 dark:bg-neutral-700 rounded animate-pulse" />
         </div>
       </div>
     </div>
   )
 }
 
-const SkeletonCell = () => (
-  <div className="h-full w-full relative overflow-hidden rounded-sm">
-    <div className="absolute inset-0 bg-neutral-200 dark:bg-neutral-700/80 animate-pulse rounded-b-xs" />
-  </div>
-)
+const EmptyStateMessage = () => {
+  const { t } = useI18n('schedules')
+
+  return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex flex-col items-center text-center px-6 max-w-lg">
+        <div className="relative mb-6">
+          <div className="rounded-2xl bg-neutral-200/50 dark:bg-neutral-700/30 p-5">
+            <CalendarDays className="h-12 w-12 text-neutral-500 dark:text-neutral-400" />
+          </div>
+          <div className="absolute -bottom-1 -right-1 rounded-full bg-neutral-300 dark:bg-neutral-600 p-1.5">
+            <Plus className="h-4 w-4 text-neutral-600 dark:text-neutral-300" />
+          </div>
+        </div>
+
+        <h3 className="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-3">
+          {t('emptyState.title')}
+        </h3>
+
+        <p className="text-base text-neutral-500 dark:text-neutral-400 leading-relaxed">
+          {t('emptyState.description')}
+        </p>
+      </div>
+    </div>
+  )
+}
 
 const EmptyScheduleTable = () => {
   const isLoading = useScheduleStore((state) => state.isLoading)
 
   if (isLoading) {
-    return <ScheduleTableShell renderCell={() => <SkeletonCell />} cellClassName="p-1" />
+    return <LoadingSkeleton />
   }
 
-  return <ScheduleTableShell renderCell={() => null} />
+  return <EmptyStateMessage />
 }
 
 export default EmptyScheduleTable

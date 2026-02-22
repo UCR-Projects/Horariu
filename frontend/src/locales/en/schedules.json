@@ -13,6 +13,10 @@
     "success": "Schedules generated successfully",
     "error": "Error generating schedules",
     "notPossible": "No possible combinations with the selected courses and schedules."
+  },
+  "emptyState": {
+    "title": "Your schedule will appear here",
+    "description": "Add courses with their groups and click \"Generate Schedules\" to see all possible combinations."
   }
 }
 
