@@ -134,3 +134,6 @@ dist
 
 # AWS SAM build
 .aws-sam
+
+# Implementation plans (AI-generated)
+docs/plans/
