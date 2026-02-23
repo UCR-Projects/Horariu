@@ -1,5 +1,6 @@
 import { Day } from '@/types'
 import { useI18n } from '@/hooks/useI18n'
+import { tokens } from '@/styles'
 
 interface WeekDaySelectorProps {
   day: Day
@@ -21,10 +22,10 @@ const WeekDaySelector = ({ day, active, onToggle, disabled = false }: WeekDaySel
       disabled={disabled}
       aria-label={active ? t('accessibility.deselectDay', { day: dayName }) : t('accessibility.selectDay', { day: dayName })}
       aria-pressed={active}
-      className={`transition-colors rounded-full w-8 h-8 flex items-center justify-center dark:hover:bg-neutral-800/20 hover:bg-neutral-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
+      className={`transition-colors rounded-full ${tokens.interactive.md} flex items-center justify-center hover:bg-interactive-hover cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
         active
-          ? 'text-sky-500 font-extrabold dark:bg-neutral-800/20 bg-neutral-100'
-          : 'dark:text-neutral-300'
+          ? 'text-sky-500 font-extrabold bg-interactive-subtle'
+          : 'text-muted-foreground'
       }`}
     >
       {dayShort}

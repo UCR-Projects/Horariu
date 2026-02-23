@@ -10,6 +10,7 @@ import {
 
 import { useI18n } from '@/hooks/useI18n'
 import { DeleteConfirmationDialog } from '@/components/shared'
+import { tokens } from '@/styles'
 
 interface GroupsListProps {
   groups: CourseFormValuesType['groups']
@@ -57,7 +58,7 @@ export function GroupsList({
                 <span
                   role="button"
                   tabIndex={0}
-                  className="inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer"
+                  className={`inline-flex items-center justify-center ${tokens.interactive.sm} rounded-md hover:bg-accent transition-colors cursor-pointer`}
                   aria-label={isVisible ? t('common:accessibility.hideGroup', { groupName: group.name }) : t('common:accessibility.showGroup', { groupName: group.name })}
                   aria-pressed={isVisible}
                   onClick={(e) => {
@@ -73,15 +74,15 @@ export function GroupsList({
                   }}
                 >
                   {isVisible ? (
-                    <Eye className="h-4 w-4 text-neutral-600" aria-hidden="true" />
+                    <Eye className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
                   ) : (
-                    <EyeOff className="h-4 w-4 text-neutral-600" aria-hidden="true" />
+                    <EyeOff className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
                   )}
                 </span>
                 <span
                   role="button"
                   tabIndex={0}
-                  className="inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-accent transition-colors cursor-pointer"
+                  className={`inline-flex items-center justify-center ${tokens.interactive.sm} rounded-md hover:bg-accent transition-colors cursor-pointer`}
                   aria-label={t('common:accessibility.editGroup', { groupName: group.name })}
                   onClick={(e) => {
                     e.stopPropagation()
@@ -95,7 +96,7 @@ export function GroupsList({
                     }
                   }}
                 >
-                  <Edit2 className="h-4 w-4 text-neutral-600" aria-hidden="true" />
+                  <Edit2 className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
                 </span>
                 <DeleteConfirmationDialog
                   itemName={group.name}

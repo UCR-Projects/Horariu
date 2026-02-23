@@ -15,6 +15,7 @@ import { useI18n } from '@/hooks/useI18n'
 import { useScheduleHandlers } from '@/hooks/useScheduleHandlers'
 import { TimeRangeSelector, WeekDaySelector, ResponsiveFormWrapper } from '@/components/shared'
 import { Plus } from 'lucide-react'
+import { tokens } from '@/styles'
 
 interface GroupFormProps {
   form: UseFormReturn<GroupFormValuesType>
@@ -100,15 +101,15 @@ export function GroupInputsForm({ form, isEditing, onSubmit, onCancel }: GroupFo
                         </h4>
                         <div
                           onClick={() => handleAddTimeBlock(schedule.day)}
-                          className="flex items-center gap-1 text-xs text-neutral-500 dark:hover:text-neutral-300 cursor-pointer transition-colors"
+                          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
                         >
-                          <Plus className="h-3 w-3" />
+                          <Plus className={tokens.icon.xs} />
                           <span className="text-xs">{t('courses:addTimeBlock')}</span>
                         </div>
                       </div>
 
                       {schedule.timeBlocks.length === 0 ? (
-                        <div className="text-xs text-neutral-500 italic text-center border border-dashed rounded p-4">
+                        <div className="text-xs text-muted-foreground italic text-center border border-dashed rounded p-4">
                           {t('courses:noTimeBlocks')}
                         </div>
                       ) : (
@@ -132,7 +133,7 @@ export function GroupInputsForm({ form, isEditing, onSubmit, onCancel }: GroupFo
                 </div>
               </div>
             ) : (
-              <div className="text-xs text-neutral-500 italic text-center border-t pt-3">
+              <div className="text-xs text-muted-foreground italic text-center border-t pt-3">
                 {t('courses:noActiveDays')}
               </div>
             )}

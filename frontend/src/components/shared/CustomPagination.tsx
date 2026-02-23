@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { tokens } from '@/styles'
 
 interface CustomPaginationProps {
   currentPage: number
@@ -60,26 +61,26 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }: CustomPagin
         size="sm"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="h-8 w-8 p-0 cursor-pointer dark:hover:bg-neutral-900 hover:bg-neutral-200/50"
+        className={`${tokens.interactive.md} p-0 cursor-pointer hover:bg-interactive-hover`}
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className={tokens.icon.sm} />
       </Button>
 
       {visiblePages.map((page, index) => (
         <div key={index}>
           {page === '...' ? (
-            <div className="flex items-center justify-center h-8 w-8">
-              <MoreHorizontal className="h-4 w-4" />
+            <div className={`flex items-center justify-center ${tokens.interactive.md}`}>
+              <MoreHorizontal className={tokens.icon.sm} />
             </div>
           ) : (
             <Button
               variant={currentPage === page ? 'default' : 'outline'}
               size="sm"
               onClick={() => typeof page === 'number' && onPageChange(page)}
-              className={`h-8 w-8 p-0 cursor-pointer ${
+              className={`${tokens.interactive.md} p-0 cursor-pointer ${
                 currentPage === page
                   ? '' // No additional styles for active page
-                  : 'dark:hover:bg-neutral-900 hover:bg-neutral-200/50'
+                  : 'hover:bg-interactive-hover'
               }`}
             >
               {page}
@@ -93,9 +94,9 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }: CustomPagin
         size="sm"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="h-8 w-8 p-0 cursor-pointer dark:hover:bg-neutral-900 hover:bg-neutral-200/50"
+        className={`${tokens.interactive.md} p-0 cursor-pointer hover:bg-interactive-hover`}
       >
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className={tokens.icon.sm} />
       </Button>
     </div>
   )

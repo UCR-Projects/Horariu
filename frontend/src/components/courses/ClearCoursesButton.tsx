@@ -43,7 +43,7 @@ export function ClearCoursesButton() {
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={clearAllCourses}
-            className="bg-red-600 hover:bg-red-700 focus:ring-red-600 cursor-pointer dark:text-neutral-50"
+            className="bg-red-600 hover:bg-red-700 focus:ring-red-600 cursor-pointer text-white"
           >
             {t('common:actions.clearAll')}
           </AlertDialogAction>

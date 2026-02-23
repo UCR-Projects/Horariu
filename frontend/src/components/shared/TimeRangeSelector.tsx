@@ -12,6 +12,7 @@ import { useTimeValidation } from '@/hooks/useTimeValidation'
 import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Trash2 } from 'lucide-react'
+import { tokens } from '@/styles'
 
 interface TimeRangeSelectorProps {
   day: Day
@@ -54,7 +55,7 @@ const TimeRangeSelector = ({
     <div className="relative flex items-center justify-center gap-2 mb-2" role="group" aria-label={t('accessibility.timeBlockFor', { day: dayName, block: blockIndex + 1 })}>
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-1">
-          <label htmlFor={startTimeId} className="text-xs italic text-neutral-500">{t('time.from')}:</label>
+          <label htmlFor={startTimeId} className="text-xs italic text-muted-foreground">{t('time.from')}:</label>
           <Select
             disabled={disabled}
             value={startTime}
@@ -78,7 +79,7 @@ const TimeRangeSelector = ({
         </div>
 
         <div className="flex items-center gap-1">
-          <label htmlFor={endTimeId} className="text-xs italic text-neutral-500">{t('time.to')}:</label>
+          <label htmlFor={endTimeId} className="text-xs italic text-muted-foreground">{t('time.to')}:</label>
           <Select
             disabled={disabled || startTime === '----'}
             value={endTime}
@@ -101,16 +102,16 @@ const TimeRangeSelector = ({
       </div>
 
       {canRemove && (
-        <div className="absolute right-0 w-8 h-8 flex items-center justify-center">
+        <div className={`absolute right-0 ${tokens.interactive.md} flex items-center justify-center`}>
           <Button
             type="button"
             variant="ghost"
             size="sm"
             onClick={() => onRemove(day, blockIndex)}
             aria-label={t('accessibility.removeTimeBlock', { day: dayName, block: blockIndex + 1 })}
-            className="h-8 w-8 hover:bg-neutral-200 dark:hover:bg-neutral-900/80 cursor-pointer"
+            className={`${tokens.interactive.md} hover:bg-interactive-hover cursor-pointer`}
           >
-            <Trash2 className="h-4 w-4 text-neutral-600" aria-hidden="true" />
+            <Trash2 className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
           </Button>
         </div>
       )}

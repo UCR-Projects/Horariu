@@ -6,6 +6,7 @@ import { useScheduleExport } from '@/hooks/useScheduleExport'
 import { ScheduleExportMenu } from './ScheduleExportMenu'
 import { getContrastTextColor } from '@/utils/colorUtils'
 import useCourseStore from '@/stores/useCourseStore'
+import { table } from '@/styles'
 
 interface ScheduleTableProps {
   scheduleData: ScheduleDataType
@@ -94,14 +95,14 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
             </caption>
             <thead>
               <tr>
-                <th scope="col" className="border border-neutral-900 dark:border-neutral-300 w-16 md:w-24 h-9">
+                <th scope="col" className={`${table.border} w-16 md:w-24 h-9`}>
                   {t('common:time.hours')}
                 </th>
                 {DAYS.map((day) => (
                   <th
                     key={day}
                     scope="col"
-                    className="p-1 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32"
+                    className={`p-1 ${table.border} w-20 md:w-32`}
                   >
                     <span className="sr-only">{t(`common:days.${day}.name`)}</span>
                     <span aria-hidden="true">({t(`common:days.${day}.short`)}) {t(`common:days.${day}.name`)}</span>
@@ -112,7 +113,7 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
             <tbody>
               {TIME_RANGES.map((range) => (
                 <tr key={range}>
-                  <th scope="row" className="p-1 border border-neutral-900 dark:border-neutral-300 text-center w-16 md:w-24 font-normal">
+                  <th scope="row" className={`p-1 ${table.header} text-center w-16 md:w-24`}>
                     {range}
                   </th>
                   {DAYS.map((day) => {
@@ -126,7 +127,7 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
                     return (
                       <td
                         key={`${day}-${range}`}
-                        className="border border-neutral-900 dark:border-neutral-300 w-20 md:w-24 h-9"
+                        className={`${table.cell} w-20 md:w-24 h-9`}
                         style={color ? { backgroundColor: color } : undefined}
                         aria-label={course ? t('accessibility.courseAt', { courseName: course.courseName, groupName, day: dayName, time: range }) : t('accessibility.emptySlot', { day: dayName, time: range })}
                       >

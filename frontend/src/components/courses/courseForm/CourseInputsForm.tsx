@@ -89,7 +89,7 @@ export function CourseInputsForm({
             type="button"
             variant="outline"
             size="sm"
-            className="text-xs px-2 py-1 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800"
+            className="text-xs px-2 py-1 cursor-pointer hover:bg-interactive-hover"
             onClick={onAddGroup}
           >
             {t('courses:addGroup')}

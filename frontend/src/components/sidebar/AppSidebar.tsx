@@ -40,7 +40,7 @@ export function AppSidebar() {
             </SidebarGroup>
 
             <SidebarGroup className="flex-1 overflow-hidden">
-              <SidebarGroupLabel className="flex items-center justify-between px-2 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-400 group-data-[collapsible=icon]:hidden">
+              <SidebarGroupLabel className="flex items-center justify-between px-2 py-2 text-sm font-medium text-muted-foreground group-data-[collapsible=icon]:hidden">
                 <span>{t('coursesList')}</span>
                 <CoursesListOptions />
               </SidebarGroupLabel>

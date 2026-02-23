@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { tokens } from '@/styles'
 
 const LoadSampleDataButtons = () => {
   const loadSampleData = useCourseStore((state) => state.loadSampleData)
@@ -23,7 +24,7 @@ const LoadSampleDataButtons = () => {
   if (!import.meta.env.DEV) return null
 
   return (
-    <div className="flex flex-col sm:flex-row gap-2 p-3 dark:bg-neutral-900/30 rounded-md mb-4">
+    <div className="flex flex-col sm:flex-row gap-2 p-3 bg-muted/30 rounded-md mb-4">
       <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
         <span className="text-sm font-medium">Load Sample Courses:</span>
 
@@ -36,7 +37,7 @@ const LoadSampleDataButtons = () => {
                 className="flex items-center justify-between gap-1"
               >
                 {datasets.find((d) => d.value === selectedDataset)?.label}
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className={tokens.icon.sm} />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -57,7 +58,7 @@ const LoadSampleDataButtons = () => {
             onClick={handleLoadData}
             className="flex items-center gap-1"
           >
-            <Database className="h-4 w-4" />
+            <Database className={tokens.icon.sm} />
             Load Courses
           </Button>
 
@@ -67,7 +68,7 @@ const LoadSampleDataButtons = () => {
             onClick={clearAllCourses}
             className="flex items-center gap-1"
           >
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className={tokens.icon.sm} />
             Clear Courses
           </Button>
         </div>

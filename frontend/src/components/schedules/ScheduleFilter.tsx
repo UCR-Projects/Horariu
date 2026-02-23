@@ -2,6 +2,7 @@ import { Day, TimeRange } from '@/types'
 import { useI18n } from '@/hooks/useI18n'
 import { useScheduleFilterStore } from '@/stores/useScheduleFilterStore'
 import { TIME_RANGES, DAYS } from '@/utils/constants'
+import { table } from '@/styles'
 
 const ScheduleFilter = () => {
   const { t } = useI18n()
@@ -19,14 +20,14 @@ const ScheduleFilter = () => {
           <table className="w-full border-collapse transition-colors duration-100">
             <thead>
               <tr>
-                <th className="border border-neutral-900 dark:border-neutral-300 w-16 md:w-24">
+                <th className={`${table.border} w-16 md:w-24`}>
                   {t('time.hours')}
                 </th>
 
                 {DAYS.map((day) => (
                   <th
                     key={day}
-                    className="p-2 border border-neutral-900 dark:border-neutral-300 w-20 md:w-32 h-14"
+                    className={`p-2 ${table.border} w-20 md:w-32 h-14`}
                   >
                     ({t(`days.${day}.short`)}) {t(`days.${day}.name`)}
                   </th>
@@ -36,7 +37,7 @@ const ScheduleFilter = () => {
             <tbody>
               {TIME_RANGES.map((hour) => (
                 <tr key={hour}>
-                  <td className="p-1 border border-neutral-900 dark:border-neutral-300 text-center w-16 md:w-32 h-11">
+                  <td className={`p-1 ${table.border} text-center w-16 md:w-32 h-11`}>
                     {hour}
                   </td>
 
@@ -44,8 +45,8 @@ const ScheduleFilter = () => {
                     <td
                       key={`${day}-${hour}`}
                       onClick={() => toggleCell(hour, day)}
-                      className={`border border-neutral-900 dark:border-neutral-300 cursor-pointer transition-colors w-20 md:w-32
-                      ${isCellSelected(hour, day) ? 'bg-cyan-900 hover:bg-cyan-950' : 'hover:bg-neutral-600'}`}
+                      className={`${table.border} cursor-pointer transition-colors w-20 md:w-32
+                      ${isCellSelected(hour, day) ? 'bg-cyan-900 hover:bg-cyan-950' : 'hover:bg-interactive-active'}`}
                     ></td>
                   ))}
                 </tr>

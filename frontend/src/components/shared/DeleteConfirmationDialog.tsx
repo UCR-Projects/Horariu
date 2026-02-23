@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Trash2 } from 'lucide-react'
 import { useI18n } from '@/hooks/useI18n'
+import { tokens } from '@/styles'
 
 interface DeleteConfirmationDialogProps {
   itemName: string
@@ -51,12 +52,12 @@ const DeleteConfirmationDialog = ({
   }
 
   const triggerContent = (
-    <Trash2 className="h-4 w-4 text-neutral-600" aria-hidden="true" />
+    <Trash2 className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
   )
 
   const triggerProps = {
     'aria-label': t('accessibility.deleteItem', { itemName }),
-    className: `inline-flex items-center justify-center h-7 w-7 rounded-md transition-colors cursor-pointer ${triggerClassName || ''}`,
+    className: `inline-flex items-center justify-center ${tokens.interactive.sm} rounded-md transition-colors cursor-pointer ${triggerClassName || ''}`,
     onClick: handleTriggerClick,
   }
 
@@ -93,7 +94,7 @@ const DeleteConfirmationDialog = ({
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
-            className='bg-red-600 hover:bg-red-700 focus:ring-red-600 cursor-pointer dark:text-neutral-50'
+            className='bg-red-600 hover:bg-red-700 focus:ring-red-600 cursor-pointer text-white'
           >
             {confirmLabel || t('common:actions.delete')}
           </AlertDialogAction>

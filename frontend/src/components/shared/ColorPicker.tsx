@@ -12,6 +12,7 @@ import { COLOR_PALETTE, getColorInfo } from '@/utils/colorPalette'
 import { getContrastTextColor } from '@/utils/colorUtils'
 import { useI18n } from '@/hooks/useI18n'
 import useCustomColorStore from '@/stores/useCustomColorStore'
+import { tokens } from '@/styles'
 
 const MAX_CUSTOM_COLORS = 5
 
@@ -63,7 +64,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             aria-labelledby="color-picker-label"
             aria-expanded={open}
             aria-haspopup="listbox"
-            className="w-full justify-start text-left font-normal h-10 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800"
+            className="w-full justify-start text-left font-normal h-10 cursor-pointer hover:bg-interactive-hover"
           >
             <div className="flex items-center gap-2">
               <div
@@ -93,13 +94,13 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                         role="option"
                         aria-selected={isSelected}
                         aria-label={`${t(`colors.${family.name}` as 'colors.Red')} ${t(`shades.${shade.name}` as 'shades.medium')}`}
-                        className="h-7 w-7 rounded-full border-2 border-transparent hover:border-neutral-400 dark:hover:border-neutral-500 cursor-pointer flex items-center justify-center transition-colors"
+                        className={`${tokens.interactive.sm} rounded-full border-2 border-transparent hover:border-muted-foreground cursor-pointer flex items-center justify-center transition-colors`}
                         style={{ backgroundColor: shade.hex }}
                         onClick={() => handleSelectColor(shade.hex)}
                       >
                         {isSelected && (
                           <Check
-                            className="h-4 w-4"
+                            className={tokens.icon.sm}
                             style={{ color: checkColor }}
                             aria-hidden="true"
                           />
@@ -112,7 +113,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             ))}
 
             {/* Custom Colors Row */}
-            <div className="flex items-center gap-3 pt-2 border-t border-neutral-200 dark:border-neutral-700">
+            <div className="flex items-center gap-3 pt-2 border-t border-border">
               <span className="w-16 text-sm text-muted-foreground">
                 {t('colors.Custom')}
               </span>
@@ -127,13 +128,13 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                         role="option"
                         aria-selected={isSelected}
                         aria-label={`${t('colors.Custom')} ${hex}`}
-                        className="h-7 w-7 rounded-full border-2 border-transparent hover:border-neutral-400 dark:hover:border-neutral-500 cursor-pointer flex items-center justify-center transition-colors"
+                        className={`${tokens.interactive.sm} rounded-full border-2 border-transparent hover:border-muted-foreground cursor-pointer flex items-center justify-center transition-colors`}
                         style={{ backgroundColor: hex }}
                         onClick={() => handleSelectColor(hex)}
                       >
                         {isSelected && (
                           <Check
-                            className="h-4 w-4"
+                            className={tokens.icon.sm}
                             style={{ color: checkColor }}
                             aria-hidden="true"
                           />
@@ -142,10 +143,10 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                       <button
                         type="button"
                         aria-label={t('customColors.remove')}
-                        className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-neutral-800 dark:bg-neutral-200 text-white dark:text-black opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all flex items-center justify-center cursor-pointer hover:scale-110"
+                        className={`absolute -top-1 -right-1 ${tokens.icon.sm} rounded-full bg-foreground text-background opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all flex items-center justify-center cursor-pointer hover:scale-110`}
                         onClick={(e) => handleRemoveCustomColor(hex, e)}
                       >
-                        <X className="h-3 w-3" />
+                        <X className={tokens.icon.xs} />
                       </button>
                     </div>
                   )
@@ -158,9 +159,9 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                       <button
                         type="button"
                         aria-label={t('customColors.add')}
-                        className="h-7 w-7 rounded-full border-2 border-dashed border-neutral-400 dark:border-neutral-500 hover:border-neutral-600 dark:hover:border-neutral-300 cursor-pointer flex items-center justify-center transition-colors"
+                        className={`${tokens.interactive.sm} rounded-full border-2 border-dashed border-muted-foreground hover:border-foreground cursor-pointer flex items-center justify-center transition-colors`}
                       >
-                        <Plus className="h-4 w-4 text-neutral-500" />
+                        <Plus className={`${tokens.icon.sm} text-muted-foreground`} />
                       </button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-3" side="right" align="start">

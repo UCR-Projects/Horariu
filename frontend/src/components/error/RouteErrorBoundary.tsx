@@ -2,6 +2,7 @@ import { useRouteError, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react'
 import { useI18n } from '@/hooks/useI18n'
+import { tokens } from '@/styles'
 
 /**
  * Error Boundary component specifically for React Router errors
@@ -25,21 +26,21 @@ const RouteErrorBoundary = () => {
   }
 
   return (
-    <div className='min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900 p-4'>
-      <div className='max-w-md w-full bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-6 space-y-4'>
+    <div className='min-h-screen flex items-center justify-center bg-background p-4'>
+      <div className='max-w-md w-full bg-card rounded-lg shadow-lg p-6 space-y-4'>
         <div className='flex items-center gap-3 text-red-600 dark:text-red-400'>
-          <AlertTriangle className='h-8 w-8' />
+          <AlertTriangle className={tokens.icon.xl} />
           <h1 className='text-2xl font-bold'>{t('errorBoundary.title')}</h1>
         </div>
 
         <div className='space-y-2'>
-          <p className='text-neutral-600 dark:text-neutral-300'>
+          <p className='text-muted-foreground'>
             {t('errorBoundary.description')}
           </p>
 
           {import.meta.env.DEV && error && (
-            <details className='mt-4 p-3 bg-neutral-100 dark:bg-neutral-900 rounded text-sm'>
-              <summary className='cursor-pointer font-semibold text-neutral-700 dark:text-neutral-300'>
+            <details className='mt-4 p-3 bg-muted rounded text-sm'>
+              <summary className='cursor-pointer font-semibold text-foreground'>
                 {t('errorBoundary.detailsTitle')}
               </summary>
               <div className='mt-2 space-y-2'>
@@ -47,7 +48,7 @@ const RouteErrorBoundary = () => {
                   {error.toString()}
                 </p>
                 {error.stack && (
-                  <pre className='text-xs overflow-auto max-h-40 text-neutral-600 dark:text-neutral-400'>
+                  <pre className='text-xs overflow-auto max-h-40 text-muted-foreground'>
                     {error.stack}
                   </pre>
                 )}
@@ -62,7 +63,7 @@ const RouteErrorBoundary = () => {
             className='flex-1 flex items-center justify-center gap-2'
             variant='default'
           >
-            <RefreshCw className='h-4 w-4' />
+            <RefreshCw className={tokens.icon.sm} />
             {t('errorBoundary.tryAgain')}
           </Button>
           <Button
@@ -70,7 +71,7 @@ const RouteErrorBoundary = () => {
             className='flex-1 flex items-center justify-center gap-2'
             variant='outline'
           >
-            <Home className='h-4 w-4' />
+            <Home className={tokens.icon.sm} />
             {t('errorBoundary.goHome')}
           </Button>
         </div>

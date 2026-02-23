@@ -10,6 +10,7 @@ import { GroupInputsForm } from './GroupInputsForm'
 import { CourseInputsForm } from './CourseInputsForm'
 import { useCourseFormManager } from '@/hooks/useCourseFormManager'
 import { useGroupFormManager } from '@/hooks/useGroupFormManager'
+import { tokens } from '@/styles'
 
 interface CourseFormProps {
   existingCourse?: Course
@@ -29,10 +30,10 @@ const CourseFormTrigger = forwardRef<HTMLButtonElement, CourseFormTriggerProps>(
           ref={ref}
           variant="ghost"
           size="icon"
-          className="h-7 w-7 hover:bg-neutral-200 dark:hover:bg-neutral-900/80 cursor-pointer"
+          className={`${tokens.interactive.sm} hover:bg-interactive-hover cursor-pointer`}
           {...props}
         >
-          <Edit2 className="h-4 w-4 text-neutral-600" />
+          <Edit2 className={`${tokens.icon.sm} text-icon-muted`} />
         </Button>
       )
     }

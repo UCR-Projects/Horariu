@@ -7,6 +7,7 @@ import { useState, useCallback, memo } from 'react'
 import useCourseStore from '@/stores/useCourseStore'
 import { DeleteConfirmationDialog } from '@/components/shared'
 import { Course, Group } from '@/types'
+import { tokens } from '@/styles'
 
 // ============================================================================
 // GroupListItem - Renders a single group within a course
@@ -23,18 +24,18 @@ const GroupListItem = memo(({ group, onToggleVisibility }: GroupListItemProps) =
 
   return (
     <div
-      className={`flex items-center justify-between px-3 py-1 rounded-md text-sm transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800 ${
+      className={`flex items-center justify-between px-3 py-1 rounded-md text-sm transition-colors hover:bg-interactive-hover ${
         !group.isActive ? 'opacity-50' : ''
       }`}
       role="listitem"
     >
       <div className="flex items-center gap-3 min-w-0 flex-1">
-        <div className="h-2 w-2 rounded-full bg-linear-to-r from-neutral-400 to-neutral-500 opacity-30" aria-hidden="true" />
+        <div className="h-2 w-2 rounded-full bg-linear-to-r from-muted-foreground to-muted-foreground opacity-30" aria-hidden="true" />
         <span
           className={`truncate max-w-full text-xs font-normal ${
             !group.isActive
-              ? 'line-through text-neutral-400'
-              : 'text-neutral-600 dark:text-neutral-400'
+              ? 'line-through text-muted-foreground'
+              : 'text-muted-foreground'
           }`}
         >
           {group.name}
@@ -45,13 +46,13 @@ const GroupListItem = memo(({ group, onToggleVisibility }: GroupListItemProps) =
         size="icon"
         aria-label={group.isActive ? t('accessibility.hideGroup', { groupName: group.name }) : t('accessibility.showGroup', { groupName: group.name })}
         aria-pressed={group.isActive}
-        className="h-6 w-6 hover:bg-neutral-100/60 dark:hover:bg-neutral-900/80 cursor-pointer transition-colors shrink-0"
+        className={`${tokens.interactive.xs} hover:bg-interactive-hover cursor-pointer transition-colors shrink-0`}
         onClick={onToggleVisibility}
       >
         {group.isActive ? (
-          <Eye className="h-3 w-3 text-neutral-600" aria-hidden="true" />
+          <Eye className={`${tokens.icon.xs} text-icon-muted`} aria-hidden="true" />
         ) : (
-          <EyeOff className="h-3 w-3 text-neutral-600" aria-hidden="true" />
+          <EyeOff className={`${tokens.icon.xs} text-icon-muted`} aria-hidden="true" />
         )}
       </Button>
     </div>
@@ -86,7 +87,7 @@ const CourseListItem = memo(
     return (
       <SidebarMenuItem className="group-data-[collapsible=icon]:hidden" role="listitem">
         <div
-          className={`flex items-center justify-between w-full px-2 py-2 rounded-lg transition-all duration-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 border border-transparent hover:border-neutral-200 dark:hover:border-neutral-700 ${
+          className={`flex items-center justify-between w-full px-2 py-2 rounded-lg transition-all duration-200 hover:bg-interactive-hover border border-transparent hover:border-border ${
             !course.isActive ? 'opacity-50' : ''
           } ${hasGroups ? 'cursor-pointer' : ''}`}
           onClick={() => hasGroups && onToggleExpansion()}
@@ -103,15 +104,15 @@ const CourseListItem = memo(
         >
           <div className="flex items-center gap-1.5 min-w-0 flex-1">
             {hasGroups && (
-              <span className="h-4 w-4 p-0 shrink-0 flex items-center justify-center" aria-hidden="true">
+              <span className={`${tokens.icon.sm} p-0 shrink-0 flex items-center justify-center`} aria-hidden="true">
                 {isExpanded ? (
-                  <ChevronDown className="h-3 w-3 text-neutral-500" />
+                  <ChevronDown className={`${tokens.icon.xs} text-muted-foreground`} />
                 ) : (
-                  <ChevronRight className="h-3 w-3 text-neutral-500" />
+                  <ChevronRight className={`${tokens.icon.xs} text-muted-foreground`} />
                 )}
               </span>
             )}
-            <div className="h-4 w-4 shrink-0 rounded-full" style={{ backgroundColor: course.color }} aria-hidden="true" />
+            <div className={`${tokens.icon.sm} shrink-0 rounded-full`} style={{ backgroundColor: course.color }} aria-hidden="true" />
             <span
               className={`truncate max-w-full text-[13px] leading-tight ${!course.isActive ? 'line-through' : ''}`}
             >
@@ -130,13 +131,13 @@ const CourseListItem = memo(
               size="icon"
               aria-label={course.isActive ? t('accessibility.hideCourse', { courseName: course.name }) : t('accessibility.showCourse', { courseName: course.name })}
               aria-pressed={course.isActive}
-              className="h-7 w-7 dark:hover:bg-neutral-900/80 hover:bg-neutral-200 cursor-pointer"
+              className={`${tokens.interactive.sm} hover:bg-interactive-hover cursor-pointer`}
               onClick={onToggleCourseVisibility}
             >
               {course.isActive ? (
-                <Eye className="h-4 w-4 text-neutral-600" aria-hidden="true" />
+                <Eye className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
               ) : (
-                <EyeOff className="h-4 w-4 text-neutral-600" aria-hidden="true" />
+                <EyeOff className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
               )}
             </Button>
             <CourseForm existingCourse={course} />
@@ -145,7 +146,7 @@ const CourseListItem = memo(
               onConfirm={onDeleteCourse}
               title={t('confirmations.deleteCourse.title')}
               description={t('confirmations.deleteCourse.description', { itemName: course.name })}
-              triggerClassName="h-7 w-7 hover:bg-neutral-200 dark:hover:bg-neutral-900/80 cursor-pointer"
+              triggerClassName={`${tokens.interactive.sm} hover:bg-interactive-hover cursor-pointer`}
             />
           </div>
         </div>
@@ -194,7 +195,7 @@ const CourseList = memo(() => {
   if (courses.length === 0) {
     return (
       <div className="px-4 py-4 text-center group-data-[collapsible=icon]:hidden">
-        <p className="text-xs text-neutral-500 dark:text-neutral-500">{t('noCoursesYet')}</p>
+        <p className="text-xs text-muted-foreground">{t('noCoursesYet')}</p>
       </div>
     )
   }
