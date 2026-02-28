@@ -6,12 +6,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerFooter,
+} from '@/components/ui/drawer'
 import { Button } from '@/components/ui/button'
 import { Check, Plus, X } from 'lucide-react'
 import { COLOR_PALETTE, getColorInfo } from '@/utils/colorPalette'
 import { getContrastTextColor } from '@/utils/colorUtils'
 import { useI18n } from '@/hooks/useI18n'
 import useCustomColorStore from '@/stores/useCustomColorStore'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { tokens } from '@/styles'
 
 const MAX_CUSTOM_COLORS = 5
@@ -29,6 +37,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   const [showCustomPicker, setShowCustomPicker] = useState(false)
   const [pendingColor, setPendingColor] = useState('#6366f1')
   const { t } = useI18n()
+  const isMobile = useIsMobile()
 
   const { customColors, addColor, removeColor } = useCustomColorStore()
 
@@ -154,47 +163,91 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
                 {/* Add custom color button */}
                 {customColors.length < MAX_CUSTOM_COLORS && (
-                  <Popover open={showCustomPicker} onOpenChange={setShowCustomPicker}>
-                    <PopoverTrigger asChild>
-                      <button
-                        type="button"
-                        aria-label={t('customColors.add')}
-                        className={`${tokens.interactive.sm} rounded-full border-2 border-dashed border-muted-foreground hover:border-foreground cursor-pointer flex items-center justify-center transition-colors`}
-                      >
-                        <Plus className={`${tokens.icon.sm} text-muted-foreground`} />
-                      </button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-3" side="right" align="start">
-                      <div className="flex flex-col gap-3">
-                        <span className="text-sm font-medium">{t('customColors.pickColor')}</span>
-                        <HexColorPicker color={pendingColor} onChange={setPendingColor} />
-                        <div className="flex items-center gap-2">
-                          <div
-                            className="h-6 w-6 rounded border"
-                            style={{ backgroundColor: pendingColor }}
-                          />
-                          <span className="text-sm font-mono">{pendingColor}</span>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="outline"
-                            onClick={() => setShowCustomPicker(false)}
-                          >
-                            {t('customColors.cancel')}
-                          </Button>
-                          <Button
-                            type="button"
-                            size="sm"
-                            onClick={handleAddCustomColor}
-                          >
-                            {t('customColors.save')}
-                          </Button>
-                        </div>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                  <>
+                    <button
+                      type="button"
+                      aria-label={t('customColors.add')}
+                      className={`${tokens.interactive.sm} rounded-full border-2 border-dashed border-muted-foreground hover:border-foreground cursor-pointer flex items-center justify-center transition-colors`}
+                      onClick={() => setShowCustomPicker(true)}
+                    >
+                      <Plus className={`${tokens.icon.sm} text-muted-foreground`} />
+                    </button>
+
+                    {isMobile ? (
+                      <Drawer open={showCustomPicker} onOpenChange={setShowCustomPicker}>
+                        <DrawerContent>
+                          <DrawerHeader>
+                            <DrawerTitle>{t('customColors.pickColor')}</DrawerTitle>
+                          </DrawerHeader>
+                          <div className="px-4 flex flex-col items-center gap-3">
+                            <HexColorPicker color={pendingColor} onChange={setPendingColor} />
+                            <div className="flex items-center gap-2">
+                              <div
+                                className="h-6 w-6 rounded border"
+                                style={{ backgroundColor: pendingColor }}
+                              />
+                              <span className="text-sm font-mono">{pendingColor}</span>
+                            </div>
+                          </div>
+                          <DrawerFooter>
+                            <div className="flex gap-2 justify-end">
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                onClick={() => setShowCustomPicker(false)}
+                              >
+                                {t('customColors.cancel')}
+                              </Button>
+                              <Button
+                                type="button"
+                                size="sm"
+                                onClick={handleAddCustomColor}
+                              >
+                                {t('customColors.save')}
+                              </Button>
+                            </div>
+                          </DrawerFooter>
+                        </DrawerContent>
+                      </Drawer>
+                    ) : (
+                      <Popover open={showCustomPicker} onOpenChange={setShowCustomPicker}>
+                        <PopoverTrigger asChild>
+                          <span />
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-3" side="right" align="start">
+                          <div className="flex flex-col gap-3">
+                            <span className="text-sm font-medium">{t('customColors.pickColor')}</span>
+                            <HexColorPicker color={pendingColor} onChange={setPendingColor} />
+                            <div className="flex items-center gap-2">
+                              <div
+                                className="h-6 w-6 rounded border"
+                                style={{ backgroundColor: pendingColor }}
+                              />
+                              <span className="text-sm font-mono">{pendingColor}</span>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                onClick={() => setShowCustomPicker(false)}
+                              >
+                                {t('customColors.cancel')}
+                              </Button>
+                              <Button
+                                type="button"
+                                size="sm"
+                                onClick={handleAddCustomColor}
+                              >
+                                {t('customColors.save')}
+                              </Button>
+                            </div>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    )}
+                  </>
                 )}
               </div>
             </div>
