@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button'
 import { forwardRef, useState } from 'react'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { Edit2 } from 'lucide-react'
+import { useSidebar } from '@/components/ui/sidebar'
+import { Edit2, Plus } from 'lucide-react'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
 import { Course } from '@/types'
@@ -14,14 +15,16 @@ import { tokens } from '@/styles'
 
 interface CourseFormProps {
   existingCourse?: Course
+  variant?: 'default' | 'prominent'
 }
 
 interface CourseFormTriggerProps {
   isEditing: boolean
+  variant?: 'default' | 'prominent'
 }
 
 const CourseFormTrigger = forwardRef<HTMLButtonElement, CourseFormTriggerProps>(
-  ({ isEditing, ...props }, ref) => {
+  ({ isEditing, variant = 'default', ...props }, ref) => {
     const { t } = useI18n('courses')
 
     if (isEditing) {
@@ -38,25 +41,44 @@ const CourseFormTrigger = forwardRef<HTMLButtonElement, CourseFormTriggerProps>(
       )
     }
 
+    if (variant === 'prominent') {
+      return (
+        <Button ref={ref} size="lg" className="cursor-pointer gap-2" {...props}>
+          <Plus className="h-4 w-4" />
+          {t('addFirstCourse')}
+        </Button>
+      )
+    }
+
     return (
-      <Button ref={ref} className="cursor-pointer" {...props}>
+      <Button ref={ref} className="cursor-pointer gap-2" {...props}>
+        <Plus className="h-4 w-4" />
         {t('addCourse')}
       </Button>
     )
   }
 )
 
-export default function CourseForm({ existingCourse }: CourseFormProps) {
+export default function CourseForm({ existingCourse, variant = 'default' }: CourseFormProps) {
   const isMobile = useIsMobile()
+  const { setOpenMobile } = useSidebar()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [activeStep, setActiveStep] = useState<'course' | 'group'>('course')
+
+  const handleSuccess = () => {
+    setIsDialogOpen(false)
+    // Open sidebar automatically on mobile after adding a course
+    if (isMobile) {
+      setOpenMobile(true)
+    }
+  }
 
   // Course form management
   const { courseForm, currentGroups, currentGroupNames, isEditingCourse, onSubmitCourse } =
     useCourseFormManager({
       existingCourse,
       isDialogOpen,
-      onSuccess: () => setIsDialogOpen(false),
+      onSuccess: handleSuccess,
     })
 
   // Group form management
@@ -102,14 +124,14 @@ export default function CourseForm({ existingCourse }: CourseFormProps) {
       {isMobile ? (
         <Drawer open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DrawerTrigger asChild>
-            <CourseFormTrigger isEditing={isEditingCourse} />
+            <CourseFormTrigger isEditing={isEditingCourse} variant={variant} />
           </DrawerTrigger>
           <DrawerContent>{content}</DrawerContent>
         </Drawer>
       ) : (
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <CourseFormTrigger isEditing={isEditingCourse} />
+            <CourseFormTrigger isEditing={isEditingCourse} variant={variant} />
           </DialogTrigger>
           <DialogContent className="sm:max-w-106.25">{content}</DialogContent>
         </Dialog>

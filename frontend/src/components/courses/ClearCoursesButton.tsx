@@ -1,5 +1,6 @@
 import { useI18n } from '@/hooks/useI18n'
 import useCourseStore from '@/stores/useCourseStore'
+import useScheduleStore from '@/stores/useScheduleStore'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,6 +17,12 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 export function ClearCoursesButton() {
   const { t } = useI18n(['common', 'courses'])
   const clearAllCourses = useCourseStore((state) => state.clearAllCourses)
+  const clearScheduleData = useScheduleStore((state) => state.clearScheduleData)
+
+  const handleClearAll = () => {
+    clearAllCourses()
+    clearScheduleData()
+  }
 
   return (
     <AlertDialog>
@@ -42,7 +49,7 @@ export function ClearCoursesButton() {
             {t('common:actions.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
-            onClick={clearAllCourses}
+            onClick={handleClearAll}
             className="bg-red-600 hover:bg-red-700 focus:ring-red-600 cursor-pointer text-white"
           >
             {t('common:actions.clearAll')}

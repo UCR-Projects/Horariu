@@ -3,6 +3,7 @@ export { default as CourseList } from './CourseList'
 export { ClearCoursesButton } from './ClearCoursesButton'
 export { CoursesListOptions } from './CoursesListOptions'
 export { default as LoadSampleDataButtons } from './LoadSampleDataButtons'
+export { AddCourseCard } from './AddCourseCard'
 
 // Course form components
 export { default as CourseForm } from './courseForm/CourseForm'

@@ -20,7 +20,7 @@ const LoadSampleDataButtons = () => {
   const handleLoadData = () => {
     loadSampleData(selectedDataset)
   }
-
+  return null
   if (!import.meta.env.DEV) return null
 
   return (

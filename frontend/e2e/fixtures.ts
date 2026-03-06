@@ -25,7 +25,8 @@ export async function waitForAppLoad(page: Page): Promise<void> {
 
 // Helper to open course form dialog
 export async function openCourseFormDialog(page: Page): Promise<void> {
-  const addCourseButton = page.getByRole('button', { name: /add course|agregar curso/i })
+  // Matches both "Add Course" and "Add my first course" variants
+  const addCourseButton = page.getByRole('button', { name: /add.*course|agregar.*curso/i })
   await addCourseButton.click()
   await page.waitForSelector('[role="dialog"]', { timeout: 5000 })
 }

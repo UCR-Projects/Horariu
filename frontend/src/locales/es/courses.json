@@ -11,6 +11,11 @@
   "deleteCourses": "Eliminar Cursos",
   "clearAllCourses": "Limpiar Todos los Cursos",
   "noCoursesYet": "No se han agregado cursos aún",
+  "addFirstCourse": "Agregar mi primer curso",
+  "emptyState": {
+    "title": "Genera todas tus opciones de horario",
+    "description": "Agrega tus cursos con sus grupos y horarios, y genera todas las combinaciones posibles sin conflictos."
+  },
   "form": {
     "title": "Información del Curso",
     "description": "Ingresa la información del curso para incluirlo en tu horario",

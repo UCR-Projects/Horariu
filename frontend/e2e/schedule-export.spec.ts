@@ -10,8 +10,8 @@ import { test, expect, Page } from '@playwright/test'
 
 // Helper to create a course and generate schedule
 async function setupScheduleForExport(page: Page): Promise<void> {
-  // "Add Course" / "Agregar Curso"
-  const addCourseButton = page.getByRole('button', { name: /Add Course|Agregar Curso/i })
+  // In empty state: "Add my first course" / "Agregar mi primer curso"
+  const addCourseButton = page.getByRole('button', { name: /Add.*course|Agregar.*curso/i })
   await addCourseButton.click()
   await page.waitForTimeout(300)
 

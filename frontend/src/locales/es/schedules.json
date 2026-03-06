@@ -16,7 +16,7 @@
   },
   "emptyState": {
     "title": "Tu horario aparecerá aquí",
-    "description": "Agrega cursos con sus grupos y presiona \"Generar Horarios\" para ver todas las combinaciones posibles."
+    "description": "Agrega más cursos con sus grupos y presiona \"Generar Horarios\" para ver todas las combinaciones posibles."
   }
 }
 

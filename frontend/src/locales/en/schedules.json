@@ -16,7 +16,7 @@
   },
   "emptyState": {
     "title": "Your schedule will appear here",
-    "description": "Add courses with their groups and click \"Generate Schedules\" to see all possible combinations."
+    "description": "Add more courses with their groups and click \"Generate Schedules\" to see all possible combinations."
   }
 }
 

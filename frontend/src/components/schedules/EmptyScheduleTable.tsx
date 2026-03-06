@@ -1,6 +1,7 @@
 import { useI18n } from '@/hooks/useI18n'
 import useScheduleStore from '@/stores/useScheduleStore'
-import { CalendarDays, Plus, Sparkles } from 'lucide-react'
+import { CalendarDays, Sparkles } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
 import { tokens } from '@/styles'
 
 const LoadingSkeleton = () => {
@@ -27,24 +28,23 @@ const EmptyStateMessage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="flex flex-col items-center text-center px-6 max-w-lg">
-        <div className="relative mb-6">
-          <div className="rounded-2xl bg-muted/50 p-5">
-            <CalendarDays className="h-12 w-12 text-muted-foreground" />
+      <Card className="max-w-md w-full bg-background/30 border-border/40 shadow-none">
+        <CardContent className="flex flex-col items-center justify-center py-12 px-6 text-center">
+          <div className="mb-6">
+            <div className="rounded-2xl bg-muted/50 p-5">
+              <CalendarDays className="h-12 w-12 text-muted-foreground" />
+            </div>
           </div>
-          <div className="absolute -bottom-1 -right-1 rounded-full bg-muted p-1.5">
-            <Plus className={`${tokens.icon.sm} text-muted-foreground`} />
-          </div>
-        </div>
 
-        <h3 className="text-xl font-semibold text-foreground mb-3">
-          {t('emptyState.title')}
-        </h3>
+          <h3 className="text-xl font-semibold text-foreground mb-3">
+            {t('emptyState.title')}
+          </h3>
 
-        <p className="text-base text-muted-foreground leading-relaxed">
-          {t('emptyState.description')}
-        </p>
-      </div>
+          <p className="text-base text-muted-foreground leading-relaxed">
+            {t('emptyState.description')}
+          </p>
+        </CardContent>
+      </Card>
     </div>
   )
 }

@@ -11,6 +11,11 @@
   "deleteCourses": "Delete Courses",
   "clearAllCourses": "Clear All Courses",
   "noCoursesYet": "No courses added yet",
+  "addFirstCourse": "Add my first course",
+  "emptyState": {
+    "title": "Generate all your schedule options",
+    "description": "Add your courses with their groups and schedules, and generate all possible conflict-free combinations."
+  },
   "form": {
     "title": "Course Information",
     "description": "Enter the course information to include it in your plan",

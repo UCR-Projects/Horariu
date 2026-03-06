@@ -5,6 +5,7 @@ import { Eye, EyeOff, ChevronDown, ChevronRight } from 'lucide-react'
 import { useI18n } from '@/hooks/useI18n'
 import { useState, useCallback, memo } from 'react'
 import useCourseStore from '@/stores/useCourseStore'
+import useScheduleStore from '@/stores/useScheduleStore'
 import { DeleteConfirmationDialog } from '@/components/shared'
 import { Course, Group } from '@/types'
 import { tokens } from '@/styles'
@@ -177,6 +178,7 @@ const CourseList = memo(() => {
   const deleteCourse = useCourseStore((state) => state.deleteCourse)
   const toggleCourseVisibility = useCourseStore((state) => state.toggleCourseVisibility)
   const toggleGroupVisibility = useCourseStore((state) => state.toggleGroupVisibility)
+  const clearScheduleData = useScheduleStore((state) => state.clearScheduleData)
   const { t } = useI18n('courses')
   const [expandedCourses, setExpandedCourses] = useState<Set<string>>(new Set())
 
@@ -191,6 +193,17 @@ const CourseList = memo(() => {
       return newSet
     })
   }, [])
+
+  const handleDeleteCourse = useCallback(
+    (courseName: string) => {
+      deleteCourse(courseName)
+      // Clear schedules when deleting the last course
+      if (courses.length === 1) {
+        clearScheduleData()
+      }
+    },
+    [courses.length, deleteCourse, clearScheduleData]
+  )
 
   if (courses.length === 0) {
     return (
@@ -210,7 +223,7 @@ const CourseList = memo(() => {
           onToggleExpansion={() => toggleCourseExpansion(course.name)}
           onToggleCourseVisibility={() => toggleCourseVisibility(course.name)}
           onToggleGroupVisibility={(groupName) => toggleGroupVisibility(course.name, groupName)}
-          onDeleteCourse={() => deleteCourse(course.name)}
+          onDeleteCourse={() => handleDeleteCourse(course.name)}
         />
       ))}
     </SidebarMenu>

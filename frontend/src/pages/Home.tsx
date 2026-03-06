@@ -1,26 +1,43 @@
 import { Badge } from '@/components/ui/badge'
 import { Loader2 } from 'lucide-react'
 import useScheduleStore from '@/stores/useScheduleStore'
+import useCourseStore from '@/stores/useCourseStore'
 import { useI18n } from '@/hooks/useI18n'
 import { SchedulesList, GenerateScheduleButton } from '@/components/schedules'
-import { LoadSampleDataButtons } from '@/components/courses'
+import { LoadSampleDataButtons, AddCourseCard, CourseForm } from '@/components/courses'
 import { MobileSidebarTrigger } from '@/components/sidebar'
 
 const Home = () => {
   const { t } = useI18n('schedules')
   const scheduleData = useScheduleStore((state) => state.scheduleData)
   const isLoading = useScheduleStore((state) => state.isLoading)
+  const courses = useCourseStore((state) => state.courses)
 
+  const hasCourses = courses.length > 0
   const schedulesCount = scheduleData?.schedules?.length || 0
   const showBadge = isLoading || schedulesCount > 0
 
+  // Empty state: no courses yet
+  if (!hasCourses) {
+    return (
+      <>
+        <LoadSampleDataButtons />
+        <AddCourseCard />
+      </>
+    )
+  }
+
+  // Has courses: show header with actions + schedules
   return (
     <>
       <div>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 p-2 mb-2">
-          <div className="w-full md:w-auto">
+          <div className="w-full md:w-auto flex flex-col md:flex-row md:flex-wrap md:items-center gap-2 md:gap-4">
             <LoadSampleDataButtons />
             <MobileSidebarTrigger />
+            <div className="hidden md:block">
+              <CourseForm />
+            </div>
             <GenerateScheduleButton />
           </div>
 

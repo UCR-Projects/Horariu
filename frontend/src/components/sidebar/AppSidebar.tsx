@@ -11,7 +11,7 @@ import {
 
 import { useI18n } from '@/hooks/useI18n'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { CourseList, CourseForm, CoursesListOptions } from '@/components/courses'
+import { CourseList, CoursesListOptions, CourseForm } from '@/components/courses'
 import { LanguageToggleButton, InfoButton } from '@/components/layout'
 
 export function AppSidebar() {
@@ -33,11 +33,13 @@ export function AppSidebar() {
           </SidebarHeader>
 
           <SidebarContent>
-            <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-              <SidebarGroupContent className="px-1">
-                <CourseForm />
-              </SidebarGroupContent>
-            </SidebarGroup>
+            {isMobile && (
+              <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+                <SidebarGroupContent className="px-2">
+                  <CourseForm />
+                </SidebarGroupContent>
+              </SidebarGroup>
+            )}
 
             <SidebarGroup className="flex-1 overflow-hidden">
               <SidebarGroupLabel className="flex items-center justify-between px-2 py-2 text-sm font-medium text-muted-foreground group-data-[collapsible=icon]:hidden">

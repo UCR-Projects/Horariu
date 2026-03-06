@@ -23,8 +23,8 @@ test.describe('Course Management', () => {
   })
 
   test('should open course form dialog when clicking add course button', async ({ page }) => {
-    // "Add Course" / "Agregar Curso"
-    const addCourseButton = page.getByRole('button', { name: /Add Course|Agregar Curso/i })
+    // In empty state: "Add my first course" / "Agregar mi primer curso"
+    const addCourseButton = page.getByRole('button', { name: /Add.*course|Agregar.*curso/i })
     await addCourseButton.click()
 
     const dialog = page.locator('[role="dialog"]')
@@ -32,8 +32,8 @@ test.describe('Course Management', () => {
   })
 
   test('should create a new course with a group', async ({ page }) => {
-    // Open course form
-    const addCourseButton = page.getByRole('button', { name: /Add Course|Agregar Curso/i })
+    // Open course form - in empty state: "Add my first course" / "Agregar mi primer curso"
+    const addCourseButton = page.getByRole('button', { name: /Add.*course|Agregar.*curso/i })
     await addCourseButton.click()
     await page.waitForTimeout(300)
 
@@ -95,8 +95,8 @@ test.describe('Course Management', () => {
   })
 
   test('should toggle course visibility', async ({ page }) => {
-    // Create a course first
-    const addCourseButton = page.getByRole('button', { name: /Add Course|Agregar Curso/i })
+    // Create a course first - in empty state: "Add my first course" / "Agregar mi primer curso"
+    const addCourseButton = page.getByRole('button', { name: /Add.*course|Agregar.*curso/i })
     await addCourseButton.click()
     await page.waitForTimeout(300)
 
@@ -161,8 +161,8 @@ test.describe('Course Management', () => {
   })
 
   test('should delete a course', async ({ page }) => {
-    // Create a course first
-    const addCourseButton = page.getByRole('button', { name: /Add Course|Agregar Curso/i })
+    // Create a course first - in empty state: "Add my first course" / "Agregar mi primer curso"
+    const addCourseButton = page.getByRole('button', { name: /Add.*course|Agregar.*curso/i })
     await addCourseButton.click()
     await page.waitForTimeout(300)
 

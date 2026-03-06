@@ -16,16 +16,18 @@ test.describe('Schedule Generation', () => {
     await page.waitForSelector('[data-sidebar="sidebar"]', { timeout: 10000 })
   })
 
-  test('should show disabled generate button when no courses exist', async ({ page }) => {
-    // "Generate Schedules" / "Generar Horarios"
+  test('should not show generate button when no courses exist', async ({ page }) => {
+    // When no courses exist, the Generate button is not rendered at all
+    // The UI shows AddCourseCard instead
     const generateButton = page.getByRole('button', {
       name: /Generate Schedules|Generar Horarios/i,
     })
-    await expect(generateButton).toBeDisabled()
+    await expect(generateButton).not.toBeVisible()
   })
 
   test('should enable generate button when course with active group exists', async ({ page }) => {
-    const addCourseButton = page.getByRole('button', { name: /Add Course|Agregar Curso/i })
+    // In empty state: "Add my first course" / "Agregar mi primer curso"
+    const addCourseButton = page.getByRole('button', { name: /Add.*course|Agregar.*curso/i })
     await addCourseButton.click()
     await page.waitForTimeout(300)
 
@@ -80,19 +82,21 @@ test.describe('Schedule Generation', () => {
     await expect(generateButton).toBeEnabled()
   })
 
-  test('should show empty state message when no schedules generated', async ({ page }) => {
-    // "Your schedule will appear here" / "Tu horario aparecerá aquí"
-    const emptyStateTitle = page.getByText(/Your schedule will appear here|Tu horario aparecerá aquí/i)
+  test('should show empty state message when no courses exist', async ({ page }) => {
+    // When no courses exist, shows courses empty state card
+    // "Generate all your schedule options" / "Genera todas tus opciones de horario"
+    const emptyStateTitle = page.getByText(/Generate all your schedule options|Genera todas tus opciones de horario/i)
     await expect(emptyStateTitle).toBeVisible()
 
     // Check description is also visible
-    // "Add courses with their groups" / "Agrega cursos con sus grupos"
-    const emptyStateDescription = page.getByText(/Add courses with their groups|Agrega cursos con sus grupos/i)
+    // "Add your courses with their groups" / "Agrega tus cursos con sus grupos"
+    const emptyStateDescription = page.getByText(/Add your courses|Agrega tus cursos/i)
     await expect(emptyStateDescription).toBeVisible()
   })
 
   test('should generate and display schedule after clicking generate button', async ({ page }) => {
-    const addCourseButton = page.getByRole('button', { name: /Add Course|Agregar Curso/i })
+    // In empty state: "Add my first course" / "Agregar mi primer curso"
+    const addCourseButton = page.getByRole('button', { name: /Add.*course|Agregar.*curso/i })
     await addCourseButton.click()
     await page.waitForTimeout(300)
 
@@ -159,7 +163,8 @@ test.describe('Schedule Generation', () => {
   })
 
   test('should show schedule count badge after generation', async ({ page }) => {
-    const addCourseButton = page.getByRole('button', { name: /Add Course|Agregar Curso/i })
+    // In empty state: "Add my first course" / "Agregar mi primer curso"
+    const addCourseButton = page.getByRole('button', { name: /Add.*course|Agregar.*curso/i })
     await addCourseButton.click()
     await page.waitForTimeout(300)
 
