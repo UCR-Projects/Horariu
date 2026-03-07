@@ -31,9 +31,14 @@ export function useScheduleExport({
         theme === 'dark' ||
         (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
 
+      // Use pure black/white to match new theme
+      const backgroundColor = isDarkMode ? '#000000' : '#ffffff'
+
       return await html2canvas(tableRef.current, {
         scale: 2,
-        backgroundColor: isDarkMode ? '#262626' : '#ffffff',
+        backgroundColor,
+        useCORS: true,
+        logging: false,
       })
     } catch (error) {
       console.error('generating canvas:', error)
@@ -57,11 +62,37 @@ export function useScheduleExport({
     if (!canvas) return
 
     const image = canvas.toDataURL('image/png')
-    const imgWidth = 210 // A4 width in mm (portrait)
-    const imgHeight = (canvas.height * imgWidth) / canvas.width
 
-    const pdf = new jsPDF('p', 'mm', 'a4')
-    pdf.addImage(image, 'PNG', 0, 0, imgWidth, imgHeight)
+    // Determine orientation based on canvas aspect ratio
+    const isLandscape = canvas.width > canvas.height
+    const orientation = isLandscape ? 'l' : 'p'
+
+    // A4 dimensions in mm
+    const a4Width = isLandscape ? 297 : 210
+    const a4Height = isLandscape ? 210 : 297
+
+    // Calculate image dimensions with margins
+    const margin = 10 // 10mm margins
+    const maxWidth = a4Width - (margin * 2)
+    const maxHeight = a4Height - (margin * 2)
+
+    // Scale image to fit within margins while maintaining aspect ratio
+    const aspectRatio = canvas.width / canvas.height
+    let imgWidth = maxWidth
+    let imgHeight = imgWidth / aspectRatio
+
+    // If height exceeds max, scale by height instead
+    if (imgHeight > maxHeight) {
+      imgHeight = maxHeight
+      imgWidth = imgHeight * aspectRatio
+    }
+
+    // Center the image
+    const xOffset = (a4Width - imgWidth) / 2
+    const yOffset = (a4Height - imgHeight) / 2
+
+    const pdf = new jsPDF(orientation, 'mm', 'a4')
+    pdf.addImage(image, 'PNG', xOffset, yOffset, imgWidth, imgHeight)
     pdf.save(`schedule-option-${scheduleIndex + 1}.pdf`)
   }, [generateCanvas, scheduleIndex])
 
