@@ -1,9 +1,15 @@
 import CourseForm from './courseForm/CourseForm'
 import { Button } from '@/components/ui/button'
 import { SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar'
-import { Eye, EyeOff, ChevronDown, ChevronRight } from 'lucide-react'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Eye, EyeOff, ChevronDown } from 'lucide-react'
 import { useI18n } from '@/hooks/useI18n'
 import { useState, useCallback, memo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import useCourseStore from '@/stores/useCourseStore'
 import useScheduleStore from '@/stores/useScheduleStore'
 import { DeleteConfirmationDialog } from '@/components/shared'
@@ -25,13 +31,12 @@ const GroupListItem = memo(({ group, onToggleVisibility }: GroupListItemProps) =
 
   return (
     <div
-      className={`flex items-center justify-between px-3 py-1 rounded-md text-sm transition-colors hover:bg-interactive-hover ${
+      className={`flex items-center justify-between px-2 py-1 rounded text-sm ${
         !group.isActive ? 'opacity-50' : ''
       }`}
       role="listitem"
     >
-      <div className="flex items-center gap-3 min-w-0 flex-1">
-        <div className="h-2 w-2 rounded-full bg-linear-to-r from-muted-foreground to-muted-foreground opacity-30" aria-hidden="true" />
+      <div className="flex items-center gap-2 min-w-0 flex-1">
         <span
           className={`truncate max-w-full text-xs font-normal ${
             !group.isActive
@@ -42,20 +47,27 @@ const GroupListItem = memo(({ group, onToggleVisibility }: GroupListItemProps) =
           {group.name}
         </span>
       </div>
-      <Button
-        variant="ghost"
-        size="icon"
-        aria-label={group.isActive ? t('accessibility.hideGroup', { groupName: group.name }) : t('accessibility.showGroup', { groupName: group.name })}
-        aria-pressed={group.isActive}
-        className={`${tokens.interactive.xs} hover:bg-interactive-hover cursor-pointer transition-colors shrink-0`}
-        onClick={onToggleVisibility}
-      >
-        {group.isActive ? (
-          <Eye className={`${tokens.icon.xs} text-icon-muted`} aria-hidden="true" />
-        ) : (
-          <EyeOff className={`${tokens.icon.xs} text-icon-muted`} aria-hidden="true" />
-        )}
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label={group.isActive ? t('accessibility.hideGroup', { groupName: group.name }) : t('accessibility.showGroup', { groupName: group.name })}
+            aria-pressed={group.isActive}
+            className={`${tokens.interactive.xs} hover:bg-accent cursor-pointer transition-colors shrink-0`}
+            onClick={onToggleVisibility}
+          >
+            {group.isActive ? (
+              <Eye className={`${tokens.icon.xs} text-icon-muted`} aria-hidden="true" />
+            ) : (
+              <EyeOff className={`${tokens.icon.xs} text-icon-muted`} aria-hidden="true" />
+            )}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="right">
+          {group.isActive ? t('visibility.excludeGroup') : t('visibility.includeGroup')}
+        </TooltipContent>
+      </Tooltip>
     </div>
   )
 })
@@ -88,7 +100,7 @@ const CourseListItem = memo(
     return (
       <SidebarMenuItem className="group-data-[collapsible=icon]:hidden" role="listitem">
         <div
-          className={`flex items-center justify-between w-full px-2 py-2 rounded-lg transition-all duration-200 hover:bg-interactive-hover border border-transparent hover:border-border ${
+          className={`flex items-center justify-between w-full px-2 py-1.5 ${
             !course.isActive ? 'opacity-50' : ''
           } ${hasGroups ? 'cursor-pointer' : ''}`}
           onClick={() => hasGroups && onToggleExpansion()}
@@ -105,12 +117,8 @@ const CourseListItem = memo(
         >
           <div className="flex items-center gap-1.5 min-w-0 flex-1">
             {hasGroups && (
-              <span className={`${tokens.icon.sm} p-0 shrink-0 flex items-center justify-center`} aria-hidden="true">
-                {isExpanded ? (
-                  <ChevronDown className={`${tokens.icon.xs} text-muted-foreground`} />
-                ) : (
-                  <ChevronRight className={`${tokens.icon.xs} text-muted-foreground`} />
-                )}
+              <span className={`${tokens.icon.sm} p-0 shrink-0 flex items-center justify-center transition-transform duration-200 ${isExpanded ? 'rotate-0' : '-rotate-90'}`} aria-hidden="true">
+                <ChevronDown className={`${tokens.icon.xs} text-muted-foreground`} />
               </span>
             )}
             <div className={`${tokens.icon.sm} shrink-0 rounded-full`} style={{ backgroundColor: course.color }} aria-hidden="true" />
@@ -122,38 +130,49 @@ const CourseListItem = memo(
           </div>
 
           <div
-            className="flex items-center space-x-1 shrink-0"
+            className="flex items-center shrink-0"
             onClick={(e) => e.stopPropagation()}
             role="group"
             aria-label={t('accessibility.courseActions', { courseName: course.name })}
           >
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label={course.isActive ? t('accessibility.hideCourse', { courseName: course.name }) : t('accessibility.showCourse', { courseName: course.name })}
-              aria-pressed={course.isActive}
-              className={`${tokens.interactive.sm} hover:bg-interactive-hover cursor-pointer`}
-              onClick={onToggleCourseVisibility}
-            >
-              {course.isActive ? (
-                <Eye className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
-              ) : (
-                <EyeOff className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
-              )}
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label={course.isActive ? t('accessibility.hideCourse', { courseName: course.name }) : t('accessibility.showCourse', { courseName: course.name })}
+                  aria-pressed={course.isActive}
+                  className={`${tokens.interactive.sm} hover:bg-accent cursor-pointer`}
+                  onClick={onToggleCourseVisibility}
+                >
+                  {course.isActive ? (
+                    <Eye className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
+                  ) : (
+                    <EyeOff className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {course.isActive ? t('visibility.excludeCourse') : t('visibility.includeCourse')}
+              </TooltipContent>
+            </Tooltip>
             <CourseForm existingCourse={course} />
             <DeleteConfirmationDialog
               itemName={course.name}
               onConfirm={onDeleteCourse}
               title={t('confirmations.deleteCourse.title')}
               description={t('confirmations.deleteCourse.description', { itemName: course.name })}
-              triggerClassName={`${tokens.interactive.sm} hover:bg-interactive-hover cursor-pointer`}
+              triggerClassName={`${tokens.interactive.sm} hover:bg-accent cursor-pointer`}
             />
           </div>
         </div>
 
         {isExpanded && hasGroups && (
-          <div className="ml-6 mt-1 space-y-1" role="list" aria-label={t('accessibility.groupsOf', { courseName: course.name })}>
+          <div
+            className="ml-4 pl-3 border-l-2 border-border mt-1 space-y-0.5 animate-fade-in"
+            role="list"
+            aria-label={t('accessibility.groupsOf', { courseName: course.name })}
+          >
             {course.groups.map((group) => (
               <GroupListItem
                 key={group.name}
@@ -215,17 +234,26 @@ const CourseList = memo(() => {
 
   return (
     <SidebarMenu>
-      {courses.map((course) => (
-        <CourseListItem
-          key={course.name}
-          course={course}
-          isExpanded={expandedCourses.has(course.name)}
-          onToggleExpansion={() => toggleCourseExpansion(course.name)}
-          onToggleCourseVisibility={() => toggleCourseVisibility(course.name)}
-          onToggleGroupVisibility={(groupName) => toggleGroupVisibility(course.name, groupName)}
-          onDeleteCourse={() => handleDeleteCourse(course.name)}
-        />
-      ))}
+      <AnimatePresence initial={false}>
+        {courses.map((course) => (
+          <motion.div
+            key={course.name}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+          >
+            <CourseListItem
+              course={course}
+              isExpanded={expandedCourses.has(course.name)}
+              onToggleExpansion={() => toggleCourseExpansion(course.name)}
+              onToggleCourseVisibility={() => toggleCourseVisibility(course.name)}
+              onToggleGroupVisibility={(groupName) => toggleGroupVisibility(course.name, groupName)}
+              onDeleteCourse={() => handleDeleteCourse(course.name)}
+            />
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </SidebarMenu>
   )
 })

@@ -58,6 +58,12 @@
       "title": "¿Estás seguro de eliminar este grupo?",
       "description": "Esta acción no se puede deshacer. El grupo \"{{itemName}}\" será eliminado del curso."
     }
+  },
+  "visibility": {
+    "excludeCourse": "Excluir de la generación de horarios",
+    "includeCourse": "Incluir en la generación de horarios",
+    "excludeGroup": "Excluir este grupo",
+    "includeGroup": "Incluir este grupo"
   }
 }
 
