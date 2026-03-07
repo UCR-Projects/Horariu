@@ -7,6 +7,7 @@ import { ScheduleExportMenu } from './ScheduleExportMenu'
 import { getContrastTextColor } from '@/utils/colorUtils'
 import useCourseStore from '@/stores/useCourseStore'
 import { table } from '@/styles'
+import { Card } from '@/components/ui/card'
 
 interface ScheduleTableProps {
   scheduleData: ScheduleDataType
@@ -75,9 +76,13 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
   const scheduleTitle = `${t('schedules:option')} ${scheduleIndex + 1}`
 
   return (
-    <div className="mb-12" role="region" aria-labelledby={`schedule-title-${scheduleIndex}`}>
-      <div className="flex justify-between items-center mb-4">
-        <h2 id={`schedule-title-${scheduleIndex}`} className="font-bold">
+    <Card
+      className="mb-8 p-4 shadow-sm border"
+      role="region"
+      aria-labelledby={`schedule-title-${scheduleIndex}`}
+    >
+      <div className="flex justify-between items-center mb-1">
+        <h2 id={`schedule-title-${scheduleIndex}`} className="font-bold text-sm">
           {scheduleTitle}
         </h2>
         <ScheduleExportMenu onExportImage={exportAsImage} onExportPDF={exportAsPDF} />
@@ -149,7 +154,7 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
           </table>
         </div>
       </div>
-    </div>
+    </Card>
   )
 })
 
