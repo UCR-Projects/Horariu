@@ -17,6 +17,16 @@
   "emptyState": {
     "title": "Tu horario aparecerá aquí",
     "description": "Agrega más cursos con sus grupos y presiona \"Generar Horarios\" para ver todas las combinaciones posibles."
+  },
+  "view": {
+    "list": "Lista",
+    "carousel": "Carrusel",
+    "switchToList": "Cambiar a vista de lista",
+    "switchToCarousel": "Cambiar a vista de carrusel"
+  },
+  "favorites": {
+    "add": "Agregar a favoritos",
+    "remove": "Quitar de favoritos"
   }
 }
 
