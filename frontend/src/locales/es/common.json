@@ -13,7 +13,9 @@
     "generate": "Generar",
     "generating": "Generando",
     "tryAgain": "Intentar de nuevo",
-    "goHome": "Ir al inicio"
+    "goHome": "Ir al inicio",
+    "next": "Siguiente",
+    "previous": "Anterior"
   },
   "time": {
     "from": "Desde",
@@ -108,6 +110,22 @@
     "courseAt": "{{courseName}} - {{groupName}} el {{day}} a las {{time}}",
     "emptySlot": "Espacio vacío el {{day}} a las {{time}}",
     "exportSchedule": "Exportar horario"
+  },
+  "onboarding": {
+    "step1": {
+      "title": "Agrega tus Cursos",
+      "desc": "Comienza agregando los cursos que necesitas tomar este semestre. Incluye todas las secciones (grupos) disponibles para cada curso."
+    },
+    "step2": {
+      "title": "Define los Horarios",
+      "desc": "Para cada grupo del curso, indícanos cuándo se reúne. Selecciona los días y horarios de cada sección."
+    },
+    "step3": {
+      "title": "Genera Opciones",
+      "desc": "Encontraremos todas las combinaciones de horarios posibles que funcionen - ¡sin conflictos garantizado!"
+    },
+    "getStarted": "Comenzar",
+    "skip": "Omitir, ya sé cómo funciona"
   }
 }
 

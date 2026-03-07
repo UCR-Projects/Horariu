@@ -17,6 +17,16 @@
   "emptyState": {
     "title": "Your schedule will appear here",
     "description": "Add more courses with their groups and click \"Generate Schedules\" to see all possible combinations."
+  },
+  "view": {
+    "list": "List",
+    "carousel": "Carousel",
+    "switchToList": "Switch to list view",
+    "switchToCarousel": "Switch to carousel view"
+  },
+  "favorites": {
+    "add": "Add to favorites",
+    "remove": "Remove from favorites"
   }
 }
 

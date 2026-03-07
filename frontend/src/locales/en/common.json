@@ -13,7 +13,9 @@
     "generate": "Generate",
     "generating": "Generating",
     "tryAgain": "Try again",
-    "goHome": "Go to home"
+    "goHome": "Go to home",
+    "next": "Next",
+    "previous": "Previous"
   },
   "time": {
     "from": "From",
@@ -108,6 +110,22 @@
     "courseAt": "{{courseName}} - {{groupName}} on {{day}} at {{time}}",
     "emptySlot": "Empty slot on {{day}} at {{time}}",
     "exportSchedule": "Export schedule"
+  },
+  "onboarding": {
+    "step1": {
+      "title": "Add Your Courses",
+      "desc": "Start by adding the courses you need to take this semester. Include all the sections (groups) available for each course."
+    },
+    "step2": {
+      "title": "Set Your Schedule",
+      "desc": "For each course group, tell us when it meets. Select the days and times for each section."
+    },
+    "step3": {
+      "title": "Generate Options",
+      "desc": "We'll find every possible schedule combination that works - no conflicts guaranteed. Pick your favorite!"
+    },
+    "getStarted": "Get Started",
+    "skip": "Skip, I know what I'm doing"
   }
 }
 
