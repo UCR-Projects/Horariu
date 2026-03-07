@@ -5,6 +5,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/hooks/useI18n'
 
@@ -18,16 +23,21 @@ export function ScheduleExportMenu({ onExportImage, onExportPDF }: ScheduleExpor
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          aria-label={t('common:accessibility.exportSchedule')}
-          className="bg-card cursor-pointer hover:bg-interactive-hover"
-        >
-          <Download size={16} className="mr-1" aria-hidden="true" />
-          <span>{t('schedules:downloadSchedule')}</span>
-        </Button>
-      </DropdownMenuTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={t('common:accessibility.exportSchedule')}
+              className="cursor-pointer hover:bg-interactive-hover"
+            >
+              <Download size={18} aria-hidden="true" />
+            </Button>
+          </DropdownMenuTrigger>
+        </TooltipTrigger>
+        <TooltipContent>{t('schedules:downloadSchedule')}</TooltipContent>
+      </Tooltip>
       <DropdownMenuContent align="end">
         <DropdownMenuItem
           onClick={onExportImage}
