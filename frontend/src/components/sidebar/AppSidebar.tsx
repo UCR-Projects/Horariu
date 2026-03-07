@@ -4,15 +4,12 @@ import {
   SidebarHeader,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarTrigger,
-  SidebarFooter,
 } from '@/components/ui/sidebar'
 
 import { useI18n } from '@/hooks/useI18n'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { CourseList, CoursesListOptions, CourseForm } from '@/components/courses'
-import { LanguageToggleButton, InfoButton } from '@/components/layout'
 
 export function AppSidebar() {
   const { t } = useI18n('courses')
@@ -22,43 +19,40 @@ export function AppSidebar() {
     <>
       <div className={isMobile ? 'invisible sm:visible' : ''}>
         <Sidebar collapsible="icon">
+          {/* Collapse trigger */}
           {!isMobile && (
             <div className="flex items-center justify-end px-1 py-2">
               <SidebarTrigger className="cursor-pointer" />
             </div>
           )}
 
-          <SidebarHeader className="text-xl font-bold px-3 py-2 group-data-[collapsible=icon]:hidden">
-            {t('courses:course')}s
+          {/* Header with title + actions */}
+          <SidebarHeader className="px-3 py-2 group-data-[collapsible=icon]:hidden">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-foreground">
+                {t('coursesList')}
+              </h2>
+              <div className="flex items-center gap-1">
+                <CoursesListOptions />
+              </div>
+            </div>
           </SidebarHeader>
 
           <SidebarContent>
+            {/* Add course button - only on mobile */}
             {isMobile && (
-              <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-                <SidebarGroupContent className="px-2">
-                  <CourseForm />
-                </SidebarGroupContent>
+              <SidebarGroup className="group-data-[collapsible=icon]:hidden px-2 py-2">
+                <CourseForm />
               </SidebarGroup>
             )}
 
+            {/* Course list */}
             <SidebarGroup className="flex-1 overflow-hidden">
-              <SidebarGroupLabel className="flex items-center justify-between px-2 py-2 text-sm font-medium text-muted-foreground group-data-[collapsible=icon]:hidden">
-                <span>{t('coursesList')}</span>
-                <CoursesListOptions />
-              </SidebarGroupLabel>
-
-              <SidebarGroupContent className="overflow-y-auto py-3">
+              <SidebarGroupContent className="overflow-y-auto">
                 <CourseList />
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
-
-          <SidebarFooter className="px-2 py-2 group-data-[collapsible=icon]:hidden">
-            <div className="flex items-center justify-between">
-              <LanguageToggleButton />
-              <InfoButton />
-            </div>
-          </SidebarFooter>
         </Sidebar>
       </div>
     </>
