@@ -1,12 +1,13 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { BookOpen, Calendar, Sparkles, ArrowRight, Rocket } from 'lucide-react'
+import { BookOpen, Eye, Link2, Sparkles, ArrowRight, Rocket } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useOnboardingStore } from '@/stores/useOnboardingStore'
 import { useI18n } from '@/hooks/useI18n'
 
 const STEPS = [
   { icon: BookOpen },
-  { icon: Calendar },
+  { icon: Eye },
+  { icon: Link2 },
   { icon: Sparkles },
 ]
 
@@ -19,7 +20,7 @@ export function OnboardingFlow() {
     completeOnboarding()
   }
 
-  const stepKeys = ['step1', 'step2', 'step3'] as const
+  const stepKeys = ['step1', 'step2', 'step3', 'step4'] as const
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] p-6 sm:p-8 animate-fade-in">
@@ -35,7 +36,7 @@ export function OnboardingFlow() {
               <button
                 key={idx}
                 onClick={() => setStep(idx)}
-                className={`rounded-full p-4 transition-all duration-300 ${
+                className={`rounded-full p-4 transition-all duration-300 cursor-pointer ${
                   isActive
                     ? 'bg-primary text-primary-foreground scale-110 shadow-lg'
                     : isPast
@@ -74,26 +75,24 @@ export function OnboardingFlow() {
         <div className="flex flex-col gap-4">
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             {currentStep < STEPS.length - 1 ? (
-              <Button size="lg" onClick={nextStep} className="gap-2">
+              <Button size="lg" onClick={nextStep} className="gap-2 cursor-pointer">
                 {t('actions.next')}
                 <ArrowRight className="h-5 w-5" />
               </Button>
             ) : (
-              <Button size="lg" onClick={handleGetStarted} className="gap-2">
+              <Button size="lg" onClick={handleGetStarted} className="gap-2 cursor-pointer">
                 <Rocket className="h-5 w-5" />
                 {t('onboarding.getStarted')}
               </Button>
             )}
           </div>
 
-          <Button
-            variant="ghost"
-            size="sm"
+          <button
             onClick={skipOnboarding}
-            className="text-muted-foreground"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
           >
             {t('onboarding.skip')}
-          </Button>
+          </button>
         </div>
 
         {/* Progress dots */}
@@ -101,7 +100,7 @@ export function OnboardingFlow() {
           {STEPS.map((_, idx) => (
             <button
               key={idx}
-              className={`h-2 rounded-full transition-all ${
+              className={`h-2 rounded-full transition-all cursor-pointer ${
                 idx === currentStep
                   ? 'w-6 bg-primary'
                   : 'w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
