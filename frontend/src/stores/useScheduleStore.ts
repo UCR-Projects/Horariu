@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { Schedule, DaySchedule, TimeBlock, Day } from '@/types'
-import { DAYS } from '@/utils/constants'
+import { Schedule } from '@/types'
 
 interface StoredGroup {
   name: string
@@ -32,42 +31,6 @@ interface ScheduleState {
   setSuccess: (success: boolean) => void
   setError: (error: Error | null) => void
   reset: () => void
-}
-
-// Legacy types for migration
-interface LegacySchedule {
-  [key: string]: TimeBlock[]
-}
-
-interface LegacyGroup {
-  name: string
-  schedule: LegacySchedule
-}
-
-interface LegacyCourse {
-  courseName: string
-  color: string
-  group: LegacyGroup
-}
-
-interface LegacyState {
-  scheduleData: {
-    schedules: LegacyCourse[][]
-  } | null
-}
-
-/**
- * Converts legacy object schedule format to new array format.
- */
-function convertLegacyScheduleToArray(schedule: LegacySchedule): DaySchedule[] {
-  return DAYS.map((day: Day): DaySchedule => {
-    const timeBlocks = schedule[day] || []
-    return {
-      day,
-      active: timeBlocks.length > 0,
-      timeBlocks,
-    }
-  })
 }
 
 const useScheduleStore = create<ScheduleState>()(
@@ -123,29 +86,15 @@ const useScheduleStore = create<ScheduleState>()(
     {
       name: 'schedule-storage',
       storage: createJSONStorage(() => localStorage),
-      version: 2,
-      migrate: (persistedState: unknown, version: number) => {
-        // v1 -> v2: Convert object schedule format to array format
-        if (version < 2) {
-          const state = persistedState as LegacyState
-          if (state?.scheduleData?.schedules) {
-            return {
-              ...state,
-              scheduleData: {
-                schedules: state.scheduleData.schedules.map((schedule: LegacyCourse[]) =>
-                  schedule.map((course: LegacyCourse) => ({
-                    ...course,
-                    group: {
-                      ...course.group,
-                      schedule: convertLegacyScheduleToArray(course.group.schedule || {}),
-                    },
-                  }))
-                ),
-              },
-            } as unknown as ScheduleState
-          }
+      version: 3,
+      migrate: () => {
+        // Fresh start for new version - clear any old data
+        return {
+          scheduleData: null,
+          isLoading: false,
+          error: null,
+          isSuccess: false,
         }
-        return persistedState as ScheduleState
       },
       partialize: (state) => ({
         scheduleData: state.scheduleData,
