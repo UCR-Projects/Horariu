@@ -114,15 +114,19 @@
   "onboarding": {
     "step1": {
       "title": "Add Your Courses",
-      "desc": "Start by adding the courses you need to take this semester. Include all the sections (groups) available for each course."
+      "desc": "Start by adding the courses you want to take this semester. Include the sections (groups) you want to consider for each course."
     },
     "step2": {
-      "title": "Set Your Schedule",
-      "desc": "For each course group, tell us when it meets. Select the days and times for each section."
+      "title": "Include or Exclude",
+      "desc": "Use the eye icon to exclude courses or groups from generation without deleting them. This way you can easily try different combinations."
     },
     "step3": {
+      "title": "Link Courses",
+      "desc": "Taking Chemistry with its lab? Or Humanities that includes History, Philosophy, and Communication? Link these types of courses so their groups are considered together during generation."
+    },
+    "step4": {
       "title": "Generate Options",
-      "desc": "We'll find every possible schedule combination that works - no conflicts guaranteed. Pick your favorite!"
+      "desc": "We'll find all the schedule combinations you could enroll in without conflicts."
     },
     "getStarted": "Get Started",
     "skip": "Skip, I know what I'm doing"

@@ -114,15 +114,19 @@
   "onboarding": {
     "step1": {
       "title": "Agrega tus Cursos",
-      "desc": "Comienza agregando los cursos que necesitas tomar este semestre. Incluye todas las secciones (grupos) disponibles para cada curso."
+      "desc": "Comienza agregando los cursos que quieres tomar este semestre. Incluye las secciones (grupos) que quieras considerar para cada curso."
     },
     "step2": {
-      "title": "Define los Horarios",
-      "desc": "Para cada grupo del curso, indícanos cuándo se reúne. Selecciona los días y horarios de cada sección."
+      "title": "Incluye o Excluye",
+      "desc": "Usa el ojito para excluir cursos o grupos de la generación sin borrarlos. Así puedes probar diferentes combinaciones fácilmente."
     },
     "step3": {
+      "title": "Vincula Cursos",
+      "desc": "¿Llevas Química con su laboratorio? ¿O Humanidades que incluye Historia, Filosofía y Comunicación? Vincula este tipo de cursos para que sus grupos se consideren juntos en la generación."
+    },
+    "step4": {
       "title": "Genera Opciones",
-      "desc": "Encontraremos todas las combinaciones de horarios posibles que funcionen - ¡sin conflictos garantizado!"
+      "desc": "Encontraremos todas las combinaciones de horarios que podrías matricular sin conflictos."
     },
     "getStarted": "Comenzar",
     "skip": "Omitir, ya sé cómo funciona"
