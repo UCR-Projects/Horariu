@@ -12,6 +12,7 @@ import { useState, useCallback, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import useCourseStore from '@/stores/useCourseStore'
 import useScheduleStore from '@/stores/useScheduleStore'
+import useCourseLinkStore from '@/stores/useCourseLinkStore'
 import { DeleteConfirmationDialog } from '@/components/shared'
 import { Course, Group } from '@/types'
 import { tokens } from '@/styles'
@@ -198,6 +199,8 @@ const CourseList = memo(() => {
   const toggleCourseVisibility = useCourseStore((state) => state.toggleCourseVisibility)
   const toggleGroupVisibility = useCourseStore((state) => state.toggleGroupVisibility)
   const clearScheduleData = useScheduleStore((state) => state.clearScheduleData)
+  const removeCourseFromLinks = useCourseLinkStore((state) => state.removeCourseFromLinks)
+
   const { t } = useI18n('courses')
   const [expandedCourses, setExpandedCourses] = useState<Set<string>>(new Set())
 
@@ -216,12 +219,13 @@ const CourseList = memo(() => {
   const handleDeleteCourse = useCallback(
     (courseName: string) => {
       deleteCourse(courseName)
+      removeCourseFromLinks(courseName) // Sync with link store
       // Clear schedules when deleting the last course
       if (courses.length === 1) {
         clearScheduleData()
       }
     },
-    [courses.length, deleteCourse, clearScheduleData]
+    [courses.length, deleteCourse, clearScheduleData, removeCourseFromLinks]
   )
 
   if (courses.length === 0) {
