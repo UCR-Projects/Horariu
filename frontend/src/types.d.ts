@@ -34,3 +34,23 @@ export interface Course {
   groups: Group[]
   isActive: boolean
 }
+
+// Represents a connection between two groups from different courses (legacy, kept for compatibility)
+export interface GroupMapping {
+  courseA: string
+  groupA: string
+  courseB: string
+  groupB: string
+}
+
+// A connection set links one group from each course together
+export interface ConnectionSet {
+  groups: { course: string; group: string }[]
+}
+
+// A link group contains multiple courses and their connection sets
+export interface CourseLink {
+  id: string
+  courses: string[] // course names
+  connectionSets: ConnectionSet[]
+}
