@@ -125,6 +125,7 @@ export const createCourseSchema = (
     groups: z
       .array(
         z.object({
+          id: z.string(),
           name: z.string(),
           schedule: z.array(dayScheduleSchema),
           isActive: z.boolean().default(true),

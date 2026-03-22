@@ -23,6 +23,7 @@ export interface ApiSchedule {
 }
 
 export interface Group {
+  id: string // Unique identifier for stable tracking
   name: string
   schedule: Schedule
   isActive: boolean

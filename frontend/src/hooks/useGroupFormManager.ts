@@ -5,6 +5,7 @@ import { createGroupSchema, GroupFormValuesType, CourseFormValuesType } from '@/
 import { Day } from '@/types'
 import { createEmptyFormSchedule } from '@/utils/scheduleConverters'
 import { UseFormReturn } from 'react-hook-form'
+import { generateGroupId } from '@/utils/generateId'
 
 interface UseGroupFormManagerOptions {
   courseForm: UseFormReturn<CourseFormValuesType>
@@ -80,28 +81,37 @@ export function useGroupFormManager({
 
   const onSubmitGroup = useCallback(
     (values: GroupFormValuesType) => {
-      const newGroup = {
-        name: values.groupName,
-        schedule: values.schedules.map(
-          (schedule: { day: Day; active: boolean; timeBlocks: { start: string; end: string }[] }) => ({
-            day: schedule.day,
-            active: schedule.active,
-            timeBlocks: schedule.active ? schedule.timeBlocks : [],
-          })
-        ),
-        isActive: true,
-      }
-
       const groups = courseForm.getValues('groups') || []
 
+      const schedule = values.schedules.map(
+        (s: { day: Day; active: boolean; timeBlocks: { start: string; end: string }[] }) => ({
+          day: s.day,
+          active: s.active,
+          timeBlocks: s.active ? s.timeBlocks : [],
+        })
+      )
+
       if (editingGroupIndex !== null) {
-        // Editing existing group
+        // Editing existing group - preserve the ID
+        const existingGroup = groups[editingGroupIndex]
+        const updatedGroup = {
+          id: existingGroup.id,
+          name: values.groupName,
+          schedule,
+          isActive: existingGroup.isActive,
+        }
         const updatedGroups = [...groups]
-        updatedGroups[editingGroupIndex] = newGroup
+        updatedGroups[editingGroupIndex] = updatedGroup
         courseForm.reset({ ...courseForm.getValues(), groups: updatedGroups })
         setEditingGroupIndex(null)
       } else {
-        // Adding new group
+        // Adding new group - generate new ID
+        const newGroup = {
+          id: generateGroupId(),
+          name: values.groupName,
+          schedule,
+          isActive: true,
+        }
         courseForm.setValue('groups', [...groups, newGroup], { shouldValidate: true })
         groupForm.reset()
       }
