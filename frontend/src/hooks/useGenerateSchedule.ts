@@ -1,17 +1,32 @@
 import { useMutation } from '@tanstack/react-query'
+import { useCallback } from 'react'
 import { generateScheduleService } from '@/services/generateScheduleService'
 import { Course } from '@/types'
 import { useI18n } from '@/hooks/useI18n'
 import { toast } from 'sonner'
 import useScheduleStore from '@/stores/useScheduleStore'
+import useCourseLinkStore from '@/stores/useCourseLinkStore'
 import { ApiError, ApiErrorCode } from '@/services/errors'
+import { filterLinksForGeneration } from '@/utils/linkFilters'
 
 export const useGenerateSchedule = () => {
   const setScheduleData = useScheduleStore((state) => state.setScheduleData)
   const setLoading = useScheduleStore((state) => state.setLoading)
   const setError = useScheduleStore((state) => state.setError)
   const reset = useScheduleStore((state) => state.reset)
+  const links = useCourseLinkStore((state) => state.links)
   const { t } = useI18n(['schedules', 'errors'])
+
+  /**
+   * Check which links will be ignored due to hidden courses/groups
+   */
+  const getIgnoredLinks = useCallback(
+    (courseData: Course[]): string[] => {
+      const { ignoredLinks } = filterLinksForGeneration(links, courseData)
+      return ignoredLinks
+    },
+    [links]
+  )
 
   /**
    * Get translated error message based on error type
@@ -44,7 +59,11 @@ export const useGenerateSchedule = () => {
 
   const mutation = useMutation({
     mutationKey: ['generateSchedule'],
-    mutationFn: (courseData: Course[]) => generateScheduleService.generateSchedule(courseData),
+    mutationFn: (courseData: Course[]) => {
+      // Filter links to only include active courses and groups
+      const { filteredLinks } = filterLinksForGeneration(links, courseData)
+      return generateScheduleService.generateSchedule(courseData, filteredLinks)
+    },
 
     // onMutate: Called before the mutation function is executed.
     // Used for optimistic updates and preparing the mutation environment.
@@ -90,6 +109,7 @@ export const useGenerateSchedule = () => {
 
   return {
     generateSchedule: (courseData: Course[]) => mutation.mutate(courseData),
+    getIgnoredLinks,
     isLoading: mutation.isPending,
     isError: mutation.isError,
     error: mutation.error,
