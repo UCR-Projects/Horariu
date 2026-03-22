@@ -99,7 +99,7 @@ export const COLOR_PALETTE: ColorFamily[] = [
   },
 ]
 
-export const DEFAULT_COLOR = '#ef4444' // Red medium
+export const DEFAULT_COLOR = '#93c5fd' // Blue light
 
 /**
  * Get all colors as a flat array
