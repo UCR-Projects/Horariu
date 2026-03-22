@@ -8,7 +8,6 @@ describe('ScheduleService - generateAllSchedules', () => {
       const input: GenerateScheduleInfo = [
         {
           name: 'Curso A',
-          color: 'bg-red-500',
           groups: [
             {
               name: 'Grupo A1',
@@ -20,7 +19,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         },
         {
           name: 'Curso B',
-          color: 'bg-blue-500',
           groups: [
             {
               name: 'Grupo B1',
@@ -36,7 +34,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         [
           {
             courseName: 'Curso A',
-            color: 'bg-red-500',
             group: {
               name: 'Grupo A1',
               schedule: {
@@ -46,7 +43,6 @@ describe('ScheduleService - generateAllSchedules', () => {
           },
           {
             courseName: 'Curso B',
-            color: 'bg-blue-500',
             group: {
               name: 'Grupo B1',
               schedule: {
@@ -65,7 +61,6 @@ describe('ScheduleService - generateAllSchedules', () => {
       const input: GenerateScheduleInfo = [
         {
           name: 'Curso A',
-          color: 'bg-red-500',
           groups: [
             {
               name: 'Grupo A1',
@@ -83,7 +78,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         },
         {
           name: 'Curso B',
-          color: 'bg-blue-500',
           groups: [
             {
               name: 'Grupo B1',
@@ -99,7 +93,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         [
           {
             courseName: 'Curso A',
-            color: 'bg-red-500',
             group: {
               name: 'Grupo A1',
               schedule: {
@@ -109,7 +102,6 @@ describe('ScheduleService - generateAllSchedules', () => {
           },
           {
             courseName: 'Curso B',
-            color: 'bg-blue-500',
             group: {
               name: 'Grupo B1',
               schedule: {
@@ -121,7 +113,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         [
           {
             courseName: 'Curso A',
-            color: 'bg-red-500',
             group: {
               name: 'Grupo A2',
               schedule: {
@@ -131,7 +122,6 @@ describe('ScheduleService - generateAllSchedules', () => {
           },
           {
             courseName: 'Curso B',
-            color: 'bg-blue-500',
             group: {
               name: 'Grupo B1',
               schedule: {
@@ -152,7 +142,6 @@ describe('ScheduleService - generateAllSchedules', () => {
       const input: GenerateScheduleInfo = [
         {
           name: 'Curso A',
-          color: 'bg-red-500',
           groups: [
             {
               name: 'Grupo A1',
@@ -167,7 +156,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         },
         {
           name: 'Curso B',
-          color: 'bg-blue-500',
           groups: [
             {
               name: 'Grupo B1',
@@ -183,7 +171,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         [
           {
             courseName: 'Curso A',
-            color: 'bg-red-500',
             group: {
               name: 'Grupo A1',
               schedule: {
@@ -196,7 +183,6 @@ describe('ScheduleService - generateAllSchedules', () => {
           },
           {
             courseName: 'Curso B',
-            color: 'bg-blue-500',
             group: {
               name: 'Grupo B1',
               schedule: {
@@ -215,7 +201,6 @@ describe('ScheduleService - generateAllSchedules', () => {
       const input: GenerateScheduleInfo = [
         {
           name: 'Curso A',
-          color: 'bg-red-500',
           groups: [
             {
               name: 'Grupo A1',
@@ -239,7 +224,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         },
         {
           name: 'Curso B',
-          color: 'bg-green-500',
           groups: [
             {
               name: 'Grupo B1',
@@ -255,7 +239,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         [
           {
             courseName: 'Curso A',
-            color: 'bg-red-500',
             group: {
               name: 'Grupo A1',
               schedule: {
@@ -268,7 +251,6 @@ describe('ScheduleService - generateAllSchedules', () => {
           },
           {
             courseName: 'Curso B',
-            color: 'bg-green-500',
             group: {
               name: 'Grupo B1',
               schedule: {
@@ -280,7 +262,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         [
           {
             courseName: 'Curso A',
-            color: 'bg-red-500',
             group: {
               name: 'Grupo A2',
               schedule: {
@@ -293,7 +274,6 @@ describe('ScheduleService - generateAllSchedules', () => {
           },
           {
             courseName: 'Curso B',
-            color: 'bg-green-500',
             group: {
               name: 'Grupo B1',
               schedule: {
@@ -314,7 +294,6 @@ describe('ScheduleService - generateAllSchedules', () => {
       const input: GenerateScheduleInfo = [
         {
           name: 'Curso A',
-          color: 'bg-red-500',
           groups: [
             {
               name: 'Grupo A1',
@@ -326,7 +305,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         },
         {
           name: 'Curso B',
-          color: 'bg-blue-500',
           groups: [
             {
               name: 'Grupo B1',
@@ -348,7 +326,6 @@ describe('ScheduleService - generateAllSchedules', () => {
       const input: GenerateScheduleInfo = [
         {
           name: 'Curso A',
-          color: 'bg-red-500',
           groups: [
             {
               name: 'Grupo A1',
@@ -363,7 +340,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         },
         {
           name: 'Curso B',
-          color: 'bg-blue-500',
           groups: [
             {
               name: 'Grupo B1',
@@ -387,7 +363,6 @@ describe('ScheduleService - generateAllSchedules', () => {
       const input: GenerateScheduleInfo = [
         {
           name: 'Curso 1',
-          color: 'bg-red-500',
           groups: [
             {
               name: 'Grupo 1A',
@@ -401,7 +376,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         },
         {
           name: 'Curso 2',
-          color: 'bg-blue-500',
           groups: [
             {
               name: 'Grupo 2A',
@@ -415,7 +389,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         },
         {
           name: 'Curso 3',
-          color: 'bg-green-500',
           groups: [
             {
               name: 'Grupo 3A',
@@ -429,7 +402,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         },
         {
           name: 'Curso 4',
-          color: 'bg-yellow-500',
           groups: [
             {
               name: 'Grupo 4A',
@@ -443,7 +415,6 @@ describe('ScheduleService - generateAllSchedules', () => {
         },
         {
           name: 'Curso 5',
-          color: 'bg-purple-500',
           groups: [
             {
               name: 'Grupo 5A',

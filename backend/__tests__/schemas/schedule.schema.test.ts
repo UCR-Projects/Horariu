@@ -91,7 +91,6 @@ describe('Course Schema Validation', () => {
   it('should validate a correct course', () => {
     const result = courseSchema.safeParse({
       name: 'Mathematics 101',
-      color: 'bg-red-500',
       groups: [
         {
           name: 'Group A',
@@ -105,7 +104,6 @@ describe('Course Schema Validation', () => {
   it('should fail if course name is empty', () => {
     const result = courseSchema.safeParse({
       name: '',
-      color: 'bg-red-500',
       groups: [
         {
           name: 'Group A',
@@ -119,7 +117,6 @@ describe('Course Schema Validation', () => {
   it('should fail if no groups are provided', () => {
     const result = courseSchema.safeParse({
       name: 'Physics 101',
-      color: 'bg-red-500',
       groups: []
     })
     expect(result.success).toBe(false)
@@ -127,34 +124,62 @@ describe('Course Schema Validation', () => {
 })
 
 describe('Generate Schedule Schema Validation', () => {
-  it('should validate a correct schedule generation', () => {
-    const result = generateScheduleSchema.safeParse([
-      {
-        name: 'Mathematics 101',
-        color: 'bg-red-500',
-        groups: [
-          {
-            name: 'Group A',
-            schedule: { M: [{ start: '09:00', end: '11:00' }] }
-          }
-        ]
-      }
-    ])
+  it('should validate a correct schedule generation with courses and links', () => {
+    const result = generateScheduleSchema.safeParse({
+      courses: [
+        {
+          name: 'Mathematics 101',
+          groups: [
+            {
+              name: 'Group A',
+              schedule: { M: [{ start: '09:00', end: '11:00' }] }
+            }
+          ]
+        }
+      ],
+      links: []
+    })
     expect(result.success).toBe(true)
   })
 
   it('should fail if no courses are provided', () => {
-    const result = generateScheduleSchema.safeParse([])
+    const result = generateScheduleSchema.safeParse({
+      courses: [],
+      links: []
+    })
     expect(result.success).toBe(false)
+  })
+
+  it('should validate links with connection sets', () => {
+    const result = generateScheduleSchema.safeParse({
+      courses: [
+        {
+          name: 'Chemistry',
+          groups: [{ name: 'G1', schedule: { L: [{ start: '08:00', end: '10:00' }] } }]
+        },
+        {
+          name: 'Chemistry Lab',
+          groups: [{ name: 'G1', schedule: { M: [{ start: '10:00', end: '12:00' }] } }]
+        }
+      ],
+      links: [
+        {
+          courses: ['Chemistry', 'Chemistry Lab'],
+          connectionSets: [
+            { groups: [{ course: 'Chemistry', group: 'G1' }, { course: 'Chemistry Lab', group: 'G1' }] }
+          ]
+        }
+      ]
+    })
+    expect(result.success).toBe(true)
   })
 })
 
 describe('All Courses Schema Validation', () => {
-  it('should validate correct course data', () => {
+  it('should validate correct course data without color', () => {
     const result = allCoursesSchema.safeParse([
       {
         courseName: 'Computer Science 101',
-        color: '#123456',
         group: {
           name: 'Group C',
           schedule: { V: [{ start: '14:00', end: '16:00' }] }
@@ -164,10 +189,9 @@ describe('All Courses Schema Validation', () => {
     expect(result.success).toBe(true)
   })
 
-  it('should fail if color is missing', () => {
+  it('should fail if courseName is missing', () => {
     const result = allCoursesSchema.safeParse([
       {
-        courseName: 'Chemistry 101',
         group: {
           name: 'Group D',
           schedule: { S: [{ start: '12:00', end: '14:00' }] }
