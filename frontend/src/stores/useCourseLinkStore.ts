@@ -24,10 +24,12 @@ interface CourseLinkState {
   updateGroupName: (courseName: string, oldGroupName: string, newGroupName: string) => void
 
   // Sync: remove a course from all links (when course is deleted)
-  removeCourseFromLinks: (courseName: string) => void
+  // Returns names of links that were deleted
+  removeCourseFromLinks: (courseName: string) => string[]
 
   // Sync: remove connections that include a specific group (when schedule conflicts)
-  removeConnectionsWithGroup: (courseName: string, groupName: string) => void
+  // Returns names of links that were deleted (if any)
+  removeConnectionsWithGroup: (courseName: string, groupName: string) => string[]
 
   // Clear all links
   clearAllLinks: () => void
@@ -99,38 +101,53 @@ const useCourseLinkStore = create<CourseLinkState>()(
           }),
         })),
 
-      removeCourseFromLinks: (courseName) =>
-        set((state) => ({
-          links: state.links
+      removeCourseFromLinks: (courseName) => {
+        const deletedLinks: string[] = []
+        set((state) => {
+          const newLinks = state.links
             .map((link) => {
               if (!link.courses.includes(courseName)) return link
               // Remove course from list and filter connection sets
               const newCourses = link.courses.filter((c) => c !== courseName)
               // If less than 2 courses remain, link is invalid
-              if (newCourses.length < 2) return null
+              if (newCourses.length < 2) {
+                deletedLinks.push(link.courses.join(' ↔ '))
+                return null
+              }
               // Remove connections that include this course
               const filteredSets = link.connectionSets.map((cs) => ({
                 groups: cs.groups.filter((g) => g.course !== courseName),
               }))
               return { ...link, courses: newCourses, connectionSets: filteredSets }
             })
-            .filter((link): link is CourseLink => link !== null && link.connectionSets.length > 0),
-        })),
+            .filter((link): link is CourseLink => link !== null && link.connectionSets.length > 0)
+          return { links: newLinks }
+        })
+        return deletedLinks
+      },
 
-      removeConnectionsWithGroup: (courseName, groupName) =>
-        set((state) => ({
-          links: state.links
+      removeConnectionsWithGroup: (courseName, groupName) => {
+        const deletedLinks: string[] = []
+        set((state) => {
+          const newLinks = state.links
             .map((link) => {
               if (!link.courses.includes(courseName)) return link
               // Filter out connection sets that include this group
               const filteredSets = link.connectionSets.filter(
                 (cs) => !cs.groups.some((g) => g.course === courseName && g.group === groupName)
               )
+              // Track if link will be deleted
+              if (filteredSets.length === 0) {
+                deletedLinks.push(link.courses.join(' ↔ '))
+              }
               return { ...link, connectionSets: filteredSets }
             })
             // Remove links that have no connection sets left
-            .filter((link) => link.connectionSets.length > 0),
-        })),
+            .filter((link) => link.connectionSets.length > 0)
+          return { links: newLinks }
+        })
+        return deletedLinks
+      },
 
       clearAllLinks: () => set({ links: [] }),
     }),

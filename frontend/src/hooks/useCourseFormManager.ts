@@ -44,6 +44,7 @@ export function useCourseFormManager({
   // Link store sync functions
   const updateLinkCourseName = useCourseLinkStore((state) => state.updateCourseName)
   const updateLinkGroupName = useCourseLinkStore((state) => state.updateGroupName)
+  const removeConnectionsWithGroup = useCourseLinkStore((state) => state.removeConnectionsWithGroup)
   const links = useCourseLinkStore((state) => state.links)
   const updateLinkConnections = useCourseLinkStore((state) => state.updateLinkConnections)
 
@@ -58,6 +59,7 @@ export function useCourseFormManager({
       color: existingCourse?.color || DEFAULT_COLOR,
       groups:
         existingCourse?.groups.map((group) => ({
+          id: group.id,
           name: group.name,
           isActive: group.isActive ?? true,
           schedule: group.schedule,
@@ -73,6 +75,7 @@ export function useCourseFormManager({
         color: existingCourse.color || DEFAULT_COLOR,
         groups:
           existingCourse.groups.map((group) => ({
+            id: group.id,
             name: group.name,
             isActive: group.isActive ?? true,
             schedule: group.schedule,
@@ -91,6 +94,7 @@ export function useCourseFormManager({
 
   const onSubmitCourse = (values: CourseFormValuesType) => {
     const formattedGroups: Group[] = values.groups.map((group) => ({
+      id: group.id,
       name: group.name,
       schedule: group.schedule as Schedule,
       isActive: group.isActive,
@@ -111,19 +115,30 @@ export function useCourseFormManager({
         updateLinkCourseName(existingCourse.name, values.courseName)
       }
 
-      // Sync group name changes to schedule store and link store
-      // Use the NEW course name (after potential rename) for the lookup
+      // Sync group changes to schedule store and link store using stable IDs
       const currentCourseName = values.courseName
-      existingCourse.groups.forEach((oldGroup, index) => {
-        // Groups maintain order, so we compare by index
-        if (index < formattedGroups.length) {
-          const newGroupName = formattedGroups[index].name
-          if (oldGroup.name !== newGroupName) {
-            updateGroupName(currentCourseName, oldGroup.name, newGroupName)
-            updateLinkGroupName(currentCourseName, oldGroup.name, newGroupName)
-          }
+
+      // Create lookup maps by ID
+      const oldGroupsById = new Map(existingCourse.groups.map((g) => [g.id, g]))
+      const newGroupsById = new Map(formattedGroups.map((g) => [g.id, g]))
+
+      // Find deleted groups (exist in old but not in new)
+      for (const [oldId, oldGroup] of oldGroupsById) {
+        if (!newGroupsById.has(oldId)) {
+          // Group was deleted - remove its connections
+          removeConnectionsWithGroup(currentCourseName, oldGroup.name)
         }
-      })
+      }
+
+      // Find renamed groups (same ID, different name)
+      for (const [newId, newGroup] of newGroupsById) {
+        const oldGroup = oldGroupsById.get(newId)
+        if (oldGroup && oldGroup.name !== newGroup.name) {
+          // Group was renamed - update links
+          updateGroupName(currentCourseName, oldGroup.name, newGroup.name)
+          updateLinkGroupName(currentCourseName, oldGroup.name, newGroup.name)
+        }
+      }
 
       // Check if any linked connections now have schedule conflicts
       const link = links.find((l) => l.courses.includes(currentCourseName))
