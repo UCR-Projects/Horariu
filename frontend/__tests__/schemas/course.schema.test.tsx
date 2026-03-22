@@ -12,6 +12,7 @@ describe('createCourseSchema Validation', () => {
       color: 'bg-green-500',
       groups: [
         {
+          id: 'test-id-1',
           name: 'G1',
           schedule: [
             {
@@ -41,6 +42,7 @@ describe('createCourseSchema Validation', () => {
       color: 'bg-green-500',
       groups: [
         {
+          id: 'test-id-2',
           name: 'G1',
           schedule: [
             {
