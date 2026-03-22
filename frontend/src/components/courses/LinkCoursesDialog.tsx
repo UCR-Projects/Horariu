@@ -107,10 +107,6 @@ function GroupMapper({ selectedCourses, connectionSets, onAddConnectionSet, onRe
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">
-        {t('linking.selectOneFromEach')}
-      </p>
-
       {/* Courses side by side - dynamic columns */}
       <div className={`grid ${gridCols} gap-4`}>
         {selectedCourses.map((course) => {
@@ -187,7 +183,7 @@ function GroupMapper({ selectedCourses, connectionSets, onAddConnectionSet, onRe
           <p className="text-xs font-medium mb-2">{t('linking.currentMappings')}:</p>
           <div className="space-y-2">
             {connectionSets.map((set, idx) => (
-              <div key={idx} className="flex items-start gap-2 text-xs bg-green-500/10 border border-green-500/30 rounded p-2">
+              <div key={idx} className="flex items-center gap-2 text-xs bg-green-500/10 border border-green-500/30 rounded p-2">
                 <div className="flex-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 min-w-0">
                   {set.groups.map((g, gIdx) => (
                     <span key={g.course} className="flex items-center gap-1 whitespace-nowrap">

@@ -10,6 +10,7 @@ import {
 import { useI18n } from '@/hooks/useI18n'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { CourseList, CoursesListOptions, CourseForm } from '@/components/courses'
+import LinkCoursesDialog from '@/components/courses/LinkCoursesDialog'
 
 export function AppSidebar() {
   const { t } = useI18n('courses')
@@ -35,6 +36,10 @@ export function AppSidebar() {
               <div className="flex items-center gap-1">
                 <CoursesListOptions />
               </div>
+            </div>
+            {/* Link courses button */}
+            <div className="flex justify-end mt-1">
+              <LinkCoursesDialog />
             </div>
           </SidebarHeader>
 
