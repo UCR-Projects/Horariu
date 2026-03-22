@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useState, useMemo } from 'react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { useSidebar } from '@/components/ui/sidebar'
 import { Edit2, Plus } from 'lucide-react'
@@ -11,6 +11,7 @@ import { GroupInputsForm } from './GroupInputsForm'
 import { CourseInputsForm } from './CourseInputsForm'
 import { useCourseFormManager } from '@/hooks/useCourseFormManager'
 import { useGroupFormManager } from '@/hooks/useGroupFormManager'
+import useCourseLinkStore from '@/stores/useCourseLinkStore'
 import { tokens } from '@/styles'
 
 interface CourseFormProps {
@@ -98,12 +99,30 @@ export default function CourseForm({ existingCourse, variant = 'default' }: Cour
     onStepChange: setActiveStep,
   })
 
+  // Get linked group names for this course (for delete warnings)
+  const links = useCourseLinkStore((state) => state.links)
+  const linkedGroupNames = useMemo(() => {
+    if (!existingCourse) return new Set<string>()
+    const link = links.find((l) => l.courses.includes(existingCourse.name))
+    if (!link) return new Set<string>()
+    const groupNames = new Set<string>()
+    for (const cs of link.connectionSets) {
+      for (const g of cs.groups) {
+        if (g.course === existingCourse.name) {
+          groupNames.add(g.group)
+        }
+      }
+    }
+    return groupNames
+  }, [existingCourse, links])
+
   const content =
     activeStep === 'course' ? (
       <CourseInputsForm
         form={courseForm}
         isEditingCourse={isEditingCourse}
         groups={courseForm.watch('groups')}
+        linkedGroupNames={linkedGroupNames}
         onSubmit={onSubmitCourse}
         onAddGroup={() => setActiveStep('group')}
         onEditGroup={handleEditGroup}

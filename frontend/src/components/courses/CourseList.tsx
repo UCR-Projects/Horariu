@@ -80,6 +80,7 @@ const GroupListItem = memo(({ group, onToggleVisibility }: GroupListItemProps) =
 interface CourseListItemProps {
   course: Course
   isExpanded: boolean
+  isLinked: boolean
   onToggleExpansion: () => void
   onToggleCourseVisibility: () => void
   onToggleGroupVisibility: (groupName: string) => void
@@ -90,6 +91,7 @@ const CourseListItem = memo(
   ({
     course,
     isExpanded,
+    isLinked,
     onToggleExpansion,
     onToggleCourseVisibility,
     onToggleGroupVisibility,
@@ -162,7 +164,11 @@ const CourseListItem = memo(
               itemName={course.name}
               onConfirm={onDeleteCourse}
               title={t('confirmations.deleteCourse.title')}
-              description={t('confirmations.deleteCourse.description', { itemName: course.name })}
+              description={
+                isLinked
+                  ? t('confirmations.deleteCourse.descriptionWithLink', { itemName: course.name })
+                  : t('confirmations.deleteCourse.description', { itemName: course.name })
+              }
               triggerClassName={`${tokens.interactive.sm} hover:bg-accent cursor-pointer`}
             />
           </div>
@@ -200,8 +206,15 @@ const CourseList = memo(() => {
   const toggleGroupVisibility = useCourseStore((state) => state.toggleGroupVisibility)
   const clearScheduleData = useScheduleStore((state) => state.clearScheduleData)
   const removeCourseFromLinks = useCourseLinkStore((state) => state.removeCourseFromLinks)
+  const links = useCourseLinkStore((state) => state.links)
 
   const { t } = useI18n('courses')
+
+  // Check if a course is part of any link
+  const isCoursedLinked = useCallback(
+    (courseName: string) => links.some((link) => link.courses.includes(courseName)),
+    [links]
+  )
   const [expandedCourses, setExpandedCourses] = useState<Set<string>>(new Set())
 
   const toggleCourseExpansion = useCallback((courseName: string) => {
@@ -250,6 +263,7 @@ const CourseList = memo(() => {
             <CourseListItem
               course={course}
               isExpanded={expandedCourses.has(course.name)}
+              isLinked={isCoursedLinked(course.name)}
               onToggleExpansion={() => toggleCourseExpansion(course.name)}
               onToggleCourseVisibility={() => toggleCourseVisibility(course.name)}
               onToggleGroupVisibility={(groupName) => toggleGroupVisibility(course.name, groupName)}

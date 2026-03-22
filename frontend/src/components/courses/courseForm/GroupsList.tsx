@@ -14,6 +14,7 @@ import { tokens } from '@/styles'
 
 interface GroupsListProps {
   groups: CourseFormValuesType['groups']
+  linkedGroupNames?: Set<string>
   onEditGroup: (index: number) => void
   onDeleteGroup: (index: number) => void
   onToggleGroupVisibility: (index: number) => void
@@ -21,6 +22,7 @@ interface GroupsListProps {
 
 export function GroupsList({
   groups,
+  linkedGroupNames,
   onEditGroup,
   onDeleteGroup,
   onToggleGroupVisibility,
@@ -102,9 +104,11 @@ export function GroupsList({
                   itemName={group.name}
                   onConfirm={() => onDeleteGroup(index)}
                   title={t('confirmations.deleteGroup.title')}
-                  description={t('confirmations.deleteGroup.description', {
-                    itemName: group.name,
-                  })}
+                  description={
+                    linkedGroupNames?.has(group.name)
+                      ? t('confirmations.deleteGroup.descriptionWithLink', { itemName: group.name })
+                      : t('confirmations.deleteGroup.description', { itemName: group.name })
+                  }
                   triggerClassName="hover:bg-accent"
                   useSpanTrigger
                 />

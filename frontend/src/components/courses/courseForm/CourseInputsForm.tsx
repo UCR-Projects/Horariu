@@ -18,6 +18,7 @@ interface CourseFormProps {
   form: UseFormReturn<CourseFormValuesType>
   isEditingCourse: boolean
   groups: CourseFormValuesType['groups']
+  linkedGroupNames?: Set<string>
   onToggleGroupVisibility: (index: number) => void
   onSubmit: (values: CourseFormValuesType) => void
   onAddGroup: () => void
@@ -30,6 +31,7 @@ export function CourseInputsForm({
   form,
   isEditingCourse,
   groups,
+  linkedGroupNames,
   onSubmit,
   onAddGroup,
   onEditGroup,
@@ -102,6 +104,7 @@ export function CourseInputsForm({
 
         <GroupsList
           groups={groups}
+          linkedGroupNames={linkedGroupNames}
           onEditGroup={onEditGroup}
           onDeleteGroup={onDeleteGroup}
           onToggleGroupVisibility={onToggleGroupVisibility}
