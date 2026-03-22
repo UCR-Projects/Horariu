@@ -5,6 +5,7 @@
   "scripts": {
     "start": "infisical run -- node dist/server.js",
     "dev": "infisical run -- ts-node -r tsconfig-paths/register src/server.ts",
+    "dev:local": "ts-node -r tsconfig-paths/register src/local-server.ts",
     "build": "tsc",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",

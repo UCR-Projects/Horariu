@@ -22,15 +22,30 @@ export const groupSchema = z.object({
 
 export const courseSchema = z.object({
   name: z.string().min(1, 'Course name cannot be empty'),
-  color: z.string().min(1, 'Color cannot be empty'),
   groups: z.array(groupSchema).min(1, 'Each course must have at least one group')
 })
 
-export const generateScheduleSchema = z.array(courseSchema).min(1, 'Must provide at least one course')
+// Connection set schema for course linking
+export const connectionSetSchema = z.object({
+  groups: z.array(z.object({
+    course: z.string().min(1),
+    group: z.string().min(1)
+  })).min(2, 'Connection set must have at least 2 groups')
+})
+
+export const courseLinkSchema = z.object({
+  courses: z.array(z.string()).min(2, 'Link must have at least 2 courses'),
+  connectionSets: z.array(connectionSetSchema).min(1, 'Link must have at least 1 connection set')
+})
+
+// Updated to accept object with courses and links
+export const generateScheduleSchema = z.object({
+  courses: z.array(courseSchema).min(1, 'Must provide at least one course'),
+  links: z.array(courseLinkSchema).default([])
+})
 
 const courseAndGroupSchema = z.object({
   courseName: z.string().min(1, 'Course name cannot be empty'),
-  color: z.string().min(1, 'Color cannot be empty'),
   group: groupSchema
 })
 
@@ -39,7 +54,6 @@ export const currentScheduleSchema = z.array(courseAndGroupSchema)
 export const allCoursesSchema = z.array(
   z.object({
     courseName: z.string().min(1, 'Course name cannot be empty'),
-    color: z.string().min(1, 'Color cannot be empty'),
     group: groupSchema
   })
 )
@@ -52,7 +66,13 @@ export type TimeSlot = z.infer<typeof timeSlotSchema>
 
 export type Group = z.infer<typeof groupSchema>
 
-export type GenerateScheduleInfo = z.infer<typeof generateScheduleSchema>
+export type ConnectionSet = z.infer<typeof connectionSetSchema>
+
+export type CourseLink = z.infer<typeof courseLinkSchema>
+
+export type GenerateScheduleInput = z.infer<typeof generateScheduleSchema>
+
+export type GenerateScheduleInfo = z.infer<typeof generateScheduleSchema>['courses']
 
 export type CurrentSchedule = z.infer<typeof currentScheduleSchema>
 

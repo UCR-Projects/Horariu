@@ -1,13 +1,13 @@
 import { CourseRepository } from '../repositories/courseRepository'
 import { CourseInfo, CourseParamsInfo, CourseUpdateInfo } from '../schemas/course.schema'
-import { GenerateScheduleInfo } from '../schemas/schedule.schema'
-import { generateAllSchedules } from '../services/ScheduleService'
+import { GenerateScheduleInput } from '../schemas/schedule.schema'
+import { generateSchedulesWithLinks } from '../services/ScheduleService'
 import { NotFoundError } from '../utils/customsErrors'
 
 export const CourseService = {
 
-  async generateSchedules (courses: GenerateScheduleInfo) {
-    const generatedSchedules = generateAllSchedules(courses)
+  async generateSchedules (input: GenerateScheduleInput) {
+    const generatedSchedules = generateSchedulesWithLinks(input)
 
     if (generatedSchedules.length === 0) {
       return {
