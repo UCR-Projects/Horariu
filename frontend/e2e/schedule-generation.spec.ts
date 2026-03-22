@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, Page } from '@playwright/test'
 
 /**
  * E2E Tests for Schedule Generation Flow
@@ -8,8 +8,36 @@ import { test, expect } from '@playwright/test'
  * Form inputs: courseName for course, groupName for group
  */
 
+// Mock API response for schedule generation
+async function mockScheduleApi(page: Page): Promise<void> {
+  // Mock all possible API endpoints (local, dev, prod)
+  await page.route('**/courses/generate', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        message: '1 schedule(s) found',
+        schedules: [
+          [
+            {
+              courseName: 'Programming 101',
+              group: {
+                name: 'Section A',
+                schedule: { L: [{ start: '08:00', end: '08:50' }] }
+              }
+            }
+          ]
+        ]
+      })
+    })
+  })
+}
+
 test.describe('Schedule Generation', () => {
   test.beforeEach(async ({ page }) => {
+    // Set up API mock - must be done before ANY navigation
+    await mockScheduleApi(page)
+
     await page.goto('/')
     // Clear storage and mark onboarding as completed
     await page.evaluate(() => {
@@ -19,6 +47,8 @@ test.describe('Schedule Generation', () => {
         version: 0
       }))
     })
+    // Set up mock again before reload (route handlers persist across navigations but need to be set before)
+    await mockScheduleApi(page)
     await page.reload()
     await page.waitForSelector('[data-sidebar="sidebar"]', { timeout: 10000 })
   })
@@ -155,10 +185,18 @@ test.describe('Schedule Generation', () => {
     const generateButton = page.getByRole('button', {
       name: /Generate Schedules|Generar Horarios/i,
     })
-    await generateButton.click()
 
-    // Wait for API response
-    await page.waitForTimeout(3000)
+    // Click generate and wait for API response
+    const [response] = await Promise.all([
+      page.waitForResponse(resp => resp.url().includes('/generate')),
+      generateButton.click()
+    ])
+
+    // Verify mock returned successfully
+    expect(response.status()).toBe(200)
+
+    // Wait for UI to update
+    await page.waitForTimeout(500)
 
     // "Option" / "Opcion"
     const scheduleOption = page.getByText(/^Option|^Opci[oó]n/i)

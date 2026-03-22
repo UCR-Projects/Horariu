@@ -8,6 +8,31 @@ import { test, expect, Page } from '@playwright/test'
  * Form inputs: courseName for course, groupName for group
  */
 
+// Mock API response for schedule generation
+async function mockScheduleApi(page: Page): Promise<void> {
+  // Mock all possible API endpoints (local, dev, prod)
+  await page.route('**/courses/generate', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        message: '1 schedule(s) found',
+        schedules: [
+          [
+            {
+              courseName: 'Export Test Course',
+              group: {
+                name: 'Export Group',
+                schedule: { L: [{ start: '08:00', end: '08:50' }] }
+              }
+            }
+          ]
+        ]
+      })
+    })
+  })
+}
+
 // Helper to create a course and generate schedule
 async function setupScheduleForExport(page: Page): Promise<void> {
   // In empty state: "Add my first course" / "Agregar mi primer curso"
@@ -71,6 +96,9 @@ async function setupScheduleForExport(page: Page): Promise<void> {
 
 test.describe('Schedule Export', () => {
   test.beforeEach(async ({ page }) => {
+    // Set up API mock - must be done before ANY navigation
+    await mockScheduleApi(page)
+
     await page.goto('/')
     // Clear storage and mark onboarding as completed
     await page.evaluate(() => {
@@ -80,6 +108,8 @@ test.describe('Schedule Export', () => {
         version: 0
       }))
     })
+    // Set up mock again before reload
+    await mockScheduleApi(page)
     await page.reload()
     await page.waitForSelector('[data-sidebar="sidebar"]', { timeout: 10000 })
   })
