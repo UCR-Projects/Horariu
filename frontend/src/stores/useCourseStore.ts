@@ -1,16 +1,14 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { Course } from '@/types'
-import { DEFAULT_COLOR } from '@/utils/constants'
-import { getSampleSet, SampleCoursesSetType } from '@/mocks/sampleCourses'
+import { getSampleSet, SampleCoursesSetType, sampleLinksForLinked } from '@/mocks/sampleCourses'
+import useCourseLinkStore from './useCourseLinkStore'
 
 interface CourseState {
   courses: Course[]
   selectedCourse: Course | null
-  currentColor: string
 
   setSelectedCourse: (course: Course | null) => void
-  setCurrentColor: (color: string) => void
 
   addCourse: (courseData: Course) => void
   deleteCourse: (name: string) => void
@@ -30,11 +28,8 @@ const useCourseStore = create<CourseState>()(
     (set) => ({
       courses: [],
       selectedCourse: null,
-      currentColor: DEFAULT_COLOR,
 
       setSelectedCourse: (course) => set({ selectedCourse: course }),
-
-      setCurrentColor: (color) => set({ currentColor: color }),
 
       addCourse: (courseData) =>
         set((state) => {
@@ -117,11 +112,22 @@ const useCourseStore = create<CourseState>()(
           selectedCourse: null,
         }),
 
-      loadSampleData: (datasetType = 'single') =>
+      loadSampleData: (datasetType = 'single') => {
+        // Clear existing links first
+        useCourseLinkStore.getState().clearAllLinks()
+
+        // Load sample links if using 'linked' dataset
+        if (datasetType === 'linked') {
+          for (const link of sampleLinksForLinked) {
+            useCourseLinkStore.getState().createLinkWithConnections(link.courses, link.connectionSets)
+          }
+        }
+
         set({
           courses: getSampleSet(datasetType),
           selectedCourse: null,
-        }),
+        })
+      },
     }),
     {
       name: 'course-storage',
@@ -132,7 +138,6 @@ const useCourseStore = create<CourseState>()(
         return {
           courses: [],
           selectedCourse: null,
-          currentColor: DEFAULT_COLOR,
         }
       },
     }
