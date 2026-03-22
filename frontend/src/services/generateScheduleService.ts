@@ -1,17 +1,16 @@
 import { publicApi } from './apiConfig'
-import { Course, Schedule, ApiSchedule, DaySchedule } from '@/types'
+import { Course, Schedule, ApiSchedule, DaySchedule, CourseLink } from '@/types'
 import { ApiError, parseApiError } from './errors'
 import { DAYS } from '@/utils/constants'
 
 /**
- * API response type for schedule generation (uses object format)
+ * API response type for schedule generation (uses object format, no color)
  */
 interface ApiGenerateScheduleResponse {
   message?: string
   schedules: Array<
     Array<{
       courseName: string
-      color: string
       group: {
         name: string
         schedule: ApiSchedule
@@ -21,7 +20,7 @@ interface ApiGenerateScheduleResponse {
 }
 
 /**
- * Internal response type (uses array format)
+ * Internal response type (uses array format, includes color from frontend)
  */
 export interface GenerateScheduleResponse {
   message?: string
@@ -79,19 +78,26 @@ export const generateScheduleService = {
   /**
    * Generate schedules from course data
    * @param coursesData - Array of courses to generate schedules from
+   * @param links - Array of course links
    * @param options - Optional request configuration
    * @returns Promise with generated schedules
    * @throws {ApiError} When the API request fails
    */
   async generateSchedule(
     coursesData: Course[],
+    links: CourseLink[],
     options?: GenerateScheduleOptions
   ): Promise<GenerateScheduleResponse> {
     try {
-      // Convert internal schedule format to API format
+      // Create color lookup for re-attaching colors in response
+      const colorLookup: Record<string, string> = {}
+      for (const course of coursesData) {
+        colorLookup[course.name] = course.color
+      }
+
+      // Convert internal schedule format to API format (no color)
       const apiCourses = coursesData.map((course) => ({
         name: course.name,
-        color: course.color,
         groups: course.groups
           .filter((group) => group.isActive)
           .map((group) => ({
@@ -100,16 +106,25 @@ export const generateScheduleService = {
           })),
       }))
 
-      const response = await publicApi.post<ApiGenerateScheduleResponse>('/generate', apiCourses, {
-        timeout: options?.timeout,
-      })
+      // Convert links to API format
+      const apiLinks = links.map((link) => ({
+        courses: link.courses,
+        connectionSets: link.connectionSets,
+      }))
 
-      // Convert API response format to internal format
+      const response = await publicApi.post<ApiGenerateScheduleResponse>(
+        '/generate',
+        { courses: apiCourses, links: apiLinks },
+        { timeout: options?.timeout }
+      )
+
+      // Convert API response format to internal format and re-attach colors
       const convertedSchedules: GenerateScheduleResponse = {
         message: response.data.message,
         schedules: response.data.schedules.map((scheduleOption) =>
           scheduleOption.map((course) => ({
-            ...course,
+            courseName: course.courseName,
+            color: colorLookup[course.courseName] || '#000000',
             group: {
               ...course.group,
               schedule: convertApiFormatToSchedule(course.group.schedule),
