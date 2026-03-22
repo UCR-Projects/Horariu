@@ -1,6 +1,10 @@
-import { Course, Day, Schedule, TimeBlock } from '@/types'
+import { Course, Day, Schedule, TimeBlock, Group } from '@/types'
 import { DAYS } from '@/utils/constants'
 import { COLOR_PALETTE } from '@/utils/colorPalette'
+
+// Type for sample data without ID (will be added dynamically)
+type SampleGroup = Omit<Group, 'id'>
+type SampleCourse = Omit<Course, 'groups'> & { groups: SampleGroup[] }
 
 // Helper to get hex color by family index and shade
 const getColor = (familyIndex: number, shade: 'light' | 'medium' | 'dark' = 'medium') => {
@@ -8,6 +12,10 @@ const getColor = (familyIndex: number, shade: 'light' | 'medium' | 'dark' = 'med
   const shadeObj = family.shades.find((s) => s.name === shade) ?? family.shades[1]
   return shadeObj.hex
 }
+
+// Counter for generating unique IDs in sample data
+let sampleIdCounter = 0
+const generateSampleId = () => `sample_${++sampleIdCounter}`
 
 /**
  * Creates a schedule array from a map of day -> time blocks.
@@ -21,7 +29,7 @@ function createSchedule(dayBlocks: Partial<Record<Day, TimeBlock[]>>): Schedule 
   }))
 }
 
-export const sampleCoursesSingleOption: Course[] = [
+const sampleCoursesSingleOption: SampleCourse[] = [
   {
     name: 'Matemáticas',
     color: getColor(0), // Red
@@ -72,7 +80,7 @@ export const sampleCoursesSingleOption: Course[] = [
   },
 ]
 
-export const sampleCoursesMultipleOptions: Course[] = [
+const sampleCoursesMultipleOptions: SampleCourse[] = [
   {
     name: 'Programación I',
     color: getColor(5), // Blue
@@ -149,7 +157,7 @@ export const sampleCoursesMultipleOptions: Course[] = [
   },
 ]
 
-export const sampleCoursesHeavy: Course[] = [
+const sampleCoursesHeavy: SampleCourse[] = [
   {
     name: 'Cálculo Avanzado',
     color: getColor(0, 'dark'), // Red dark
@@ -268,7 +276,7 @@ export const sampleCoursesHeavy: Course[] = [
   },
 ]
 
-export const sampleCoursesConflict: Course[] = [
+const sampleCoursesConflict: SampleCourse[] = [
   {
     name: 'Curso A',
     color: getColor(0), // Red
@@ -319,24 +327,114 @@ export const sampleCoursesConflict: Course[] = [
   },
 ]
 
-export type SampleCoursesSetType = 'single' | 'multiple' | 'heavy' | 'conflict'
+// Sample data with linked courses (Chemistry + Lab, Humanities bundle)
+const sampleCoursesLinked: SampleCourse[] = [
+  {
+    name: 'Química',
+    color: getColor(3), // Green
+    groups: [
+      {
+        name: 'Grupo 1',
+        schedule: createSchedule({ L: [{ start: '08:00', end: '09:50' }] }),
+        isActive: true,
+      },
+      {
+        name: 'Grupo 2',
+        schedule: createSchedule({ M: [{ start: '08:00', end: '09:50' }] }),
+        isActive: true,
+      },
+    ],
+    isActive: true,
+  },
+  {
+    name: 'Laboratorio Química',
+    color: getColor(4), // Teal
+    groups: [
+      {
+        name: 'Grupo 1',
+        schedule: createSchedule({ K: [{ start: '10:00', end: '11:50' }] }),
+        isActive: true,
+      },
+      {
+        name: 'Grupo 2',
+        schedule: createSchedule({ J: [{ start: '10:00', end: '11:50' }] }),
+        isActive: true,
+      },
+    ],
+    isActive: true,
+  },
+  {
+    name: 'Matemáticas',
+    color: getColor(0), // Red
+    groups: [
+      {
+        name: 'Grupo A',
+        schedule: createSchedule({ L: [{ start: '14:00', end: '15:50' }] }),
+        isActive: true,
+      },
+      {
+        name: 'Grupo B',
+        schedule: createSchedule({ M: [{ start: '14:00', end: '15:50' }] }),
+        isActive: true,
+      },
+    ],
+    isActive: true,
+  },
+]
+
+// Sample links for the linked courses dataset
+export const sampleLinksForLinked = [
+  {
+    id: 'link-quimica-lab',
+    courses: ['Química', 'Laboratorio Química'],
+    connectionSets: [
+      { groups: [{ course: 'Química', group: 'Grupo 1' }, { course: 'Laboratorio Química', group: 'Grupo 1' }] },
+      { groups: [{ course: 'Química', group: 'Grupo 2' }, { course: 'Laboratorio Química', group: 'Grupo 2' }] },
+    ],
+  },
+]
+
+export type SampleCoursesSetType = 'single' | 'multiple' | 'heavy' | 'conflict' | 'linked'
 
 export const datasets = [
   { value: 'single', label: 'Unique Option' },
   { value: 'multiple', label: 'Multiple Options' },
   { value: 'heavy', label: 'Heavy Load' },
   { value: 'conflict', label: 'No solution' },
+  { value: 'linked', label: 'Linked Courses' },
 ]
 
+// Add IDs to groups
+const addGroupIds = (courses: SampleCourse[]): Course[] => {
+  return courses.map((course) => ({
+    ...course,
+    groups: course.groups.map((group) => ({
+      ...group,
+      id: generateSampleId(),
+    })),
+  }))
+}
+
 export const getSampleSet = (type: SampleCoursesSetType): Course[] => {
+  let courses: SampleCourse[]
   switch (type) {
     case 'single':
-      return sampleCoursesSingleOption
+      courses = sampleCoursesSingleOption
+      break
     case 'multiple':
-      return sampleCoursesMultipleOptions
+      courses = sampleCoursesMultipleOptions
+      break
     case 'heavy':
-      return sampleCoursesHeavy
+      courses = sampleCoursesHeavy
+      break
     case 'conflict':
-      return sampleCoursesConflict
+      courses = sampleCoursesConflict
+      break
+    case 'linked':
+      courses = sampleCoursesLinked
+      break
   }
+  // Reset counter and add IDs
+  sampleIdCounter = 0
+  return addGroupIds(courses)
 }

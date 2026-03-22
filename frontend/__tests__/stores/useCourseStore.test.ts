@@ -11,6 +11,7 @@ function createTestCourse(name: string, color = DEFAULT_COLOR): Course {
     isActive: true,
     groups: [
       {
+        id: `test_${name}_group1`,
         name: 'Group 1',
         isActive: true,
         schedule: DAYS.map((day: Day) => ({
@@ -29,7 +30,6 @@ describe('useCourseStore', () => {
       useCourseStore.setState({
         courses: [],
         selectedCourse: null,
-        currentColor: DEFAULT_COLOR,
       })
     })
   })
@@ -164,15 +164,6 @@ describe('useCourseStore', () => {
         useCourseStore.getState().setSelectedCourse(null)
       })
       expect(useCourseStore.getState().selectedCourse).toBeNull()
-    })
-  })
-
-  describe('setCurrentColor', () => {
-    it('should set current color', () => {
-      act(() => {
-        useCourseStore.getState().setCurrentColor('bg-blue-500')
-      })
-      expect(useCourseStore.getState().currentColor).toBe('bg-blue-500')
     })
   })
 
