@@ -54,11 +54,13 @@
     },
     "deleteCourse": {
       "title": "¿Estás seguro de eliminar este curso?",
-      "description": "Esta acción no se puede deshacer. El curso \"{{itemName}}\" será eliminado de la lista."
+      "description": "Esta acción no se puede deshacer. El curso \"{{itemName}}\" será eliminado de la lista.",
+      "descriptionWithLink": "Esta acción no se puede deshacer. El curso \"{{itemName}}\" será eliminado junto con sus vínculos."
     },
     "deleteGroup": {
       "title": "¿Estás seguro de eliminar este grupo?",
-      "description": "Esta acción no se puede deshacer. El grupo \"{{itemName}}\" será eliminado del curso."
+      "description": "Esta acción no se puede deshacer. El grupo \"{{itemName}}\" será eliminado del curso.",
+      "descriptionWithLink": "Esta acción no se puede deshacer. El grupo \"{{itemName}}\" será eliminado junto con sus vínculos."
     }
   },
   "visibility": {
@@ -74,15 +76,13 @@
     "newLink": "Nuevo vínculo",
     "createNewLink": "Crear nuevo vínculo",
     "noLinksYet": "No hay vínculos creados",
-    "emptyStateDescription": "Los vínculos permiten indicar qué grupos de diferentes cursos deben tomarse juntos. Útil para laboratorios, prácticas o cursos relacionados.",
+    "emptyStateDescription": "Los vínculos permiten indicar qué grupos de diferentes cursos deben llevarse juntos. Útil para laboratorios, humanidades, prácticas o cursos relacionados.",
     "unlinkCourse": "Desvincular curso",
     "linkedWith": "Vinculado con",
     "selectCoursesToLink": "Selecciona cursos a vincular",
     "linkDescription": "Los cursos vinculados comparten restricciones de grupo. El generador solo creará horarios con grupos conectados.",
     "connectGroups": "Conectar grupos",
-    "step2Description": "Haz clic en un grupo, luego haz clic en otro grupo de un curso diferente para conectarlos. Los grupos conectados siempre se programarán juntos.",
-    "clickToConnect": "Haz clic en un grupo para seleccionarlo, luego haz clic en otro grupo de un curso diferente para crear una conexión.",
-    "selectOneFromEach": "Selecciona un grupo de cada curso, luego haz clic en 'Agregar conexión' para vincularlos.",
+    "step2Description": "Selecciona un grupo de cada curso y agrégalos como conexión. Solo los grupos conectados se considerarán en la generación.",
     "addConnection": "Agregar conexión",
     "alreadyAdded": "Ya agregado",
     "scheduleConflict": "No se puede vincular: conflicto de horarios entre",
@@ -99,7 +99,8 @@
     "cancel": "Cancelar",
     "next": "Siguiente",
     "back": "Atrás",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "orphanGroupsNote": "Nota: Los grupos sin conexión no se considerarán en la generación de horarios."
   }
 }
 
