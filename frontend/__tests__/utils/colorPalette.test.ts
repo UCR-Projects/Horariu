@@ -47,8 +47,8 @@ describe('colorPalette', () => {
       expect(DEFAULT_COLOR).toMatch(/^#[a-f0-9]{6}$/i)
     })
 
-    it('should be red medium', () => {
-      expect(DEFAULT_COLOR).toBe('#ef4444')
+    it('should be blue light', () => {
+      expect(DEFAULT_COLOR).toBe('#93c5fd')
     })
   })
 
