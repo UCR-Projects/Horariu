@@ -11,7 +11,14 @@ import { test, expect } from '@playwright/test'
 test.describe('Schedule Generation', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
-    await page.evaluate(() => localStorage.clear())
+    // Clear storage and mark onboarding as completed
+    await page.evaluate(() => {
+      localStorage.clear()
+      localStorage.setItem('horariu-onboarding', JSON.stringify({
+        state: { hasCompletedOnboarding: true, currentStep: 0 },
+        version: 0
+      }))
+    })
     await page.reload()
     await page.waitForSelector('[data-sidebar="sidebar"]', { timeout: 10000 })
   })
