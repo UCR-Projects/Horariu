@@ -14,6 +14,12 @@
     "error": "Error al generar los horarios",
     "notPossible": "No hay combinaciones posibles con los cursos y horarios seleccionados."
   },
+  "linksIgnored": "Vínculos ignorados por grupos ocultos",
+  "ignoredLinksDialog": {
+    "title": "Algunos vínculos serán ignorados",
+    "description": "Los siguientes vínculos no se aplicarán porque tienen cursos o grupos ocultos:",
+    "continue": "Continuar de todos modos"
+  },
   "emptyState": {
     "title": "Tu horario aparecerá aquí",
     "description": "Agrega más cursos con sus grupos y presiona \"Generar Horarios\" para ver todas las combinaciones posibles."

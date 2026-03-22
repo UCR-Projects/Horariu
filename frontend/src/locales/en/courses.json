@@ -54,11 +54,13 @@
     },
     "deleteCourse": {
       "title": "Are you sure you want to delete this course?",
-      "description": "This action cannot be undone. The course \"{{itemName}}\" will be removed from the list."
+      "description": "This action cannot be undone. The course \"{{itemName}}\" will be removed from the list.",
+      "descriptionWithLink": "This action cannot be undone. The course \"{{itemName}}\" will be removed along with its links."
     },
     "deleteGroup": {
       "title": "Are you sure you want to delete this group?",
-      "description": "This action cannot be undone. The group \"{{itemName}}\" will be removed from the course."
+      "description": "This action cannot be undone. The group \"{{itemName}}\" will be removed from the course.",
+      "descriptionWithLink": "This action cannot be undone. The group \"{{itemName}}\" will be removed along with its links."
     }
   },
   "visibility": {
@@ -80,9 +82,7 @@
     "selectCoursesToLink": "Select courses to link",
     "linkDescription": "Linked courses share group constraints. The generator will only create schedules with connected groups.",
     "connectGroups": "Connect groups",
-    "step2Description": "Click on a group, then click on another group from a different course to connect them. Connected groups will always be scheduled together.",
-    "clickToConnect": "Click a group to select it, then click another group from a different course to create a connection.",
-    "selectOneFromEach": "Select one group from each course, then click 'Add connection' to link them together.",
+    "step2Description": "Select one group from each course and add them as a connection. Only connected groups will be considered during generation.",
     "addConnection": "Add connection",
     "alreadyAdded": "Already added",
     "scheduleConflict": "Cannot link: schedule conflict between",
@@ -99,7 +99,8 @@
     "cancel": "Cancel",
     "next": "Next",
     "back": "Back",
-    "close": "Close"
+    "close": "Close",
+    "orphanGroupsNote": "Note: Groups without connections will not be considered in schedule generation."
   }
 }
 
