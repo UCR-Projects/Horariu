@@ -3,6 +3,7 @@ import ThemeToggle from './ThemeToggle'
 import { LanguageToggleButton } from './LanguageToggle'
 import { InfoButton } from './InfoButton'
 import useCourseStore from '@/stores/useCourseStore'
+import { useI18n } from '@/hooks/useI18n'
 import {
   Tooltip,
   TooltipContent,
@@ -10,6 +11,7 @@ import {
 } from '@/components/ui/tooltip'
 
 export function Header() {
+  const { t } = useI18n(['common', 'courses'])
   const courses = useCourseStore((state) => state.courses)
   const totalCourses = courses.length
   const totalGroups = courses.reduce((acc, course) => acc + course.groups.length, 0)
@@ -43,12 +45,12 @@ export function Header() {
                       )}
                     </div>
                     <span className="text-xs">
-                      {totalCourses} {totalCourses === 1 ? 'course' : 'courses'}
+                      {t('common:header.coursesCount', { count: totalCourses })}
                     </span>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{totalCourses} courses, {totalGroups} groups</p>
+                  <p>{t('common:header.summary', { courses: totalCourses, groups: totalGroups })}</p>
                 </TooltipContent>
               </Tooltip>
             </div>
