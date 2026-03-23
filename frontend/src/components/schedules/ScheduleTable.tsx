@@ -4,9 +4,11 @@ import { useRef, useMemo, memo, useCallback } from 'react'
 import { ScheduleDataType } from '@/stores/useScheduleStore'
 import { useScheduleExport } from '@/hooks/useScheduleExport'
 import { ScheduleExportMenu } from './ScheduleExportMenu'
+import { TableStyleSelector } from './TableStyleSelector'
 import { getContrastTextColor } from '@/utils/colorUtils'
 import useCourseStore from '@/stores/useCourseStore'
-import { table } from '@/styles'
+import { useTableStyleStore } from '@/stores/useTableStyleStore'
+import { tableStyles } from '@/styles'
 import { Card } from '@/components/ui/card'
 
 interface ScheduleTableProps {
@@ -18,6 +20,8 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
   const { t } = useI18n(['common', 'schedules'])
   const tableRef = useRef<HTMLTableElement>(null)
   const courses = useCourseStore((state) => state.courses)
+  const tableStyle = useTableStyleStore((state) => state.tableStyle)
+  const styles = tableStyles[tableStyle]
 
   // Look up current color from course store, fallback to stored color
   const getCourseColor = useCallback(
@@ -85,12 +89,15 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
         <h2 id={`schedule-title-${scheduleIndex}`} className="font-bold text-sm">
           {scheduleTitle}
         </h2>
-        <ScheduleExportMenu onExportImage={exportAsImage} onExportPDF={exportAsPDF} />
+        <div className="flex items-center gap-1">
+          <TableStyleSelector />
+          <ScheduleExportMenu onExportImage={exportAsImage} onExportPDF={exportAsPDF} />
+        </div>
       </div>
       <div className="overflow-x-auto md:overflow-visible">
         <div className="min-w-150 md:min-w-0">
           <table
-            className="w-full border-collapse"
+            className={`w-full ${styles.table}`}
             ref={tableRef}
             aria-label={scheduleTitle}
             role="grid"
@@ -100,14 +107,14 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
             </caption>
             <thead>
               <tr>
-                <th scope="col" className={`${table.border} w-16 md:w-24 h-9`}>
+                <th scope="col" className={`${styles.headerCell} w-16 md:w-24 h-9`}>
                   {t('common:time.hours')}
                 </th>
                 {DAYS.map((day) => (
                   <th
                     key={day}
                     scope="col"
-                    className={`p-1 ${table.border} w-20 md:w-32`}
+                    className={`p-1 ${styles.headerCell} w-20 md:w-32`}
                   >
                     <span className="sr-only">{t(`common:days.${day}.name`)}</span>
                     <span aria-hidden="true">({t(`common:days.${day}.short`)}) {t(`common:days.${day}.name`)}</span>
@@ -118,7 +125,7 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
             <tbody>
               {TIME_RANGES.map((range) => (
                 <tr key={range}>
-                  <th scope="row" className={`p-1 ${table.header} text-center w-16 md:w-24`}>
+                  <th scope="row" className={`p-1 ${styles.timeCell} text-center w-16 md:w-24`}>
                     {range}
                   </th>
                   {DAYS.map((day) => {
@@ -132,7 +139,7 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
                     return (
                       <td
                         key={`${day}-${range}`}
-                        className={`${table.cell} w-20 md:w-24 h-9`}
+                        className={`${course ? styles.dataCellWithCourse : styles.dataCell} w-20 md:w-24 h-9`}
                         style={color ? { backgroundColor: color } : undefined}
                         aria-label={course ? t('accessibility.courseAt', { courseName: course.courseName, groupName, day: dayName, time: range }) : t('accessibility.emptySlot', { day: dayName, time: range })}
                       >
