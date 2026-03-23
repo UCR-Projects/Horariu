@@ -48,6 +48,46 @@ export const table = {
   header: 'border border-table-border font-normal',
 }
 
+// Table style variants for user preference
+// Uses --table-border which is black in light mode and white in dark mode
+export const tableStyles = {
+  classic: {
+    table: 'border-collapse',
+    headerCell: 'border border-table-border/70',
+    timeCell: 'border border-table-border/70 font-normal',
+    dataCell: 'border border-table-border/70',
+    dataCellWithCourse: 'border border-table-border/70',
+  },
+  rounded: {
+    table: 'border-separate border-spacing-0 rounded-xl overflow-hidden border border-table-border/30',
+    headerCell: 'border border-table-border/20 bg-muted/50 first:rounded-tl-lg last:rounded-tr-lg',
+    timeCell: 'border border-table-border/20 bg-muted/30 font-normal',
+    dataCell: 'border border-table-border/20',
+    dataCellWithCourse: 'border border-table-border/20',
+  },
+  floating: {
+    table: 'border-separate border-spacing-0.5',
+    headerCell: 'rounded-md bg-accent/80 font-semibold',
+    timeCell: 'rounded-md bg-accent/60 font-normal',
+    dataCell: 'rounded-md bg-muted',
+    dataCellWithCourse: 'rounded-md shadow-md',
+  },
+  minimal: {
+    table: 'border-collapse',
+    headerCell: 'border-b-2 border-table-border/60 bg-accent/80 font-semibold',
+    timeCell: 'border-b border-table-border/40 border-r border-table-border/15 bg-accent/40 font-normal',
+    dataCell: 'border-b border-table-border/40 border-r border-table-border/15 bg-muted/50',
+    dataCellWithCourse: 'border-b border-table-border/40 border-r border-table-border/15',
+  },
+  glass: {
+    table: 'border-separate border-spacing-0.5',
+    headerCell: 'rounded-md bg-primary/15 border border-primary/20',
+    timeCell: 'rounded-md bg-primary/10 border border-primary/10 font-normal',
+    dataCell: 'rounded-md bg-muted/40 border border-primary/5',
+    dataCellWithCourse: 'rounded-md border border-primary/10 shadow-md',
+  },
+} as const
+
 // ===========================================
 // TEXT STYLES
 // ===========================================

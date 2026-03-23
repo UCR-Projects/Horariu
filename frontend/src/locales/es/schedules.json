@@ -33,6 +33,14 @@
   "favorites": {
     "add": "Agregar a favoritos",
     "remove": "Quitar de favoritos"
+  },
+  "tableStyle": {
+    "title": "Estilo de tabla",
+    "classic": "Clásica",
+    "rounded": "Redondeada",
+    "floating": "Flotante",
+    "minimal": "Minimalista",
+    "glass": "Cristal"
   }
 }
 

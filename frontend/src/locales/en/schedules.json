@@ -33,6 +33,14 @@
   "favorites": {
     "add": "Add to favorites",
     "remove": "Remove from favorites"
+  },
+  "tableStyle": {
+    "title": "Table style",
+    "classic": "Classic",
+    "rounded": "Rounded",
+    "floating": "Floating",
+    "minimal": "Minimal",
+    "glass": "Glass"
   }
 }
 
