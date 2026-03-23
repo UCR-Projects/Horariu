@@ -1,4 +1,9 @@
 {
+  "header": {
+    "coursesCount": "{{count}} course",
+    "coursesCount_other": "{{count}} courses",
+    "summary": "{{courses}} courses, {{groups}} groups"
+  },
   "actions": {
     "save": "Save",
     "cancel": "Cancel",
