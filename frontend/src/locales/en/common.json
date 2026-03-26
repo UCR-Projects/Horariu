@@ -131,6 +131,10 @@
       "desc": "Taking Chemistry with its lab? Or Humanities that includes History, Philosophy, and Communication? Link these types of courses so their groups are considered together during generation."
     },
     "step4": {
+      "title": "Filter Hours",
+      "desc": "Mark the time blocks when you CAN'T or don't want to have classes. Groups with classes at those times will be automatically excluded when generating."
+    },
+    "step5": {
       "title": "Generate Options",
       "desc": "We'll find all the schedule combinations you could enroll in without conflicts."
     },

@@ -131,6 +131,10 @@
       "desc": "¿Llevas Química con su laboratorio? ¿O Humanidades que incluye Historia, Filosofía y Comunicación? Vincula este tipo de cursos para que sus grupos se consideren juntos en la generación."
     },
     "step4": {
+      "title": "Filtra Horas",
+      "desc": "Marcá los bloques de tiempo en los que NO podés o no querés tener clases. Los grupos con clases en esos horarios se excluirán automáticamente al generar."
+    },
+    "step5": {
       "title": "Genera Opciones",
       "desc": "Encontraremos todas las combinaciones de horarios que podrías matricular sin conflictos."
     },
