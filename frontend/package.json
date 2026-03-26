@@ -61,8 +61,10 @@
     "minimatch": "^10.2.4",
     "path-to-regexp": "^8.3.0",
     "undici": "^7.24.5",
-"@tootallnate/once": "^3.0.1",
-    "tar": "^7.5.13"
+    "@tootallnate/once": "^3.0.1",
+    "tar": "^7.5.13",
+    "picomatch@2": "^2.3.2",
+    "picomatch@4": "^4.0.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
