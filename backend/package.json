@@ -68,7 +68,9 @@
     "typescript": "5.7.3"
   },
   "overrides": {
-    "picomatch": "^2.3.2"
+    "picomatch": "^2.3.2",
+    "flatted": ">=3.4.2",
+    "minimatch": ">=9.0.7"
   },
   "eslintConfig": {
     "extends": [
