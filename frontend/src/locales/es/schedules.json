@@ -63,6 +63,15 @@
     "floating": "Flotante",
     "minimal": "Minimalista",
     "glass": "Cristal"
+  },
+  "timeFilter": {
+    "title": "Filtrar Horarios",
+    "description": "Hacé click en los bloques de tiempo que querés excluir. Podés seleccionar un día completo, una fila de hora, o bloques individuales.",
+    "button": "Filtrar Horarios",
+    "activeFilters": "{{count}} bloque excluido",
+    "activeFilters_other": "{{count}} bloques excluidos",
+    "noFilters": "Sin filtros activos",
+    "clearAll": "Limpiar filtros"
   }
 }
 
