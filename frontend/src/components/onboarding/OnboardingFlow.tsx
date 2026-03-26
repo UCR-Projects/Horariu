@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { BookOpen, Eye, Link2, Sparkles, ArrowRight, Rocket } from 'lucide-react'
+import { BookOpen, Eye, Link2, Clock, Sparkles, ArrowRight, Rocket } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useOnboardingStore } from '@/stores/useOnboardingStore'
 import { useI18n } from '@/hooks/useI18n'
@@ -8,6 +8,7 @@ const STEPS = [
   { icon: BookOpen },
   { icon: Eye },
   { icon: Link2 },
+  { icon: Clock },
   { icon: Sparkles },
 ]
 
@@ -20,7 +21,7 @@ export function OnboardingFlow() {
     completeOnboarding()
   }
 
-  const stepKeys = ['step1', 'step2', 'step3', 'step4'] as const
+  const stepKeys = ['step1', 'step2', 'step3', 'step4', 'step5'] as const
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] p-6 sm:p-8 animate-fade-in">
