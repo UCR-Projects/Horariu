@@ -17,9 +17,8 @@ export function TimeFilterModal() {
   const { t } = useI18n(['common', 'schedules'])
   const [open, setOpen] = useState(false)
 
-  const { clearCells, selectedCount } = useScheduleFilterStore()
-
-  const count = selectedCount()
+  const clearCells = useScheduleFilterStore((state) => state.clearCells)
+  const count = useScheduleFilterStore((state) => state.selectedCells.size)
 
   return (
     <>
