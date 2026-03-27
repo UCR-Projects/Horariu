@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, Page, Locator } from '@playwright/test'
 
 /**
  * E2E Tests for Schedule Generation Flow
@@ -7,6 +7,64 @@ import { test, expect, Page } from '@playwright/test'
  * Note: App uses i18n with English/Spanish translations
  * Form inputs: courseName for course, groupName for group
  */
+
+// Adds a course with one group scheduled on Monday 08:00–08:50
+async function addCourseWithMondayGroup(page: Page, courseName: string): Promise<void> {
+  const addCourseButton = page.getByRole('button', { name: /Add.*course|Agregar.*curso/i })
+  await addCourseButton.click()
+  await page.waitForTimeout(300)
+
+  await page.locator('[role="dialog"] input[name="courseName"]').fill(courseName)
+
+  const addGroupButton = page
+    .locator('[role="dialog"]')
+    .getByRole('button', { name: /Add Group|Agregar Grupo/i })
+  await addGroupButton.click()
+  await page.waitForTimeout(300)
+
+  await page.locator('[role="dialog"] input[name="groupName"]').fill('Group 1')
+
+  const mondayButton = page.locator('[role="dialog"] button').filter({ hasText: /^Mo$|^L$/i })
+  await mondayButton.click()
+  await page.waitForTimeout(200)
+
+  const startTimeButton = page
+    .locator('[role="dialog"] button[role="combobox"]')
+    .filter({ hasText: '----' })
+  if ((await startTimeButton.count()) > 0) {
+    await startTimeButton.first().click()
+    await page.getByRole('option', { name: '08:00' }).click()
+  }
+
+  const endTimeButton = page
+    .locator('[role="dialog"] button[role="combobox"]')
+    .filter({ hasText: '----' })
+  if ((await endTimeButton.count()) > 0) {
+    await endTimeButton.first().click()
+    await page.getByRole('option', { name: '08:50' }).click()
+  }
+
+  await page
+    .locator('[role="dialog"]')
+    .getByRole('button', { name: /^Save$|^Guardar$/i })
+    .click()
+  await page.waitForTimeout(300)
+
+  await page
+    .locator('[role="dialog"]')
+    .getByRole('button', { name: /Add Course|Agregar Curso/i })
+    .click()
+  await page.waitForTimeout(500)
+}
+
+// Opens the Filter Schedule modal and returns the dialog locator
+async function openTimeFilterModal(page: Page): Promise<Locator> {
+  await page
+    .getByRole('button', { name: /Filter Schedule|Filtrar Horarios/i })
+    .click()
+  await page.waitForTimeout(300)
+  return page.locator('[role="dialog"]').filter({ has: page.getByText(/Filter Schedule|Filtrar Horarios/i) })
+}
 
 // Mock API response for schedule generation
 async function mockScheduleApi(page: Page): Promise<void> {
@@ -205,6 +263,62 @@ test.describe('Schedule Generation', () => {
     // Verify course appears in schedule table
     const courseInSchedule = page.locator('table').getByText('Programming 101')
     await expect(courseInSchedule.first()).toBeVisible()
+  })
+
+  test('should disable generate button when blocked cell filters out all groups', async ({ page }) => {
+    await addCourseWithMondayGroup(page, 'Filtered Course')
+
+    const generateButton = page.getByRole('button', { name: /Generate Schedules|Generar Horarios/i })
+    await expect(generateButton).toBeEnabled()
+
+    const dialog = await openTimeFilterModal(page)
+
+    // Cell aria-label is "Mo 08:00 - 08:50" (EN) or "L 08:00 - 08:50" (ES)
+    // Both contain "08:00 - 08:50" — use that as the selector anchor and pick Monday (first column)
+    await dialog.locator('td[aria-label*="08:00 - 08:50"]').first().click()
+    await page.waitForTimeout(200)
+
+    await dialog.getByRole('button', { name: /Done|Listo/i }).last().click()
+    await page.waitForTimeout(300)
+
+    await expect(generateButton).toBeDisabled()
+  })
+
+  test('should disable generate button after blocking a full day via column header', async ({ page }) => {
+    await addCourseWithMondayGroup(page, 'Day Block Course')
+
+    const generateButton = page.getByRole('button', { name: /Generate Schedules|Generar Horarios/i })
+    await expect(generateButton).toBeEnabled()
+
+    const dialog = await openTimeFilterModal(page)
+
+    // Click Monday column header (th with "Mo" or "L" text)
+    const mondayHeader = dialog.locator('thead th').filter({ hasText: /^Mo$|^\(Mo\)|^L$|\(L\)/i }).first()
+    await mondayHeader.click()
+    await page.waitForTimeout(200)
+
+    await dialog.getByRole('button', { name: /Done|Listo/i }).last().click()
+    await page.waitForTimeout(300)
+
+    await expect(generateButton).toBeDisabled()
+  })
+
+  test('should disable generate button after blocking a full hour via row header', async ({ page }) => {
+    await addCourseWithMondayGroup(page, 'Hour Block Course')
+
+    const generateButton = page.getByRole('button', { name: /Generate Schedules|Generar Horarios/i })
+    await expect(generateButton).toBeEnabled()
+
+    const dialog = await openTimeFilterModal(page)
+
+    // Click the row header for "08:00 - 08:50"
+    await dialog.locator('th[scope="row"]').filter({ hasText: '08:00 - 08:50' }).click()
+    await page.waitForTimeout(200)
+
+    await dialog.getByRole('button', { name: /Done|Listo/i }).last().click()
+    await page.waitForTimeout(300)
+
+    await expect(generateButton).toBeDisabled()
   })
 
   test('should show schedule count badge after generation', async ({ page }) => {
