@@ -35,7 +35,7 @@ function ScheduleFilter() {
                 onClick={() => toggleDay(day)}
                 className={`${table.border} w-20 md:w-28 h-14 p-2 text-sm cursor-pointer select-none transition-colors
                   ${isDayFullySelected(day)
-                    ? 'bg-destructive/20 hover:bg-destructive/30 text-destructive-foreground'
+                    ? 'bg-destructive/60 hover:bg-destructive/70 dark:bg-destructive/35 dark:hover:bg-destructive/45 text-destructive-foreground'
                     : 'hover:bg-interactive-active'
                   }`}
               >
@@ -58,7 +58,7 @@ function ScheduleFilter() {
                 onClick={() => toggleHour(hour)}
                 className={`${table.border} p-1 text-center text-xs font-normal cursor-pointer select-none transition-colors w-16 md:w-28 h-10
                   ${isHourFullySelected(hour)
-                    ? 'bg-destructive/20 hover:bg-destructive/30 text-destructive-foreground'
+                    ? 'bg-destructive/60 hover:bg-destructive/70 dark:bg-destructive/35 dark:hover:bg-destructive/45 text-destructive-foreground'
                     : 'hover:bg-interactive-active'
                   }`}
               >
@@ -72,7 +72,7 @@ function ScheduleFilter() {
                   onClick={() => toggleCell(hour, day)}
                   className={`${table.border} cursor-pointer select-none transition-colors w-20 md:w-28 h-10
                     ${isCellSelected(hour, day)
-                      ? 'bg-destructive/20 hover:bg-destructive/30'
+                      ? 'bg-destructive/60 hover:bg-destructive/70 dark:bg-destructive/35 dark:hover:bg-destructive/45'
                       : 'hover:bg-interactive-active'
                     }`}
                 />

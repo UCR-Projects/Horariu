@@ -1,4 +1,4 @@
-import { Clock, X } from 'lucide-react'
+import { Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -43,6 +43,11 @@ export function TimeFilterModal() {
             <DialogDescription>
               {t('schedules:timeFilter.description')}
             </DialogDescription>
+            <p className={`text-xs font-medium ${count > 0 ? 'text-foreground' : 'text-muted-foreground'}`}>
+              {count > 0
+                ? t('schedules:timeFilter.activeFilters', { count })
+                : t('schedules:timeFilter.noFilters')}
+            </p>
           </DialogHeader>
 
           <div className="flex-1 overflow-auto">
@@ -50,27 +55,18 @@ export function TimeFilterModal() {
           </div>
 
           <div className="flex items-center justify-between pt-4 border-t border-border mt-2 shrink-0">
-            <span className="text-sm text-muted-foreground">
-              {count > 0
-                ? t('schedules:timeFilter.activeFilters', { count })
-                : t('schedules:timeFilter.noFilters')}
-            </span>
-            <div className="flex gap-2">
-              {count > 0 && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={clearCells}
-                  className="gap-1 cursor-pointer text-muted-foreground hover:text-foreground"
-                >
-                  <X className="h-3 w-3" />
-                  {t('schedules:timeFilter.clearAll')}
-                </Button>
-              )}
-              <Button size="sm" onClick={() => setOpen(false)} className="cursor-pointer">
-                {t('common:actions.close')}
-              </Button>
-            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={clearCells}
+              disabled={count === 0}
+              className="cursor-pointer"
+            >
+              {t('schedules:timeFilter.clearAll')}
+            </Button>
+            <Button size="sm" onClick={() => setOpen(false)} className="cursor-pointer">
+              {t('common:actions.done')}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
