@@ -4,11 +4,15 @@ import { useI18n } from '@/hooks/useI18n'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { ResponsiveTooltip } from '@/components/shared'
+
+const GABRIEL_EMAIL = 'gonzaf.gabriel@gmail.com'
+const GEANCA_EMAIL = 'geancarlorivera831@gmail.com'
 
 export function InfoButton() {
   const [open, setOpen] = useState(false)
@@ -29,6 +33,9 @@ export function InfoButton() {
           <DialogTitle className='text-xl font-semibold'>
             {t('title')}
           </DialogTitle>
+          <DialogDescription className='sr-only'>
+            {t('title')}
+          </DialogDescription>
         </DialogHeader>
 
         <div className='space-y-6 py-4 relative'>
@@ -49,7 +56,7 @@ export function InfoButton() {
                 <div className='flex items-center gap-2'>
                   <Mail className='h-3 w-3 text-muted-foreground' />
                   <p className='text-sm text-muted-foreground'>
-                    gabriel@gabrielgonzalez.me
+                    {GABRIEL_EMAIL}
                   </p>
                 </div>
               </div>
@@ -62,7 +69,7 @@ export function InfoButton() {
                 <div className='flex items-center gap-2'>
                   <Mail className='h-3 w-3 text-muted-foreground' />
                   <p className='text-sm text-muted-foreground'>
-                    geancarlorivera831@gmail.com
+                    {GEANCA_EMAIL}
                   </p>
                 </div>
               </div>
@@ -78,7 +85,7 @@ export function InfoButton() {
           </div>
 
           <div className='absolute bottom-0 right-0 text-xs text-muted-foreground/30'>
-            © 2025 HorariU
+            © 2026 HorariU
           </div>
         </div>
       </DialogContent>
