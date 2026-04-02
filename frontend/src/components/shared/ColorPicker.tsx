@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import { FormItem, FormLabel } from '@/components/ui/form'
 import {
@@ -14,6 +14,7 @@ import {
   DrawerFooter,
 } from '@/components/ui/drawer'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Check, Plus, X } from 'lucide-react'
 import { COLOR_PALETTE, getColorInfo } from '@/utils/colorPalette'
 import { getContrastTextColor } from '@/utils/colorUtils'
@@ -36,6 +37,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   const [open, setOpen] = useState(false)
   const [showCustomPicker, setShowCustomPicker] = useState(false)
   const [pendingColor, setPendingColor] = useState('#6366f1')
+  const [hexInput, setHexInput] = useState('#6366f1')
   const { t } = useI18n()
   const isMobile = useIsMobile()
 
@@ -45,6 +47,32 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   const displayName = colorInfo
     ? `${t(`colors.${colorInfo.family}` as 'colors.Red')} (${t(`shades.${colorInfo.shade}` as 'shades.medium')})`
     : t('colors.Red')
+
+  const isValidHex = (value: string): boolean => {
+    return /^#[0-9a-fA-F]{6}$/.test(value)
+  }
+
+  const handlePickerChange = (color: string) => {
+    setPendingColor(color)
+    setHexInput(color)
+  }
+
+  const handleHexInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value
+    // Allow typing without '#' prefix
+    if (value && !value.startsWith('#')) {
+      value = '#' + value
+    }
+    setHexInput(value)
+    if (isValidHex(value)) {
+      setPendingColor(value.toLowerCase())
+    }
+  }
+
+  // Sync hexInput when pendingColor changes from outside (e.g., reopening the picker)
+  useEffect(() => {
+    setHexInput(pendingColor)
+  }, [showCustomPicker])
 
   const handleSelectColor = (hex: string) => {
     if (onColorChange) {
@@ -180,17 +208,25 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                             <DrawerTitle>{t('customColors.pickColor')}</DrawerTitle>
                           </DrawerHeader>
                           <div className="px-4 flex flex-col items-center gap-3">
-                            <HexColorPicker color={pendingColor} onChange={setPendingColor} />
+                            <HexColorPicker color={pendingColor} onChange={handlePickerChange} />
                             <div className="flex items-center gap-2">
                               <div
                                 className="h-6 w-6 rounded border"
                                 style={{ backgroundColor: pendingColor }}
                               />
-                              <span className="text-sm font-mono">{pendingColor}</span>
+                              <Input
+                                type="text"
+                                value={hexInput}
+                                onChange={handleHexInputChange}
+                                maxLength={7}
+                                placeholder="#000000"
+                                className="w-24 text-sm font-mono h-8"
+                                aria-label={t('customColors.hexInput')}
+                              />
                             </div>
                           </div>
                           <DrawerFooter>
-                            <div className="flex gap-2 justify-end">
+                            <div className="flex gap-2 justify-between">
                               <Button
                                 type="button"
                                 size="sm"
@@ -218,15 +254,23 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                         <PopoverContent className="w-auto p-3" side="right" align="start">
                           <div className="flex flex-col gap-3">
                             <span className="text-sm font-medium">{t('customColors.pickColor')}</span>
-                            <HexColorPicker color={pendingColor} onChange={setPendingColor} />
+                            <HexColorPicker color={pendingColor} onChange={handlePickerChange} />
                             <div className="flex items-center gap-2">
                               <div
                                 className="h-6 w-6 rounded border"
                                 style={{ backgroundColor: pendingColor }}
                               />
-                              <span className="text-sm font-mono">{pendingColor}</span>
+                              <Input
+                                type="text"
+                                value={hexInput}
+                                onChange={handleHexInputChange}
+                                maxLength={7}
+                                placeholder="#000000"
+                                className="w-24 text-sm font-mono h-8"
+                                aria-label={t('customColors.hexInput')}
+                              />
                             </div>
-                            <div className="flex gap-2">
+                            <div className="flex justify-between gap-2">
                               <Button
                                 type="button"
                                 size="sm"

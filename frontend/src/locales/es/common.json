@@ -85,6 +85,7 @@
     "add": "Agregar color",
     "remove": "Eliminar color",
     "pickColor": "Elegir un color",
+    "hexInput": "Valor de color hexadecimal",
     "save": "Guardar",
     "cancel": "Cancelar"
   },
