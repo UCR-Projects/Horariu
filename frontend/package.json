@@ -42,6 +42,7 @@
     "jspdf": "^4.1.0",
     "lucide-react": "^0.477.0",
     "next-themes": "^0.4.6",
+    "radix-ui": "^1.4.3",
     "react": "^19.0.0",
     "react-colorful": "^5.6.1",
     "react-dom": "^19.0.0",

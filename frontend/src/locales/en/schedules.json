@@ -34,6 +34,26 @@
     "add": "Add to favorites",
     "remove": "Remove from favorites"
   },
+  "source": {
+    "generated": "Generated",
+    "saved": "Saved",
+    "switchToGenerated": "Switch to generated schedules",
+    "switchToSaved": "Switch to saved schedules"
+  },
+  "saved": {
+    "emptyTitle": "No saved schedules",
+    "emptyDescription": "Star your favorite schedules from the generated list to save them here.",
+    "clearAll": "Clear all",
+    "clearAllConfirm": "Remove all saved schedules?",
+    "removed": "Schedule removed",
+    "saved": "Schedule saved",
+    "alreadySaved": "Schedule already saved"
+  },
+  "filters": {
+    "title": "Filters",
+    "savedFirst": "Show saved first",
+    "clearFilters": "Clear filters"
+  },
   "tableStyle": {
     "title": "Table style",
     "classic": "Classic",
