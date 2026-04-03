@@ -1,67 +1,40 @@
 import { create } from 'zustand'
-import { Day, TimeRange } from '@/types'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-const mapToObject = (map: Map<string, { hour: TimeRange; day: Day }>) => {
-  return Object.fromEntries(map.entries())
+export type ScheduleFilterType = 'savedFirst'
+
+interface ScheduleFilterState {
+  activeFilters: Record<ScheduleFilterType, boolean>
+  setFilter: (filter: ScheduleFilterType, value: boolean) => void
+  clearFilters: () => void
+  hasActiveFilters: () => boolean
 }
 
-const objectToMap = (
-  obj: Record<string, { hour: TimeRange; day: Day }> | undefined
-) => {
-  if (!obj) return new Map()
-  return new Map(Object.entries(obj))
-}
-
-interface ScheduleState {
-  selectedCells: Map<string, { hour: TimeRange; day: Day }>
-  toggleCell: (hour: TimeRange, day: Day) => void
-  clearCells: () => void
-}
-
-export const useScheduleFilterStore = create<ScheduleState>()(
+export const useScheduleFilterStore = create<ScheduleFilterState>()(
   persist(
     (set, get) => ({
-      selectedCells: new Map(),
-
-      toggleCell: (hour: TimeRange, day: Day) => {
-        const key = `${hour}-${day}`
-        const currentCells = new Map(get().selectedCells)
-
-        if (currentCells.has(key)) {
-          currentCells.delete(key)
-        } else {
-          currentCells.set(key, { hour, day })
-        }
-
-        set({ selectedCells: currentCells })
+      activeFilters: {
+        savedFirst: false,
       },
 
-      clearCells: () => {
-        set({ selectedCells: new Map() })
-      },
+      setFilter: (filter, value) =>
+        set((state) => ({
+          activeFilters: { ...state.activeFilters, [filter]: value },
+        })),
+
+      clearFilters: () =>
+        set({
+          activeFilters: {
+            savedFirst: false,
+          },
+        }),
+
+      hasActiveFilters: () =>
+        Object.values(get().activeFilters).some(Boolean),
     }),
     {
-      name: 'schedule-filter-storage', // Local storage key
+      name: 'horariu-schedule-filters',
       storage: createJSONStorage(() => localStorage),
-
-      // Convert the Map to an object before serializing
-      // because JSON.stringify does not support Maps
-      partialize: (state) => ({
-        selectedCells: mapToObject(state.selectedCells),
-      }),
-
-      // Convert the object back to a Map after deserializing
-      onRehydrateStorage: () => (state) => {
-        if (state) {
-          state.selectedCells = objectToMap(
-            state.selectedCells as unknown as Record<
-              string,
-              { hour: TimeRange; day: Day }
-            >
-          )
-        }
-      },
     }
   )
 )

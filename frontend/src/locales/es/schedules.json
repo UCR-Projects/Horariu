@@ -34,6 +34,26 @@
     "add": "Agregar a favoritos",
     "remove": "Quitar de favoritos"
   },
+  "source": {
+    "generated": "Generados",
+    "saved": "Guardados",
+    "switchToGenerated": "Cambiar a horarios generados",
+    "switchToSaved": "Cambiar a horarios guardados"
+  },
+  "saved": {
+    "emptyTitle": "No hay horarios guardados",
+    "emptyDescription": "Marca con estrella tus horarios favoritos de la lista generada para guardarlos aqui.",
+    "clearAll": "Borrar todos",
+    "clearAllConfirm": "Eliminar todos los horarios guardados?",
+    "removed": "Horario eliminado",
+    "saved": "Horario guardado",
+    "alreadySaved": "Horario ya guardado"
+  },
+  "filters": {
+    "title": "Filtros",
+    "savedFirst": "Mostrar guardados primero",
+    "clearFilters": "Borrar filtros"
+  },
   "tableStyle": {
     "title": "Estilo de tabla",
     "classic": "Clásica",

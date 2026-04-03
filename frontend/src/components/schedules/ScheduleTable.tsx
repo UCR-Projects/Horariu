@@ -10,18 +10,56 @@ import useCourseStore from '@/stores/useCourseStore'
 import { useTableStyleStore } from '@/stores/useTableStyleStore'
 import { tableStyles } from '@/styles'
 import { Card } from '@/components/ui/card'
+import { Star, Trash2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { ResponsiveTooltip } from '@/components/shared'
+import { useSavedSchedulesStore } from '@/stores/useSavedSchedulesStore'
 
 interface ScheduleTableProps {
   scheduleData: ScheduleDataType
   scheduleIndex: number
+  showSaveButton?: boolean
+  savedScheduleId?: string
+  onRemoveSaved?: (id: string) => void
 }
 
-const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps) => {
+const ScheduleTable = memo(({ scheduleData, scheduleIndex, showSaveButton = true, savedScheduleId, onRemoveSaved }: ScheduleTableProps) => {
   const { t } = useI18n(['common', 'schedules'])
   const tableRef = useRef<HTMLTableElement>(null)
   const courses = useCourseStore((state) => state.courses)
   const tableStyle = useTableStyleStore((state) => state.tableStyle)
   const styles = tableStyles[tableStyle]
+
+  const currentSchedule = scheduleData?.schedules?.[scheduleIndex]
+  const isScheduleSaved = useSavedSchedulesStore((state) =>
+    currentSchedule ? state.isScheduleSaved(currentSchedule) : false
+  )
+  const saveSchedule = useSavedSchedulesStore((state) => state.saveSchedule)
+
+  const removeScheduleByFingerprint = useCallback(() => {
+    if (!currentSchedule) return
+    const { savedSchedules, removeSchedule } = useSavedSchedulesStore.getState()
+    const fingerprint = currentSchedule
+      .map((c) => `${c.courseName}::${c.group.name}`)
+      .sort()
+      .join('|')
+    const match = savedSchedules.find((s) =>
+      s.schedule
+        .map((c) => `${c.courseName}::${c.group.name}`)
+        .sort()
+        .join('|') === fingerprint
+    )
+    if (match) removeSchedule(match.id)
+  }, [currentSchedule])
+
+  const handleToggleSave = useCallback(() => {
+    if (!currentSchedule) return
+    if (isScheduleSaved) {
+      removeScheduleByFingerprint()
+    } else {
+      saveSchedule(currentSchedule)
+    }
+  }, [currentSchedule, isScheduleSaved, saveSchedule, removeScheduleByFingerprint])
 
   // Look up current color from course store, fallback to stored color
   const getCourseColor = useCallback(
@@ -86,10 +124,47 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex }: ScheduleTableProps)
       aria-labelledby={`schedule-title-${scheduleIndex}`}
     >
       <div className="flex justify-between items-center mb-1">
-        <h2 id={`schedule-title-${scheduleIndex}`} className="font-bold text-sm">
-          {scheduleTitle}
-        </h2>
         <div className="flex items-center gap-1">
+          {showSaveButton && (
+            <ResponsiveTooltip
+              content={isScheduleSaved ? t('schedules:favorites.remove') : t('schedules:favorites.add')}
+            >
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleToggleSave}
+                className="h-7 w-7 p-0 cursor-pointer"
+                aria-label={isScheduleSaved ? t('schedules:favorites.remove') : t('schedules:favorites.add')}
+                aria-pressed={isScheduleSaved}
+              >
+                <Star
+                  className={`h-4 w-4 transition-colors ${
+                    isScheduleSaved
+                      ? 'fill-yellow-400 text-yellow-400'
+                      : 'text-muted-foreground'
+                  }`}
+                />
+              </Button>
+            </ResponsiveTooltip>
+          )}
+          <h2 id={`schedule-title-${scheduleIndex}`} className="font-bold text-sm">
+            {scheduleTitle}
+          </h2>
+        </div>
+        <div className="flex items-center gap-1">
+          {savedScheduleId && onRemoveSaved && (
+            <ResponsiveTooltip content={t('schedules:favorites.remove')}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onRemoveSaved(savedScheduleId)}
+                className="h-7 w-7 p-0 cursor-pointer text-muted-foreground hover:text-destructive"
+                aria-label={t('schedules:favorites.remove')}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </ResponsiveTooltip>
+          )}
           <TableStyleSelector />
           <ScheduleExportMenu onExportImage={exportAsImage} onExportPDF={exportAsPDF} />
         </div>
