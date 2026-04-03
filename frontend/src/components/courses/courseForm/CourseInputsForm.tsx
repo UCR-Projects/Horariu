@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { useI18n } from '@/hooks/useI18n'
 import { GroupsList } from './GroupsList'
-import { ColorPicker, ResponsiveFormWrapper } from '@/components/shared'
+import { ColorPicker, ResponsiveFormWrapper, AnimatedCollapse } from '@/components/shared'
 
 interface CourseFormProps {
   form: UseFormReturn<CourseFormValuesType>
@@ -51,7 +51,7 @@ export function CourseInputsForm({
       <form
         id="courseForm"
         onSubmit={handleFormSubmit}
-        className="space-y-4 overflow-y-auto max-h-[70vh]"
+        className="space-y-4"
       >
         <FormField
           control={form.control}
@@ -98,9 +98,9 @@ export function CourseInputsForm({
           </Button>
         </div>
 
-        {form.formState.errors.groups?.message && (
+        <AnimatedCollapse show={!!form.formState.errors.groups?.message}>
           <div className="text-red-500 text-sm">{form.formState.errors.groups?.message}</div>
-        )}
+        </AnimatedCollapse>
 
         <GroupsList
           groups={groups}
