@@ -17,7 +17,7 @@ const MainLayout = () => {
           <header className="border-b border-border">
             <Header />
           </header>
-          <main className="flex-1 bg-background p-4 overflow-auto">
+          <main className="flex-1 bg-background p-4 overflow-auto overscroll-none">
             <ErrorBoundary>
               <Outlet />
             </ErrorBoundary>
