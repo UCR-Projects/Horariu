@@ -13,6 +13,7 @@ import EmptySchedulesBanner from './EmptySchedulesBanner'
 import { EmptyState, CustomPagination } from '@/components/shared'
 import { SCHEDULES_PER_PAGE } from '@/utils/constants'
 import { useI18n } from '@/hooks/useI18n'
+import { totalGapMinutes, totalGapCount } from '@/utils/scheduleMetrics'
 
 const SchedulesList = () => {
   const { t } = useI18n()
@@ -43,8 +44,35 @@ const SchedulesList = () => {
   // Compute filtered/sorted indices for the generated view
   const filteredIndices = useMemo(() => {
     if (!scheduleData?.schedules) return []
-    const indices = scheduleData.schedules.map((_, i) => i)
+    let indices = scheduleData.schedules.map((_, i) => i)
 
+    // 1. Sort by gap metrics (before savedFirst partitioning, so the sort
+    //    applies within each partition)
+    const needsGapSort = activeFilters.leastGaps || activeFilters.consecutiveClasses
+
+    if (needsGapSort) {
+      const metrics = indices.map((idx) => ({
+        idx,
+        gapMinutes: totalGapMinutes(scheduleData.schedules[idx]),
+        gapCount: totalGapCount(scheduleData.schedules[idx]),
+      }))
+
+      metrics.sort((a, b) => {
+        if (activeFilters.consecutiveClasses) {
+          const diff = a.gapCount - b.gapCount
+          if (diff !== 0) return diff
+        }
+        if (activeFilters.leastGaps) {
+          const diff = a.gapMinutes - b.gapMinutes
+          if (diff !== 0) return diff
+        }
+        return 0
+      })
+
+      indices = metrics.map((m) => m.idx)
+    }
+
+    // 2. savedFirst always partitions on top (preserving sort within each group)
     if (activeFilters.savedFirst) {
       const saved: number[] = []
       const unsaved: number[] = []

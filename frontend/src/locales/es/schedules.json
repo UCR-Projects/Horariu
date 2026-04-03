@@ -51,7 +51,9 @@
   },
   "filters": {
     "title": "Filtros",
-    "savedFirst": "Mostrar guardados primero",
+    "savedFirst": "Guardados primero",
+    "leastGaps": "Menos huecos",
+    "consecutiveClasses": "Clases consecutivas",
     "clearFilters": "Borrar filtros"
   },
   "tableStyle": {
