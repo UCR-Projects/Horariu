@@ -51,7 +51,7 @@ export function ResponsiveFormWrapper({
           <DrawerTitle className="text-lg">{title}</DrawerTitle>
           <DrawerDescription className="text-sm">{description}</DrawerDescription>
         </DrawerHeader>
-        <div className="px-4">{children}</div>
+        <div className="flex-1 overflow-y-auto min-h-0 px-4">{children}</div>
         <DrawerFooter>{footer}</DrawerFooter>
       </>
     )
