@@ -1,11 +1,7 @@
 import CourseForm from './courseForm/CourseForm'
 import { Button } from '@/components/ui/button'
 import { SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+import { ResponsiveTooltip } from '@/components/shared'
 import { Eye, EyeOff, ChevronDown } from 'lucide-react'
 import { useI18n } from '@/hooks/useI18n'
 import { useState, useCallback, memo } from 'react'
@@ -48,27 +44,25 @@ const GroupListItem = memo(({ group, onToggleVisibility }: GroupListItemProps) =
           {group.name}
         </span>
       </div>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label={group.isActive ? t('accessibility.hideGroup', { groupName: group.name }) : t('accessibility.showGroup', { groupName: group.name })}
-            aria-pressed={group.isActive}
-            className={`${tokens.interactive.xs} hover:bg-accent cursor-pointer transition-colors shrink-0`}
-            onClick={onToggleVisibility}
-          >
-            {group.isActive ? (
-              <Eye className={`${tokens.icon.xs} text-icon-muted`} aria-hidden="true" />
-            ) : (
-              <EyeOff className={`${tokens.icon.xs} text-icon-muted`} aria-hidden="true" />
-            )}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent side="right">
-          {group.isActive ? t('visibility.excludeGroup') : t('visibility.includeGroup')}
-        </TooltipContent>
-      </Tooltip>
+      <ResponsiveTooltip
+        content={group.isActive ? t('visibility.excludeGroup') : t('visibility.includeGroup')}
+        side="right"
+      >
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={group.isActive ? t('accessibility.hideGroup', { groupName: group.name }) : t('accessibility.showGroup', { groupName: group.name })}
+          aria-pressed={group.isActive}
+          className={`${tokens.interactive.xs} hover:bg-accent cursor-pointer transition-colors shrink-0`}
+          onClick={onToggleVisibility}
+        >
+          {group.isActive ? (
+            <Eye className={`${tokens.icon.xs} text-icon-muted`} aria-hidden="true" />
+          ) : (
+            <EyeOff className={`${tokens.icon.xs} text-icon-muted`} aria-hidden="true" />
+          )}
+        </Button>
+      </ResponsiveTooltip>
     </div>
   )
 })
@@ -138,27 +132,24 @@ const CourseListItem = memo(
             role="group"
             aria-label={t('accessibility.courseActions', { courseName: course.name })}
           >
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label={course.isActive ? t('accessibility.hideCourse', { courseName: course.name }) : t('accessibility.showCourse', { courseName: course.name })}
-                  aria-pressed={course.isActive}
-                  className={`${tokens.interactive.sm} hover:bg-accent cursor-pointer`}
-                  onClick={onToggleCourseVisibility}
-                >
-                  {course.isActive ? (
-                    <Eye className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
-                  ) : (
-                    <EyeOff className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
-                  )}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                {course.isActive ? t('visibility.excludeCourse') : t('visibility.includeCourse')}
-              </TooltipContent>
-            </Tooltip>
+            <ResponsiveTooltip
+              content={course.isActive ? t('visibility.excludeCourse') : t('visibility.includeCourse')}
+            >
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label={course.isActive ? t('accessibility.hideCourse', { courseName: course.name }) : t('accessibility.showCourse', { courseName: course.name })}
+                aria-pressed={course.isActive}
+                className={`${tokens.interactive.sm} hover:bg-accent cursor-pointer`}
+                onClick={onToggleCourseVisibility}
+              >
+                {course.isActive ? (
+                  <Eye className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
+                ) : (
+                  <EyeOff className={`${tokens.icon.sm} text-icon-muted`} aria-hidden="true" />
+                )}
+              </Button>
+            </ResponsiveTooltip>
             <CourseForm existingCourse={course} />
             <DeleteConfirmationDialog
               itemName={course.name}

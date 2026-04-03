@@ -1,7 +1,7 @@
 import { Settings2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { ResponsiveTooltip } from '@/components/shared'
 import { useTableStyleStore, TableStyle } from '@/stores/useTableStyleStore'
 import { useI18n } from '@/hooks/useI18n'
 import { cn } from '@/lib/utils'
@@ -130,21 +130,18 @@ export function TableStyleSelector() {
 
   return (
     <Popover>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <PopoverTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="cursor-pointer hover:bg-interactive-hover"
-              aria-label={t('schedules:tableStyle.title')}
-            >
-              <Settings2 size={18} aria-hidden="true" />
-            </Button>
-          </PopoverTrigger>
-        </TooltipTrigger>
-        <TooltipContent>{t('schedules:tableStyle.title')}</TooltipContent>
-      </Tooltip>
+      <ResponsiveTooltip content={t('schedules:tableStyle.title')}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="cursor-pointer hover:bg-interactive-hover"
+            aria-label={t('schedules:tableStyle.title')}
+          >
+            <Settings2 size={18} aria-hidden="true" />
+          </Button>
+        </PopoverTrigger>
+      </ResponsiveTooltip>
       <PopoverContent className="w-64 p-2" align="end">
         <div className="mb-2 px-2 py-1">
           <h4 className="font-medium text-sm">{t('schedules:tableStyle.title')}</h4>

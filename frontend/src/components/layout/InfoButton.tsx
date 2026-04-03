@@ -8,11 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from '@/components/ui/tooltip'
+import { ResponsiveTooltip } from '@/components/shared'
 
 export function InfoButton() {
   const [open, setOpen] = useState(false)
@@ -20,18 +16,13 @@ export function InfoButton() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <DialogTrigger asChild>
-            <button className='flex items-center gap-2 px-3 py-2 text-sm font-medium text-foreground/70 hover:text-foreground hover:bg-accent rounded-md transition-colors cursor-pointer'>
-              <Info className='h-4 w-4' />
-            </button>
-          </DialogTrigger>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>{t('tooltip')}</p>
-        </TooltipContent>
-      </Tooltip>
+      <ResponsiveTooltip content={<p>{t('tooltip')}</p>}>
+        <DialogTrigger asChild>
+          <button className='flex items-center gap-2 px-3 py-2 text-sm font-medium text-foreground/70 hover:text-foreground hover:bg-accent rounded-md transition-colors cursor-pointer'>
+            <Info className='h-4 w-4' />
+          </button>
+        </DialogTrigger>
+      </ResponsiveTooltip>
 
       <DialogContent className='sm:max-w-md'>
         <DialogHeader>
