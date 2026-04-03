@@ -167,6 +167,10 @@
   }
   body {
     @apply font-sans bg-background text-foreground;
+    /* Prevent Radix scroll-lock from adding padding-right to body.
+       Our layout uses overflow-hidden on body with internal scroll on <main>,
+       so there is no body scrollbar to compensate for. */
+    padding-right: 0 !important;
   }
   #root {
     @apply bg-background;
