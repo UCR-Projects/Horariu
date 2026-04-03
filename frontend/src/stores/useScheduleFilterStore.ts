@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-export type ScheduleFilterType = 'savedFirst'
+export type ScheduleFilterType = 'savedFirst' | 'leastGaps' | 'consecutiveClasses'
 
 interface ScheduleFilterState {
   activeFilters: Record<ScheduleFilterType, boolean>
@@ -15,6 +15,8 @@ export const useScheduleFilterStore = create<ScheduleFilterState>()(
     (set, get) => ({
       activeFilters: {
         savedFirst: false,
+        leastGaps: false,
+        consecutiveClasses: false,
       },
 
       setFilter: (filter, value) =>
@@ -26,6 +28,8 @@ export const useScheduleFilterStore = create<ScheduleFilterState>()(
         set({
           activeFilters: {
             savedFirst: false,
+            leastGaps: false,
+            consecutiveClasses: false,
           },
         }),
 
