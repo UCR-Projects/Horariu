@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { ResponsiveTooltip } from '@/components/shared'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -121,14 +121,9 @@ const GenerateScheduleButton = () => {
     return (
       <>
         {confirmDialog}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span className="w-full md:w-auto">{button}</span>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>{tooltipMessage}</p>
-          </TooltipContent>
-        </Tooltip>
+        <ResponsiveTooltip content={<p>{tooltipMessage}</p>}>
+          <span className="w-full md:w-auto">{button}</span>
+        </ResponsiveTooltip>
       </>
     )
   }
