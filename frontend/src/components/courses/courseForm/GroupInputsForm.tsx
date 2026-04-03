@@ -13,7 +13,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { useI18n } from '@/hooks/useI18n'
 import { useScheduleHandlers } from '@/hooks/useScheduleHandlers'
-import { TimeRangeSelector, WeekDaySelector, ResponsiveFormWrapper } from '@/components/shared'
+import { TimeRangeSelector, WeekDaySelector, ResponsiveFormWrapper, AnimatedList, AnimatedItem, AnimatedCollapse } from '@/components/shared'
+import { AnimatePresence } from 'framer-motion'
 import { Plus } from 'lucide-react'
 import { tokens } from '@/styles'
 
@@ -43,7 +44,7 @@ export function GroupInputsForm({ form, isEditing, onSubmit, onCancel }: GroupFo
       <form
         id="groupForm"
         onSubmit={handleFormSubmit}
-        className="space-y-4 overflow-y-auto max-h-[70vh]"
+        className="space-y-4"
       >
         <FormField
           control={form.control}
@@ -67,9 +68,9 @@ export function GroupInputsForm({ form, isEditing, onSubmit, onCancel }: GroupFo
         <div className="space-y-2">
           <FormLabel className="text-sm">{t('courses:schedule')}</FormLabel>
 
-          {form.formState.errors.schedules?.message && (
+          <AnimatedCollapse show={!!form.formState.errors.schedules?.message}>
             <div className="text-red-500 text-sm">{form.formState.errors.schedules?.message}</div>
-          )}
+          </AnimatedCollapse>
 
           <div className="space-y-1 pt-2">
             {/* Days Selector */}
@@ -90,53 +91,60 @@ export function GroupInputsForm({ form, isEditing, onSubmit, onCancel }: GroupFo
             </div>
 
             {/* Schedule Selectors */}
-            {activeDays.length > 0 ? (
-              <div className="border-t pt-2 mt-2">
-                <div className="p-2 rounded">
-                  {activeDays.map((schedule) => (
-                    <div key={schedule.day} className="mb-4 last:mb-0">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium text-sm">
-                          {t(`common:days.${schedule.day}.name`)}
-                        </h4>
-                        <div
-                          onClick={() => handleAddTimeBlock(schedule.day)}
-                          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
-                        >
-                          <Plus className={tokens.icon.xs} />
-                          <span className="text-xs">{t('courses:addTimeBlock')}</span>
-                        </div>
-                      </div>
-
-                      {schedule.timeBlocks.length === 0 ? (
-                        <div className="text-xs text-muted-foreground italic text-center border border-dashed rounded p-4">
-                          {t('courses:noTimeBlocks')}
-                        </div>
-                      ) : (
-                        <div className="space-y-2">
-                          {schedule.timeBlocks.map((block, blockIndex) => (
-                            <TimeRangeSelector
-                              key={`${schedule.day}-${blockIndex}`}
-                              day={schedule.day}
-                              blockIndex={blockIndex}
-                              startTime={block.start}
-                              endTime={block.end}
-                              onChange={handleTimeBlockChange}
-                              onRemove={handleRemoveTimeBlock}
-                              canRemove={schedule.timeBlocks.length > 1}
-                            />
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
+            <AnimatedCollapse show={activeDays.length === 0}>
               <div className="text-xs text-muted-foreground italic text-center border-t pt-3">
                 {t('courses:noActiveDays')}
               </div>
-            )}
+            </AnimatedCollapse>
+
+            <AnimatedCollapse show={activeDays.length > 0}>
+              <div className="border-t pt-2 mt-2">
+                <AnimatedList maxHeight="max-h-64" className="p-2 rounded">
+                  {activeDays.map((schedule) => (
+                    <AnimatedItem key={schedule.day}>
+                      <div className="mb-4 last:mb-0">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="font-medium text-sm">
+                            {t(`common:days.${schedule.day}.name`)}
+                          </h4>
+                          <div
+                            onClick={() => handleAddTimeBlock(schedule.day)}
+                            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
+                          >
+                            <Plus className={tokens.icon.xs} />
+                            <span className="text-xs">{t('courses:addTimeBlock')}</span>
+                          </div>
+                        </div>
+
+                        {schedule.timeBlocks.length === 0 ? (
+                          <div className="text-xs text-muted-foreground italic text-center border border-dashed rounded p-4">
+                            {t('courses:noTimeBlocks')}
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            <AnimatePresence initial={false}>
+                              {schedule.timeBlocks.map((block, blockIndex) => (
+                                <AnimatedItem key={`${schedule.day}-${blockIndex}`}>
+                                  <TimeRangeSelector
+                                    day={schedule.day}
+                                    blockIndex={blockIndex}
+                                    startTime={block.start}
+                                    endTime={block.end}
+                                    onChange={handleTimeBlockChange}
+                                    onRemove={handleRemoveTimeBlock}
+                                    canRemove={schedule.timeBlocks.length > 1}
+                                  />
+                                </AnimatedItem>
+                              ))}
+                            </AnimatePresence>
+                          </div>
+                        )}
+                      </div>
+                    </AnimatedItem>
+                  ))}
+                </AnimatedList>
+              </div>
+            </AnimatedCollapse>
           </div>
         </div>
       </form>

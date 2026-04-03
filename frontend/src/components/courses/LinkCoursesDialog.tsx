@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { toast } from 'sonner'
 import { Link2, Check, ArrowRight, ArrowLeft, Trash2, Edit2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { AnimatedList, AnimatedItem, AnimatedCollapse } from '@/components/shared'
 import {
   Dialog,
   DialogContent,
@@ -146,11 +147,11 @@ function GroupMapper({ selectedCourses, connectionSets, onAddConnectionSet, onRe
       </div>
 
       {/* Conflict warning */}
-      {hasConflict && (
+      <AnimatedCollapse show={hasConflict}>
         <p className="text-xs text-destructive">
           {t('linking.scheduleConflict')}: {conflictMessage}
         </p>
-      )}
+      </AnimatedCollapse>
 
       {/* Button to create connection when all courses have a selection */}
       <Button
@@ -178,32 +179,34 @@ function GroupMapper({ selectedCourses, connectionSets, onAddConnectionSet, onRe
       </Button>
 
       {/* Show current connection sets */}
-      {connectionSets.length > 0 && (
+      <AnimatedCollapse show={connectionSets.length > 0}>
         <div className="pt-2 border-t">
           <p className="text-xs font-medium mb-2">{t('linking.currentMappings')}:</p>
-          <div className="space-y-2">
+          <AnimatedList maxHeight="max-h-40" className="space-y-2">
             {connectionSets.map((set, idx) => (
-              <div key={idx} className="flex items-center gap-2 text-xs bg-green-500/10 border border-green-500/30 rounded p-2">
-                <div className="flex-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 min-w-0">
-                  {set.groups.map((g, gIdx) => (
-                    <span key={g.course} className="flex items-center gap-1 whitespace-nowrap">
-                      {gIdx > 0 && <Link2 className="w-3 h-3 text-green-600 shrink-0" />}
-                      <span className="font-medium truncate max-w-[80px] sm:max-w-none">{g.course}:</span>
-                      <span className="truncate">{g.group}</span>
-                    </span>
-                  ))}
+              <AnimatedItem key={idx}>
+                <div className="flex items-center gap-2 text-xs bg-green-500/10 border border-green-500/30 rounded p-2">
+                  <div className="flex-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 min-w-0">
+                    {set.groups.map((g, gIdx) => (
+                      <span key={g.course} className="flex items-center gap-1 whitespace-nowrap">
+                        {gIdx > 0 && <Link2 className="w-3 h-3 text-green-600 shrink-0" />}
+                        <span className="font-medium truncate max-w-[80px] sm:max-w-none">{g.course}:</span>
+                        <span className="truncate">{g.group}</span>
+                      </span>
+                    ))}
+                  </div>
+                  <button
+                    className="p-1 hover:bg-destructive/20 rounded cursor-pointer shrink-0"
+                    onClick={() => onRemoveConnectionSet(idx)}
+                  >
+                    <Trash2 className="w-4 h-4 text-destructive" />
+                  </button>
                 </div>
-                <button
-                  className="p-1 hover:bg-destructive/20 rounded cursor-pointer shrink-0"
-                  onClick={() => onRemoveConnectionSet(idx)}
-                >
-                  <Trash2 className="w-4 h-4 text-destructive" />
-                </button>
-              </div>
+              </AnimatedItem>
             ))}
-          </div>
+          </AnimatedList>
         </div>
-      )}
+      </AnimatedCollapse>
     </div>
   )
 }
@@ -342,54 +345,56 @@ export default function LinkCoursesDialog() {
         {viewMode === 'list' && (
           <div className="py-4 space-y-4">
             {hasExistingLinks ? (
-              <div className="space-y-3">
+              <AnimatedList maxHeight="max-h-60" className="space-y-3">
                 {existingLinks.map((link) => (
-                  <div key={link.id} className="border rounded-lg p-3 space-y-2">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="flex-1 flex flex-wrap items-center gap-x-1 gap-y-1 min-w-0">
-                        {link.courses.map((courseName, idx) => {
-                          const course = courses.find((c) => c.name === courseName)
-                          return (
-                            <span key={courseName} className="flex items-center gap-1.5 text-sm">
-                              {course && (
-                                <span
-                                  className="w-2.5 h-2.5 rounded-full shrink-0"
-                                  style={{ backgroundColor: course.color }}
-                                />
-                              )}
-                              <span className="truncate max-w-[100px] sm:max-w-none">{courseName}</span>
-                              {idx < link.courses.length - 1 && (
-                                <Link2 className="w-3 h-3 text-muted-foreground shrink-0" />
-                              )}
-                            </span>
-                          )
-                        })}
+                  <AnimatedItem key={link.id}>
+                    <div className="border rounded-lg p-3 space-y-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 flex flex-wrap items-center gap-x-1 gap-y-1 min-w-0">
+                          {link.courses.map((courseName, idx) => {
+                            const course = courses.find((c) => c.name === courseName)
+                            return (
+                              <span key={courseName} className="flex items-center gap-1.5 text-sm">
+                                {course && (
+                                  <span
+                                    className="w-2.5 h-2.5 rounded-full shrink-0"
+                                    style={{ backgroundColor: course.color }}
+                                  />
+                                )}
+                                <span className="truncate max-w-[100px] sm:max-w-none">{courseName}</span>
+                                {idx < link.courses.length - 1 && (
+                                  <Link2 className="w-3 h-3 text-muted-foreground shrink-0" />
+                                )}
+                              </span>
+                            )
+                          })}
+                        </div>
+                        <div className="flex items-center gap-1 shrink-0">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 cursor-pointer hover:bg-accent"
+                            onClick={() => handleEditLink(link.id)}
+                          >
+                            <Edit2 className="w-4 h-4 text-muted-foreground" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 cursor-pointer hover:bg-destructive/10"
+                            onClick={() => deleteLink(link.id)}
+                          >
+                            <Trash2 className="w-4 h-4 text-destructive" />
+                          </Button>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1 shrink-0">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 cursor-pointer hover:bg-accent"
-                          onClick={() => handleEditLink(link.id)}
-                        >
-                          <Edit2 className="w-4 h-4 text-muted-foreground" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 cursor-pointer hover:bg-destructive/10"
-                          onClick={() => deleteLink(link.id)}
-                        >
-                          <Trash2 className="w-4 h-4 text-destructive" />
-                        </Button>
-                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {link.connectionSets.length} {link.connectionSets.length === 1 ? 'conexión' : 'conexiones'}
+                      </p>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      {link.connectionSets.length} {link.connectionSets.length === 1 ? 'conexión' : 'conexiones'}
-                    </p>
-                  </div>
+                  </AnimatedItem>
                 ))}
-              </div>
+              </AnimatedList>
             ) : (
               <div className="text-center py-6">
                 <div className="mx-auto w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-3">
