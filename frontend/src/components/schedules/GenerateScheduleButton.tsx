@@ -14,7 +14,7 @@ import { Loader2, Calendar } from 'lucide-react'
 import { useGenerateSchedule } from '@/hooks/useGenerateSchedule'
 import useScheduleStore from '@/stores/useScheduleStore'
 import useCourseStore from '@/stores/useCourseStore'
-import { useScheduleFilterStore } from '@/stores/useScheduleFilterStore'
+import { useTimeFilterStore } from '@/stores/useTimeFilterStore'
 import { filterCoursesByBlockedCells } from '@/utils/timeBlockFilter'
 import { useI18n } from '@/hooks/useI18n'
 import { useMemo, useState } from 'react'
@@ -24,7 +24,7 @@ const GenerateScheduleButton = () => {
   const { generateSchedule, getIgnoredLinks } = useGenerateSchedule()
   const isLoading = useScheduleStore((state) => state.isLoading)
   const courses = useCourseStore((state) => state.courses)
-  const selectedCells = useScheduleFilterStore((state) => state.selectedCells)
+  const selectedCells = useTimeFilterStore((state) => state.selectedCells)
 
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [ignoredLinksToConfirm, setIgnoredLinksToConfirm] = useState<string[]>([])
