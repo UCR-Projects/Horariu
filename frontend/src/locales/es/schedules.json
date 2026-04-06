@@ -21,8 +21,8 @@
     "continue": "Continuar de todos modos"
   },
   "emptyState": {
-    "title": "Tu horario aparecerá aquí",
-    "description": "Agrega más cursos con sus grupos y presiona \"Generar Horarios\" para ver todas las combinaciones posibles."
+    "title": "Su horario aparecerá aquí",
+    "description": "Agregue más cursos con sus grupos y presione \"Generar Horarios\" para ver todas las combinaciones posibles."
   },
   "view": {
     "list": "Lista",
@@ -42,7 +42,7 @@
   },
   "saved": {
     "emptyTitle": "No hay horarios guardados",
-    "emptyDescription": "Marca con estrella tus horarios favoritos de la lista generada para guardarlos aqui.",
+    "emptyDescription": "Marque con estrella sus horarios favoritos de la lista generada para guardarlos aquí.",
     "clearAll": "Borrar todos",
     "clearAllConfirm": "Eliminar todos los horarios guardados?",
     "removed": "Horario eliminado",
@@ -66,7 +66,7 @@
   },
   "timeFilter": {
     "title": "Filtrar Horarios",
-    "description": "Hacé click en los bloques de tiempo que querés excluir. Podés seleccionar un día completo, una fila de hora, o bloques individuales.",
+    "description": "Haga clic en los bloques de tiempo que quiere excluir. Puede seleccionar un día completo, una fila de hora, o bloques individuales.",
     "button": "Filtrar Horarios",
     "activeFilters": "{{count}} bloque excluido",
     "activeFilters_other": "{{count}} bloques excluidos",

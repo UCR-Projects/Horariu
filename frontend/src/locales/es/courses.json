@@ -15,13 +15,13 @@
   "courseUpdated": "Curso actualizado",
   "addFirstCourse": "Agregar mi primer curso",
   "emptyState": {
-    "title": "Genera todas tus opciones de horario",
-    "description": "Agrega tus cursos con sus grupos y horarios, y genera todas las combinaciones posibles sin conflictos."
+    "title": "Genere todas sus opciones de horario",
+    "description": "Agregue sus cursos con sus grupos y horarios, y genere todas las combinaciones posibles sin conflictos."
   },
   "form": {
     "title": "Información del Curso",
-    "description": "Ingresa la información del curso para incluirlo en tu horario",
-    "editDescription": "Edita la información del curso"
+    "description": "Ingrese la información del curso para incluirlo en su horario",
+    "editDescription": "Edite la información del curso"
   },
   "group": "Grupo",
   "groupName": "Nombre del Grupo",
@@ -30,35 +30,35 @@
   "editGroup": "Editar Grupo",
   "deleteGroup": "Eliminar Grupo",
   "noGroupsYet": "No se han agregado grupos",
-  "groupFormDes": "Ingresa la información del grupo para incluirlo en el curso",
-  "editGroupFormDes": "Edita la información del grupo",
+  "groupFormDes": "Ingrese la información del grupo para incluirlo en el curso",
+  "editGroupFormDes": "Edite la información del grupo",
   "schedule": "Horario",
-  "noActiveDays": "Selecciona un día para agregar horarios",
+  "noActiveDays": "Seleccione un día para agregar horarios",
   "addTimeBlock": "Agregar Bloque",
   "noTimeBlocks": "No hay bloques de tiempo",
-  "courseFormDes": "Ingresa la información del curso para incluirlo en tu horario",
-  "editCourseDes": "Edita la información del curso",
+  "courseFormDes": "Ingrese la información del curso para incluirlo en su horario",
+  "editCourseDes": "Edite la información del curso",
   "validation": {
-    "mustAddACourse": "Debes agregar un curso primero",
-    "mustHaveActiveCourses": "Debes tener al menos un curso activo",
-    "mustHaveActiveGroups": "Debes tener al menos un grupo activo en algún curso"
+    "mustAddACourse": "Debe agregar un curso primero",
+    "mustHaveActiveCourses": "Debe tener al menos un curso activo",
+    "mustHaveActiveGroups": "Debe tener al menos un grupo activo en algún curso"
   },
   "confirmations": {
     "clearAll": {
-      "title": "¿Estás seguro?",
+      "title": "¿Está seguro?",
       "description": "Esta acción no se puede deshacer. Se eliminarán todos los cursos de la lista."
     },
     "deleteItem": {
-      "title": "¿Estás seguro de eliminar este elemento?",
+      "title": "¿Está seguro de eliminar este elemento?",
       "description": "Esta acción no se puede deshacer. \"{{itemName}}\" será eliminado."
     },
     "deleteCourse": {
-      "title": "¿Estás seguro de eliminar este curso?",
+      "title": "¿Está seguro de eliminar este curso?",
       "description": "Esta acción no se puede deshacer. El curso \"{{itemName}}\" será eliminado de la lista.",
       "descriptionWithLink": "Esta acción no se puede deshacer. El curso \"{{itemName}}\" será eliminado junto con sus vínculos."
     },
     "deleteGroup": {
-      "title": "¿Estás seguro de eliminar este grupo?",
+      "title": "¿Está seguro de eliminar este grupo?",
       "description": "Esta acción no se puede deshacer. El grupo \"{{itemName}}\" será eliminado del curso.",
       "descriptionWithLink": "Esta acción no se puede deshacer. El grupo \"{{itemName}}\" será eliminado junto con sus vínculos."
     }
@@ -79,15 +79,15 @@
     "emptyStateDescription": "Los vínculos permiten indicar qué grupos de diferentes cursos deben llevarse juntos. Útil para laboratorios, humanidades, prácticas o cursos relacionados.",
     "unlinkCourse": "Desvincular curso",
     "linkedWith": "Vinculado con",
-    "selectCoursesToLink": "Selecciona cursos a vincular",
+    "selectCoursesToLink": "Seleccione cursos a vincular",
     "linkDescription": "Los cursos vinculados comparten restricciones de grupo. El generador solo creará horarios con grupos conectados.",
     "connectGroups": "Conectar grupos",
-    "step2Description": "Selecciona un grupo de cada curso y agrégalos como conexión. Solo los grupos conectados se considerarán en la generación.",
+    "step2Description": "Seleccione un grupo de cada curso y agréguelos como conexión. Solo los grupos conectados se considerarán en la generación.",
     "addConnection": "Agregar conexión",
     "alreadyAdded": "Ya agregado",
     "scheduleConflict": "No se puede vincular: conflicto de horarios entre",
     "currentMappings": "Conexiones actuales",
-    "noCoursesToLink": "Agrega al menos 2 cursos para crear un vínculo",
+    "noCoursesToLink": "Agregue al menos 2 cursos para crear un vínculo",
     "selectUpTo": "Máximo {{max}} cursos",
     "missingConnections": "Falta conectar",
     "createLink": "Crear vínculo",

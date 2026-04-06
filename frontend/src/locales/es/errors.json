@@ -1,7 +1,7 @@
 {
   "errorBoundary": {
     "title": "Oops! Algo salió mal",
-    "description": "Lo sentimos, ha ocurrido un error inesperado. Puedes intentar recargar la página o volver al inicio.",
+    "description": "Lo sentimos, ha ocurrido un error inesperado. Puede intentar recargar la página o volver al inicio.",
     "detailsTitle": "Detalles del error (solo en desarrollo)",
     "tryAgain": "Intentar de nuevo",
     "goHome": "Ir al inicio",
@@ -14,17 +14,17 @@
   },
   "generic": {
     "title": "Error",
-    "description": "Ha ocurrido un error inesperado. Por favor, intenta de nuevo."
+    "description": "Ha ocurrido un error inesperado. Por favor, intente de nuevo."
   },
   "api": {
-    "network": "No se pudo conectar al servidor. Por favor, verifica tu conexión a internet.",
-    "timeout": "La solicitud tardó demasiado. Por favor, intenta de nuevo.",
+    "network": "No se pudo conectar al servidor. Por favor, verifique su conexión a internet.",
+    "timeout": "La solicitud tardó demasiado. Por favor, intente de nuevo.",
     "validation": "Los datos proporcionados no son válidos. Por favor, revisa la información.",
     "notFound": "El recurso solicitado no fue encontrado.",
-    "server": "Error del servidor. Por favor, intenta más tarde.",
-    "unauthorized": "Se requiere autenticación. Por favor, inicia sesión.",
-    "forbidden": "No tienes permiso para realizar esta acción.",
-    "rateLimit": "Demasiadas solicitudes. Por favor, espera un momento e intenta de nuevo.",
+    "server": "Error del servidor. Por favor, intente más tarde.",
+    "unauthorized": "Se requiere autenticación. Por favor, inicie sesión.",
+    "forbidden": "No tiene permiso para realizar esta acción.",
+    "rateLimit": "Demasiadas solicitudes. Por favor, espere un momento e intente de nuevo.",
     "unknown": "Ha ocurrido un error inesperado.",
     "retrying": "Reintentando conexión..."
   }
