@@ -8,10 +8,10 @@
     "frontend:code-check": "cd frontend && npm run build && npm run test && npm run lint"
   },
   "lint-staged": {
-    "backend/**/*": [
+    "backend/**/*.{ts,tsx,js,jsx}": [
       "npm run backend:code-check"
     ],
-    "frontend/**/*": [
+    "frontend/**/*.{ts,tsx,js,jsx}": [
       "npm run frontend:code-check"
     ]
   },
