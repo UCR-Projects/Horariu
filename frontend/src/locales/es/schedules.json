@@ -71,7 +71,9 @@
     "activeFilters": "{{count}} bloque excluido",
     "activeFilters_other": "{{count}} bloques excluidos",
     "noFilters": "Sin filtros activos",
-    "clearAll": "Limpiar filtros"
+    "clearAll": "Limpiar filtros",
+    "allHidden": "El filtro de tiempo oculta todos los horarios",
+    "allHiddenDescription": "Limpie los filtros de tiempo para ver los horarios generados."
   }
 }
 

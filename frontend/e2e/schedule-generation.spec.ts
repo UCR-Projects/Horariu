@@ -265,7 +265,7 @@ test.describe('Schedule Generation', () => {
     await expect(courseInSchedule.first()).toBeVisible()
   })
 
-  test('should disable generate button when blocked cell filters out all groups', async ({ page }) => {
+  test('should keep generate button enabled when time filter conflicts with all groups', async ({ page }) => {
     await addCourseWithMondayGroup(page, 'Filtered Course')
 
     const generateButton = page.getByRole('button', { name: /Generate Schedules|Generar Horarios/i })
@@ -273,52 +273,79 @@ test.describe('Schedule Generation', () => {
 
     const dialog = await openTimeFilterModal(page)
 
-    // Cell aria-label is "Mo 08:00 - 08:50" (EN) or "L 08:00 - 08:50" (ES)
-    // Both contain "08:00 - 08:50" — use that as the selector anchor and pick Monday (first column)
+    // Block Monday 08:00 - 08:50 — same slot the course group uses
     await dialog.locator('td[aria-label*="08:00 - 08:50"]').first().click()
     await page.waitForTimeout(200)
 
     await dialog.getByRole('button', { name: /Done|Listo/i }).last().click()
     await page.waitForTimeout(300)
 
-    await expect(generateButton).toBeDisabled()
+    // Time filter no longer affects generation eligibility — button stays enabled
+    await expect(generateButton).toBeEnabled()
   })
 
-  test('should disable generate button after blocking a full day via column header', async ({ page }) => {
-    await addCourseWithMondayGroup(page, 'Day Block Course')
+  test('should hide generated schedules that conflict with time filter', async ({ page }) => {
+    await addCourseWithMondayGroup(page, 'Time Filter Course')
 
     const generateButton = page.getByRole('button', { name: /Generate Schedules|Generar Horarios/i })
-    await expect(generateButton).toBeEnabled()
 
+    // Generate schedules — mock returns schedule with L 08:00–08:50
+    const [response] = await Promise.all([
+      page.waitForResponse(resp => resp.url().includes('/generate')),
+      generateButton.click(),
+    ])
+    expect(response.status()).toBe(200)
+    await page.waitForTimeout(500)
+
+    // Schedule should be visible
+    const scheduleOption = page.getByText(/^Option|^Opci[oó]n/i)
+    await expect(scheduleOption.first()).toBeVisible()
+
+    // Now block Monday 08:00 - 08:50 — the same slot in the returned schedule
     const dialog = await openTimeFilterModal(page)
-
-    // Click Monday column header (th with "Mo" or "L" text)
-    const mondayHeader = dialog.locator('thead th').filter({ hasText: /^Mo$|^\(Mo\)|^L$|\(L\)/i }).first()
-    await mondayHeader.click()
+    await dialog.locator('td[aria-label*="08:00 - 08:50"]').first().click()
     await page.waitForTimeout(200)
-
     await dialog.getByRole('button', { name: /Done|Listo/i }).last().click()
     await page.waitForTimeout(300)
 
-    await expect(generateButton).toBeDisabled()
+    // Schedule should be hidden — time filter empty state appears
+    await expect(
+      page.getByText(/time filter is hiding all schedules|el filtro de tiempo oculta todos los horarios/i)
+    ).toBeVisible()
   })
 
-  test('should disable generate button after blocking a full hour via row header', async ({ page }) => {
-    await addCourseWithMondayGroup(page, 'Hour Block Course')
+  test('should restore schedules when time filter is cleared', async ({ page }) => {
+    await addCourseWithMondayGroup(page, 'Restore Course')
 
     const generateButton = page.getByRole('button', { name: /Generate Schedules|Generar Horarios/i })
-    await expect(generateButton).toBeEnabled()
 
+    // Generate schedules
+    const [response] = await Promise.all([
+      page.waitForResponse(resp => resp.url().includes('/generate')),
+      generateButton.click(),
+    ])
+    expect(response.status()).toBe(200)
+    await page.waitForTimeout(500)
+
+    // Block the slot and verify schedules are hidden
     const dialog = await openTimeFilterModal(page)
-
-    // Click the row header for "08:00 - 08:50"
-    await dialog.locator('th[scope="row"]').filter({ hasText: '08:00 - 08:50' }).click()
+    await dialog.locator('td[aria-label*="08:00 - 08:50"]').first().click()
     await page.waitForTimeout(200)
-
     await dialog.getByRole('button', { name: /Done|Listo/i }).last().click()
     await page.waitForTimeout(300)
 
-    await expect(generateButton).toBeDisabled()
+    await expect(
+      page.getByText(/time filter is hiding all schedules|el filtro de tiempo oculta todos los horarios/i)
+    ).toBeVisible()
+
+    // Clear the filter — schedules should reappear without re-generating
+    const clearDialog = await openTimeFilterModal(page)
+    await clearDialog.getByRole('button', { name: /Clear All|Limpiar filtros/i }).click()
+    await clearDialog.getByRole('button', { name: /Done|Listo/i }).last().click()
+    await page.waitForTimeout(300)
+
+    const scheduleOption = page.getByText(/^Option|^Opci[oó]n/i)
+    await expect(scheduleOption.first()).toBeVisible()
   })
 
   test('should show schedule count badge after generation', async ({ page }) => {

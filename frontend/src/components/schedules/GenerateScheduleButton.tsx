@@ -14,8 +14,6 @@ import { Loader2, Calendar } from 'lucide-react'
 import { useGenerateSchedule } from '@/hooks/useGenerateSchedule'
 import useScheduleStore from '@/stores/useScheduleStore'
 import useCourseStore from '@/stores/useCourseStore'
-import { useTimeFilterStore } from '@/stores/useTimeFilterStore'
-import { filterCoursesByBlockedCells } from '@/utils/timeBlockFilter'
 import { useI18n } from '@/hooks/useI18n'
 import { useMemo, useState } from 'react'
 
@@ -24,24 +22,20 @@ const GenerateScheduleButton = () => {
   const { generateSchedule, getIgnoredLinks } = useGenerateSchedule()
   const isLoading = useScheduleStore((state) => state.isLoading)
   const courses = useCourseStore((state) => state.courses)
-  const selectedCells = useTimeFilterStore((state) => state.selectedCells)
 
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [ignoredLinksToConfirm, setIgnoredLinksToConfirm] = useState<string[]>([])
 
   // Memoize derived state to prevent recalculation on every render
   const activeCoursesWithActiveGroups = useMemo(() => {
-    const activeCourses = courses
+    return courses
       .filter((course) => course.isActive)
       .map((course) => ({
         ...course,
         groups: course.groups.filter((group) => group.isActive),
       }))
       .filter((course) => course.groups.length > 0)
-
-    const { filteredCourses } = filterCoursesByBlockedCells(activeCourses, selectedCells)
-    return filteredCourses
-  }, [courses, selectedCells])
+  }, [courses])
 
   const hasCourses = courses.length > 0
   const hasActiveCourses = courses.some((course) => course.isActive)

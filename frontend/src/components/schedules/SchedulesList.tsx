@@ -1,10 +1,12 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Star, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import useScheduleStore, { ScheduleDataType } from '@/stores/useScheduleStore'
 import { useScheduleViewStore } from '@/stores/useScheduleViewStore'
 import { useSavedSchedulesStore } from '@/stores/useSavedSchedulesStore'
 import { useScheduleFilterStore } from '@/stores/useScheduleFilterStore'
+import { useTimeFilterStore } from '@/stores/useTimeFilterStore'
+import { storedScheduleConflictsWithBlockedCells } from '@/utils/timeBlockFilter'
 import ScheduleTable from './ScheduleTable'
 import { ScheduleViewToggle } from './ScheduleViewToggle'
 import { ScheduleSourceToggle, ScheduleSource } from './ScheduleSourceToggle'
@@ -21,6 +23,7 @@ const SchedulesList = () => {
   const { viewMode } = useScheduleViewStore()
   const { savedSchedules, removeSchedule, isScheduleSaved } = useSavedSchedulesStore()
   const { activeFilters } = useScheduleFilterStore()
+  const selectedCells = useTimeFilterStore((state) => state.selectedCells)
   const [source, setSource] = useState<ScheduleSource>('generated')
   const [currentPage, setCurrentPage] = useState(1)
   const [carouselIndex, setCarouselIndex] = useState(0)
@@ -29,7 +32,7 @@ const SchedulesList = () => {
   useEffect(() => {
     setCurrentPage(1)
     setCarouselIndex(0)
-  }, [scheduleData, source, activeFilters])
+  }, [scheduleData, source, activeFilters, selectedCells])
 
   // Scroll to top on page change (list mode)
   useEffect(() => {
@@ -45,6 +48,13 @@ const SchedulesList = () => {
   const filteredIndices = useMemo(() => {
     if (!scheduleData?.schedules) return []
     let indices = scheduleData.schedules.map((_, i) => i)
+
+    // 0. Apply time filter — hide schedules containing groups that conflict with blocked cells
+    if (selectedCells.size > 0) {
+      indices = indices.filter(
+        (idx) => !storedScheduleConflictsWithBlockedCells(scheduleData.schedules[idx], selectedCells)
+      )
+    }
 
     // 1. Sort by gap metrics (before savedFirst partitioning, so the sort
     //    applies within each partition)
@@ -87,7 +97,7 @@ const SchedulesList = () => {
     }
 
     return indices
-  }, [scheduleData?.schedules, activeFilters, isScheduleSaved])
+  }, [scheduleData?.schedules, activeFilters, isScheduleSaved, selectedCells])
 
   const activeIndices =
     source === 'generated'
@@ -140,6 +150,17 @@ const SchedulesList = () => {
   // If no generated schedules and on the generated tab, show empty banner
   if (source === 'generated' && generatedCount === 0) {
     return <EmptySchedulesBanner />
+  }
+
+  // If the time filter is hiding all generated schedules
+  if (source === 'generated' && generatedCount > 0 && totalItems === 0) {
+    return (
+      <EmptyState
+        icon={Clock}
+        title={t('schedules:timeFilter.allHidden')}
+        description={t('schedules:timeFilter.allHiddenDescription')}
+      />
+    )
   }
 
   // Tabs + empty state for saved tab, or no data at all but saved tab selected
