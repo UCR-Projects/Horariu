@@ -33,18 +33,13 @@ function ScheduleFilter() {
                 key={day}
                 aria-selected={isDayFullySelected(day)}
                 onClick={() => toggleDay(day)}
-                className={`${table.border} w-20 md:w-28 h-14 p-2 text-sm cursor-pointer select-none transition-colors
+                className={`${table.border} w-20 md:w-28 p-2 text-sm cursor-pointer select-none transition-colors
                   ${isDayFullySelected(day)
                     ? 'bg-destructive/60 hover:bg-destructive/70 dark:bg-destructive/35 dark:hover:bg-destructive/45 text-destructive-foreground'
                     : 'hover:bg-interactive-active'
                   }`}
               >
-                <span className="hidden md:inline">
-                  ({t(`common:days.${day}.short`)}) {t(`common:days.${day}.name`)}
-                </span>
-                <span className="md:hidden">
-                  {t(`common:days.${day}.short`)}
-                </span>
+                {t(`common:days.${day}.short`)}
               </th>
             ))}
           </tr>
