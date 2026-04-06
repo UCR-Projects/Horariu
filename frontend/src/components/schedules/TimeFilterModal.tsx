@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
-import { useScheduleFilterStore } from '@/stores/useScheduleFilterStore'
+import { useTimeFilterStore } from '@/stores/useTimeFilterStore'
 import { useI18n } from '@/hooks/useI18n'
 import { useState } from 'react'
 import ScheduleFilter from './ScheduleFilter'
@@ -17,8 +17,8 @@ export function TimeFilterModal() {
   const { t } = useI18n(['common', 'schedules'])
   const [open, setOpen] = useState(false)
 
-  const clearCells = useScheduleFilterStore((state) => state.clearCells)
-  const count = useScheduleFilterStore((state) => state.selectedCells.size)
+  const clearCells = useTimeFilterStore((state) => state.clearCells)
+  const count = useTimeFilterStore((state) => state.selectedCells.size)
 
   return (
     <>
