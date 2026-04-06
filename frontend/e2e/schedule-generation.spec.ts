@@ -180,12 +180,12 @@ test.describe('Schedule Generation', () => {
   test('should show empty state message when no courses exist', async ({ page }) => {
     // When no courses exist, shows courses empty state card
     // "Generate all your schedule options" / "Genera todas tus opciones de horario"
-    const emptyStateTitle = page.getByText(/Generate all your schedule options|Genera todas tus opciones de horario/i)
+    const emptyStateTitle = page.getByText(/Generate all your schedule options|Genere todas sus opciones de horario/i)
     await expect(emptyStateTitle).toBeVisible()
 
     // Check description is also visible
-    // "Add your courses with their groups" / "Agrega tus cursos con sus grupos"
-    const emptyStateDescription = page.getByText(/Add your courses|Agrega tus cursos/i)
+    // "Add your courses with their groups" / "Agregue sus cursos con sus grupos"
+    const emptyStateDescription = page.getByText(/Add your courses|Agregue sus cursos/i)
     await expect(emptyStateDescription).toBeVisible()
   })
 
