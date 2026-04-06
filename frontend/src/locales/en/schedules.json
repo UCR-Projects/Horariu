@@ -71,7 +71,9 @@
     "activeFilters": "{{count}} block excluded",
     "activeFilters_other": "{{count}} blocks excluded",
     "noFilters": "No active filters",
-    "clearAll": "Clear filters"
+    "clearAll": "Clear filters",
+    "allHidden": "Time filter is hiding all schedules",
+    "allHiddenDescription": "Clear the time filter to see your generated schedules."
   }
 }
 

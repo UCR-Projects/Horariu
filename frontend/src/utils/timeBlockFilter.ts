@@ -1,4 +1,5 @@
-import { Course, Day, TimeRange } from '@/types'
+import { DaySchedule, Day, TimeRange } from '@/types'
+import { StoredCourse } from '@/stores/useScheduleStore'
 import { TIME_RANGES } from './constants'
 
 function toMinutes(time: string): number {
@@ -6,11 +7,11 @@ function toMinutes(time: string): number {
   return h * 60 + m
 }
 
-function groupConflictsWithBlockedCells(
-  group: Course['groups'][number],
+function daySchedulesOverlapBlockedCells(
+  daySchedules: DaySchedule[],
   blockedCells: Map<string, { hour: TimeRange; day: Day }>
 ): boolean {
-  for (const daySchedule of group.schedule) {
+  for (const daySchedule of daySchedules) {
     if (!daySchedule.active || daySchedule.timeBlocks.length === 0) continue
 
     for (const timeBlock of daySchedule.timeBlocks) {
@@ -34,26 +35,13 @@ function groupConflictsWithBlockedCells(
   return false
 }
 
-export function filterCoursesByBlockedCells(
-  courses: Course[],
+export function storedScheduleConflictsWithBlockedCells(
+  schedule: StoredCourse[],
   blockedCells: Map<string, { hour: TimeRange; day: Day }>
-): { filteredCourses: Course[]; removedGroupsCount: number } {
-  if (blockedCells.size === 0) return { filteredCourses: courses, removedGroupsCount: 0 }
+): boolean {
+  if (blockedCells.size === 0) return false
 
-  let removedGroupsCount = 0
-
-  const filteredCourses = courses
-    .map((course) => {
-      const validGroups = course.groups.filter((group) => {
-        if (groupConflictsWithBlockedCells(group, blockedCells)) {
-          removedGroupsCount++
-          return false
-        }
-        return true
-      })
-      return { ...course, groups: validGroups }
-    })
-    .filter((course) => course.groups.length > 0)
-
-  return { filteredCourses, removedGroupsCount }
+  return schedule.some((course) =>
+    daySchedulesOverlapBlockedCells(course.group.schedule, blockedCells)
+  )
 }
