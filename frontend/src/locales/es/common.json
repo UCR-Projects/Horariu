@@ -129,7 +129,7 @@
     },
     "step3": {
       "title": "Vincule Cursos",
-      "desc": "¿Lleva Química con su laboratorio? ¿O Humanidades que incluye Historia, Filosofía y Comunicación? Vincule este tipo de cursos para que sus grupos se consideren juntos en la generación."
+      "desc": "¿Lleva Química con su laboratorio? ¿Humanidades con Historia, Filosofía y Comunicación? Vincule este tipo de cursos para que sus grupos se consideren juntos en la generación."
     },
     "step4": {
       "title": "Filtra Horas",
@@ -143,4 +143,3 @@
     "skip": "Omitir, ya sé cómo funciona"
   }
 }
-

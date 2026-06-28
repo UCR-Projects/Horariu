@@ -10,7 +10,8 @@ import { storedScheduleConflictsWithBlockedCells } from '@/utils/timeBlockFilter
 import ScheduleTable from './ScheduleTable'
 import { ScheduleViewToggle } from './ScheduleViewToggle'
 import { ScheduleSourceToggle, ScheduleSource } from './ScheduleSourceToggle'
-import { ScheduleFilterDropdown } from './ScheduleFilterDropdown'
+import { ScheduleFilterButton } from './ScheduleFilterButton'
+import { TableStyleSelector } from './TableStyleSelector'
 import EmptySchedulesBanner from './EmptySchedulesBanner'
 import { EmptyState, CustomPagination } from '@/components/shared'
 import { SCHEDULES_PER_PAGE } from '@/utils/constants'
@@ -143,6 +144,7 @@ const SchedulesList = () => {
 
   const handleSourceChange = (newSource: ScheduleSource) => {
     setSource(newSource)
+    setTimeout(() => (document.activeElement as HTMLElement)?.blur(), 0)
   }
 
   const generatedCount = scheduleData?.schedules?.length ?? 0
@@ -233,7 +235,8 @@ const SchedulesList = () => {
         )}
 
         <div className="flex items-center gap-2">
-          {source === 'generated' && <ScheduleFilterDropdown />}
+          {source === 'generated' && <ScheduleFilterButton />}
+          <TableStyleSelector />
           <ScheduleViewToggle />
         </div>
       </div>

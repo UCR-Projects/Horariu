@@ -55,7 +55,9 @@
     "savedFirst": "Saved first",
     "leastGaps": "Least gaps",
     "consecutiveClasses": "Consecutive classes",
-    "clearFilters": "Clear filters"
+    "clearFilters": "Clear filters",
+    "blockHoursButton": "Block hours...",
+    "clearAllButton": "Clear all"
   },
   "tableStyle": {
     "title": "Table style",
@@ -68,7 +70,6 @@
   "timeFilter": {
     "title": "Filter Schedule",
     "description": "Click on the time blocks you want to exclude. You can select a full day, an hour row, or individual blocks.",
-    "button": "Filter Schedule",
     "activeFilters": "{{count}} block excluded",
     "activeFilters_other": "{{count}} blocks excluded",
     "noFilters": "No active filters",
