@@ -16,7 +16,12 @@ import EmptySchedulesBanner from './EmptySchedulesBanner'
 import { EmptyState, CustomPagination } from '@/components/shared'
 import { SCHEDULES_PER_PAGE } from '@/utils/constants'
 import { useI18n } from '@/hooks/useI18n'
-import { totalGapMinutes, classSegmentCount } from '@/utils/scheduleMetrics'
+import {
+  totalGapMinutes,
+  classSegmentCount,
+  latestClassEnd,
+  earliestClassStart,
+} from '@/utils/scheduleMetrics'
 
 const SchedulesList = () => {
   const { t } = useI18n()
@@ -57,31 +62,55 @@ const SchedulesList = () => {
       )
     }
 
-    // 1. Sort by gap metrics (before savedFirst partitioning, so the sort
+    // 1. Sort by metrics (before savedFirst partitioning, so the sort
     //    applies within each partition)
-    const needsGapSort = activeFilters.leastGaps || activeFilters.consecutiveClasses
+    const needsSort =
+      activeFilters.leastGaps ||
+      activeFilters.consecutiveClasses ||
+      activeFilters.earlyFinish ||
+      activeFilters.lateStart
 
-    if (needsGapSort) {
+    if (needsSort) {
       const metrics = indices.map((idx) => ({
         idx,
         gapMinutes: totalGapMinutes(scheduleData.schedules[idx]),
         segments: classSegmentCount(scheduleData.schedules[idx]),
+        latestEnd: latestClassEnd(scheduleData.schedules[idx]),
+        earliestStart: earliestClassStart(scheduleData.schedules[idx]),
       }))
 
+      // Build the comparator chain in priority order, including only the
+      // active filters. Existing priorities (compactness, then idle time)
+      // are kept ahead of the time-of-day preferences.
+      type Metric = (typeof metrics)[number]
+      const comparators: ((a: Metric, b: Metric) => number)[] = []
+
+      if (activeFilters.consecutiveClasses) {
+        comparators.push((a, b) => a.segments - b.segments)
+      }
+      if (activeFilters.leastGaps) {
+        comparators.push((a, b) => a.gapMinutes - b.gapMinutes)
+      }
+      if (activeFilters.earlyFinish && activeFilters.lateStart) {
+        // Both active: minimize the daily campus window (leave early, arrive late)
+        comparators.push(
+          (a, b) =>
+            a.latestEnd - a.earliestStart - (b.latestEnd - b.earliestStart)
+        )
+      } else if (activeFilters.earlyFinish) {
+        comparators.push((a, b) => a.latestEnd - b.latestEnd)
+      } else if (activeFilters.lateStart) {
+        comparators.push((a, b) => b.earliestStart - a.earliestStart)
+      }
+
+      // Natural tiebreakers so any single active filter still orders sensibly
+      comparators.push((a, b) => a.segments - b.segments)
+      comparators.push((a, b) => a.gapMinutes - b.gapMinutes)
+
       metrics.sort((a, b) => {
-        // Primary criteria, following the active filters
-        if (activeFilters.consecutiveClasses && a.segments !== b.segments) {
-          return a.segments - b.segments
-        }
-        if (activeFilters.leastGaps && a.gapMinutes !== b.gapMinutes) {
-          return a.gapMinutes - b.gapMinutes
-        }
-        // Natural tiebreakers so a single active filter still orders sensibly
-        if (activeFilters.consecutiveClasses && a.gapMinutes !== b.gapMinutes) {
-          return a.gapMinutes - b.gapMinutes
-        }
-        if (activeFilters.leastGaps && a.segments !== b.segments) {
-          return a.segments - b.segments
+        for (const compare of comparators) {
+          const diff = compare(a, b)
+          if (diff !== 0) return diff
         }
         return 0
       })
@@ -165,7 +194,7 @@ const SchedulesList = () => {
   const showEmptySaved = source === 'saved' && savedSchedules.length === 0
   if (showEmptySaved) {
     return (
-      <div className="w-full max-w-8xl mx-auto p-4">
+      <div className="w-full max-w-8xl mx-auto p-2 md:p-4">
         <ScheduleSourceToggle
           source={source}
           onSourceChange={handleSourceChange}
@@ -191,7 +220,7 @@ const SchedulesList = () => {
   const currentCarouselScheduleIndex = activeIndices[carouselIndex] ?? 0
 
   return (
-    <div className="w-full max-w-8xl mx-auto p-4">
+    <div className="w-full max-w-8xl mx-auto p-2 md:p-4">
       {/* Source tabs */}
       <ScheduleSourceToggle
         source={source}
@@ -293,7 +322,7 @@ const SchedulesList = () => {
       ) : (
         <>
           {currentPageIndices.map((scheduleIdx) => (
-            <div key={`${source}-${scheduleIdx}`} className="mb-6">
+            <div key={`${source}-${scheduleIdx}`} className="mb-3 md:mb-6">
               <ScheduleTable
                 scheduleData={activeData}
                 scheduleIndex={scheduleIdx}

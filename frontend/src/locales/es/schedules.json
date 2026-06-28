@@ -55,6 +55,8 @@
     "savedFirst": "Guardados primero",
     "leastGaps": "Menos huecos",
     "consecutiveClasses": "Clases consecutivas",
+    "earlyFinish": "Terminar temprano",
+    "lateStart": "Empezar tarde",
     "clearFilters": "Limpiar filtros",
     "blockHoursButton": "Excluir horas...",
     "clearAllButton": "Limpiar filtros"
@@ -78,4 +80,3 @@
     "allHiddenDescription": "Limpie los filtros de tiempo para ver los horarios generados."
   }
 }
-

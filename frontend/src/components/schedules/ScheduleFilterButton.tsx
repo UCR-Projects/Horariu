@@ -93,6 +93,28 @@ export function ScheduleFilterButton() {
               />
             </div>
 
+            <div className="flex items-center justify-between">
+              <label htmlFor="filter-early-finish" className="text-sm cursor-pointer select-none">
+                {t('filters.earlyFinish')}
+              </label>
+              <Switch
+                id="filter-early-finish"
+                checked={activeFilters.earlyFinish}
+                onCheckedChange={(checked) => setFilter('earlyFinish', checked)}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <label htmlFor="filter-late-start" className="text-sm cursor-pointer select-none">
+                {t('filters.lateStart')}
+              </label>
+              <Switch
+                id="filter-late-start"
+                checked={activeFilters.lateStart}
+                onCheckedChange={(checked) => setFilter('lateStart', checked)}
+              />
+            </div>
+
             <Separator />
 
             <Button
