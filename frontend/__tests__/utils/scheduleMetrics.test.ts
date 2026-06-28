@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import { totalGapMinutes, totalGapCount } from '@/utils/scheduleMetrics'
+import {
+  totalGapMinutes,
+  totalGapCount,
+  classSegmentCount,
+} from '@/utils/scheduleMetrics'
 import { DAYS } from '@/utils/constants'
 import { Day, TimeBlock } from '@/types'
 
@@ -74,6 +78,20 @@ describe('scheduleMetrics', () => {
 
     it('returns 0 for an empty schedule', () => {
       expect(totalGapMinutes([])).toBe(0)
+    })
+
+    it('does not report phantom gaps for overlapping/contained blocks', () => {
+      const schedule = [
+        makeCourse('Math', {
+          L: [
+            { start: '08:00', end: '12:00' },
+            { start: '09:00', end: '10:00' },
+            { start: '11:00', end: '13:00' },
+          ],
+        }),
+      ]
+      // All blocks merge into one continuous 08:00-13:00 run -> no gaps
+      expect(totalGapMinutes(schedule)).toBe(0)
     })
 
     it('ignores inactive days', () => {
@@ -151,6 +169,53 @@ describe('scheduleMetrics', () => {
     })
   })
 
+  describe('classSegmentCount', () => {
+    it('returns 0 for an empty schedule', () => {
+      expect(classSegmentCount([])).toBe(0)
+    })
+
+    it('counts back-to-back classes on one day as a single segment', () => {
+      const schedule = [
+        makeCourse('Math', { L: [{ start: '08:00', end: '09:00' }] }),
+        makeCourse('Physics', { L: [{ start: '09:00', end: '10:00' }] }),
+        makeCourse('Chem', { L: [{ start: '10:00', end: '11:00' }] }),
+      ]
+      expect(classSegmentCount(schedule)).toBe(1)
+    })
+
+    it('counts one segment per gap-separated run within a day', () => {
+      const schedule = [
+        makeCourse('Math', { L: [{ start: '08:00', end: '09:00' }] }),
+        makeCourse('Physics', { L: [{ start: '10:00', end: '11:00' }] }),
+        makeCourse('Chem', { L: [{ start: '12:00', end: '13:00' }] }),
+      ]
+      // 3 isolated runs -> 3 segments
+      expect(classSegmentCount(schedule)).toBe(3)
+    })
+
+    it('distinguishes a packed day from classes spread across days', () => {
+      // Packed: 4 back-to-back classes on Monday -> 1 segment
+      const packed = [
+        makeCourse('Math', { L: [{ start: '08:00', end: '09:00' }] }),
+        makeCourse('Physics', { L: [{ start: '09:00', end: '10:00' }] }),
+        makeCourse('Chem', { L: [{ start: '10:00', end: '11:00' }] }),
+        makeCourse('Bio', { L: [{ start: '11:00', end: '12:00' }] }),
+      ]
+      // Spread: 1 class on each of 4 days -> 4 segments
+      const spread = [
+        makeCourse('Math', { L: [{ start: '08:00', end: '09:00' }] }),
+        makeCourse('Physics', { K: [{ start: '08:00', end: '09:00' }] }),
+        makeCourse('Chem', { M: [{ start: '08:00', end: '09:00' }] }),
+        makeCourse('Bio', { J: [{ start: '08:00', end: '09:00' }] }),
+      ]
+      // Both have 0 gaps, but segments tells them apart
+      expect(totalGapCount(packed)).toBe(0)
+      expect(totalGapCount(spread)).toBe(0)
+      expect(classSegmentCount(packed)).toBe(1)
+      expect(classSegmentCount(spread)).toBe(4)
+    })
+  })
+
   describe('sorting schedules by leastGaps', () => {
     it('sorts schedules by total gap minutes ascending', () => {
       // Schedule A: 120 min total gaps
@@ -180,20 +245,20 @@ describe('scheduleMetrics', () => {
   })
 
   describe('sorting schedules by consecutiveClasses', () => {
-    it('sorts schedules by gap count ascending', () => {
-      // Schedule A: 2 gaps (3 classes with breaks between each)
+    it('sorts schedules by segment count ascending', () => {
+      // Schedule A: 3 segments (3 classes with breaks between each)
       const scheduleA = [
         makeCourse('Math', { L: [{ start: '08:00', end: '09:00' }] }),
         makeCourse('Physics', { L: [{ start: '10:00', end: '11:00' }] }),
         makeCourse('Chem', { L: [{ start: '12:00', end: '13:00' }] }),
       ]
-      // Schedule B: 0 gaps (all consecutive)
+      // Schedule B: 1 segment (all consecutive)
       const scheduleB = [
         makeCourse('Math', { L: [{ start: '08:00', end: '09:00' }] }),
         makeCourse('Physics', { L: [{ start: '09:00', end: '10:00' }] }),
         makeCourse('Chem', { L: [{ start: '10:00', end: '11:00' }] }),
       ]
-      // Schedule C: 1 gap
+      // Schedule C: 2 segments (1 gap)
       const scheduleC = [
         makeCourse('Math', { L: [{ start: '08:00', end: '09:00' }] }),
         makeCourse('Physics', { L: [{ start: '09:00', end: '10:00' }] }),
@@ -202,16 +267,34 @@ describe('scheduleMetrics', () => {
 
       const schedules = [scheduleA, scheduleB, scheduleC]
       const sorted = [...schedules].sort(
-        (a, b) => totalGapCount(a) - totalGapCount(b)
+        (a, b) => classSegmentCount(a) - classSegmentCount(b)
       )
 
-      // Expected order: B (0), C (1), A (2)
+      // Expected order: B (1), C (2), A (3)
       expect(sorted).toEqual([scheduleB, scheduleC, scheduleA])
+    })
+
+    it('prefers classes packed into one day over equal classes spread across days', () => {
+      const packed = [
+        makeCourse('Math', { L: [{ start: '08:00', end: '09:00' }] }),
+        makeCourse('Physics', { L: [{ start: '09:00', end: '10:00' }] }),
+      ]
+      const spread = [
+        makeCourse('Math', { L: [{ start: '08:00', end: '09:00' }] }),
+        makeCourse('Physics', { K: [{ start: '08:00', end: '09:00' }] }),
+      ]
+
+      const sorted = [packed, spread].sort(
+        (a, b) => classSegmentCount(a) - classSegmentCount(b)
+      )
+
+      // Both have 0 gap minutes/count, but packed (1 segment) sorts first
+      expect(sorted).toEqual([packed, spread])
     })
   })
 
   describe('combined sorting (consecutiveClasses primary, leastGaps tiebreaker)', () => {
-    it('uses gap count first, then gap minutes for ties', () => {
+    it('uses segment count first, then gap minutes for ties', () => {
       // Schedule A: 1 gap, 120 min total
       const scheduleA = [
         makeCourse('Math', { L: [{ start: '08:00', end: '09:00' }] }),
@@ -230,12 +313,12 @@ describe('scheduleMetrics', () => {
 
       const schedules = [scheduleA, scheduleB, scheduleC]
       const sorted = [...schedules].sort((a, b) => {
-        const countDiff = totalGapCount(a) - totalGapCount(b)
-        if (countDiff !== 0) return countDiff
+        const segDiff = classSegmentCount(a) - classSegmentCount(b)
+        if (segDiff !== 0) return segDiff
         return totalGapMinutes(a) - totalGapMinutes(b)
       })
 
-      // Expected: C (0 gaps), B (1 gap, 30 min), A (1 gap, 120 min)
+      // Expected: C (1 segment), B (2 segments, 30 min), A (2 segments, 120 min)
       expect(sorted).toEqual([scheduleC, scheduleB, scheduleA])
     })
   })
