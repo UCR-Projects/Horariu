@@ -4,7 +4,6 @@ import { useRef, useMemo, memo, useCallback } from 'react'
 import { ScheduleDataType } from '@/stores/useScheduleStore'
 import { useScheduleExport } from '@/hooks/useScheduleExport'
 import { ScheduleExportMenu } from './ScheduleExportMenu'
-import { TableStyleSelector } from './TableStyleSelector'
 import { getContrastTextColor } from '@/utils/colorUtils'
 import useCourseStore from '@/stores/useCourseStore'
 import { useTableStyleStore } from '@/stores/useTableStyleStore'
@@ -119,7 +118,7 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex, showSaveButton = true
 
   return (
     <Card
-      className="mb-8 p-4 shadow-sm border"
+      className="mb-4 p-2 md:mb-8 md:p-4 shadow-sm border"
       role="region"
       aria-labelledby={`schedule-title-${scheduleIndex}`}
     >
@@ -165,7 +164,6 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex, showSaveButton = true
               </Button>
             </ResponsiveTooltip>
           )}
-          <TableStyleSelector />
           <ScheduleExportMenu onExportImage={exportAsImage} onExportPDF={exportAsPDF} />
         </div>
       </div>
@@ -182,7 +180,7 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex, showSaveButton = true
             </caption>
             <thead>
               <tr>
-                <th scope="col" className={`${styles.headerCell} w-16 md:w-24 h-9`}>
+                <th scope="col" className={`${styles.headerCell} w-16 md:w-24 h-7 md:h-9`}>
                   {t('common:time.hours')}
                 </th>
                 {DAYS.map((day) => (
@@ -214,7 +212,7 @@ const ScheduleTable = memo(({ scheduleData, scheduleIndex, showSaveButton = true
                     return (
                       <td
                         key={`${day}-${range}`}
-                        className={`${course ? styles.dataCellWithCourse : styles.dataCell} w-20 md:w-24 h-9`}
+                        className={`${course ? styles.dataCellWithCourse : styles.dataCell} w-20 md:w-24 h-7 md:h-9`}
                         style={color ? { backgroundColor: color } : undefined}
                         aria-label={course ? t('accessibility.courseAt', { courseName: course.courseName, groupName, day: dayName, time: range }) : t('accessibility.emptySlot', { day: dayName, time: range })}
                       >
