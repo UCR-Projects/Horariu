@@ -1,3 +1,4 @@
+import { Sparkles, Star } from 'lucide-react'
 import { useI18n } from '@/hooks/useI18n'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
@@ -22,15 +23,23 @@ export function ScheduleSourceToggle({
   return (
     <Tabs value={source} onValueChange={(v) => onSourceChange(v as ScheduleSource)}>
       <TabsList variant="line">
-        <TabsTrigger value="generated" className="cursor-pointer">
+        <TabsTrigger value="generated" className="cursor-pointer gap-1.5">
+          <Sparkles className="h-3.5 w-3.5" />
           {t('source.generated')}
-          <Badge variant="secondary" className="ml-1.5 text-xs px-1.5 py-0 h-5">
+          <Badge
+            variant={source === 'generated' ? 'default' : 'secondary'}
+            className="ml-0.5 text-xs px-1.5 py-0 h-5"
+          >
             {generatedCount}
           </Badge>
         </TabsTrigger>
-        <TabsTrigger value="saved" className="cursor-pointer">
+        <TabsTrigger value="saved" className="cursor-pointer gap-1.5">
+          <Star className="h-3.5 w-3.5" />
           {t('source.saved')}
-          <Badge variant="secondary" className="ml-1.5 text-xs px-1.5 py-0 h-5">
+          <Badge
+            variant={source === 'saved' ? 'default' : 'secondary'}
+            className="ml-0.5 text-xs px-1.5 py-0 h-5"
+          >
             {savedCount}
           </Badge>
         </TabsTrigger>
