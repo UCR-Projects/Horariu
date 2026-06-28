@@ -16,7 +16,7 @@ import EmptySchedulesBanner from './EmptySchedulesBanner'
 import { EmptyState, CustomPagination } from '@/components/shared'
 import { SCHEDULES_PER_PAGE } from '@/utils/constants'
 import { useI18n } from '@/hooks/useI18n'
-import { totalGapMinutes, totalGapCount } from '@/utils/scheduleMetrics'
+import { totalGapMinutes, classSegmentCount } from '@/utils/scheduleMetrics'
 
 const SchedulesList = () => {
   const { t } = useI18n()
@@ -65,17 +65,23 @@ const SchedulesList = () => {
       const metrics = indices.map((idx) => ({
         idx,
         gapMinutes: totalGapMinutes(scheduleData.schedules[idx]),
-        gapCount: totalGapCount(scheduleData.schedules[idx]),
+        segments: classSegmentCount(scheduleData.schedules[idx]),
       }))
 
       metrics.sort((a, b) => {
-        if (activeFilters.consecutiveClasses) {
-          const diff = a.gapCount - b.gapCount
-          if (diff !== 0) return diff
+        // Primary criteria, following the active filters
+        if (activeFilters.consecutiveClasses && a.segments !== b.segments) {
+          return a.segments - b.segments
         }
-        if (activeFilters.leastGaps) {
-          const diff = a.gapMinutes - b.gapMinutes
-          if (diff !== 0) return diff
+        if (activeFilters.leastGaps && a.gapMinutes !== b.gapMinutes) {
+          return a.gapMinutes - b.gapMinutes
+        }
+        // Natural tiebreakers so a single active filter still orders sensibly
+        if (activeFilters.consecutiveClasses && a.gapMinutes !== b.gapMinutes) {
+          return a.gapMinutes - b.gapMinutes
+        }
+        if (activeFilters.leastGaps && a.segments !== b.segments) {
+          return a.segments - b.segments
         }
         return 0
       })
