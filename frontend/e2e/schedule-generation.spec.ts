@@ -57,13 +57,23 @@ async function addCourseWithMondayGroup(page: Page, courseName: string): Promise
   await page.waitForTimeout(500)
 }
 
-// Opens the Filter Schedule modal and returns the dialog locator
+// Opens the "Block hours" (time filter) dialog and returns the dialog locator.
+// Requires the ScheduleFilterButton to be visible — only rendered after schedules are generated.
 async function openTimeFilterModal(page: Page): Promise<Locator> {
+  // 1. Open the unified filter popover
   await page
-    .getByRole('button', { name: /Filter Schedule|Filtrar Horarios/i })
+    .getByRole('button', { name: /^Filters$|^Filtros$/i })
     .click()
+  await page.waitForTimeout(200)
+
+  // 2. Click "Block hours..." / "Excluir horas..." inside the popover
+  await page.getByRole('button', { name: /Block hours|Excluir horas/i }).click()
   await page.waitForTimeout(300)
-  return page.locator('[role="dialog"]').filter({ has: page.getByText(/Filter Schedule|Filtrar Horarios/i) })
+
+  // 3. Return the now-open TimeFilterDialog
+  return page.locator('[role="dialog"]').filter({
+    has: page.getByText(/Filter Schedule|Excluir Horarios/i),
+  })
 }
 
 // Mock API response for schedule generation
@@ -271,6 +281,14 @@ test.describe('Schedule Generation', () => {
     const generateButton = page.getByRole('button', { name: /Generate Schedules|Generar Horarios/i })
     await expect(generateButton).toBeEnabled()
 
+    // Generate schedules first so ScheduleFilterButton becomes visible
+    const [response] = await Promise.all([
+      page.waitForResponse(resp => resp.url().includes('/generate')),
+      generateButton.click(),
+    ])
+    expect(response.status()).toBe(200)
+    await page.waitForTimeout(500)
+
     const dialog = await openTimeFilterModal(page)
 
     // Block Monday 08:00 - 08:50 — same slot the course group uses
@@ -280,7 +298,7 @@ test.describe('Schedule Generation', () => {
     await dialog.getByRole('button', { name: /Done|Listo/i }).last().click()
     await page.waitForTimeout(300)
 
-    // Time filter no longer affects generation eligibility — button stays enabled
+    // Time filter only hides schedules post-generation — generate button stays enabled
     await expect(generateButton).toBeEnabled()
   })
 
@@ -340,7 +358,7 @@ test.describe('Schedule Generation', () => {
 
     // Clear the filter — schedules should reappear without re-generating
     const clearDialog = await openTimeFilterModal(page)
-    await clearDialog.getByRole('button', { name: /Clear All|Limpiar filtros/i }).click()
+    await clearDialog.getByRole('button', { name: /Clear filters|Limpiar/i }).click()
     await clearDialog.getByRole('button', { name: /Done|Listo/i }).last().click()
     await page.waitForTimeout(300)
 
