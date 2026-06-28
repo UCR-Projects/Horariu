@@ -3,6 +3,8 @@ import {
   totalGapMinutes,
   totalGapCount,
   classSegmentCount,
+  latestClassEnd,
+  earliestClassStart,
 } from '@/utils/scheduleMetrics'
 import { DAYS } from '@/utils/constants'
 import { Day, TimeBlock } from '@/types'
@@ -290,6 +292,73 @@ describe('scheduleMetrics', () => {
 
       // Both have 0 gap minutes/count, but packed (1 segment) sorts first
       expect(sorted).toEqual([packed, spread])
+    })
+  })
+
+  describe('latestClassEnd', () => {
+    it('returns 0 for an empty schedule', () => {
+      expect(latestClassEnd([])).toBe(0)
+    })
+
+    it('returns the latest end across all days in minutes', () => {
+      const schedule = [
+        makeCourse('Math', { L: [{ start: '08:00', end: '09:00' }] }),
+        makeCourse('Physics', { M: [{ start: '15:00', end: '16:30' }] }),
+      ]
+      // 16:30 -> 990 minutes
+      expect(latestClassEnd(schedule)).toBe(990)
+    })
+
+    it('orders schedules by earliest finish ascending', () => {
+      const early = [makeCourse('Math', { L: [{ start: '08:00', end: '12:00' }] })]
+      const late = [makeCourse('Math', { L: [{ start: '08:00', end: '18:00' }] })]
+
+      const sorted = [late, early].sort((a, b) => latestClassEnd(a) - latestClassEnd(b))
+      expect(sorted).toEqual([early, late])
+    })
+  })
+
+  describe('earliestClassStart', () => {
+    it('returns 0 for an empty schedule', () => {
+      expect(earliestClassStart([])).toBe(0)
+    })
+
+    it('returns the earliest start across all days in minutes', () => {
+      const schedule = [
+        makeCourse('Math', { L: [{ start: '09:30', end: '10:30' }] }),
+        makeCourse('Physics', { M: [{ start: '07:00', end: '08:00' }] }),
+      ]
+      // 07:00 -> 420 minutes
+      expect(earliestClassStart(schedule)).toBe(420)
+    })
+
+    it('orders schedules by latest start (descending earliest-start)', () => {
+      const earlyStart = [makeCourse('Math', { L: [{ start: '07:00', end: '08:00' }] })]
+      const lateStart = [makeCourse('Math', { L: [{ start: '11:00', end: '12:00' }] })]
+
+      const sorted = [earlyStart, lateStart].sort(
+        (a, b) => earliestClassStart(b) - earliestClassStart(a)
+      )
+      expect(sorted).toEqual([lateStart, earlyStart])
+    })
+  })
+
+  describe('combined sorting (earlyFinish + lateStart minimizes campus window)', () => {
+    it('prefers the schedule with the smallest end-minus-start window', () => {
+      const window = (s: Parameters<typeof latestClassEnd>[0]) =>
+        latestClassEnd(s) - earliestClassStart(s)
+
+      // A: 09:00-13:00 -> window 240
+      const scheduleA = [makeCourse('Math', { L: [{ start: '09:00', end: '13:00' }] })]
+      // B: 08:00-18:00 -> window 600
+      const scheduleB = [makeCourse('Math', { L: [{ start: '08:00', end: '18:00' }] })]
+      // C: 10:00-12:00 -> window 120
+      const scheduleC = [makeCourse('Math', { L: [{ start: '10:00', end: '12:00' }] })]
+
+      const sorted = [scheduleA, scheduleB, scheduleC].sort(
+        (a, b) => window(a) - window(b)
+      )
+      expect(sorted).toEqual([scheduleC, scheduleA, scheduleB])
     })
   })
 

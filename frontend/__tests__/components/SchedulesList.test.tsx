@@ -88,6 +88,8 @@ describe('SchedulesList', () => {
           savedFirst: false,
           leastGaps: false,
           consecutiveClasses: false,
+          earlyFinish: false,
+          lateStart: false,
         },
       })
       useScheduleViewStore.setState({ viewMode: 'list' })
