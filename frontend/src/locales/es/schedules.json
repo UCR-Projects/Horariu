@@ -28,7 +28,8 @@
     "list": "Lista",
     "carousel": "Carrusel",
     "switchToList": "Cambiar a vista de lista",
-    "switchToCarousel": "Cambiar a vista de carrusel"
+    "switchToCarousel": "Cambiar a vista de carrusel",
+    "arrowKeysNavigate": "← → teclas de flecha para navegar"
   },
   "favorites": {
     "add": "Agregar a favoritos",

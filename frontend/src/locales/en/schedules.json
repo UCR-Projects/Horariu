@@ -28,7 +28,8 @@
     "list": "List",
     "carousel": "Carousel",
     "switchToList": "Switch to list view",
-    "switchToCarousel": "Switch to carousel view"
+    "switchToCarousel": "Switch to carousel view",
+    "arrowKeysNavigate": "← → arrow keys to navigate"
   },
   "favorites": {
     "add": "Add to favorites",

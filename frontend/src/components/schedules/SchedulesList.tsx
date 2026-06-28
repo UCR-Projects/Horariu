@@ -146,21 +146,11 @@ const SchedulesList = () => {
   }
 
   const generatedCount = scheduleData?.schedules?.length ?? 0
+  const showTimeFilterEmptyState = source === 'generated' && generatedCount > 0 && totalItems === 0
 
   // If no generated schedules and on the generated tab, show empty banner
   if (source === 'generated' && generatedCount === 0) {
     return <EmptySchedulesBanner />
-  }
-
-  // If the time filter is hiding all generated schedules
-  if (source === 'generated' && generatedCount > 0 && totalItems === 0) {
-    return (
-      <EmptyState
-        icon={Clock}
-        title={t('schedules:timeFilter.allHidden')}
-        description={t('schedules:timeFilter.allHiddenDescription')}
-      />
-    )
   }
 
   // Tabs + empty state for saved tab, or no data at all but saved tab selected
@@ -204,7 +194,9 @@ const SchedulesList = () => {
 
       {/* Controls row */}
       <div className="flex justify-between items-center mt-4 mb-4">
-        {viewMode === 'list' ? (
+        {showTimeFilterEmptyState ? (
+          <div />
+        ) : viewMode === 'list' ? (
           <span className="text-sm text-muted-foreground">
             {t('pagination.showingResults', {
               start: pageStart + 1,
@@ -247,7 +239,14 @@ const SchedulesList = () => {
       </div>
 
       {/* Content */}
-      {viewMode === 'carousel' ? (
+      {showTimeFilterEmptyState ? (
+        <EmptyState
+          icon={Clock}
+          title={t('schedules:timeFilter.allHidden')}
+          description={t('schedules:timeFilter.allHiddenDescription')}
+          className="min-h-[60vh]"
+        />
+      ) : viewMode === 'carousel' ? (
         <>
           <ScheduleTable
             scheduleData={activeData}
@@ -279,7 +278,7 @@ const SchedulesList = () => {
           )}
 
           <p className="text-center text-xs text-muted-foreground mt-3 hidden sm:block">
-            ← → arrow keys to navigate
+            {t('schedules:view.arrowKeysNavigate')}
           </p>
         </>
       ) : (
