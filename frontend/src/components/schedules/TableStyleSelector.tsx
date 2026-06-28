@@ -1,4 +1,4 @@
-import { Settings2 } from 'lucide-react'
+import { Palette } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ResponsiveTooltip } from '@/components/shared'
@@ -133,12 +133,12 @@ export function TableStyleSelector() {
       <ResponsiveTooltip content={t('schedules:tableStyle.title')}>
         <PopoverTrigger asChild>
           <Button
-            variant="ghost"
-            size="icon"
-            className="cursor-pointer hover:bg-interactive-hover"
+            variant="outline"
+            size="sm"
+            className="h-9 px-3 cursor-pointer"
             aria-label={t('schedules:tableStyle.title')}
           >
-            <Settings2 size={18} aria-hidden="true" />
+            <Palette className="h-4 w-4" />
           </Button>
         </PopoverTrigger>
       </ResponsiveTooltip>

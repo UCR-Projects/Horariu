@@ -55,7 +55,9 @@
     "savedFirst": "Guardados primero",
     "leastGaps": "Menos huecos",
     "consecutiveClasses": "Clases consecutivas",
-    "clearFilters": "Borrar filtros"
+    "clearFilters": "Limpiar filtros",
+    "blockHoursButton": "Excluir horas...",
+    "clearAllButton": "Limpiar filtros"
   },
   "tableStyle": {
     "title": "Estilo de tabla",
@@ -66,13 +68,12 @@
     "glass": "Cristal"
   },
   "timeFilter": {
-    "title": "Filtrar Horarios",
+    "title": "Excluir Horarios",
     "description": "Haga clic en los bloques de tiempo que quiere excluir. Puede seleccionar un día completo, una fila de hora, o bloques individuales.",
-    "button": "Filtrar Horarios",
     "activeFilters": "{{count}} bloque excluido",
     "activeFilters_other": "{{count}} bloques excluidos",
     "noFilters": "Sin filtros activos",
-    "clearAll": "Limpiar filtros",
+    "clearAll": "Limpiar",
     "allHidden": "El filtro de tiempo oculta todos los horarios",
     "allHiddenDescription": "Limpie los filtros de tiempo para ver los horarios generados."
   }

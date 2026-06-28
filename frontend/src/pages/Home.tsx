@@ -4,7 +4,7 @@ import useScheduleStore from '@/stores/useScheduleStore'
 import useCourseStore from '@/stores/useCourseStore'
 import { useOnboardingStore } from '@/stores/useOnboardingStore'
 import { useI18n } from '@/hooks/useI18n'
-import { SchedulesList, GenerateScheduleButton, TimeFilterModal } from '@/components/schedules'
+import { SchedulesList, GenerateScheduleButton } from '@/components/schedules'
 import { LoadSampleDataButtons, EmptyCoursesBanner, CourseForm } from '@/components/courses'
 import { MobileSidebarTrigger } from '@/components/sidebar'
 import { OnboardingFlow } from '@/components/onboarding'
@@ -46,7 +46,6 @@ const Home = () => {
             <div className="hidden md:block">
               <CourseForm />
             </div>
-            <TimeFilterModal />
             <GenerateScheduleButton />
           </div>
 
